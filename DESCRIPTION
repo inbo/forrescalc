@@ -10,3 +10,12 @@ Description: The package contains functions to aggregate individual tree measure
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports:
+  dplyr,
+  git2r,
+  git2rdata,
+  lubridate,
+  magrittr,
+  rlang,
+  RODBC
+RoxygenNote: 6.1.1
