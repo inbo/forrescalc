@@ -16,5 +16,20 @@ save_results_access(
   database = "C:/R/bosreservatendb/testdb.accdb"
 )
 
-calculate_regeneration(...)
+data_regeneration <-
+  load_data_regeneration(
+    database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+  )
+
+regeneration <- calculate_regeneration(data_regeneration)
+
+save_results_git(
+  results = regeneration,
+  repo_path = "C:/R/bosreservaten/forresdat"
+)
+save_results_access(
+  results = regeneration,
+  database = "C:/R/bosreservatendb/testdb.accdb"
+)
+
 calculate_vegetation(...)
