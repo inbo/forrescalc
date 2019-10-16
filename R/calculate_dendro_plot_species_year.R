@@ -13,11 +13,11 @@
 #'
 calculate_dendro_plot_species_year <- function(data_dendro) {
   by_plot_species_year <- data_dendro %>%
-    group_by(.data$plot_id, .data$year, .data$series, .data$species) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
     summarise(
-      number_of_trees = n(),
-      basal_area = sum(.data$BasalArea_m2) / unique(.data$Area_ha),
-      volume_stem = sum(.data$Vol_stem_m3) / unique(.data$Area_ha)
+      number_of_trees_ha = n() / unique(.data$Area_ha),
+      basal_area_ha = sum(.data$BasalArea_m2) / unique(.data$Area_ha),
+      volume_stem_ha = sum(.data$Vol_stem_m3) / unique(.data$Area_ha)
     ) %>%
     ungroup()
 

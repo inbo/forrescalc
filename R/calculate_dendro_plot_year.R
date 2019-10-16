@@ -13,7 +13,7 @@
 #'
 calculate_dendro_plot_year <- function(data_dendro) {
   by_plot_year <- data_dendro %>%
-    group_by(.data$plot_id, .data$year, .data$series) %>%
+    group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species),
       number_of_trees = n(),

@@ -1,6 +1,6 @@
 #' aggregate parameters by plot
 #'
-#' This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'series') and between the last and the first measure.
+#' This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 #'
 #' @param by_plot_species_year dataframe with values for each plot, species and year, which is the result of the calculation by function calculate_dendro_plot_species_year()
 #'
@@ -12,39 +12,39 @@
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot_species <- function(by_plot_species_year) {
-  #data for comparison between 2 subsequent measures (series)
+  #data for comparison between 2 subsequent measures (periods)
   by_plot_species <- by_plot_species_year %>%
     mutate(
-      series_min = .data$series - 1
+      period_min = .data$period - 1
     ) %>%
     bind_rows( #data for comparison between last and first measure of plot
       by_plot_species_year %>%
-        filter(.data$series > 2) %>%
+        filter(.data$period > 2) %>%
         group_by(.data$plot_id, .data$species) %>%
-        summarise(series = max(.data$series)) %>%
+        summarise(period = max(.data$period)) %>%
         ungroup() %>%
         inner_join(
           by_plot_species_year,
-          by = c("plot_id", "species", "series")
+          by = c("plot_id", "species", "period")
         ) %>%
         mutate(
-          series_min = 1
+          period_min = 1
         )
     ) %>%  #join to earlier measure
     inner_join(
       by_plot_species_year,
-      by = c("plot_id", "species", "series_min" = "series"),
+      by = c("plot_id", "species", "period_min" = "period"),
       suffix = c("", "_added")
     ) %>%
     transmute(  #calculate: make the comparison
       .data$plot_id,
       .data$species,
-      series_diff = paste(.data$series, .data$series_min, sep = " - "),
+      period_diff = paste(.data$period, .data$period_min, sep = " - "),
       year_diff = paste(.data$year, .data$year_added, sep = " - "),
-      number_of_trees_diff =
-        .data$number_of_trees - .data$number_of_trees_added,
-      basal_area_diff = .data$basal_area - .data$basal_area_added,
-      volume_stem_diff = .data$volume_stem - .data$volume_stem_added
+      number_of_trees_ha_diff =
+        .data$number_of_trees_ha - .data$number_of_trees_ha_added,
+      basal_area_ha_diff = .data$basal_area_ha - .data$basal_area_ha_added,
+      volume_stem_ha_diff = .data$volume_stem_ha - .data$volume_stem_ha_added
     )
 
   return(by_plot_species)

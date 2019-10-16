@@ -13,5 +13,5 @@ calculate_dendro_plot(by_plot_year)
 dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_diff, basal_area_diff, volume_stem_diff
 }
 \description{
-This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'series') and between the last and the first measure.
+This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 }

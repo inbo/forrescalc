@@ -64,12 +64,12 @@ load_data_regeneration <- function(database) {
   con <- odbcConnectAccess2007(database)
   data_regeneration <- sqlQuery(con, query_regeneration, stringsAsFactors = FALSE) %>%
     mutate(
-      series = 1
+      period = 1
     ) %>%
     bind_rows(
       sqlQuery(con, query_regeneration2, stringsAsFactors = FALSE) %>%
         mutate(
-          series = 2
+          period = 2
         )
     ) %>%
     mutate(

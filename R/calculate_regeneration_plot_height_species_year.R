@@ -13,7 +13,7 @@
 #'
 calculate_regeneration_plot_height_species_year <- function(data_regeneration) {
   by_plot_height_species_year <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$series, .data$height_class, .data$species) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$species) %>%
     summarise(
       min_number_of_trees = sum(.data$min_number_of_trees),
       max_number_of_trees = sum(.data$max_number_of_trees)

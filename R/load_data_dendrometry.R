@@ -66,12 +66,12 @@ load_data_dendrometry <- function(database) {
   con <- odbcConnectAccess2007(database)
   data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%
     mutate(
-      series = 1
+      period = 1
     ) %>%
     bind_rows(
       sqlQuery(con, query_dendro2, stringsAsFactors = FALSE) %>%
         mutate(
-          series = 2
+          period = 2
         )
     ) %>%
     mutate(

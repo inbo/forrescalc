@@ -16,19 +16,19 @@ summarise_status <- function(data_dendro) { #klopt niet, even terug uitzoeken na
   data_dendro %<>%
     mutate(
       tree_id_old = ifelse(is.na(.data$OldID), .data$tree_id, .data$OldID),
-      year_series = paste0(.data$year, "(", .data$series, ")")
+      year_period = paste0(.data$year, "(", .data$period, ")")
     ) %>%
     select(
-      .data$plot_id, .data$series, .data$species, .data$decaystage,
-      .data$tree_id, .data$OldID, .data$year_series
+      .data$plot_id, .data$period, .data$species, .data$decaystage,
+      .data$tree_id, .data$OldID, .data$year_period
     )
   status_tree <- data_dendro %>%
-    filter(.data$series == 1) %>%
-    select(-.data$series, -.data$OldID) %>%
+    filter(.data$period == 1) %>%
+    select(-.data$period, -.data$OldID) %>%
     inner_join(
       data_dendro %>%
-        filter(.data$series == 2) %>%
-        select(-.data$series),
+        filter(.data$period == 2) %>%
+        select(-.data$period),
       by = c("plot_id", "species", "tree_id" = "OldID"),
       suffix = c("_1", "_2")
     ) %>%
