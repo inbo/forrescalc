@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year, number_of_tree_species, number_of_trees, basal_area, volume
+#' @return dataframe with columns plot, year, number_of_tree_species_ha, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
 #' @export
 #'
@@ -15,10 +15,10 @@ calculate_dendro_plot_year <- function(data_dendro) {
   by_plot_year <- data_dendro %>%
     group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
-      number_of_tree_species = n_distinct(.data$species),
-      number_of_trees = n(),
-      basal_area = sum(.data$BasalArea_m2) / unique(.data$Area_ha),
-      volume_stem = sum(.data$Vol_stem_m3) / unique(.data$Area_ha)
+      number_of_tree_species_ha = n_distinct(.data$species) / unique(.data$Area_ha),
+      number_of_trees_ha = n() / unique(.data$Area_ha),
+      basal_area_m2_ha = sum(.data$BasalArea_m2) / unique(.data$Area_ha),
+      volume_stem_m3_ha = sum(.data$Vol_stem_m3) / unique(.data$Area_ha)
     ) %>%
     ungroup()
 

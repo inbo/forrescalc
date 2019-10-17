@@ -11,8 +11,8 @@ calculate_regeneration_plot_height_species_year(data_regeneration)
 \item{data_regeneration}{dataframe on tree regeneration with variables ...}
 }
 \value{
-dataframe with columns plot, year, height_class, species and number_of_trees
+dataframe with columns plot, year, height_class, species and number_of_trees_ha
 }
 \description{
-This function calculates for each plot, tree height class, species and year the number of trees for regeneration.
+This function calculates for each plot, tree height class, species and year the number of trees per hectare for regeneration.
 }

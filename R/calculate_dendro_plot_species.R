@@ -4,7 +4,7 @@
 #'
 #' @param by_plot_species_year dataframe with values for each plot, species and year, which is the result of the calculation by function calculate_dendro_plot_species_year()
 #'
-#' @return dataframe with columns plot, number_of_tree_species, number_of_trees, basal_area, volume
+#' @return dataframe with columns plot, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
 #' @export
 #'
@@ -43,8 +43,8 @@ calculate_dendro_plot_species <- function(by_plot_species_year) {
       year_diff = paste(.data$year, .data$year_added, sep = " - "),
       number_of_trees_ha_diff =
         .data$number_of_trees_ha - .data$number_of_trees_ha_added,
-      basal_area_ha_diff = .data$basal_area_ha - .data$basal_area_ha_added,
-      volume_stem_ha_diff = .data$volume_stem_ha - .data$volume_stem_ha_added
+      basal_area_m2_ha_diff = .data$basal_area_m2_ha - .data$basal_area_m2_ha_added,
+      volume_stem_m3_ha_diff = .data$volume_stem_m3_ha - .data$volume_stem_m3_ha_added
     )
 
   return(by_plot_species)

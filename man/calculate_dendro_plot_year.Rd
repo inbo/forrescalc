@@ -10,7 +10,7 @@ calculate_dendro_plot_year(data_dendro)
 \item{data_dendro}{dataframe on tree measures with variables ...}
 }
 \value{
-dataframe with columns plot, year, number_of_tree_species, number_of_trees, basal_area, volume
+dataframe with columns plot, year, number_of_tree_species_ha, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
 This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area, and volume.

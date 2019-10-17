@@ -10,8 +10,8 @@ calculate_regeneration_plot_height_species(by_plot_height_species_year)
 \item{by_plot_height_species_year}{dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species_year()}
 }
 \value{
-dataframe with columns plot, height class, species and number_of_trees_diff
+dataframe with columns plot, height class, species and number_of_trees_ha_diff
 }
 \description{
-This function compares for each plot, height class and species the differences between years for the number of individuals. It gives results for differences between subsequent measures (based on 'series') and between the last and the first measure.
+This function compares for each plot, height class and species the differences between years for the number of individuals per hectare. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 }
