@@ -18,7 +18,7 @@ load_data_dendrometry <- function(database) {
     "SELECT Plots.ID AS plot_id,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
       Trees.ID AS tree_id,
-      Plots.Date_dendro_1eSet AS date_dendro,
+      pd.Date_dendro_1eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
       Trees.Species AS species,
@@ -28,13 +28,14 @@ load_data_dendrometry <- function(database) {
       Trees.Vol_crown_m3,
       Trees.Vol_tot_m3,
       Trees.BasalArea_m2
-    FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
+    FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots;"
 
   query_dendro2 <-
     "SELECT Plots.ID AS plot_id,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
       Trees.ID AS tree_id,
-      Plots.Date_dendro_2eSet AS date_dendro,
+      pd.Date_dendro_2eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
       Trees.Species AS species,
@@ -45,7 +46,8 @@ load_data_dendrometry <- function(database) {
       Trees.Vol_tot_m3,
       Trees.BasalArea_m2,
       Trees.OldID
-    FROM Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots;"
+    FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
 
   con <- odbcConnectAccess2007(database)
   data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%

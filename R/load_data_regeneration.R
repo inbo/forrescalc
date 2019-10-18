@@ -17,7 +17,8 @@ load_data_regeneration <- function(database) {
   query_regeneration <-
     "SELECT Plots.ID AS plot_id,
       Reg.Area_m2,
-      Plots.Date_vegetation_1eSet AS date_regeneration,
+      Reg.Date AS date_regeneration,
+      Reg.Year AS year_record,
       HeightClass.HeightClass AS height_class,
       RegSpecies.Species AS species,
       RegSpecies.NumberClass AS number_class,
@@ -32,7 +33,8 @@ load_data_regeneration <- function(database) {
   query_regeneration2 <-
     "SELECT Plots.ID AS plot_id,
       Reg.Area_m2,
-      Plots.Date_vegetation_2eSet AS date_regeneration,
+      Reg.Date AS date_regeneration,
+      Reg.Year AS year_record,
       HeightClass_2eSet.HeightClass AS height_class,
       RegSpecies_2eSet.Species AS species,
       RegSpecies_2eSet.NumberClass AS number_class,
@@ -68,7 +70,8 @@ load_data_regeneration <- function(database) {
     mutate(
       area_ha = .data$Area_m2 / 10000,
       Area_m2 = NULL,
-      year = year(.data$date_regeneration)
+      year = year(.data$date_regeneration),
+      year = ifelse(is.na(.data$year), .data$year_record, .data$year)
     ) %>%
     left_join(
       number_classes %>%
