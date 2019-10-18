@@ -11,7 +11,7 @@
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
 #' @importFrom dplyr bind_rows mutate
-#' @importFrom lubridate year
+#' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <- function(database) {
   query_dendro <-
@@ -59,7 +59,7 @@ load_data_dendrometry <- function(database) {
         )
     ) %>%
     mutate(
-      year = year(.data$date_dendro)
+      year = year(round_date(.data$date_dendro, "year")) - 1
     )
   odbcClose(con)
 
