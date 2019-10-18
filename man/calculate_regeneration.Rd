@@ -16,7 +16,7 @@ List of dataframes that are mentioned in the above description
 This function makes aggregations of tree generation data on the levels of
 \itemize{
  \item plot, height class and year
+ \item plot and year
  \item plot, height class, tree species and year
- \item plot, height class and tree species (comparison between different years)
 }
 }

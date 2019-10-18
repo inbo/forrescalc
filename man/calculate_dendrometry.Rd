@@ -17,8 +17,6 @@ This function makes aggregations of individual tree measures on the levels of
 \itemize{
  \item plot and year
  \item plot, tree species and year
- \item plot (comparison between different years)
- \item plot and tree species (comparison between different years)
  \item individual trees: statuses in different years
 }
 }
