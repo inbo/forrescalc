@@ -21,22 +21,14 @@ load_data_dendrometry <- function(database) {
       Plots.Date_dendro_1eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
-      qSpecies.Value1 AS species,
+      Trees.Species AS species,
       Trees.AliveDead,
-      decay.Value1 AS decaystage,
+      Trees.DecayStage AS decaystage,
       Trees.Vol_stem_m3,
       Trees.Vol_crown_m3,
       Trees.Vol_tot_m3,
       Trees.BasalArea_m2
-    FROM ((Plots
-      INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-      LEFT JOIN qSpecies ON Trees.Species = qSpecies.ID)
-      LEFT JOIN
-      (
-        SELECT * FROM qdecaystage
-        WHERE qdecaystage.MasterID <> 16
-      ) decay
-      ON Trees.DecayStage = decay.ID;"
+    FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_dendro2 <-
     "SELECT Plots.ID AS plot_id,
@@ -45,23 +37,15 @@ load_data_dendrometry <- function(database) {
       Plots.Date_dendro_2eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
-      qSpecies.Value1 AS species,
+      Trees.Species AS species,
       Trees.AliveDead,
-      decay.Value1 AS decaystage,
+      Trees.DecayStage AS decaystage,
       Trees.Vol_stem_m3,
       Trees.Vol_crown_m3,
       Trees.Vol_tot_m3,
       Trees.BasalArea_m2,
       Trees.OldID
-    FROM ((Plots
-      INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-      LEFT JOIN qSpecies ON Trees.Species = qSpecies.ID)
-      LEFT JOIN
-      (
-        SELECT * FROM qdecaystage
-        WHERE qdecaystage.MasterID <> 16
-      ) decay
-      ON Trees.DecayStage = decay.ID;"
+    FROM Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots;"
 
   con <- odbcConnectAccess2007(database)
   data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%
@@ -75,17 +59,7 @@ load_data_dendrometry <- function(database) {
         )
     ) %>%
     mutate(
-      year = year(.data$date_dendro),
-      alive =
-        ifelse(
-          .data$AliveDead == 11,
-          1,
-          ifelse(
-            .data$AliveDead == 12,
-            0,
-            NA
-          )
-        )
+      year = year(.data$date_dendro)
     )
   odbcClose(con)
 

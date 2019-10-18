@@ -10,7 +10,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr bind_rows left_join mutate
+#' @importFrom dplyr %>% bind_rows left_join mutate
 #' @importFrom lubridate year
 #'
 load_data_regeneration <- function(database) {
@@ -18,18 +18,14 @@ load_data_regeneration <- function(database) {
     "SELECT Plots.ID AS plot_id,
       Reg.Area_m2,
       Plots.Date_vegetation_1eSet AS date_regeneration,
-      qHCr.Value1 AS height_class,
-      qSpecies.Value1 AS species,
-      qnum.Value1 AS number_class,
+      HeightClass.HeightClass AS height_class,
+      RegSpecies.Species AS species,
+      RegSpecies.NumberClass AS number_class,
       RegSpecies.Number,
       RegSpecies.GameDamage_number
     FROM (Plots
       INNER JOIN Regeneration Reg ON Plots.ID = Reg.IDPlots)
-      INNER JOIN ((HeightClass INNER JOIN qHeightClass_regenaration qHCr
-          ON HeightClass.HeightClass = qHCr.ID)
-        INNER JOIN
-          ((RegSpecies INNER JOIN qSpecies on RegSpecies.Species = qSpecies.ID)
-          INNER JOIN qnumber_regeneration_classes qnum ON RegSpecies.NumberClass = qnum.ID)
+      INNER JOIN (HeightClass INNER JOIN RegSpecies
           ON HeightClass.ID = RegSpecies.IDHeightClass)
         ON Reg.IDPlots = HeightClass.IDPlots;"
 
@@ -37,23 +33,20 @@ load_data_regeneration <- function(database) {
     "SELECT Plots.ID AS plot_id,
       Reg.Area_m2,
       Plots.Date_vegetation_2eSet AS date_regeneration,
-      qHCr.Value1 AS height_class,
-      qSpecies.Value1 AS species,
-      qnum.Value1 AS number_class,
+      HeightClass_2eSet.HeightClass AS height_class,
+      RegSpecies_2eSet.Species AS species,
+      RegSpecies_2eSet.NumberClass AS number_class,
       RegSpecies_2eSet.Number,
       RegSpecies_2eSet.GameDamage_number
     FROM (Plots
       INNER JOIN Regeneration_2eSet Reg ON Plots.ID = Reg.IDPlots)
-      INNER JOIN ((HeightClass_2eSet INNER JOIN qHeightClass_regenaration qHCr
-          ON HeightClass_2eSet.HeightClass = qHCr.ID)
-        INNER JOIN
-          ((RegSpecies_2eSet INNER JOIN qSpecies on RegSpecies_2eSet.Species = qSpecies.ID)
-          INNER JOIN qnumber_regeneration_classes qnum ON RegSpecies_2eSet.NumberClass = qnum.ID)
-          ON HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet)
+      INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet
+              ON HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet)
         ON Reg.IDPlots = HeightClass_2eSet.IDPlots;"
 
   number_classes <-
     data.frame(
+      id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       number_class =
         c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
       min_number_of_trees = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
@@ -77,7 +70,11 @@ load_data_regeneration <- function(database) {
       Area_m2 = NULL,
       year = year(.data$date_regeneration)
     ) %>%
-    left_join(number_classes, by = "number_class")
+    left_join(
+      number_classes %>%
+        select(-.data$number_class),
+      by = c("number_class" = "id")
+    )
   odbcClose(con)
 
   return(data_regeneration)
