@@ -4,6 +4,10 @@ data_dendro <-
   load_data_dendrometry(
     database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
   )
+data_deadwood <-
+  load_data_deadwood(
+    database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+  )
 
 dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 
