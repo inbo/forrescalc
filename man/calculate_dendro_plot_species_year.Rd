@@ -4,10 +4,12 @@
 \alias{calculate_dendro_plot_species_year}
 \title{aggregate parameters by plot, tree species and year}
 \usage{
-calculate_dendro_plot_species_year(data_dendro)
+calculate_dendro_plot_species_year(data_dendro, data_deadwood)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables ...}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())}
+
+\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
 dataframe with columns plot, year, tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha

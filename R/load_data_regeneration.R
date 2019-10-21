@@ -28,7 +28,8 @@ load_data_regeneration <- function(database) {
       INNER JOIN Regeneration Reg ON Plots.ID = Reg.IDPlots)
       INNER JOIN (HeightClass INNER JOIN RegSpecies
           ON HeightClass.ID = RegSpecies.IDHeightClass)
-        ON Reg.IDPlots = HeightClass.IDPlots;"
+        ON Reg.IDPlots = HeightClass.IDPlots
+    WHERE Plots.Plottype = 20;"
 
   query_regeneration2 <-
     "SELECT Plots.ID AS plot_id,
@@ -44,7 +45,8 @@ load_data_regeneration <- function(database) {
       INNER JOIN Regeneration_2eSet Reg ON Plots.ID = Reg.IDPlots)
       INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet
               ON HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet)
-        ON Reg.IDPlots = HeightClass_2eSet.IDPlots;"
+        ON Reg.IDPlots = HeightClass_2eSet.IDPlots
+    WHERE Plots.Plorttype = 20;"
 
   number_classes <-
     data.frame(

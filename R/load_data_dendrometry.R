@@ -24,12 +24,11 @@ load_data_dendrometry <- function(database) {
       Trees.Species AS species,
       Trees.AliveDead,
       Trees.DecayStage AS decaystage,
-      Trees.Vol_stem_m3,
-      Trees.Vol_crown_m3,
-      Trees.Vol_tot_m3,
-      Trees.BasalArea_m2
+      Trees.Adjust_Vol_tot_m3,
+      Trees.AdjustBasalArea_m2
     FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots;"
+      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
+    WHERE Plots.Plottype = 20;"
 
   query_dendro2 <-
     "SELECT Plots.ID AS plot_id,
@@ -41,13 +40,12 @@ load_data_dendrometry <- function(database) {
       Trees.Species AS species,
       Trees.AliveDead,
       Trees.DecayStage AS decaystage,
-      Trees.Vol_stem_m3,
-      Trees.Vol_crown_m3,
-      Trees.Vol_tot_m3,
-      Trees.BasalArea_m2,
+      Trees.Adjust_Vol_tot_m3,
+      Trees.AdjustBasalArea_m2,
       Trees.OldID
     FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
+      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
+    WHERE Plots.Plottype = 20;"
 
   con <- odbcConnectAccess2007(database)
   data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%
@@ -61,7 +59,47 @@ load_data_dendrometry <- function(database) {
         )
     ) %>%
     mutate(
-      year = year(round_date(.data$date_dendro, "year")) - 1
+      year = year(round_date(.data$date_dendro, "year")) - 1,
+      plottype =
+        ifelse(
+          .data$AliveDead == 11 & .data$DBH_mm >= 400,
+          "A4",
+          ifelse(
+            .data$AliveDead == 12 & .data$DBH_mm >= 100,
+            "A4",
+            "A3"
+          )
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == "A4",
+          (pi * 18 ^ 2)/10000,
+          (pi * 9 ^ 2)/10000
+        ),
+      basal_area_alive_m2_ha =
+        ifelse(
+          .data$AliveDead == 11,
+          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          0
+        ),
+      basal_area_dead_m2_ha =
+        ifelse(
+          .data$AliveDead == 12,
+          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          0
+        ),
+      volume_alive_m3_ha =
+        ifelse(
+          .data$AliveDead == 11,
+          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          0
+        ),
+      volume_snag_m3_ha =
+        ifelse(
+          .data$AliveDead == 12,
+          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          0
+        )
     )
   odbcClose(con)
 

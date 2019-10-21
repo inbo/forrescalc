@@ -5,7 +5,7 @@ data_dendro <-
     database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
   )
 
-dendro <- calculate_dendrometry(data_dendro)
+dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 
 save_results_git(
   results = dendro,

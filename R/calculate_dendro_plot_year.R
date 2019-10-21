@@ -4,23 +4,37 @@
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year, number_of_tree_species_ha, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
+#' @return dataframe with columns plot, year, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_year <- function(data_dendro) {
+calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
   by_plot_year <- data_dendro %>%
     group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
-      number_of_tree_species_ha = n_distinct(.data$species) / unique(.data$Area_ha),
+      number_of_tree_species = n_distinct(.data$species),
       number_of_trees_ha = n() / unique(.data$Area_ha),
-      basal_area_m2_ha = sum(.data$BasalArea_m2) / unique(.data$Area_ha),
-      volume_stem_m3_ha = sum(.data$Vol_stem_m3) / unique(.data$Area_ha)
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
+      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
+      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
+      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    inner_join(
+      data_deadwood %>%
+        group_by(.data$plot_id, .data$year, .data$period) %>%
+        summarise(
+          volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * 18 ^ 2)/10000)
+        ) %>%
+        ungroup(),
+      by = c("plot_id", "year", "period")
+    ) %>%
+    mutate(
+      volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha
+    )
 
   return(by_plot_year)
 }
