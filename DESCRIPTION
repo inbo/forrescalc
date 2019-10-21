@@ -17,5 +17,6 @@ Imports:
   lubridate,
   magrittr,
   rlang,
-  RODBC
+  RODBC,
+  tidyr
 RoxygenNote: 6.1.1
