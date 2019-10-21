@@ -9,30 +9,23 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter inner_join mutate rename select
-#' @importFrom magrittr %<>%
 #' @importFrom rlang .data
 #'
-summarise_status <- function(data_dendro) { #klopt niet, even terug uitzoeken naarwaar dat verwijst
-  data_dendro %<>%
-    mutate(
-      tree_id_old = ifelse(is.na(.data$OldID), .data$tree_id, .data$OldID),
-      year_period = paste0(.data$year, "(", .data$period, ")")
+summarise_status <- function(data_dendro) {
+  status_tree <- data_dendro %>%
+    mutate(  #dit nog bespreken met Peter, en vooral vragen: hoe gaat dit gebeuren in periode 3?
+      tree_id =
+        ifelse(
+          is.na(.data$OldID),
+          paste(.data$period, .data$plot_id, .data$tree_measure_id, sep = "_"),
+          paste(1, .data$plot_id, .data$OldID, sep = "_")
+        )
     ) %>%
     select(
-      .data$plot_id, .data$period, .data$species, .data$decaystage,
-      .data$tree_id, .data$OldID, .data$year_period
+      .data$plot_id, .data$period, .data$year, .data$species, .data$decaystage,
+      .data$tree_id, .data$tree_measure_id, .data$DBH_mm, .data$AliveDead,
+      .data$Adjust_Vol_tot_m3
     )
-  status_tree <- data_dendro %>%
-    filter(.data$period == 1) %>%
-    select(-.data$period, -.data$OldID) %>%
-    inner_join(
-      data_dendro %>%
-        filter(.data$period == 2) %>%
-        select(-.data$period),
-      by = c("plot_id", "species", "tree_id" = "OldID"),
-      suffix = c("_1", "_2")
-    ) %>%
-    rename(tree_id_1 = .data$tree_id)
 
   return(status_tree)
 }

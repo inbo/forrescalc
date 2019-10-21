@@ -17,7 +17,7 @@ load_data_dendrometry <- function(database) {
   query_dendro <-
     "SELECT Plots.ID AS plot_id,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-      Trees.ID AS tree_id,
+      Trees.ID AS tree_measure_id,
       pd.Date_dendro_1eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
@@ -34,7 +34,7 @@ load_data_dendrometry <- function(database) {
   query_dendro2 <-
     "SELECT Plots.ID AS plot_id,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-      Trees.ID AS tree_id,
+      Trees.ID AS tree_measure_id,
       pd.Date_dendro_2eSet AS date_dendro,
       Trees.DBH_mm,
       Trees.Height_m,
