@@ -15,8 +15,12 @@
 save_results_git <- function(results, repo_path) {
   repo <- repository(repo_path)
   pull(repo)
+  sorting_max <-
+    c("period", "year", "plot_id", "tree_measure_id", "height_class", "species")
   for (tablename in names(results)) {
-    write_vc(results[[tablename]], file = tablename, root = repo, stage = TRUE)
+    sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
+    write_vc(results[[tablename]], file = paste0("data/", tablename),
+             root = repo, sorting = sorting, stage = TRUE)
     commit(repo, paste("add", tablename))
   }
   push(repo)
