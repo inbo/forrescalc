@@ -18,5 +18,5 @@ Imports:
   magrittr,
   rlang,
   RODBC,
-  tidyr
+  tidyr (>= 1.0.0)
 RoxygenNote: 6.1.1
