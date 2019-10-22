@@ -1,5 +1,12 @@
 library(forrescalc)
 
+from_access_to_git(
+  database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+  tables = c("qAliveDead", "qSpecies", "qHeightClass_regenaration", "qnumber_regeneration_classes", "qdecaystage"),
+  repo_path = "C:/R/bosreservatendb/forresdat"
+)
+#evt. ook gegevens over plot toevoegen?  Moeten eigenlijk telkens alle kolommen overgenomen worden, of toch beter met specifieke queries werken?
+
 data_dendro <-
   load_data_dendrometry(
     database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
@@ -13,7 +20,7 @@ dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 
 save_results_git(
   results = dendro,
-  repo_path = "C:/R/bosreservaten/forresdat"
+  repo_path = "C:/R/bosreservatendb/forresdat"
 )
 save_results_access(
   results = dendro,
@@ -29,7 +36,7 @@ regeneration <- calculate_regeneration(data_regeneration)
 
 save_results_git(
   results = regeneration,
-  repo_path = "C:/R/bosreservaten/forresdat"
+  repo_path = "C:/R/bosreservatendb/forresdat"
 )
 save_results_access(
   results = regeneration,
@@ -37,3 +44,4 @@ save_results_access(
 )
 
 calculate_vegetation(...)
+  save_Access = XXX    #facultaties
