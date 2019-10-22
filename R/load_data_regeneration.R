@@ -46,7 +46,7 @@ load_data_regeneration <- function(database) {
       INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet
               ON HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet)
         ON Reg.IDPlots = HeightClass_2eSet.IDPlots
-    WHERE Plots.Plorttype = 20;"
+    WHERE Plots.Plottype = 20;"
 
   number_classes <-
     data.frame(
