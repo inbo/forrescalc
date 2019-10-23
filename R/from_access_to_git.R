@@ -22,8 +22,24 @@ from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
     write_vc(table, file = paste0("data/", tablename), root = repo,
              sorting = "ID", stage = TRUE)
   }
-  commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE)
   odbcClose(con)
+  tryCatch(
+    commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE),
+    error = function(e) {
+      val <- withCallingHandlers(e)
+      if (
+        startsWith(
+          val[["message"]], "Error in 'git2r_commit': Nothing added to commit"
+        )
+      ) {
+        stop(
+          "Tables in database and git-repository are identical, so no commit added",
+          call. = FALSE
+        )
+      }
+      stop(e)
+    }
+  )
   if (push) {
     push(repo, credentials = get_cred(repo))
   }

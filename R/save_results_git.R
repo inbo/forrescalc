@@ -22,7 +22,23 @@ save_results_git <- function(results, repo_path, push = FALSE) {
     write_vc(results[[tablename]], file = paste0("data/", tablename),
              root = repo, sorting = sorting, stage = TRUE)
   }
-  commit(repo, message = "scripted commit from forrescalc", session = TRUE)
+  tryCatch(
+    commit(repo, message = "scripted commit from forrescalc", session = TRUE),
+    error = function(e) {
+      val <- withCallingHandlers(e)
+      if (
+        startsWith(
+          val[["message"]], "Error in 'git2r_commit': Nothing added to commit"
+        )
+      ) {
+        stop(
+          "New tables are identical to tables in git-repository, so no commit added",
+          call. = FALSE
+        )
+      }
+      stop(e)
+    }
+  )
   if (push) {
     push(repo, credentials = get_cred(repo))
   }
