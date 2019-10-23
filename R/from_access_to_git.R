@@ -15,7 +15,7 @@
 #'
 from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
   repo <- repository(repo_path)
-  pull(repo)
+  pull(repo, credentials = get_cred(repo))
   con <- odbcConnectAccess2007(database)
   for (tablename in tables) {
     table <- sqlFetch(con, tablename, stringsAsFactors = FALSE)
@@ -25,6 +25,6 @@ from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
   commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE)
   odbcClose(con)
   if (push) {
-    push(repo, credentials = get_cred())
+    push(repo, credentials = get_cred(repo))
   }
 }

@@ -14,7 +14,7 @@
 #'
 save_results_git <- function(results, repo_path, push = FALSE) {
   repo <- repository(repo_path)
-  pull(repo)
+  pull(repo, credentials = get_cred(repo))
   sorting_max <-
     c("period", "year", "plot_id", "tree_measure_id", "height_class", "species")
   for (tablename in names(results)) {
@@ -24,6 +24,6 @@ save_results_git <- function(results, repo_path, push = FALSE) {
   }
   commit(repo, message = "scripted commit from forrescalc", session = TRUE)
   if (push) {
-    push(repo, credentials = get_cred())
+    push(repo, credentials = get_cred(repo))
   }
 }
