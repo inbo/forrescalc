@@ -4,12 +4,14 @@
 \alias{save_results_git}
 \title{save results of calculations in git repository}
 \usage{
-save_results_git(results, repo_path)
+save_results_git(results, repo_path, push = FALSE)
 }
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
 
 \item{repo_path}{name and path of local git repository in which results should be saved}
+
+\item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
 }
 \value{
 No value is returned, data are saved in the specified git repository

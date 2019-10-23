@@ -4,7 +4,7 @@
 \alias{from_access_to_git}
 \title{copy table(s) from access db to git repository}
 \usage{
-from_access_to_git(database, tables, repo_path)
+from_access_to_git(database, tables, repo_path, push = FALSE)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
@@ -12,6 +12,8 @@ from_access_to_git(database, tables, repo_path)
 \item{tables}{vector with table names of tables that should be moved}
 
 \item{repo_path}{name and path of local git repository in which results should be saved}
+
+\item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
 }
 \value{
 No value is returned, the tables are saved in the git repository.

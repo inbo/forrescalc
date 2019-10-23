@@ -10,11 +10,10 @@
 #'
 #' @export
 #'
-#' @importFrom git2r commit pull push repository
-#' @importFrom git2rdata write_vc
+#' @importFrom git2rdata commit pull push repository write_vc
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlFetch
 #'
-from_access_to_git <- function(database, tables, repo_path) {
+from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
   repo <- repository(repo_path)
   pull(repo)
   con <- odbcConnectAccess2007(database)
@@ -22,8 +21,10 @@ from_access_to_git <- function(database, tables, repo_path) {
     table <- sqlFetch(con, tablename, stringsAsFactors = FALSE)
     write_vc(table, file = paste0("data/", tablename), root = repo,
              sorting = "ID", stage = TRUE)
-    commit(repo, paste("add", tablename))
   }
+  commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE)
   odbcClose(con)
-  push(repo)
+  if (push) {
+    push(repo, credentials = get_cred())
+  }
 }
