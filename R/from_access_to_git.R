@@ -13,6 +13,16 @@
 #' @importFrom git2rdata commit pull push repository write_vc
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlFetch
 #'
+#' @examples
+#' \dontrun{
+#' #change the paths before running
+#' from_access_to_git(
+#'   database = "C:/R/bosreservatendb/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+#'   tables = c("qAliveDead", "qdecaystage"),
+#'   repo_path = "C:/R/bosreservatendb/forresdat"
+#' )
+#' }
+#'
 from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))

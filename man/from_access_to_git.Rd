@@ -21,3 +21,14 @@ No value is returned, the tables are saved in the git repository.
 \description{
 This function loads one or more tables from the access database and saves them in a git repository.
 }
+\examples{
+\dontrun{
+#change the paths before running
+from_access_to_git(
+  database = "C:/R/bosreservatendb/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+  tables = c("qAliveDead", "qdecaystage"),
+  repo_path = "C:/R/bosreservatendb/forresdat"
+)
+}
+
+}
