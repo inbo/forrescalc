@@ -20,8 +20,9 @@ the dataframe in long format
 This function changes a dataframe from long to wide format, e.g. to show data from 2 different periods in different columns.
 }
 \examples{
-library(tidyverse)
-table_long <- read_github(...) \%>\%
+library(dplyr)
+table_long <-
+  read_git(tablename = "dendro_status_tree", repo_path = "C:/R/bosreservatendb/forresdat") \%>\%
   filter(plot_id < 110) \%>\%
   select(plot_id, species, tree_id, period, DBH_mm, AliveDead)
 table_wide <-

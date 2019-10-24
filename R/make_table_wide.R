@@ -13,8 +13,9 @@
 #' @importFrom tidyr pivot_wider
 #'
 #' @examples
-#' library(tidyverse)
-#' table_long <- read_github(...) %>%
+#' library(dplyr)
+#' table_long <-
+#'   read_git(tablename = "dendro_status_tree", repo_path = "C:/R/bosreservatendb/forresdat") %>%
 #'   filter(plot_id < 110) %>%
 #'   select(plot_id, species, tree_id, period, DBH_mm, AliveDead)
 #' table_wide <-
