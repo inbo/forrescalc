@@ -16,6 +16,7 @@
 load_data_regeneration <- function(database) {
   query_regeneration <-
     "SELECT Plots.ID AS plot_id,
+      pd.ForestReserve,
       Reg.Area_m2,
       Reg.Date AS date_regeneration,
       Reg.Year AS year_record,
@@ -24,7 +25,8 @@ load_data_regeneration <- function(database) {
       RegSpecies.NumberClass AS number_class,
       RegSpecies.Number,
       RegSpecies.GameDamage_number
-    FROM (Plots
+    FROM ((Plots
+      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
       INNER JOIN Regeneration Reg ON Plots.ID = Reg.IDPlots)
       INNER JOIN (HeightClass INNER JOIN RegSpecies
           ON HeightClass.ID = RegSpecies.IDHeightClass)
@@ -33,6 +35,7 @@ load_data_regeneration <- function(database) {
 
   query_regeneration2 <-
     "SELECT Plots.ID AS plot_id,
+      pd.ForestReserve,
       Reg.Area_m2,
       Reg.Date AS date_regeneration,
       Reg.Year AS year_record,
@@ -41,7 +44,8 @@ load_data_regeneration <- function(database) {
       RegSpecies_2eSet.NumberClass AS number_class,
       RegSpecies_2eSet.Number,
       RegSpecies_2eSet.GameDamage_number
-    FROM (Plots
+    FROM ((Plots
+      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
       INNER JOIN Regeneration_2eSet Reg ON Plots.ID = Reg.IDPlots)
       INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet
               ON HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet)

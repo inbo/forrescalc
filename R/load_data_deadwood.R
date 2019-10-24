@@ -16,6 +16,7 @@
 load_data_deadwood <- function(database) {
   query_deadwood <-
     "SELECT Plots.ID AS plot_id,
+      pd.ForestReserve,
       pd.Date_dendro_1eSet AS date_dendro,
       Deadwood.Species AS species,
       Deadwood.CalcVolume_m3
@@ -25,6 +26,7 @@ load_data_deadwood <- function(database) {
 
   query_deadwood2 <-
     "SELECT Plots.ID AS plot_id,
+      pd.ForestReserve,
       pd.Date_dendro_2eSet AS date_dendro,
       Deadwood_2eSet.Species AS species,
       Deadwood_2eSet.CalcVolume_m3
