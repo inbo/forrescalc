@@ -43,5 +43,9 @@ save_results_access(
   database = "C:/R/bosreservatendb/testdb.accdb"
 )
 
+data_vegetation <-
+  load_data_vegetation(
+    database = "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+  )
 calculate_vegetation(...)
   save_Access = XXX    #facultaties

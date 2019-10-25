@@ -1,6 +1,6 @@
 #' retrieves regeneration data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on regeneration (ready for use in calculate_dendrometry function).
+#' This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap structure) including path
 #'

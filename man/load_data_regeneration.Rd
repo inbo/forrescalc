@@ -13,5 +13,5 @@ load_data_regeneration(database)
 Dataframe with regeneration data
 }
 \description{
-This function queries the given database to retrieve data on regeneration (ready for use in calculate_dendrometry function).
+This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
 }
