@@ -20,3 +20,7 @@ Imports:
   RODBC,
   tidyr (>= 1.0.0)
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

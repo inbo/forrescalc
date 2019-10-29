@@ -1,0 +1,88 @@
+---
+title: "Overview package forrescalc"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Overview package forrescalc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(forrescalc)
+```
+
+# Introduction
+
+The package `forrescalc` is developed to analyse tree measure data that are saved in a fieldmap database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the git repository `forresdat`, which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
+
+# Installation
+
+Installation of the package: <!-- aanpassen als er iets in de master zit -->
+
+```{r eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("inbo/forrescalc@develop", build_vignettes = TRUE)
+```
+
+# Recommended use of the package
+
+The package `forrescalc` can be used for different reasons:
+
+- keep the data repository `forresdat` up-to-date
+- load data from the Fieldmap database or `forresdat` to do visualisations or analyses
+- do similar aggregations on your own data
+- ...
+
+The next part shortly describes some common tasks and mentions the functions that are useful for these tasks. For detailed information on the use of specific functions (including an example), we refer to the help of the function (accessible in R by typing the function name preceded by a `?`, for instance `?load_data_dendrometry`). Updating `forresdat` should be done following a strict routine, for other tasks it is up to the user to cherry-pick the desired functions.
+
+## Load data from Fieldmap database
+
+With the calculations for `forresdat` in mind, we developed some functions to load specific data from the Fieldmap database: `load_data_dendrometry()`, `load_data_deadwood()`, `load_data_regeneration()` and `load_data_vegetation()`. After retrieving data from the database, they might calculate some additional variables that are needed for further analysis (e.g. they calculate `year` starting from the observation date). The output of these functions is ready to be used in the calculation functions.
+
+## Calculations (aggregations)
+
+### Umbrella functions
+
+The calculations, which are in fact aggregations of very detailed data on tree level to plot or plot-species level, are grouped in 3 umbrella functions:
+
+- `calculate_dendrometry()`
+- `calculate_regeneration()`
+- `calculate_vegetation()`
+
+Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calculate_dendro_plot_year()`, `calculate_dendro_plot_species_year()` and `summarise_status()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
+
+### Subfunctions
+
+Subfunctions that aggregate data, have a name starting with the above mentioned high level functions or their abbreviation (`calculate_dendro`, `calculate_regeneration` or `calculate_vegetation`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calculate_dendro_plot_year()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calculate_dendro_plot_year`).
+
+Subfunctions that not typically aggregate data, can have other names:
+
+- `summarise_status` brings data from individual trees over different years together
+
+### Additional functions
+
+And there are also some functions that we thought to be useful (or user request functions) that are not used to manipulate data for `forresdat`:
+
+- `make_table_wide()` changes a dataframe from long to wide, what you might want to do with (a part of) the results from `summarise_status()`
+
+## Save and retrieve data
+
+_NOTE: to be able to save/retrieve data to/from `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its github page](https://github.com/inbo/forresdat)._
+
+With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_git()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_git()` (and other functions related to git) use the functionality of the [git2rdata](https://ropensci.github.io/git2rdata/) package.
+
+Tables from git can be loaded again in R with the function `read_git()`.
+
+Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_git()` and `from_git_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
+
+## Update `forresdat`
+
+To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `Main.R` that is in the root of the installed package (and the `inst` folder of the git repository of the package). In this script, paths to the Fieldmap database and the git repository should be adapted to the local situation.
