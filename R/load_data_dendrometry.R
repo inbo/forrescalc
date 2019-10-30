@@ -1,4 +1,4 @@
-#' retrieves dendrometry data from fieldmap database
+#' retrieve dendrometry data from fieldmap database
 #'
 #' This function queries the given database to retrieve data on dendrometry (ready for use in calculate_dendrometry function).
 #'

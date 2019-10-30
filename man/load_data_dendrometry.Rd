@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_dendrometry.R
 \name{load_data_dendrometry}
 \alias{load_data_dendrometry}
-\title{retrieves dendrometry data from fieldmap database}
+\title{retrieve dendrometry data from fieldmap database}
 \usage{
 load_data_dendrometry(database)
 }

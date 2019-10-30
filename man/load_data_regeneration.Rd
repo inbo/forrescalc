@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_regeneration.R
 \name{load_data_regeneration}
 \alias{load_data_regeneration}
-\title{retrieves regeneration data from fieldmap database}
+\title{retrieve regeneration data from fieldmap database}
 \usage{
 load_data_regeneration(database)
 }

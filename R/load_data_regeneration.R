@@ -1,4 +1,4 @@
-#' retrieves regeneration data from fieldmap database
+#' retrieve regeneration data from fieldmap database
 #'
 #' This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
 #'

@@ -1,4 +1,4 @@
-#' retrieves vegetation data from fieldmap database
+#' retrieve vegetation data from fieldmap database
 #'
 #' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
 #'

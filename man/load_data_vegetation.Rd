@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_vegetation.R
 \name{load_data_vegetation}
 \alias{load_data_vegetation}
-\title{retrieves vegetation data from fieldmap database}
+\title{retrieve vegetation data from fieldmap database}
 \usage{
 load_data_vegetation(database)
 }
