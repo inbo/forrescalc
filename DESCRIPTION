@@ -11,11 +11,13 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
+  assertthat,
   dplyr,
   git2r,
   git2rdata,
   lubridate,
   magrittr,
+  readr,
   rlang,
   RODBC,
   tidyr (>= 1.0.0)

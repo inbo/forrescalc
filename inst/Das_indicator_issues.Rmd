@@ -1,0 +1,155 @@
+---
+title: "Issues on DAS indicator"
+author: "Els Lommelen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(forrescalc)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+library(readr)
+library(ggplot2)
+path_to_fieldmap <- "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+```
+
+# Selection of forest reserves and plots
+
+Following the method of Bosch & Partner (2014), selection of forest reserves based on the 3 criteria should be done in 2 steps:
+
+- select the forest reserves that meet these criteria
+- select the plots in het reserves that meet these criteria
+
+But is it necessary to do this in 2 steps? Is there any difference in selected between doing 2 steps and doing only the last step?
+
+## The 2-step method:
+
+```{r results="asis"}
+data_dendro <- load_data_dendrometry(path_to_fieldmap) %>%
+  filter(AliveDead == 11)
+selection_2steps <- data_dendro %>%
+  select_for_DAS_indicator(grouping_vars = c("ForestReserve", "year", "period")) %>%
+  inner_join(data_dendro, by = c("ForestReserve", "year", "period")) %>%
+  select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
+  inner_join(
+    data_dendro %>%
+      select(plot_id, year, period, ForestReserve) %>%
+      distinct(),
+    by = c("plot_id", "year", "period")
+  )
+
+selection_2steps %>%
+  group_by(ForestReserve, period) %>%
+  summarise(n_plots = n()) %>%
+  ungroup() %>%
+  pivot_wider(names_from = period, names_prefix = "period", values_from = n_plots) %>%
+  kable() %>%
+  kable_styling(full_width = FALSE)
+```
+
+```{r results="asis"}
+selection_2steps %>%
+  pivot_wider(names_from = period, names_prefix = "period", values_from = year) %>%
+  group_by(ForestReserve) %>%
+  summarise(
+    n_plots_period1 = sum(!is.na(period1) & is.na(period2)),
+    n_plots_period2 = sum(is.na(period1) & !is.na(period2)),
+    n_plots_period12 = sum(!is.na(period1) & !is.na(period2))
+  ) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE)
+```
+
+
+## Only the last step:
+
+```{r results="asis"}
+selection_1step <- data_dendro %>%
+  select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
+  inner_join(
+    data_dendro %>%
+      select(plot_id, year, period, ForestReserve) %>%
+      distinct(),
+    by = c("plot_id", "year", "period")
+  )
+
+selection_1step %>%
+  group_by(ForestReserve, period) %>%
+  summarise(n_plots = n()) %>%
+  ungroup() %>%
+  pivot_wider(names_from = period, names_prefix = "period", values_from = n_plots) %>%
+  kable() %>%
+  kable_styling(full_width = FALSE)
+```
+
+```{r results="asis"}
+selection_1step %>%
+  pivot_wider(names_from = period, names_prefix = "period", values_from = year) %>%
+  group_by(ForestReserve) %>%
+  summarise(
+    n_plots_period1 = sum(!is.na(period1) & is.na(period2)),
+    n_plots_period2 = sum(is.na(period1) & !is.na(period2)),
+    n_plots_period12 = sum(!is.na(period1) & !is.na(period2))
+  ) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE)
+```
+
+## Calculation of criteria on reserve level (for omitted reserves)
+
+```{r results="asis", message=FALSE}
+data_dendro %>%
+  group_by(ForestReserve, year, period) %>%
+  summarise(
+    DBH_mm_average = mean(.data$DBH_mm)
+  ) %>%
+  ungroup() %>%
+  left_join(data_dendro, by = c("ForestReserve", "year", "period")) %>%
+  left_join(
+    read_csv2(system.file("./extdata/DAS_tree_groups.csv", package = "forrescalc")),
+    by = "species"
+  ) %>%
+  group_by(ForestReserve, year, period, DBH_mm_average, group) %>%
+  summarise(
+    basal_area_m2_ha = sum(.data$basal_area_alive_m2_ha)
+  ) %>%
+  ungroup() %>%
+  group_by(ForestReserve, year, period, DBH_mm_average) %>%
+  mutate(
+    basal_area_proportion =
+      .data$basal_area_m2_ha / sum(.data$basal_area_m2_ha)
+  ) %>%
+  ungroup() %>%
+  kable()
+
+```
+
+## Conclusie
+
+Heirnisse valt weg doordat de gemiddelde diameter van de bomen te laag is.
+
+Ander aandachtspunt voor dit reservaat (moest het wel meegenomen kunnen worden): de plots zijn niet allemaal in dezelfde winter opgemeten. Zijn er nog reservaten waarbij dit het geval is? Hoe gaan we de berekening in dit geval uitvoeren?
+
+# Preliminary results on reserve level
+
+Yearly change of basal area for the studied forest reserves
+
+```{r}
+data_dendro <- data_dendro %>%
+  filter(!is.na(basal_area_alive_m2_ha))
+calculate_DAS_indicator(data_dendro) %>%
+  ggplot(aes(x = ForestReserve, y = d_res)) + geom_bar(stat = "identity")
+```
+
+Yearly proportional change of the basal area for each species group.
+
+```{r}
+calculate_DAS_indicator(data_dendro) %>%
+  ggplot(aes(x = ForestReserve, y = d_group, fill = group)) + geom_bar(stat = "identity", position = "dodge")
+```
