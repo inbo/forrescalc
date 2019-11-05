@@ -10,6 +10,7 @@
 #' @template calculate_das_indicator_explanation_part2
 #'
 #' @inheritParams calculate_dendrometry
+#' @param na.rm Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
 #'
@@ -21,18 +22,26 @@
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'
-calculate_DAS_indicator <- function(data_dendro) {
+calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
   #only consider living trees
   data_dendro <- data_dendro %>%
     filter(.data$AliveDead == 11)
+
+  if (na.rm) {
+    data_dendro <- data_dendro %>%
+      filter(
+        !is.na(.data$DBH_mm),
+        !is.na(.data$basal_area_alive_m2_ha)
+      )
+  }
 
   assert_that(
     all(!is.na(data_dendro$DBH_mm)),
     msg = "Not all records have a value for 'DBH_mm'"
   )
   assert_that(
-    all(!is.na(data_dendro$basal_area_alive_m2)),
-    msg = "Not all records have a value for 'basal_area_alive_m2'"
+    all(!is.na(data_dendro$basal_area_alive_m2_ha)),
+    msg = "Not all records have a value for 'basal_area_alive_m2_ha'"
   )
 
   #select relevant plots

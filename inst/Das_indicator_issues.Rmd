@@ -141,8 +141,6 @@ Ander aandachtspunt voor dit reservaat (moest het wel meegenomen kunnen worden):
 Yearly change of basal area for the studied forest reserves
 
 ```{r}
-data_dendro <- data_dendro %>%
-  filter(!is.na(basal_area_alive_m2_ha))
 calculate_DAS_indicator(data_dendro) %>%
   ggplot(aes(x = ForestReserve, y = d_res)) + geom_bar(stat = "identity")
 ```
