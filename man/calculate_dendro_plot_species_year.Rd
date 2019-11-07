@@ -17,3 +17,14 @@ dataframe with columns plot, year, tree_species, number_of_trees_ha, basal_area_
 \description{
 This function calculates for each plot, tree species and year some values per hectare: number of trees, basal area, and volume.
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_deadwood <-
+  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_dendro_plot_species_year(data_dendro, data_deadwood)
+}
+
+}

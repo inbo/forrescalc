@@ -6,6 +6,16 @@
 #'
 #' @return dataframe with columns plot, height class, species and number_of_trees_ha_diff
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_regeneration <-
+#'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' by_plot_height_species_year <-
+#'   calculate_regeneration_plot_height_species_year(data_regeneration)
+#' calculate_regeneration_plot_height_species(by_plot_height_species_year)
+#' }
+#'
 #' @export
 #'
 #' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup

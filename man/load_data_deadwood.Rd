@@ -15,3 +15,10 @@ Dataframe with data on logs
 \description{
 This function queries the given database to retrieve data on deadwood (logs) (ready for use in calculate_dendrometry function).
 }
+\examples{
+\dontrun{
+#change path before running
+load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+}
+
+}

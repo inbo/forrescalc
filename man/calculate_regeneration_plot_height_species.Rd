@@ -15,3 +15,14 @@ dataframe with columns plot, height class, species and number_of_trees_ha_diff
 \description{
 This function compares for each plot, height class and species the differences between years for the number of individuals per hectare. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 }
+\examples{
+\dontrun{
+#change path before running
+data_regeneration <-
+  load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+by_plot_height_species_year <-
+  calculate_regeneration_plot_height_species_year(data_regeneration)
+calculate_regeneration_plot_height_species(by_plot_height_species_year)
+}
+
+}

@@ -36,3 +36,12 @@ For the selected forest reserves and plots, the following calculations are made:
  \item yearly change of basal area proportion for each forest reserve: \eqn{d = (pBA_t1 / pBA_t0)^(1 / (t1 - t0)) - 1}  with d = yearly change in \%, pBA_t1 = average proportional basal area at time 1, BA_t0 = average proportional basal area at time 0 and t1 - t0 = number of years between time 1 and time 0
 }
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_DAS_indicator(data_dendro)
+}
+
+}

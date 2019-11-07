@@ -12,6 +12,16 @@
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' data_deadwood <-
+#'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_dendrometry(data_dendro, data_deadwood)
+#' }
+#'
 #' @export
 #'
 calculate_dendrometry <- function(data_dendro, data_deadwood) {

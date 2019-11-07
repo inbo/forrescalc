@@ -15,3 +15,10 @@ Dataframe with dendrometry data
 \description{
 This function queries the given database to retrieve data on dendrometry (ready for use in calculate_dendrometry function).
 }
+\examples{
+\dontrun{
+#change path before running
+load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+}
+
+}

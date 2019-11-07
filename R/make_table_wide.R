@@ -13,14 +13,17 @@
 #' @importFrom tidyr pivot_wider
 #'
 #' @examples
+#' \dontrun{
+#' #change path before running
 #' library(dplyr)
 #' table_long <-
-#'   read_git(tablename = "dendro_status_tree", repo_path = "C:/R/bosreservatendb/forresdat") %>%
+#'   read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") %>%
 #'   filter(plot_id < 110) %>%
 #'   select(plot_id, species, tree_id, period, DBH_mm, AliveDead)
 #' table_wide <-
 #'   make_table_wide(table_long, column_to_repeat = "period",
 #'                   columns_for_comparison = c("DBH_mm", "AliveDead"))
+#' }
 #'
 make_table_wide <- function(table_long, column_to_repeat, columns_for_comparison) {
   table_wide <- table_long %>%

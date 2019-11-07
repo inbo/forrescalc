@@ -23,3 +23,12 @@ This function does the first step(s) of the calculation of the DAS indicator, na
  \item exclude homogeneous stands: basal area proportion of each tree species group < 98 \%
 }
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+select_for_DAS_indicator(data_dendro)
+}
+
+}

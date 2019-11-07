@@ -6,6 +6,12 @@
 #'
 #' @return Dataframe with data on logs
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' }
+#'
 #' @export
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery

@@ -15,3 +15,12 @@ dataframe with columns plot, year and number_of_tree_species
 \description{
 This function calculates for each plot and year the number of species for generation (for all height classes together).
 }
+\examples{
+\dontrun{
+#change path before running
+data_regeneration <-
+  load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_regeneration_plot_year(data_regeneration)
+}
+
+}

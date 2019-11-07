@@ -10,6 +10,14 @@
 #'
 #' @return dataframe with the grouping vars in which records are removed that do not meet the above described criteria
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' select_for_DAS_indicator(data_dendro)
+#' }
+#'
 #' @export
 #'
 #' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join select_at summarise ungroup

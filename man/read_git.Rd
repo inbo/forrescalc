@@ -17,3 +17,10 @@ A dataframe with the specified table
 \description{
 This function reads a table in git2rdata format from a git repository.
 }
+\examples{
+\dontrun{
+#change path before running
+read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat")
+}
+
+}

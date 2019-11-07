@@ -7,6 +7,12 @@
 #'
 #' @return A dataframe with the specified table
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat")
+#' }
+#'
 #' @export
 #'
 #' @importFrom git2rdata pull read_vc repository

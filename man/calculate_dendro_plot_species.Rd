@@ -15,3 +15,16 @@ dataframe with columns plot, number_of_tree_species, number_of_trees_ha, basal_a
 \description{
 This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_deadwood <-
+  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+by_plot_species_year <-
+  calculate_dendro_plot_species_year(data_dendro, data_deadwood)
+calculate_dendro_plot_species(by_plot_species_year)
+}
+
+}

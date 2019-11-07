@@ -15,3 +15,10 @@ Dataframe with regeneration data
 \description{
 This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
 }
+\examples{
+\dontrun{
+#change path before running
+load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+}
+
+}

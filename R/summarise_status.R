@@ -6,6 +6,14 @@
 #'
 #' @return a dataset with 1 record for each tree, containing the decay stage in different years
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' summarise_status(data_dendro)
+#' }
+#'
 #' @export
 #'
 #' @importFrom dplyr %>% filter inner_join mutate rename select

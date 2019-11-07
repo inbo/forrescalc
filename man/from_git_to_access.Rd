@@ -21,11 +21,11 @@ This function loads one or more tables from  a git repository and saves them in 
 }
 \examples{
 \dontrun{
-#change the paths before running
+#change paths before running
 from_git_to_access(
   tables = c("qAliveDead", "qdecaystage"),
-  repo_path = "C:/R/bosreservatendb/forresdat",
-  database = "C:/R/bosreservatendb/testdb.accdb"
+  repo_path = "C:/gitrepo/forresdat",
+  database = "C:/db/testdb.accdb"
 )
 }
 

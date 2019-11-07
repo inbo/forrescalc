@@ -23,11 +23,11 @@ This function loads one or more tables from the access database and saves them i
 }
 \examples{
 \dontrun{
-#change the paths before running
+#change paths before running
 from_access_to_git(
-  database = "C:/R/bosreservatendb/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+  database = "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
   tables = c("qAliveDead", "qdecaystage"),
-  repo_path = "C:/R/bosreservatendb/forresdat"
+  repo_path = "C:/gitrepo/forresdat"
 )
 }
 

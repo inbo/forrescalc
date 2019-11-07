@@ -14,6 +14,14 @@
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_DAS_indicator(data_dendro)
+#' }
+#'
 #' @export
 #'
 #' @importFrom assertthat assert_that

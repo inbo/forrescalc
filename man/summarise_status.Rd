@@ -15,3 +15,12 @@ a dataset with 1 record for each tree, containing the decay stage in different y
 \description{
 This function groups all information on the life stages of an individual tree during different measures.
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+summarise_status(data_dendro)
+}
+
+}

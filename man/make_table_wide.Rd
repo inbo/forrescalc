@@ -20,13 +20,16 @@ the dataframe in long format
 This function changes a dataframe from long to wide format, e.g. to show data from 2 different periods in different columns.
 }
 \examples{
+\dontrun{
+#change path before running
 library(dplyr)
 table_long <-
-  read_git(tablename = "dendro_status_tree", repo_path = "C:/R/bosreservatendb/forresdat") \%>\%
+  read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") \%>\%
   filter(plot_id < 110) \%>\%
   select(plot_id, species, tree_id, period, DBH_mm, AliveDead)
 table_wide <-
   make_table_wide(table_long, column_to_repeat = "period",
                   columns_for_comparison = c("DBH_mm", "AliveDead"))
+}
 
 }

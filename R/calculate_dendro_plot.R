@@ -6,6 +6,17 @@
 #'
 #' @return dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_ha_diff, basal_area_m2_ha_diff, volume_stem_m3_ha_diff
 #'
+#' @examples
+#' \dontrun{
+#' #change path before running
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' data_deadwood <-
+#'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
+#' calculate_dendro_plot(by_plot_year)
+#' }
+#'
 #' @export
 #'
 #' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup

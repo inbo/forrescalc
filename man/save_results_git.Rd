@@ -19,3 +19,13 @@ No value is returned, data are saved in the specified git repository
 \description{
 This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in a git repository.  List item names will be used to name each of the tables, which contain as a content the different dataframes.
 }
+\examples{
+\dontrun{
+#change path before running
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+result_dendro <- calculate_dendrometry(data_dendro)
+save_results_git(result = result_dendro, repo_path = "C:/gitrepo/forresdat")
+}
+
+}
