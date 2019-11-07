@@ -22,38 +22,21 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height_species <- function(by_plot_height_species_year) {
-  #data for comparison between 2 subsequent measures (periods)
+  #data from long to wide
   by_plot_height_species <- by_plot_height_species_year %>%
-    mutate(
-      period_min = .data$period - 1
-    ) %>%
-    bind_rows( #data for comparison between last and first measure of plot
-      by_plot_height_species_year %>%
-        filter(.data$period > 2) %>%
-        group_by(.data$plot_id) %>%
-        summarise(period = max(.data$period)) %>%
-        ungroup() %>%
-        inner_join(
-          by_plot_height_species_year,
-          by = c("plot_id", "period")
-        ) %>%
-        mutate(
-          period_min = 1
-        )
-    ) %>%  #join to earlier measure
-    inner_join(
-      by_plot_height_species_year,
-      by = c("plot_id", "height_class", "species", "period_min" = "period"),
-      suffix = c("", "_added")
+    pivot_wider(
+      names_from = "period",
+      values_from =
+        c(.data$year, .data$min_number_of_trees_ha, .data$max_number_of_trees_ha)
     ) %>%
     transmute(  #calculate: make the comparison
       .data$plot_id, .data$height_class, .data$species,
-      period_diff = paste(.data$period, .data$period_min, sep = " - "),
-      year_diff = paste(.data$year, .data$year_added, sep = " - "),
+      period_diff = "2 - 1",
+      year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
       min_number_of_trees_ha_diff =
-        .data$min_number_of_trees_ha - .data$min_number_of_trees_ha_added,
+        .data$min_number_of_trees_ha_2 - .data$min_number_of_trees_ha_1,
       max_number_of_trees_ha_diff =
-        .data$max_number_of_trees_ha - .data$max_number_of_trees_ha_added
+        .data$max_number_of_trees_ha_2 - .data$max_number_of_trees_ha_1
     )
 
   return(by_plot_height_species)

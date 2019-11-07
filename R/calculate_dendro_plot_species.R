@@ -24,39 +24,35 @@
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot_species <- function(by_plot_species_year) {
-  #data for comparison between 2 subsequent measures (periods)
+  #data from long to wide
   by_plot_species <- by_plot_species_year %>%
-    mutate(
-      period_min = .data$period - 1
-    ) %>%
-    bind_rows( #data for comparison between last and first measure of plot
-      by_plot_species_year %>%
-        filter(.data$period > 2) %>%
-        group_by(.data$plot_id, .data$species) %>%
-        summarise(period = max(.data$period)) %>%
-        ungroup() %>%
-        inner_join(
-          by_plot_species_year,
-          by = c("plot_id", "species", "period")
-        ) %>%
-        mutate(
-          period_min = 1
-        )
-    ) %>%  #join to earlier measure
-    inner_join(
-      by_plot_species_year,
-      by = c("plot_id", "species", "period_min" = "period"),
-      suffix = c("", "_added")
+    pivot_wider(
+      names_from = "period",
+      values_from =
+        c(.data$year, .data$number_of_trees_ha,
+          .data$basal_area_alive_m2_ha, .data$basal_area_dead_m2_ha,
+          .data$volume_alive_m3_ha, .data$volume_snag_m3_ha,
+          .data$volume_log_m3_ha, .data$volume_deadwood_m3_ha)
     ) %>%
     transmute(  #calculate: make the comparison
       .data$plot_id,
       .data$species,
-      period_diff = paste(.data$period, .data$period_min, sep = " - "),
-      year_diff = paste(.data$year, .data$year_added, sep = " - "),
+      period_diff = "2 - 1",
+      year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
       number_of_trees_ha_diff =
-        .data$number_of_trees_ha - .data$number_of_trees_ha_added,
-      basal_area_m2_ha_diff = .data$basal_area_m2_ha - .data$basal_area_m2_ha_added,
-      volume_stem_m3_ha_diff = .data$volume_stem_m3_ha - .data$volume_stem_m3_ha_added
+        .data$number_of_trees_ha_2 - .data$number_of_trees_ha_1,
+      basal_area_alive_m2_ha_diff =
+        .data$basal_area_alive_m2_ha_2 - .data$basal_area_alive_m2_ha_1,
+      basal_area_dead_m2_ha_diff =
+        .data$basal_area_dead_m2_ha_2 - .data$basal_area_dead_m2_ha_1,
+      volume_alive_m3_ha_diff =
+        .data$volume_alive_m3_ha_2 - .data$volume_alive_m3_ha_1,
+      volume_snag_m3_ha_diff =
+        .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1,
+      volume_alive_m3_ha_diff =
+        .data$volume_log_m3_ha_2 - .data$volume_log_m3_ha_1,
+      volume_alive_m3_ha_diff =
+        .data$volume_deadwood_m3_ha_2 - .data$volume_deadwood_m3_ha_1
     )
 
   return(by_plot_species)
