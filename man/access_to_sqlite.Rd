@@ -15,5 +15,5 @@ access_to_sqlite(source_db, new_db)
 A SQLite database with the specified name is saved at the specified path
 }
 \description{
-This function moves all relevant tables from an unindexed Access database to a SQLite database with indexes, for performance reasons.
+This function moves all relevant tables from an unindexed Access database to a SQLite database with indexes, for performance reasons. (Not finished yet and not exported!)
 }

@@ -1,13 +1,11 @@
 #' moves data from fieldmap database to SQLite database
 #'
-#' This function moves all relevant tables from an unindexed Access database to a SQLite database with indexes, for performance reasons.
+#' This function moves all relevant tables from an unindexed Access database to a SQLite database with indexes, for performance reasons. (Not finished yet and not exported!)
 #'
 #' @param source_db name of fieldmap/access database (with specific fieldmap structure) including path
 #' @param new_db name and path of SQLite database to be made
 #'
 #' @return A SQLite database with the specified name is saved at the specified path
-#'
-#' @export
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
