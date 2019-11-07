@@ -51,17 +51,8 @@ access_to_sqlite <- function(source_db, new_db) {
     "SELECT IDPlots, IDHeightClass, ID, Species, NumberClass, Number
     FROM RegSpecies_2eSet"
 
-  #nog query's uitschrijven voor:
-  qdecaystage
-  qHeightClass_regenaration
-  qIntactSnag
-  qnumber_regeneration_classes
-  qPlotType
-  qSpecies
 
-
-
-  con <- odbcConnectAccess2007(database)
+  con <- odbcConnectAccess2007(source_db)
   Plots <- sqlQuery(con, query_plots, stringsAsFactors = FALSE)
   Trees <- sqlQuery(con, query_trees, stringsAsFactors = FALSE)
   Trees_2eSET <- sqlQuery(con, query_trees_2eSET, stringsAsFactors = FALSE)
