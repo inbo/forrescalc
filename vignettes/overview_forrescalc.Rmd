@@ -69,7 +69,7 @@ Subfunctions that not typically aggregate data, can have other names:
 
 ### Additional functions
 
-And there are also some functions that we thought to be useful (or user request functions) that are not used to manipulate data for `forresdat`:
+And there are also some functions that we thought to be useful (or user request functions) (these are not used to manipulate data for `forresdat`):
 
 - `make_table_wide()` changes a dataframe from long to wide, what you might want to do with (a part of) the results from `summarise_status()`
 
@@ -83,6 +83,8 @@ Tables from git can be loaded again in R with the function `read_git()`.
 
 Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_git()` and `from_git_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
 
+Functions `save_results_git()` and `from_access_to_git()` save tables in your local copy of the git repository (grouped as 1 commit for each function). Changes can be checked in the local repository (project `forresdat`, tab _Git_, button _History_) and _pushed_ to the _remote_ repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function `remove_last_commit_git`, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.
+
 ## Update `forresdat`
 
-To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `Main.R` that is in the root of the installed package (and the `inst` folder of the git repository of the package). In this script, paths to the Fieldmap database and the git repository should be adapted to the local situation.
+To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `Main.R` that is in the root of the installed package (and in the `inst` folder of the git repository of the package `forrescalc`). In this script, paths to the Fieldmap database and the git repository should be adapted to the local situation. Evidently changes in the commits should be checked before pushing them to the remote, as is described above.
