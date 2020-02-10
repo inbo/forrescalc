@@ -49,9 +49,9 @@ calculate_dendro_plot <- function(by_plot_year) {
         .data$volume_alive_m3_ha_2 - .data$volume_alive_m3_ha_1,
       volume_snag_m3_ha_diff =
         .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1,
-      volume_alive_m3_ha_diff =
+      volume_log_m3_ha_diff =                                                # alive ipv log
         .data$volume_log_m3_ha_2 - .data$volume_log_m3_ha_1,
-      volume_alive_m3_ha_diff =
+      volume_deadwood_m3_ha_diff =                                                # alive ipv deadwood
         .data$volume_deadwood_m3_ha_2 - .data$volume_deadwood_m3_ha_1
     )
 
