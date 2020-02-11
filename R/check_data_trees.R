@@ -41,7 +41,7 @@ check_data_trees <- function(database) {
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots <-
-    "SELECT IDPlots, XTrees, YTrees, IDTrees, DBH_mm, Height_m, IntactSnag
+    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm, Height_m, IntactSnag
     FROM Shoots"
 
   query_trees2 <-
@@ -67,7 +67,7 @@ check_data_trees <- function(database) {
 
   query_shoots2 <-
     "SELECT IDPlots,
-      XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees,
+      XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees, ID AS shoot_id,
       DBH_mm, Height_m, IntactSnag
     FROM Shoots_2eSET"
 
@@ -95,6 +95,7 @@ check_data_trees <- function(database) {
   odbcClose(con)
 
   incorrect_trees <- data_trees %>%
+    # niet in A3 of A4
     mutate(
       problem =
         ifelse(
@@ -117,6 +118,7 @@ check_data_trees <- function(database) {
           .data$problem
         )
     ) %>%
+    # shoots niet correct gelinkt met trees
     left_join(
       data_trees %>%
         filter(.data$IndShtCop == 12) %>%
@@ -140,7 +142,7 @@ check_data_trees <- function(database) {
           !is.na(.data$problem),
           ifelse(
             !is.na(.data$coppiceproblem),
-            paste(.data$problem, .data$coppiceproblem, sep = ", "),
+            paste(.data$problem, .data$coppiceproblem, sep = " / "),
             .data$problem
           ),
           .data$coppiceproblem
@@ -160,7 +162,7 @@ check_data_trees <- function(database) {
           tree_measure_id = .data$IDTrees, .data$period
         ) %>%
         mutate(
-          coppiceproblem = "tree has shoots in table shoots"
+          coppiceproblem = "no coppice tree linked with shoots"
         ),
       by = c("IDPlots", "X_m", "Y_m", "tree_measure_id", "period")
     ) %>%
@@ -176,7 +178,8 @@ check_data_trees <- function(database) {
           .data$coppiceproblem
         ),
       coppiceproblem = NULL
-    )
+    ) %>%
+    filter(!is.na(problem))
 
   return(incorrect_trees)
 }
