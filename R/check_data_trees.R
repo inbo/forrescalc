@@ -172,7 +172,7 @@ check_data_trees <- function(database) {
           !is.na(.data$problem),
           ifelse(
             !is.na(.data$coppiceproblem),
-            paste(.data$problem, .data$coppiceproblem, sep = ", "),
+            paste(.data$problem, .data$coppiceproblem, sep = " / "),
             .data$problem
           ),
           .data$coppiceproblem
