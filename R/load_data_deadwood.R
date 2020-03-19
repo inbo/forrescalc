@@ -25,6 +25,7 @@ load_data_deadwood <- function(database) {
       pd.ForestReserve,
       pd.Date_dendro_1eSet AS date_dendro,
       Deadwood.Species AS species,
+      Deadwood.DecayStage AS decaystage,
       Deadwood.CalcVolume_m3
     FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
@@ -35,6 +36,7 @@ load_data_deadwood <- function(database) {
       pd.ForestReserve,
       pd.Date_dendro_2eSet AS date_dendro,
       Deadwood_2eSet.Species AS species,
+      Deadwood_2eSet.DecayStage AS decaystage,
       Deadwood_2eSet.CalcVolume_m3
     FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
       INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
