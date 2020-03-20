@@ -19,12 +19,6 @@
 #' @importFrom dplyr %>% bind_rows mutate
 #' @importFrom lubridate year
 #'
-
-  # veiliger/beter, want nu OK omdat er maar één record per plot in Vegetation zit:
-  # "SELECT Plots.ID AS plot_id, pd.ForestReserve, Veg.Area_m2, Veg.Date AS date_vegetation, Veg.Year AS year_record, Veg.Total_moss_cover, Veg.Total_herb_cover, Veg.Total_shrub_cover, Veg.Total_tree_cover, Herb.Species AS species, Herb.Coverage
-  # FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots) INNER JOIN Vegetation AS Veg ON Plots.ID = Veg.IDPlots) INNER JOIN Herblayer AS Herb ON (Veg.ID = Herb.IDVegetation) AND (Veg.IDPlots = Herb.IDPlots)
-  # WHERE (((Plots.Plottype)=20));"
-
 load_data_vegetation <-
   function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
     plottypeid <- give_plottypeid(plottype)
@@ -50,15 +44,13 @@ load_data_vegetation <-
         FROM ((Plots
           INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer Herb ON Veg.IDPlots = Herb.IDPlots
+          INNER JOIN Herblayer Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation
         WHERE Plots.Plottype in (%s)%s;",
         plottypeid, selection_fr
       )
 
     query_vegetation2 <-
-    # "SELECT Plots.ID AS plot_id, pd.ForestReserve, Veg.Area_m2, Veg.Date AS date_vegetation, Veg.Year AS year_record, Veg.Total_moss_cover, Veg.Total_herb_cover, Veg.Total_shrub_cover, Veg.Total_tree_cover, Herb.Species AS species, Herb.Coverage
-    # FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots) INNER JOIN Vegetation_2eSet AS Veg ON Plots.ID = Veg.IDPlots) INNER JOIN Herblayer_2eSet AS Herb ON (Veg.ID = Herb.IDVegetation_2eSet) AND (Veg.IDPlots = Herb.IDPlots)
-    # WHERE (((Plots.Plottype)=20));"
       sprintf(
         "SELECT Plots.ID AS plot_id,
           pd.ForestReserve,
@@ -74,7 +66,8 @@ load_data_vegetation <-
         FROM ((Plots
           INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer_2eSet Herb ON Veg.IDPlots = Herb.IDPlots
+          INNER JOIN Herblayer_2eSet Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation_2eSet
         WHERE Plots.Plottype in (%s)%s;",
         plottypeid, selection_fr
       )
