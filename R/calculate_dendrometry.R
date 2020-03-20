@@ -7,8 +7,8 @@
 #'  \item individual trees: statuses in different years
 #' }
 #'
-#' @param data_dendro dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())
-#' @param data_deadwood dataframe on logs with variables plot_id, date_dendro, CalcVolume_m3, period and year (output of function load_data_deadwood())
+#' @param data_dendro dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())
+#' @param data_deadwood dataframe on logs with variables plot_id, Plottype, date_dendro, CalcVolume_m3, period and year (output of function load_data_deadwood())
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
