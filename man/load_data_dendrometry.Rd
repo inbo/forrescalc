@@ -4,16 +4,26 @@
 \alias{load_data_dendrometry}
 \title{retrieve dendrometry data from fieldmap database}
 \usage{
-load_data_dendrometry(database)
+load_data_dendrometry(database, plottype = c(NA, "CP", "KV"),
+  forest_reserve = NA)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of fieldmap/access database (with specific fieldmap
+structure) including path}
+
+\item{plottype}{possibility to select only data for a certain plot type: CP
+or KV (the default NA means that data from all plots are retrieved)}
+
+\item{forest_reserve}{possibility to select only data for 1 forest reserve
+by giving the name of the forest reserve (the default NA means that data
+from all plots are retrieved)}
 }
 \value{
 Dataframe with dendrometry data
 }
 \description{
-This function queries the given database to retrieve data on dendrometry (ready for use in calculate_dendrometry function).
+This function queries the given database to retrieve data on dendrometry
+(ready for use in calculate_dendrometry function).
 }
 \examples{
 \dontrun{

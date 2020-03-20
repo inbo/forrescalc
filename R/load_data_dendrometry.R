@@ -1,8 +1,15 @@
 #' retrieve dendrometry data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on dendrometry (ready for use in calculate_dendrometry function).
+#' This function queries the given database to retrieve data on dendrometry
+#' (ready for use in calculate_dendrometry function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @param database name of fieldmap/access database (with specific fieldmap
+#' structure) including path
+#' @param plottype possibility to select only data for a certain plot type: CP
+#' or KV (the default NA means that data from all plots are retrieved)
+#' @param forest_reserve possibility to select only data for 1 forest reserve
+#' by giving the name of the forest reserve (the default NA means that data
+#' from all plots are retrieved)
 #'
 #' @return Dataframe with dendrometry data
 #'
@@ -19,41 +26,57 @@
 #' @importFrom dplyr bind_rows mutate
 #' @importFrom lubridate round_date year
 #'
-load_data_dendrometry <- function(database) {
+load_data_dendrometry <-
+  function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
+  plottypeid <- give_plottypeid(plottype)
+  if (!is.na(forest_reserve)) {
+    check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
+    selection_fr <- paste0(" AND pd.ForestReserve in ('", forest_reserve, "')")
+  } else {
+    selection_fr <- ""
+  }
   query_dendro <-
-    "SELECT Plots.ID AS plot_id,
-      IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-      Trees.ID AS tree_measure_id,
-      pd.ForestReserve,
-      pd.Date_dendro_1eSet AS date_dendro,
-      Trees.DBH_mm,
-      Trees.Height_m,
-      Trees.Species AS species,
-      Trees.AliveDead,
-      Trees.DecayStage AS decaystage,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2
-    FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
-    WHERE Plots.Plottype = 20;"
+    sprintf(
+      "SELECT Plots.ID AS plot_id,
+        Plots.Plottype,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        Trees.ID AS tree_measure_id,
+        pd.ForestReserve,
+        pd.Date_dendro_1eSet AS date_dendro,
+        Trees.DBH_mm,
+        Trees.Height_m,
+        Trees.Species AS species,
+        Trees.AliveDead,
+        Trees.DecayStage AS decaystage,
+        Trees.Adjust_Vol_tot_m3,
+        Trees.AdjustBasalArea_m2
+      FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
+      WHERE Plots.Plottype in (%s)%s;",
+      plottypeid, selection_fr
+    )
 
   query_dendro2 <-
-    "SELECT Plots.ID AS plot_id,
-      IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-      Trees.ID AS tree_measure_id,
-      pd.ForestReserve,
-      pd.Date_dendro_2eSet AS date_dendro,
-      Trees.DBH_mm,
-      Trees.Height_m,
-      Trees.Species AS species,
-      Trees.AliveDead,
-      Trees.DecayStage AS decaystage,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2,
-      Trees.OldID
-    FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
-    WHERE Plots.Plottype = 20;"
+    sprintf(
+      "SELECT Plots.ID AS plot_id,
+        Plots.Plottype,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        Trees.ID AS tree_measure_id,
+        pd.ForestReserve,
+        pd.Date_dendro_2eSet AS date_dendro,
+        Trees.DBH_mm,
+        Trees.Height_m,
+        Trees.Species AS species,
+        Trees.AliveDead,
+        Trees.DecayStage AS decaystage,
+        Trees.Adjust_Vol_tot_m3,
+        Trees.AdjustBasalArea_m2,
+        Trees.OldID
+      FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
+      WHERE Plots.Plottype in (%s)%s;",
+      plottypeid, selection_fr
+    )
 
   con <- odbcConnectAccess2007(database)
   data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%

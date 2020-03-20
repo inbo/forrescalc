@@ -2,7 +2,7 @@
 #'
 #' This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with regeneration data
 #'
@@ -19,49 +19,69 @@
 #' @importFrom dplyr %>% bind_rows left_join mutate
 #' @importFrom lubridate year
 #'
-load_data_regeneration <- function(database) {
-  query_regeneration <-
-    "SELECT Plots.ID AS plot_id
-  , pd.ForestReserve, Reg.Area_m2
-  , Reg.Date AS date_regeneration
-  , Reg.Year AS year_record
-  , HeightClass.HeightClass AS height_class
-  , RegSpecies.Species AS species
-  , RegSpecies.NumberClass AS number_class
-  , RegSpecies.Number
-  , RegSpecies.GameDamage_number
-  FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
-  INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
-  INNER JOIN (HeightClass INNER JOIN RegSpecies ON (HeightClass.IDRegeneration = RegSpecies.IDRegeneration)
-  AND (HeightClass.IDPlots = RegSpecies.IDPlots)
-  AND (HeightClass.ID = RegSpecies.IDHeightClass))
-  ON (Reg.ID = HeightClass.IDRegeneration) AND (Reg.IDPlots = HeightClass.IDPlots)
-  WHERE (((Plots.Plottype)=20));
-  "
+load_data_regeneration <-
+  function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
+    plottypeid <- give_plottypeid(plottype)
+    if (!is.na(forest_reserve)) {
+      check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
+      selection_fr <- paste0(" AND pd.ForestReserve in ('", forest_reserve, "')")
+    } else {
+      selection_fr <- ""
+    }
+    query_regeneration <-
+      sprintf(
+        "SELECT Plots.ID AS plot_id
+          , pd.ForestReserve, Reg.Area_m2
+          , Reg.Date AS date_regeneration
+          , Reg.Year AS year_record
+          , HeightClass.HeightClass AS height_class
+          , RegSpecies.Species AS species
+          , RegSpecies.NumberClass AS number_class
+          , RegSpecies.Number
+          , RegSpecies.GameDamage_number
+        FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
+          INNER JOIN
+            (HeightClass
+              INNER JOIN RegSpecies
+                ON HeightClass.IDRegeneration = RegSpecies.IDRegeneration
+                AND HeightClass.IDPlots = RegSpecies.IDPlots
+                AND HeightClass.ID = RegSpecies.IDHeightClass)
+            ON Reg.ID = HeightClass.IDRegeneration
+            AND Reg.IDPlots = HeightClass.IDPlots
+        WHERE Plots.Plottype in (%s)%s;",
+        plottypeid, selection_fr
+      )
+
 
   #   Reg.Area_m2: opp. beter halen uit plotdetails: obv rA2
   # idem voor Date
 
 
-  query_regeneration2 <-
-    "SELECT Plots.ID AS plot_id
-  , pd.ForestReserve, Reg.Area_m2
-  , Reg.Date AS date_regeneration
-  , Reg.Year AS year_record
-  , HeightClass_2eSet.HeightClass AS height_class
-  , RegSpecies_2eSet.Species AS species
-  , RegSpecies_2eSet.NumberClass AS number_class
-  , RegSpecies_2eSet.Number
-  , RegSpecies_2eSet.GameDamage_number
-  FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
-  INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
-  INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet ON
-  (HeightClass_2eSet.IDRegeneration_2eSet = RegSpecies_2eSet.IDRegeneration_2eSet)
-  AND (HeightClass_2eSet.IDPlots = RegSpecies_2eSet.IDPlots)
-  AND (HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet))
-  ON (Reg.ID = HeightClass_2eSet.IDRegeneration_2eSet) AND (Reg.IDPlots = HeightClass_2eSet.IDPlots)
-  WHERE (((Plots.Plottype)=20));
-  "
+    query_regeneration2 <-
+      sprintf(
+        "SELECT Plots.ID AS plot_id
+          , pd.ForestReserve, Reg.Area_m2
+          , Reg.Date AS date_regeneration
+          , Reg.Year AS year_record
+          , hc.HeightClass AS height_class
+          , rc.Species AS species
+          , rc.NumberClass AS number_class
+          , rc.Number
+          , rc.GameDamage_number
+        FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
+          INNER JOIN
+            (HeightClass_2eSet hc
+              INNER JOIN RegSpecies_2eSet rc
+                ON hc.IDRegeneration_2eSet = rc.IDRegeneration_2eSet
+                AND hc.IDPlots = rc.IDPlots
+                AND hc.ID = rc.IDHeightClass_2eSet)
+            ON Reg.ID = hc.IDRegeneration_2eSet
+            AND Reg.IDPlots = hc.IDPlots
+        WHERE Plots.Plottype in (%s)%s;",
+        plottypeid, selection_fr
+      )
 
   number_classes <-
     data.frame(
