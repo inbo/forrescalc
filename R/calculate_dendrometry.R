@@ -5,6 +5,8 @@
 #'  \item plot and year
 #'  \item plot, tree species and year
 #'  \item individual trees: statuses in different years
+#'  \item diameter class, plot and year
+#'  \idem diameter class, plot, tree species and year
 #' }
 #'
 #' @param data_dendro dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())
@@ -29,12 +31,16 @@ calculate_dendrometry <- function(data_dendro, data_deadwood) {
   by_plot_species_year <-
     calculate_dendro_plot_species_year(data_dendro, data_deadwood)
   status_tree <- summarise_status(data_dendro)
+  by_diam_plot_year <- calculate_diam_plot_year(data_dendro)
+  by_diam_plot_species_year <- calculate_diam_plot_species_year(data_dendro)
 
   return(
     list(
       dendro_by_plot_year = by_plot_year,
       dendro_by_plot_species_year = by_plot_species_year,
-      dendro_status_tree = status_tree
+      dendro_status_tree = status_tree,
+      dendro_by_diam_plot_year = by_diam_plot_year,
+      dendro_by_diam_plot_species_year = by_diam_plot_species_year
     )
   )
 }
