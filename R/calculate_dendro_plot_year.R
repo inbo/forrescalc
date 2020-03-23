@@ -32,7 +32,7 @@ calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
       number_of_trees_ha =
         round(sum(.data$AliveDead == 11) / unique(.data$plotarea_ha)),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
+      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
       volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
       volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
     ) %>%

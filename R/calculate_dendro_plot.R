@@ -29,7 +29,7 @@ calculate_dendro_plot <- function(by_plot_year) {
       names_from = "period",
       values_from =
         c(.data$year, .data$number_of_tree_species, .data$number_of_trees_ha,
-          .data$basal_area_alive_m2_ha, .data$basal_area_dead_m2_ha,
+          .data$basal_area_alive_m2_ha, .data$basal_area_snag_m2_ha,
           .data$volume_alive_m3_ha, .data$volume_snag_m3_ha,
           .data$volume_log_m3_ha, .data$volume_deadwood_m3_ha)
     ) %>%
@@ -43,8 +43,8 @@ calculate_dendro_plot <- function(by_plot_year) {
         .data$number_of_trees_ha_2 - .data$number_of_trees_ha_1,
       basal_area_alive_m2_ha_diff =
         .data$basal_area_alive_m2_ha_2 - .data$basal_area_alive_m2_ha_1,
-      basal_area_dead_m2_ha_diff =
-        .data$basal_area_dead_m2_ha_2 - .data$basal_area_dead_m2_ha_1,
+      basal_area_snag_m2_ha_diff =
+        .data$basal_area_snag_m2_ha_2 - .data$basal_area_snag_m2_ha_1,
       volume_alive_m3_ha_diff =
         .data$volume_alive_m3_ha_2 - .data$volume_alive_m3_ha_1,
       volume_snag_m3_ha_diff =

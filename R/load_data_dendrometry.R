@@ -92,7 +92,7 @@ load_data_dendrometry <- function(database) {
           .data$AdjustBasalArea_m2 / .data$plotarea_ha,
           0
         ),
-      basal_area_dead_m2_ha =
+      basal_area_snag_m2_ha =
         ifelse(
           .data$AliveDead == 12,
           .data$AdjustBasalArea_m2 / .data$plotarea_ha,
