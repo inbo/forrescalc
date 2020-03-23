@@ -37,7 +37,7 @@ calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
       volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
     ) %>%
     ungroup() %>%
-    inner_join(      # !! dan verlies je de plots waar geen deadwood voorkomt
+    left_join(
       data_deadwood %>%
         group_by(.data$plot_id, .data$year, .data$period) %>%
         summarise(
