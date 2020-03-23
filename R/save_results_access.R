@@ -4,6 +4,9 @@
 #'
 #' @param results results from calculations in package forrescalc as a named list
 #' @param database name of (empty) Access database including path in which results should be saved
+#' @param remove_tables overwrite existing tables in database?  Default is
+#' FALSE, which means tables are not overwritten/deleted unless this parameter
+#' is explicitly put on TRUE.
 #'
 #' @return No value is returned, data are saved in the specified database
 #'
@@ -12,17 +15,25 @@
 #' #change path before running
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' result_dendro <- calculate_dendrometry(data_dendro)
+#' data_deadwood <-
+#'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' result_dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 #' save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")
 #' }
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlSave
+#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlDrop sqlSave sqlTables
 #'
-save_results_access <- function(results, database) {
+save_results_access <- function(results, database, remove_tables = FALSE) {
   con <- odbcConnectAccess2007(database)
   for (tablename in names(results)) {
+    if (remove_tables) {
+      dbtables <- sqlTables(con)
+      if (tablename %in% dbtables$TABLE_NAME) {
+        sqlDrop(con, tablename)
+      }
+    }
     sqlSave(con, results[[tablename]], tablename = tablename)
   }
   odbcClose(con)
