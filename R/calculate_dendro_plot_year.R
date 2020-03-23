@@ -30,7 +30,7 @@ calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
     summarise(
       number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
       number_of_trees_ha =
-        round(sum(.data$AliveDead == 11) / unique(.data$Area_ha)),   # ? Area_ha = opp. A4: moet ook soms opp A3 zijn, misschien ook al in data_dendro berekenen?
+        round(sum(.data$AliveDead == 11) / unique(.data$plotarea_ha)),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
       basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
       volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
