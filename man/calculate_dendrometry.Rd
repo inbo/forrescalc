@@ -20,6 +20,8 @@ This function makes aggregations of individual tree measures on the levels of
  \item plot and year
  \item plot, tree species and year
  \item individual trees: statuses in different years
+ \item diameter class, plot and year
+ \idem diameter class, plot, tree species and year
 }
 }
 \examples{
