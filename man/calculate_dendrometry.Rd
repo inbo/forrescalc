@@ -9,7 +9,7 @@ calculate_dendrometry(data_dendro, data_deadwood)
 \arguments{
 \item{data_dendro}{dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, CalcVolume_m3, period and year (output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -20,6 +20,11 @@ This function makes aggregations of individual tree measures on the levels of
  \item plot and year
  \item plot, tree species and year
  \item individual trees: statuses in different years
+}
+and it makes aggregations of volume data on logs on the levels of
+\itemize{
+ \item decay stage, plot and year
+ \item decay stage, plot, tree species and year
 }
 }
 \examples{
