@@ -26,7 +26,7 @@ calculate_logs_decay_plot_species_year <- function(data_deadwood) {
         .data$plot_id, .data$year, .data$period, .data$species, .data$decaystage
       ) %>%
       summarise(
-        volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * 18 ^ 2)/10000)
+        volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * .data$rA4 ^ 2)/10000)
       ) %>%
       ungroup()
 
