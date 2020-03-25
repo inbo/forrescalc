@@ -30,6 +30,7 @@ data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 result_dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")
+save_results_access(result = result_dendro, database = "C:/db/testdb.accdb", remove_tables = TRUE)
 }
 
 }
