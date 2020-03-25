@@ -22,7 +22,10 @@ translate_input_to_selectionquery <-
       selection <- ""
     }
     if (!is.na(forest_reserve)) {
-      check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
+      check_input(
+        forest_reserve, database, "PlotDetails_1eSet", "ForestReserve",
+        "PlotDetails_2eSet"
+      )
       if (selection == "") {
         selection <- "WHERE"
       } else {
