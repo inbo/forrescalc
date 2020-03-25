@@ -20,13 +20,27 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_deadwood <-
-  function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
-  plottypeid <- give_plottypeid(plottype)
+  function(database, plottype = NA, forest_reserve = NA) {
+  if (!is.na(plottype)) {
+    check_input(plottype, database, "qPlotType", "Value2")
+    selection <-
+      paste0(
+        " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
+        " WHERE qPlotType.Value2 in ('", plottype, "')")
+  } else {
+    selection <- ""
+  }
   if (!is.na(forest_reserve)) {
     check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
-    selection_fr <- paste0(" AND pd.ForestReserve in ('", forest_reserve, "')")
+    if (selection == "") {
+      selection <- "WHERE"
+    } else {
+      selection <- paste(selection, "AND")
+    }
+    selection <-
+      paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
   } else {
-    selection_fr <- ""
+    selection <- ""
   }
 
   query_deadwood <-
@@ -40,9 +54,8 @@ load_data_deadwood <-
         Deadwood.DecayStage AS decaystage,
         Deadwood.CalcVolume_m3
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
-        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
-      WHERE Plots.Plottype in (%s)%s;",
-      plottypeid, selection_fr
+        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
+      selection
     )
 
   query_deadwood2 <-
@@ -56,9 +69,8 @@ load_data_deadwood <-
         Deadwood_2eSet.DecayStage AS decaystage,
         Deadwood_2eSet.CalcVolume_m3
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
-        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
-      WHERE Plots.Plottype in (%s)%s;",
-      plottypeid, selection_fr
+        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
+      selection
     )
 
   con <- odbcConnectAccess2007(database)

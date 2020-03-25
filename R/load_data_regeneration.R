@@ -20,13 +20,27 @@
 #' @importFrom lubridate year
 #'
 load_data_regeneration <-
-  function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
-    plottypeid <- give_plottypeid(plottype)
+  function(database, plottype = NA, forest_reserve = NA) {
+    if (!is.na(plottype)) {
+      check_input(plottype, database, "qPlotType", "Value2")
+      selection <-
+        paste0(
+          " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
+          " WHERE qPlotType.Value2 in ('", plottype, "')")
+    } else {
+      selection <- ""
+    }
     if (!is.na(forest_reserve)) {
       check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
-      selection_fr <- paste0(" AND pd.ForestReserve in ('", forest_reserve, "')")
+      if (selection == "") {
+        selection <- "WHERE"
+      } else {
+        selection <- paste(selection, "AND")
+      }
+      selection <-
+        paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
     } else {
-      selection_fr <- ""
+      selection <- ""
     }
     query_regeneration <-
       sprintf(
@@ -48,9 +62,8 @@ load_data_regeneration <-
                 AND HeightClass.IDPlots = RegSpecies.IDPlots
                 AND HeightClass.ID = RegSpecies.IDHeightClass)
             ON Reg.ID = HeightClass.IDRegeneration
-            AND Reg.IDPlots = HeightClass.IDPlots
-        WHERE Plots.Plottype in (%s)%s;",
-        plottypeid, selection_fr
+            AND Reg.IDPlots = HeightClass.IDPlots %s;",
+        selection
       )
 
 
@@ -78,9 +91,8 @@ load_data_regeneration <-
                 AND hc.IDPlots = rc.IDPlots
                 AND hc.ID = rc.IDHeightClass_2eSet)
             ON Reg.ID = hc.IDRegeneration_2eSet
-            AND Reg.IDPlots = hc.IDPlots
-        WHERE Plots.Plottype in (%s)%s;",
-        plottypeid, selection_fr
+            AND Reg.IDPlots = hc.IDPlots %s;",
+        selection
       )
 
   number_classes <-

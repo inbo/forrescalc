@@ -5,8 +5,8 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
-#' @param plottype possibility to select only data for a certain plot type: CP
-#' or KV (the default NA means that data from all plots are retrieved)
+#' @param plottype possibility to select only data for a certain plot type, e.g. 'circular plot'
+#' or 'core area' (the default NA means that data from all plots are retrieved)
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
@@ -27,13 +27,27 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-
-  function(database, plottype = c(NA, "CP", "KV"), forest_reserve = NA) {
-  plottypeid <- give_plottypeid(plottype)
+  function(database, plottype = NA, forest_reserve = NA) {
+  if (!is.na(plottype)) {
+    check_input(plottype, database, "qPlotType", "Value2")
+    selection <-
+      paste0(
+        " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
+        " WHERE qPlotType.Value2 in ('", plottype, "')")
+  } else {
+    selection <- ""
+  }
   if (!is.na(forest_reserve)) {
     check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
-    selection_fr <- paste0(" AND pd.ForestReserve in ('", forest_reserve, "')")
+    if (selection == "") {
+      selection <- "WHERE"
+    } else {
+      selection <- paste(selection, "AND")
+    }
+    selection <-
+      paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
   } else {
-    selection_fr <- ""
+    selection <- ""
   }
   query_dendro <-
     sprintf(
@@ -51,9 +65,8 @@ load_data_dendrometry <-
         Trees.Adjust_Vol_tot_m3,
         Trees.AdjustBasalArea_m2
       FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
-      WHERE Plots.Plottype in (%s)%s;",
-      plottypeid, selection_fr
+        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
+      selection
     )
 
   query_dendro2 <-
@@ -73,9 +86,8 @@ load_data_dendrometry <-
         Trees.AdjustBasalArea_m2,
         Trees.OldID
       FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
-      WHERE Plots.Plottype in (%s)%s;",
-      plottypeid, selection_fr
+        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
+      selection
     )
 
   con <- odbcConnectAccess2007(database)
