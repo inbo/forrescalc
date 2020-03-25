@@ -26,18 +26,18 @@ calculate_dendro_plot_species_year <- function(data_dendro, data_deadwood) {
     group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
     summarise(
       number_of_trees_ha =
-        round(sum(.data$AliveDead == 11) / unique(.data$Area_ha)),
+        round(sum(.data$AliveDead == 11) / unique(.data$plotarea_ha)),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
+      basal_area_snag_m2_ha = sum(.data$basal_snag_snag_m2_ha),
       volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
       volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
     ) %>%
     ungroup() %>%
-    inner_join(
+    left_join(
       data_deadwood %>%
         group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
         summarise(
-          volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * 18 ^ 2)/10000)
+          volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * .data$rA4 ^ 2)/10000)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "species")
