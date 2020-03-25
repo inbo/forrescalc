@@ -34,7 +34,9 @@ load_data_dendrometry <- function(database) {
       Trees.DecayStage AS decaystage,
       Trees.Adjust_Vol_tot_m3,
       Trees.AdjustBasalArea_m2,
-      Trees.DBHClass_5cm
+      Trees.IndShtCop,
+      Trees.TreeNumber,
+      Trees.Individual
     FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
       INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
     WHERE Plots.Plottype = 20;"
@@ -53,7 +55,9 @@ load_data_dendrometry <- function(database) {
       Trees.DecayStage AS decaystage,
       Trees.Adjust_Vol_tot_m3,
       Trees.AdjustBasalArea_m2,
-      Trees.DBHClass_5cm,
+      Trees.IndShtCop,
+      Trees.TreeNumber,
+      Trees.Individual,
       Trees.OldID
     FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
       INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots

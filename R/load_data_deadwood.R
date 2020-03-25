@@ -27,7 +27,9 @@ load_data_deadwood <- function(database) {
       pd.rA1, pd.rA2, pd.rA3, pd.rA4,
       Deadwood.Species AS species,
       Deadwood.DecayStage AS decaystage,
-      Deadwood.CalcVolume_m3
+      Deadwood.CalcVolume_m3,
+      Deadwood.MaxDiam_mm,
+      Deadwood.TreeNumber
     FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots
     WHERE Plots.Plottype = 20;"
@@ -39,7 +41,9 @@ load_data_deadwood <- function(database) {
       pd.rA1, pd.rA2, pd.rA3, pd.rA4,
       Deadwood_2eSet.Species AS species,
       Deadwood_2eSet.DecayStage AS decaystage,
-      Deadwood_2eSet.CalcVolume_m3
+      Deadwood_2eSet.CalcVolume_m3,
+      Deadwood_2eSet.MaxDiam_mm,
+      Deadwood_2eSet.TreeNumber
     FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
       INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots
     WHERE Plots.Plottype = 20;"
