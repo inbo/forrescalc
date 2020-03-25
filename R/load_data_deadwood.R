@@ -21,27 +21,8 @@
 #'
 load_data_deadwood <-
   function(database, plottype = NA, forest_reserve = NA) {
-  if (!is.na(plottype)) {
-    check_input(plottype, database, "qPlotType", "Value2")
     selection <-
-      paste0(
-        " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
-        " WHERE qPlotType.Value2 in ('", plottype, "')")
-  } else {
-    selection <- ""
-  }
-  if (!is.na(forest_reserve)) {
-    check_input(forest_reserve, database, "PlotDetails_1eSet", "ForestReserve")
-    if (selection == "") {
-      selection <- "WHERE"
-    } else {
-      selection <- paste(selection, "AND")
-    }
-    selection <-
-      paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
-  } else {
-    selection <- ""
-  }
+      translate_input_to_selectionquery(database, plottype, forest_reserve)
 
   query_deadwood <-
     sprintf(
