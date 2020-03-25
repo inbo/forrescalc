@@ -4,12 +4,16 @@
 \alias{save_results_access}
 \title{save results of calculations in Access database}
 \usage{
-save_results_access(results, database)
+save_results_access(results, database, remove_tables = FALSE)
 }
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
 
 \item{database}{name of (empty) Access database including path in which results should be saved}
+
+\item{remove_tables}{overwrite existing tables in database?  Default is
+FALSE, which means tables are not overwritten/deleted unless this parameter
+is explicitly put on TRUE.}
 }
 \value{
 No value is returned, data are saved in the specified database
@@ -22,8 +26,14 @@ This function saves the results from calculations in the forrescalc package (or 
 #change path before running
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-result_dendro <- calculate_dendrometry(data_dendro)
+data_deadwood <-
+  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+result_dendro <- calculate_dendrometry(data_dendro, data_deadwood)
 save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")
+#Repeating the previous line of code will give an error, because you try to
+#overwrite a table that was already saved in the database on the first run.
+#To overwrite previously saved tables, use this command:
+save_results_access(result = result_dendro, database = "C:/db/testdb.accdb", remove_tables = TRUE)
 }
 
 }
