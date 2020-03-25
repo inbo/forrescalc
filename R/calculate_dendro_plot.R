@@ -19,19 +19,20 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup
+#' @importFrom dplyr %>% select transmute
+#' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot <- function(by_plot_year) {
   #data from long to wide
   by_plot <- by_plot_year %>%
+    select(-.data$volume_log_m3_ha, -.data$volume_deadwood_m3_ha) %>%
     pivot_wider(
       names_from = "period",
       values_from =
         c(.data$year, .data$number_of_tree_species, .data$number_of_trees_ha,
           .data$basal_area_alive_m2_ha, .data$basal_area_snag_m2_ha,
-          .data$volume_alive_m3_ha, .data$volume_snag_m3_ha,
-          .data$volume_log_m3_ha, .data$volume_deadwood_m3_ha)
+          .data$volume_alive_m3_ha, .data$volume_snag_m3_ha)
     ) %>%
     transmute(  #calculate: make the comparison
       .data$plot_id,
@@ -48,11 +49,7 @@ calculate_dendro_plot <- function(by_plot_year) {
       volume_alive_m3_ha_diff =
         .data$volume_alive_m3_ha_2 - .data$volume_alive_m3_ha_1,
       volume_snag_m3_ha_diff =
-        .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1,
-      volume_log_m3_ha_diff =                                                # alive ipv log
-        .data$volume_log_m3_ha_2 - .data$volume_log_m3_ha_1,
-      volume_deadwood_m3_ha_diff =                                                # alive ipv deadwood
-        .data$volume_deadwood_m3_ha_2 - .data$volume_deadwood_m3_ha_1
+        .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1
     )
 
   return(by_plot)
