@@ -26,6 +26,7 @@ load_data_dendrometry <- function(database) {
       Trees.ID AS tree_measure_id,
       pd.ForestReserve,
       pd.Date_dendro_1eSet AS date_dendro,
+      pd.rA1, rA2, rA3, rA4,
       Trees.DBH_mm,
       Trees.Height_m,
       Trees.Species AS species,
@@ -43,6 +44,7 @@ load_data_dendrometry <- function(database) {
       Trees.ID AS tree_measure_id,
       pd.ForestReserve,
       pd.Date_dendro_2eSet AS date_dendro,
+      pd.rA1, rA2, rA3, rA4,
       Trees.DBH_mm,
       Trees.Height_m,
       Trees.Species AS species,
@@ -81,8 +83,8 @@ load_data_dendrometry <- function(database) {
       plotarea_ha =
         ifelse(
           .data$plottype == "A4",
-          (pi * 18 ^ 2)/10000,
-          (pi * 9 ^ 2)/10000
+          (pi * .data$rA4 ^ 2)/10000,
+          (pi * .data$rA3 ^ 2)/10000
         ),
       basal_area_alive_m2_ha =
         ifelse(
@@ -90,7 +92,7 @@ load_data_dendrometry <- function(database) {
           .data$AdjustBasalArea_m2 / .data$plotarea_ha,
           0
         ),
-      basal_area_dead_m2_ha =
+      basal_area_snag_m2_ha =
         ifelse(
           .data$AliveDead == 12,
           .data$AdjustBasalArea_m2 / .data$plotarea_ha,
