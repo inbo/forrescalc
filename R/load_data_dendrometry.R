@@ -86,7 +86,7 @@ load_data_dendrometry <-
     ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
-      plottype =
+      subcircle =
         ifelse(
           .data$AliveDead == 11 & .data$DBH_mm >= 400,
           "A4",
@@ -96,34 +96,34 @@ load_data_dendrometry <-
             "A3"
           )
         ),
-      plotarea_ha =
+      subcirclearea_ha =
         ifelse(
-          .data$plottype == "A4",
+          .data$subcircle == "A4",
           (pi * .data$rA4 ^ 2)/10000,
           (pi * .data$rA3 ^ 2)/10000
         ),
       basal_area_alive_m2_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          .data$AdjustBasalArea_m2 / .data$subcirclearea_ha,
           0
         ),
       basal_area_snag_m2_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          .data$AdjustBasalArea_m2 / .data$subcirclearea_ha,
           0
         ),
       volume_alive_m3_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          .data$Adjust_Vol_tot_m3 / .data$subcirclearea_ha,
           0
         ),
       volume_snag_m3_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          .data$Adjust_Vol_tot_m3 / .data$subcirclearea_ha,
           0
         )
     )
