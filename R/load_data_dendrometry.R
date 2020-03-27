@@ -39,6 +39,7 @@ load_data_dendrometry <-
         pd.ForestReserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1, rA2, rA3, rA4,
+        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
         Trees.DBH_mm,
         Trees.Height_m,
         Trees.Species AS species,
@@ -60,6 +61,7 @@ load_data_dendrometry <-
         pd.ForestReserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1, rA2, rA3, rA4,
+        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
         Trees.DBH_mm,
         Trees.Height_m,
         Trees.Species AS species,
@@ -102,28 +104,46 @@ load_data_dendrometry <-
           (pi * .data$rA4 ^ 2)/10000,
           (pi * .data$rA3 ^ 2)/10000
         ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 20,
+          .data$subcirclearea_ha,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 30,
+          .data$LenghtCoreArea_m * .data.WidthCoreArea_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$Area_ha,
+          .data$plotarea_ha
+        ),
       basal_area_alive_m2_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$AdjustBasalArea_m2 / .data$subcirclearea_ha,
+          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
           0
         ),
       basal_area_snag_m2_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$AdjustBasalArea_m2 / .data$subcirclearea_ha,
+          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
           0
         ),
       volume_alive_m3_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$Adjust_Vol_tot_m3 / .data$subcirclearea_ha,
+          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       volume_snag_m3_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$Adjust_Vol_tot_m3 / .data$subcirclearea_ha,
+          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
           0
         )
     )
