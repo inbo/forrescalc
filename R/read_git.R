@@ -3,6 +3,7 @@
 #' This function reads a table in git2rdata format from a git repository.
 #'
 #' @param tablename name of the table that should be read
+#' @param repo_path name and path of local git repository from which data should be retrieved
 #' @inheritParams save_results_git
 #'
 #' @return A dataframe with the specified table

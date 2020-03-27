@@ -9,7 +9,7 @@ read_git(tablename, repo_path)
 \arguments{
 \item{tablename}{name of the table that should be read}
 
-\item{repo_path}{name and path of local git repository in which results should be saved}
+\item{repo_path}{name and path of local git repository from which data should be retrieved}
 }
 \value{
 A dataframe with the specified table
