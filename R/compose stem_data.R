@@ -54,7 +54,8 @@ compose_stem_data <- function(data_dendro, data_shoots) {
           levels = 1:49,
           labels =
             c(paste(seq(5, 240, 5), "-", seq(10, 245, 5), "cm"), "245 cm +")
-        )
+        ),
+      basal_area_m2 = pi * (.data$DBH_mm / 2000) ^ 2
     )
 
   return(stem_data)
