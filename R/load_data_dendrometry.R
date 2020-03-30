@@ -113,7 +113,7 @@ load_data_dendrometry <-
       plotarea_ha =
         ifelse(
           .data$Plottype == 30,
-          .data$LenghtCoreArea_m * .data.WidthCoreArea_m,
+          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
           .data$plotarea_ha
         ),
       plotarea_ha =
