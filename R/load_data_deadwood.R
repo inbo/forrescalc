@@ -28,9 +28,11 @@ load_data_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
         pd.ForestReserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
         Deadwood.CalcVolume_m3
@@ -43,9 +45,11 @@ load_data_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
         pd.ForestReserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
         Deadwood_2eSet.Species AS species,
         Deadwood_2eSet.DecayStage AS decaystage,
         Deadwood_2eSet.CalcVolume_m3
@@ -66,7 +70,25 @@ load_data_deadwood <-
         )
     ) %>%
     mutate(
-      year = year(round_date(.data$date_dendro, "year")) - 1
+      year = year(round_date(.data$date_dendro, "year")) - 1,
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 20,
+          (pi * .data$rA4 ^ 2)/10000,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 30,
+          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$Area_ha,
+          .data$plotarea_ha
+        )
     )
   odbcClose(con)
 

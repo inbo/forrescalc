@@ -41,7 +41,7 @@ calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
       data_deadwood %>%
         group_by(.data$plot_id, .data$year, .data$period, .data$Plottype) %>%
         summarise(
-          volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * .data$rA4 ^ 2)/10000)
+          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period")
