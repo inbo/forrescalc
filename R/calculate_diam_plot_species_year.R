@@ -15,7 +15,9 @@
 #' data_shoots <-
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' calculate_diam_plot_species_year(data_dendro, data_stems)
+#' data_deadwood <-
+#'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_diam_plot_species_year(data_dendro, data_stems, data_deadwood)
 #' }
 #'
 #' @export
@@ -24,7 +26,8 @@
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'
-calculate_diam_plot_species_year <- function(data_dendro, data_stems) {
+calculate_diam_plot_species_year <-
+  function(data_dendro, data_stems, data_deadwood) {
   by_diam_plot_species_year <- data_stems %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,
@@ -44,6 +47,19 @@ calculate_diam_plot_species_year <- function(data_dendro, data_stems) {
       stem_number_snag_ha = .data$stem_number_ha_12,
       basal_area_alive_m2_ha = .data$basal_area_m2_ha_11,
       basal_area_snag_m2_ha = .data$basal_area_m2_ha_12
+    ) %>%
+    left_join(
+      data_deadwood %>%
+        group_by(
+          .data$plot_id, .data$year, .data$period, .data$species,
+          .data$DBHClass_5cm
+        ) %>%
+        summarise(
+          log_number_ha = round(sum(n() / .data$plotarea_ha)),
+          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+        ) %>%
+        ungroup(),
+      by = c("plot_id", "year", "period", "species")
     )
 
   return(by_diam_plot_species_year)

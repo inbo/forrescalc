@@ -60,7 +60,8 @@ load_data_deadwood <- function(database) {
         )
     ) %>%
     mutate(
-      year = year(round_date(.data$date_dendro, "year")) - 1
+      year = year(round_date(.data$date_dendro, "year")) - 1,
+      DBHClass_5cm = give_diamclass_5cm(.data$MaxDiam_mm)
     )
   odbcClose(con)
 
