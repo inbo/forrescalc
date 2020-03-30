@@ -26,8 +26,10 @@ load_data_vegetation <-
     query_vegetation <-
       sprintf(
         "SELECT Plots.ID AS plot_id,
-          pd.ForestReserve,
-          Veg.Area_m2,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve, pd.rA2,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Veg.Total_moss_cover,
@@ -47,8 +49,10 @@ load_data_vegetation <-
     query_vegetation2 <-
       sprintf(
         "SELECT Plots.ID AS plot_id,
-          pd.ForestReserve,
-          Veg.Area_m2,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve, pd.rA2,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Veg.Total_moss_cover,
@@ -79,10 +83,26 @@ load_data_vegetation <-
         )
     ) %>%
     mutate(
-      area_ha = .data$Area_m2 / 10000,
-      Area_m2 = NULL,
       year = year(.data$date_vegetation),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year)
+      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 20,
+          (pi * .data$rA2 ^ 2)/10000,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 30,
+          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$Area_ha,
+          .data$plotarea_ha
+        )
     )
   odbcClose(con)
 
