@@ -40,21 +40,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%
     mutate(
-      DBHClass_5cm =
-        factor(
-          ifelse(
-            .data$DBH_mm >= 2500,
-            49,
-            ifelse(
-              .data$DBH_mm == 50,
-              1,
-              round((.data$DBH_mm - 25) / 50)
-            )
-          ),
-          levels = 1:49,
-          labels =
-            c(paste(seq(5, 240, 5), "-", seq(10, 245, 5), "cm"), "245 cm +")
-        ),
+      DBHClass_5cm = give_diamclass_5cm(.data$DBH_mm),
       basal_area_m2 = pi * (.data$DBH_mm / 2000) ^ 2
     )
 
