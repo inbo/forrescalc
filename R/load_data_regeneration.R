@@ -25,9 +25,12 @@ load_data_regeneration <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_regeneration <-
       sprintf(
-        "SELECT Plots.ID AS plot_id
-          , pd.ForestReserve, Reg.Area_m2
-          , Reg.Date AS date_regeneration
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve, pd.rA2,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Reg.Date AS date_regeneration
           , Reg.Year AS year_record
           , HeightClass.HeightClass AS height_class
           , RegSpecies.Species AS species
@@ -47,16 +50,14 @@ load_data_regeneration <-
         selection
       )
 
-
-  #   Reg.Area_m2: opp. beter halen uit plotdetails: obv rA2
-  # idem voor Date
-
-
     query_regeneration2 <-
       sprintf(
-        "SELECT Plots.ID AS plot_id
-          , pd.ForestReserve, Reg.Area_m2
-          , Reg.Date AS date_regeneration
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve, pd.rA2,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Reg.Date AS date_regeneration
           , Reg.Year AS year_record
           , hc.HeightClass AS height_class
           , rc.Species AS species
@@ -98,10 +99,26 @@ load_data_regeneration <-
         )
     ) %>%
     mutate(
-      area_ha = .data$Area_m2 / 10000,
-      Area_m2 = NULL,
       year = year(.data$date_regeneration),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year)
+      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 20,
+          (pi * .data$rA2 ^ 2)/10000,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 30,
+          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$Area_ha,
+          .data$plotarea_ha
+        )
     ) %>%
     left_join(
       number_classes %>%
