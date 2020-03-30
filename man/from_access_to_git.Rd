@@ -7,7 +7,8 @@
 from_access_to_git(database, tables, repo_path, push = FALSE)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of fieldmap/access database (with specific fieldmap
+structure) including path}
 
 \item{tables}{vector with table names of tables that should be moved}
 

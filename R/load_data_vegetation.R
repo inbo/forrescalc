@@ -2,7 +2,7 @@
 #'
 #' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with regeneration data
 #'
@@ -19,52 +19,56 @@
 #' @importFrom dplyr %>% bind_rows mutate
 #' @importFrom lubridate year
 #'
-load_data_vegetation <- function(database) {
-  query_vegetation <-
-    "SELECT Plots.ID AS plot_id,
-      pd.ForestReserve,
-      Veg.Area_m2,
-      Veg.Date AS date_vegetation,
-      Veg.Year AS year_record,
-      Veg.Total_moss_cover,
-      Veg.Total_herb_cover,
-      Veg.Total_shrub_cover,
-      Veg.Total_tree_cover,
-      Herb.Species as species,
-      Herb.Coverage
-    FROM ((Plots
-      INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-      INNER JOIN Herblayer Herb ON Veg.IDPlots = Herb.IDPlots
-    WHERE Plots.Plottype = 20;"
-
-  # veiliger/beter, want nu OK omdat er maar één record per plot in Vegetation zit:
-  # "SELECT Plots.ID AS plot_id, pd.ForestReserve, Veg.Area_m2, Veg.Date AS date_vegetation, Veg.Year AS year_record, Veg.Total_moss_cover, Veg.Total_herb_cover, Veg.Total_shrub_cover, Veg.Total_tree_cover, Herb.Species AS species, Herb.Coverage
-  # FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots) INNER JOIN Vegetation AS Veg ON Plots.ID = Veg.IDPlots) INNER JOIN Herblayer AS Herb ON (Veg.ID = Herb.IDVegetation) AND (Veg.IDPlots = Herb.IDPlots)
-  # WHERE (((Plots.Plottype)=20));"
-
+load_data_vegetation <-
+  function(database, plottype = NA, forest_reserve = NA) {
+    selection <-
+      translate_input_to_selectionquery(database, plottype, forest_reserve)
+    query_vegetation <-
+      sprintf(
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Veg.Date AS date_vegetation,
+          Veg.Year AS year_record,
+          Veg.Total_moss_cover,
+          Veg.Total_herb_cover,
+          Veg.Total_shrub_cover,
+          Veg.Total_tree_cover,
+          Herb.Species as species,
+          Herb.Coverage
+        FROM ((Plots
+          INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN Herblayer Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation %s;",
+        selection
+      )
 
     query_vegetation2 <-
-    "SELECT Plots.ID AS plot_id,
-      pd.ForestReserve,
-      Veg.Area_m2,
-      Veg.Date AS date_vegetation,
-      Veg.Year AS year_record,
-      Veg.Total_moss_cover,
-      Veg.Total_herb_cover,
-      Veg.Total_shrub_cover,
-      Veg.Total_tree_cover,
-      Herb.Species as species,
-      Herb.Coverage
-    FROM ((Plots
-      INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-      INNER JOIN Herblayer_2eSet Herb ON Veg.IDPlots = Herb.IDPlots
-    WHERE Plots.Plottype = 20;"
-
-    # "SELECT Plots.ID AS plot_id, pd.ForestReserve, Veg.Area_m2, Veg.Date AS date_vegetation, Veg.Year AS year_record, Veg.Total_moss_cover, Veg.Total_herb_cover, Veg.Total_shrub_cover, Veg.Total_tree_cover, Herb.Species AS species, Herb.Coverage
-    # FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots) INNER JOIN Vegetation_2eSet AS Veg ON Plots.ID = Veg.IDPlots) INNER JOIN Herblayer_2eSet AS Herb ON (Veg.ID = Herb.IDVegetation_2eSet) AND (Veg.IDPlots = Herb.IDPlots)
-    # WHERE (((Plots.Plottype)=20));"
+      sprintf(
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+          pd.ForestReserve,
+          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Veg.Date AS date_vegetation,
+          Veg.Year AS year_record,
+          Veg.Total_moss_cover,
+          Veg.Total_herb_cover,
+          Veg.Total_shrub_cover,
+          Veg.Total_tree_cover,
+          Herb.Species as species,
+          Herb.Coverage
+        FROM ((Plots
+          INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN Herblayer_2eSet Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation_2eSet
+        %s;",
+        selection
+      )
 
 
   con <- odbcConnectAccess2007(database)
@@ -79,10 +83,26 @@ load_data_vegetation <- function(database) {
         )
     ) %>%
     mutate(
-      area_ha = .data$Area_m2 / 10000,
-      Area_m2 = NULL,
       year = year(.data$date_vegetation),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year)
+      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 20,
+          0.16 * 0.16,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$Plottype == 30,
+          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$Area_ha,
+          .data$plotarea_ha
+        )
     )
   odbcClose(con)
 

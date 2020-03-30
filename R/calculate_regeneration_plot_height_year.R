@@ -21,7 +21,7 @@
 #'
 calculate_regeneration_plot_height_year <- function(data_regeneration) {
   by_plot_height_year <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$height_class) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$Plottype) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species)
     ) %>%
