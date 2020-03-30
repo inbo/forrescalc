@@ -17,7 +17,7 @@
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_diam_plot_species_year(data_dendro, data_stems, data_deadwood)
+#' calculate_diam_plot_species_year(data_stems, data_deadwood)
 #' }
 #'
 #' @export
@@ -27,7 +27,7 @@
 #' @importFrom tidyr pivot_wider
 #'
 calculate_diam_plot_species_year <-
-  function(data_dendro, data_stems, data_deadwood) {
+  function(data_stems, data_deadwood) {
   by_diam_plot_species_year <- data_stems %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,

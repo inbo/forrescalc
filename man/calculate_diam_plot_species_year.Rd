@@ -4,12 +4,12 @@
 \alias{calculate_diam_plot_species_year}
 \title{aggregate parameters by diameter class, plot, tree species and year}
 \usage{
-calculate_diam_plot_species_year(data_dendro, data_stems)
+calculate_diam_plot_species_year(data_stems, data_deadwood)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())}
-
 \item{data_stems}{data on stems (shoots and trees) as given from the function compose_stem_data()}
+
+\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
 dataframe with columns plot, year, tree_species, DBHClass_5cm, basal_area_m2_ha, volume_m3_ha
@@ -25,7 +25,9 @@ data_dendro <-
 data_shoots <-
   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_stems <- compose_stem_data(data_dendro, data_shoots)
-calculate_diam_plot_species_year(data_dendro, data_stems)
+data_deadwood <-
+  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_diam_plot_species_year(data_stems, data_deadwood)
 }
 
 }
