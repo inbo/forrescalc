@@ -28,7 +28,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-          pd.ForestReserve, pd.rA2,
+          pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Reg.Date AS date_regeneration
           , Reg.Year AS year_record
@@ -55,7 +55,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-          pd.ForestReserve, pd.rA2,
+          pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Reg.Date AS date_regeneration
           , Reg.Year AS year_record
@@ -101,10 +101,26 @@ load_data_regeneration <-
     mutate(
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      subcircle =
+        ifelse(
+          .data$height_class %in% c(3000, 4000),
+          "A2",
+          ifelse(
+            .data$height_class %in% c(1000, 2000),
+            "A1",
+            NA_character_
+          )
+        ),
+      subcirclearea_ha =
+        ifelse(
+          .data$subcircle == "A2",
+          (pi * .data$rA2 ^ 2)/10000,
+          (pi * .data$rA1 ^ 2)/10000
+        ),
       plotarea_ha =
         ifelse(
           .data$Plottype == 20,
-          (pi * .data$rA2 ^ 2)/10000,
+          .data$subcirclearea_ha,
           NA
         ),
       plotarea_ha =
