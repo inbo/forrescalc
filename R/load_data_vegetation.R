@@ -28,7 +28,7 @@ load_data_vegetation <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-          pd.ForestReserve, pd.rA2,
+          pd.ForestReserve,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
@@ -51,7 +51,7 @@ load_data_vegetation <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
-          pd.ForestReserve, pd.rA2,
+          pd.ForestReserve,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
@@ -88,7 +88,7 @@ load_data_vegetation <-
       plotarea_ha =
         ifelse(
           .data$Plottype == 20,
-          (pi * .data$rA2 ^ 2)/10000,
+          0.16 * 0.16,
           NA
         ),
       plotarea_ha =
