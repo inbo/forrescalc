@@ -34,7 +34,7 @@ load_data_dendrometry <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve,
         pd.Date_dendro_1eSet AS date_dendro,
@@ -56,7 +56,7 @@ load_data_dendrometry <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve,
         pd.Date_dendro_2eSet AS date_dendro,
@@ -119,7 +119,7 @@ load_data_dendrometry <-
       plotarea_ha =
         ifelse(
           is.na(.data$plotarea_ha),
-          .data$Area_ha,
+          .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
       basal_area_alive_m2_ha =
