@@ -34,7 +34,7 @@ translate_input_to_selectionquery <-
       selection <-
         paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
     } else {
-      selection <- ""
+      selection <- selection
     }
     return(selection)
 }
