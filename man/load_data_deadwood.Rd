@@ -4,10 +4,18 @@
 \alias{load_data_deadwood}
 \title{retrieves data on logs from fieldmap database}
 \usage{
-load_data_deadwood(database)
+load_data_deadwood(database, plottype = NA, forest_reserve = NA)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of fieldmap/access database (with specific fieldmap
+structure) including path}
+
+\item{plottype}{possibility to select only data for a certain plot type, e.g. 'circular plot'
+or 'core area' (the default NA means that data from all plots are retrieved)}
+
+\item{forest_reserve}{possibility to select only data for 1 forest reserve
+by giving the name of the forest reserve (the default NA means that data
+from all plots are retrieved)}
 }
 \value{
 Dataframe with data on logs

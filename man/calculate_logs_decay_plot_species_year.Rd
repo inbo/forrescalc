@@ -7,7 +7,7 @@
 calculate_logs_decay_plot_species_year(data_deadwood)
 }
 \arguments{
-\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables plot_id, Plottype, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
 dataframe with columns plot, year, tree_species, decaystage, volume_log_m3_ha

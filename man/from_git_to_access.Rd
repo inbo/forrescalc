@@ -11,7 +11,8 @@ from_git_to_access(tables, repo_path, database)
 
 \item{repo_path}{name and path of local git repository in which results should be saved}
 
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of fieldmap/access database (with specific fieldmap
+structure) including path}
 }
 \value{
 No value is returned, the tables are saved in the access database.
