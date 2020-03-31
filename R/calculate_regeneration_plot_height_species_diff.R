@@ -13,7 +13,7 @@
 #'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' by_plot_height_species_year <-
 #'   calculate_regeneration_plot_height_species_year(data_regeneration)
-#' calculate_regeneration_plot_height_species(by_plot_height_species_year)
+#' calculate_regeneration_plot_height_species_diff(by_plot_height_species_year)
 #' }
 #'
 #' @export
@@ -21,7 +21,7 @@
 #' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup
 #' @importFrom rlang .data
 #'
-calculate_regeneration_plot_height_species <- function(by_plot_height_species_year) {
+calculate_regeneration_plot_height_species_diff <- function(by_plot_height_species_year) {
   #data from long to wide
   by_plot_height_species <- by_plot_height_species_year %>%
     pivot_wider(
