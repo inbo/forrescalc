@@ -14,7 +14,7 @@
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
-#' calculate_dendro_plot(by_plot_year)
+#' calculate_dendro_plot_diff(by_plot_year)
 #' }
 #'
 #' @export
@@ -23,7 +23,7 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot <- function(by_plot_year) {
+calculate_dendro_plot_diff <- function(by_plot_year) {
   #data from long to wide
   by_plot <- by_plot_year %>%
     select(-.data$volume_log_m3_ha, -.data$volume_deadwood_m3_ha) %>%
