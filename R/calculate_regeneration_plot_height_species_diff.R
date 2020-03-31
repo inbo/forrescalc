@@ -23,7 +23,7 @@
 #'
 calculate_regeneration_plot_height_species_diff <- function(by_plot_height_species_year) {
   #data from long to wide
-  by_plot_height_species <- by_plot_height_species_year %>%
+  by_plot_height_species_diff <- by_plot_height_species_year %>%
     pivot_wider(
       names_from = "period",
       values_from =
@@ -39,5 +39,5 @@ calculate_regeneration_plot_height_species_diff <- function(by_plot_height_speci
         .data$max_number_of_trees_ha_2 - .data$max_number_of_trees_ha_1
     )
 
-  return(by_plot_height_species)
+  return(by_plot_height_species_diff)
 }
