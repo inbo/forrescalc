@@ -28,7 +28,7 @@ load_data_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
@@ -45,7 +45,7 @@ load_data_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS Area_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
@@ -86,7 +86,7 @@ load_data_deadwood <-
       plotarea_ha =
         ifelse(
           is.na(.data$plotarea_ha),
-          .data$Area_ha,
+          .data$totalplotarea_ha,
           .data$plotarea_ha
         )
     )
