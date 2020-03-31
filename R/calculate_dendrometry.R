@@ -5,6 +5,8 @@
 #'  \item plot and year
 #'  \item plot, tree species and year
 #'  \item individual trees: statuses in different years
+#'  \item diameter class, plot and year
+#'  \item diameter class, plot, tree species and year
 #' }
 #' and it makes aggregations of volume data on logs on the levels of
 #' \itemize{
@@ -38,12 +40,16 @@ calculate_dendrometry <- function(data_dendro, data_deadwood) {
   by_decay_plot_species_year <-
     calculate_logs_decay_plot_species_year(data_deadwood)
   status_tree <- summarise_status(data_dendro)
+  by_diam_plot_year <- calculate_diam_plot_year(data_dendro)
+  by_diam_plot_species_year <- calculate_diam_plot_species_year(data_dendro)
 
   return(
     list(
       dendro_by_plot_year = by_plot_year,
       dendro_by_plot_species_year = by_plot_species_year,
       dendro_status_tree = status_tree,
+      dendro_by_diam_plot_year = by_diam_plot_year,
+      dendro_by_diam_plot_species_year = by_diam_plot_species_year,
       logs_by_decay_plot_year = by_decay_plot_year,
       logs_by_decay_plot_species_year = by_decay_plot_species_year
     )
