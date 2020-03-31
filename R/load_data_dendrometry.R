@@ -151,7 +151,8 @@ load_data_dendrometry <-
           .data$AliveDead == 12,
           .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
           0
-        )
+        ),
+      DBHClass_5cm = give_diamclass_5cm(.data$DBH_mm)
     )
   odbcClose(con)
 

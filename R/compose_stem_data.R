@@ -29,7 +29,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
       -.data$Adjust_Vol_tot_m3, -.data$AdjustBasalArea_m2, -.data$TreeNumber,
       -.data$Individual, -.data$basal_area_alive_m2_ha,
       -.data$basal_area_snag_m2_ha, -.data$volume_alive_m3_ha,
-      -.data$volume_snag_m3_ha
+      -.data$volume_snag_m3_ha, -.data$DBHClass_5cm
     )
   stem_data <- data_dendro_relevant %>%
     filter(.data$IndShtCop != 12) %>%
