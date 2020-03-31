@@ -26,7 +26,7 @@
 #'
 calculate_dendro_plot_species_diff <- function(by_plot_species_year) {
   #data from long to wide
-  by_plot_species <- by_plot_species_year %>%
+  by_plot_species_diff <- by_plot_species_year %>%
     select(-.data$volume_log_m3_ha, -.data$volume_deadwood_m3_ha) %>%
     pivot_wider(
       names_from = "period",
@@ -52,5 +52,5 @@ calculate_dendro_plot_species_diff <- function(by_plot_species_year) {
         .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1
     )
 
-  return(by_plot_species)
+  return(by_plot_species_diff)
 }
