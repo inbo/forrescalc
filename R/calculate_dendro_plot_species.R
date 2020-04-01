@@ -1,4 +1,4 @@
-#' aggregate parameters by plot, tree species and year
+#' aggregate parameters by plot and tree species
 #'
 #' This function calculates for each plot, tree species and year some values per hectare: number of trees, basal area, and volume.
 #'
@@ -13,7 +13,7 @@
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_dendro_plot_species_year(data_dendro, data_deadwood)
+#' calculate_dendro_plot_species(data_dendro, data_deadwood)
 #' }
 #'
 #' @export
@@ -21,8 +21,8 @@
 #' @importFrom dplyr %>% group_by inner_join mutate n summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_species_year <- function(data_dendro, data_deadwood) {
-  by_plot_species_year <- data_dendro %>%
+calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
+  by_plot_species <- data_dendro %>%
     group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$Plottype) %>%
     summarise(
       number_of_trees_ha =
@@ -53,5 +53,5 @@ calculate_dendro_plot_species_year <- function(data_dendro, data_deadwood) {
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
-  return(by_plot_species_year)
+  return(by_plot_species)
 }

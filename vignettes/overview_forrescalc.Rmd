@@ -57,7 +57,7 @@ The calculations, which are in fact aggregations of very detailed data on tree l
 - `calculate_regeneration()`
 - `calculate_vegetation()`
 
-Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calculate_dendro_plot_year()`, `calculate_dendro_plot_species_year()` and `summarise_status()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
+Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calculate_dendro_plot_year()`, `calculate_dendro_plot_species()` and `summarise_status()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
 
 ### Subfunctions
 

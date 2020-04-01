@@ -4,10 +4,10 @@
 \alias{calculate_dendro_plot_species_diff}
 \title{aggregate parameters by plot}
 \usage{
-calculate_dendro_plot_species_diff(by_plot_species_year)
+calculate_dendro_plot_species_diff(by_plot_species)
 }
 \arguments{
-\item{by_plot_species_year}{dataframe with values for each plot, species and year, which is the result of the calculation by function calculate_dendro_plot_species_year()}
+\item{by_plot_species}{dataframe with values for each plot, species and year, which is the result of the calculation by function calculate_dendro_plot_species()}
 }
 \value{
 dataframe with columns plot, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
@@ -22,9 +22,9 @@ data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot_species_year <-
-  calculate_dendro_plot_species_year(data_dendro, data_deadwood)
-calculate_dendro_plot_species_diff(by_plot_species_year)
+by_plot_species <-
+  calculate_dendro_plot_species(data_dendro, data_deadwood)
+calculate_dendro_plot_species_diff(by_plot_species)
 }
 
 }
