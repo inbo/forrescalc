@@ -22,8 +22,7 @@
 #' @export
 #'
 calculate_regeneration <- function(data_regeneration) {
-  by_plot_height_year <-
-    calculate_regeneration_plot_height_year(data_regeneration)
+  by_plot_height <- calculate_regeneration_plot_height(data_regeneration)
   by_plot_year <-
     calculate_regeneration_plot_year(data_regeneration)
   by_plot_height_species <-
@@ -31,7 +30,7 @@ calculate_regeneration <- function(data_regeneration) {
 
   return(
     list(
-      regeneration_by_plot_height_year = by_plot_height_year,
+      regeneration_by_plot_height = by_plot_height,
       regeneration_by_plot_year = by_plot_year,
       regeneration_by_plot_height_species = by_plot_height_species
     )
