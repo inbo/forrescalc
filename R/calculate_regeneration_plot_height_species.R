@@ -11,7 +11,7 @@
 #' #change path before running
 #' data_regeneration <-
 #'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_regeneration_plot_height_species_year(data_regeneration)
+#' calculate_regeneration_plot_height_species(data_regeneration)
 #' }
 #'
 #' @export
@@ -19,14 +19,14 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_regeneration_plot_height_species_year <- function(data_regeneration) {
-  by_plot_height_species_year <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$species, .data$Plottype) %>%
+calculate_regeneration_plot_height_species <- function(data_regeneration) {
+  by_plot_height_species <- data_regeneration %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$species) %>%
     summarise(
-      min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
-      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha)
+      min_number_of_trees_ha = sum(.data$min_number_of_trees) / unique(.data$area_ha),
+      max_number_of_trees_ha = sum(.data$max_number_of_trees) / unique(.data$area_ha)
     ) %>%
     ungroup()
 
-  return(by_plot_height_species_year)
+  return(by_plot_height_species)
 }

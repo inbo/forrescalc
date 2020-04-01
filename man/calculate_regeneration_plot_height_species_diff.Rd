@@ -5,11 +5,10 @@
 \alias{calculate_regeneration_plot_height_species_diff}
 \title{aggregate parameters by plot, height class and species}
 \usage{
-
-  calculate_regeneration_plot_height_species_diff(by_plot_height_species_year)
+calculate_regeneration_plot_height_species_diff(by_plot_height_species)
 }
 \arguments{
-\item{by_plot_height_species_year}{dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species_year()}
+\item{by_plot_height_species}{dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species()}
 }
 \value{
 dataframe with columns plot, height class, species and number_of_trees_ha_diff
@@ -22,9 +21,9 @@ This function compares for each plot, height class and species the differences b
 #change path before running
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot_height_species_year <-
-  calculate_regeneration_plot_height_species_year(data_regeneration)
-calculate_regeneration_plot_height_species_diff(by_plot_height_species_year)
+by_plot_height_species <-
+  calculate_regeneration_plot_height_species(data_regeneration)
+calculate_regeneration_plot_height_species_diff(by_plot_height_species)
 }
 
 }
