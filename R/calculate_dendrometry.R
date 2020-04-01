@@ -35,8 +35,7 @@ calculate_dendrometry <- function(data_dendro, data_deadwood) {
   by_plot <- calculate_dendro_plot(data_dendro, data_deadwood)
   by_plot_species <-
     calculate_dendro_plot_species(data_dendro, data_deadwood)
-  by_decay_plot_year <-
-    calculate_logs_decay_plot_year(data_deadwood)
+  by_decay_plot <- calculate_logs_decay_plot(data_deadwood)
   by_decay_plot_species <-
     calculate_logs_decay_plot_species(data_deadwood)
   status_tree <- summarise_status(data_dendro)
@@ -50,7 +49,7 @@ calculate_dendrometry <- function(data_dendro, data_deadwood) {
       dendro_status_tree = status_tree,
       dendro_by_diam_plot = by_diam_plot,
       dendro_by_diam_plot_species = by_diam_plot_species,
-      logs_by_decay_plot_year = by_decay_plot_year,
+      logs_by_decay_plot = by_decay_plot,
       logs_by_decay_plot_species = by_decay_plot_species
     )
   )

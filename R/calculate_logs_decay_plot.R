@@ -11,7 +11,7 @@
 #' #change path before running
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_logs_decay_plot_year(data_deadwood)
+#' calculate_logs_decay_plot(data_deadwood)
 #' }
 #'
 #' @export
@@ -19,13 +19,13 @@
 #' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_logs_decay_plot_year <- function(data_deadwood) {
-  by_decay_plot_year <- data_deadwood %>%
+calculate_logs_decay_plot <- function(data_deadwood) {
+  by_decay_plot <- data_deadwood %>%
     group_by(.data$plot_id, .data$year, .data$period, .data$decaystage) %>%
     summarise(
-      volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+      volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * .data$rA4 ^ 2)/10000)
     ) %>%
     ungroup()
 
-  return(by_decay_plot_year)
+  return(by_decay_plot)
 }
