@@ -50,8 +50,8 @@ load_data_dendrometry <-
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual
-      FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
+      FROM ((Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots) %s;",
       selection
     )
 
@@ -76,8 +76,8 @@ load_data_dendrometry <-
         Trees.TreeNumber,
         Trees.Individual,
         Trees.OldID
-      FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
+      FROM ((Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
       selection
     )
 
