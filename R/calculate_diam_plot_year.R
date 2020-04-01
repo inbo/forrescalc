@@ -3,7 +3,7 @@
 #' This function calculates for each plot, year and diamter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.
 #'
 #' @inheritParams calculate_dendrometry
-#' @inheritParams calculate_diam_plot_species_year
+#' @inheritParams calculate_diam_plot_species
 #'
 #' @return dataframe with columns plot, year, DBHClass_5cm, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
