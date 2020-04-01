@@ -3,7 +3,8 @@
 #' This function replaces in the given dendrometric data (result from function load_data_dendrometry())
 #' the diameters from coppice trees by their separate stems given in the shoot data (result from function load_data_shoots()).
 #'
-#' @param data_dendro
+#' @inheritParams calculate_dendrometry
+#' @param data_shoots dataframe on shoots as given from the function load_data_shoots()
 #'
 #' @return Dataframe with shoot data
 #'

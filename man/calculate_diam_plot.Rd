@@ -7,7 +7,7 @@
 calculate_diam_plot(data_stems, data_dendro, data_deadwood)
 }
 \arguments{
-\item{data_stems}{data on stems (shoots and trees) as given from the function compose_stem_data()}
+\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 
 \item{data_dendro}{dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 
