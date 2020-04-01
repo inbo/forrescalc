@@ -13,7 +13,7 @@
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_dendro_plot_year(data_dendro, data_deadwood)
+#' calculate_dendro_plot(data_dendro, data_deadwood)
 #' }
 #'
 #' @export
@@ -21,8 +21,8 @@
 #' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
-  by_plot_year <- data_dendro %>%
+calculate_dendro_plot <- function(data_dendro, data_deadwood) {
+  by_plot <- data_dendro %>%
     mutate(
       species_alive = ifelse(.data$AliveDead == 11, .data$species, NA)
     ) %>%
@@ -57,5 +57,5 @@ calculate_dendro_plot_year <- function(data_dendro, data_deadwood) {
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
-  return(by_plot_year)
+  return(by_plot)
 }

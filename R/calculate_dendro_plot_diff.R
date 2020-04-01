@@ -2,7 +2,7 @@
 #'
 #' This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 #'
-#' @param by_plot_year dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot_year()
+#' @param by_plot dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot()
 #'
 #' @return dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_ha_diff, basal_area_m2_ha_diff, volume_stem_m3_ha_diff
 #'
@@ -13,8 +13,8 @@
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
-#' calculate_dendro_plot_diff(by_plot_year)
+#' by_plot <- calculate_dendro_plot(data_dendro, data_deadwood)
+#' calculate_dendro_plot_diff(by_plot)
 #' }
 #'
 #' @export
@@ -23,9 +23,9 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_diff <- function(by_plot_year) {
+calculate_dendro_plot_diff <- function(by_plot) {
   #data from long to wide
-  by_plot_diff <- by_plot_year %>%
+  by_plot_diff <- by_plot %>%
     select(-.data$volume_log_m3_ha, -.data$volume_deadwood_m3_ha) %>%
     pivot_wider(
       names_from = "period",

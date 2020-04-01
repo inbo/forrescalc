@@ -32,7 +32,7 @@
 #' @export
 #'
 calculate_dendrometry <- function(data_dendro, data_deadwood) {
-  by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
+  by_plot <- calculate_dendro_plot(data_dendro, data_deadwood)
   by_plot_species <-
     calculate_dendro_plot_species(data_dendro, data_deadwood)
   by_decay_plot_year <-
@@ -45,7 +45,7 @@ calculate_dendrometry <- function(data_dendro, data_deadwood) {
 
   return(
     list(
-      dendro_by_plot_year = by_plot_year,
+      dendro_by_plot = by_plot,
       dendro_by_plot_species = by_plot_species,
       dendro_status_tree = status_tree,
       dendro_by_diam_plot_year = by_diam_plot_year,
