@@ -77,10 +77,16 @@ load_data_dendrometry <-
         Trees.AliveDead,
         Trees.DecayStage AS decaystage,
         Trees.Adjust_Vol_tot_m3,
+        Trees.Adjust_Vol_stem_m3,
+        Trees.Adjust_Vol_crown_m3,
         Trees.AdjustBasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual,
+        Trees.Calcheight_m,
+        Trees.IntactSnag,
+        Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
+        Trees.ExpansionFactor,
         Trees.OldID
       FROM ((Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
