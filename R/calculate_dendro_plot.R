@@ -51,7 +51,7 @@ calculate_dendro_plot <- function(data_dendro, data_deadwood) {
           volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period")
+      by = c("plot_id", "year", "period", "Plottype")
     ) %>%
     mutate(
       volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,
