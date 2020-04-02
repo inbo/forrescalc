@@ -2,27 +2,25 @@
 % Please edit documentation in R/calculate_regeneration_plot_height_species.R
 \name{calculate_regeneration_plot_height_species}
 \alias{calculate_regeneration_plot_height_species}
-\title{aggregate parameters by plot, height class and species}
+\title{aggregate parameters by plot, tree height class, species and year}
 \usage{
-calculate_regeneration_plot_height_species(by_plot_height_species_year)
+calculate_regeneration_plot_height_species(data_regeneration)
 }
 \arguments{
-\item{by_plot_height_species_year}{dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species_year()}
+\item{data_regeneration}{dataframe on tree regeneration with variables ...}
 }
 \value{
-dataframe with columns plot, height class, species and number_of_trees_ha_diff
+dataframe with columns plot, year, height_class, species and number_of_trees_ha
 }
 \description{
-This function compares for each plot, height class and species the differences between years for the number of individuals per hectare. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
+This function calculates for each plot, tree height class, species and year the number of trees per hectare for regeneration.
 }
 \examples{
 \dontrun{
 #change path before running
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot_height_species_year <-
-  calculate_regeneration_plot_height_species_year(data_regeneration)
-calculate_regeneration_plot_height_species(by_plot_height_species_year)
+calculate_regeneration_plot_height_species(data_regeneration)
 }
 
 }

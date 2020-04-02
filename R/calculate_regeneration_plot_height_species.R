@@ -1,43 +1,32 @@
-#' aggregate parameters by plot, height class and species
+#' aggregate parameters by plot, tree height class, species and year
 #'
-#' This function compares for each plot, height class and species the differences between years for the number of individuals per hectare. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
+#' This function calculates for each plot, tree height class, species and year the number of trees per hectare for regeneration.
 #'
-#' @param by_plot_height_species_year dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species_year()
+#' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, height class, species and number_of_trees_ha_diff
+#' @return dataframe with columns plot, year, height_class, species and number_of_trees_ha
 #'
 #' @examples
 #' \dontrun{
 #' #change path before running
 #' data_regeneration <-
 #'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' by_plot_height_species_year <-
-#'   calculate_regeneration_plot_height_species_year(data_regeneration)
-#' calculate_regeneration_plot_height_species(by_plot_height_species_year)
+#' calculate_regeneration_plot_height_species(data_regeneration)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup
+#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_regeneration_plot_height_species <- function(by_plot_height_species_year) {
-  #data from long to wide
-  by_plot_height_species <- by_plot_height_species_year %>%
-    pivot_wider(
-      names_from = "period",
-      values_from =
-        c(.data$year, .data$min_number_of_trees_ha, .data$max_number_of_trees_ha)
+calculate_regeneration_plot_height_species <- function(data_regeneration) {
+  by_plot_height_species <- data_regeneration %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$species) %>%
+    summarise(
+      min_number_of_trees_ha = sum(.data$min_number_of_trees) / unique(.data$area_ha),
+      max_number_of_trees_ha = sum(.data$max_number_of_trees) / unique(.data$area_ha)
     ) %>%
-    transmute(  #calculate: make the comparison
-      .data$plot_id, .data$height_class, .data$species,
-      period_diff = "2 - 1",
-      year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
-      min_number_of_trees_ha_diff =
-        .data$min_number_of_trees_ha_2 - .data$min_number_of_trees_ha_1,
-      max_number_of_trees_ha_diff =
-        .data$max_number_of_trees_ha_2 - .data$max_number_of_trees_ha_1
-    )
+    ungroup()
 
   return(by_plot_height_species)
 }

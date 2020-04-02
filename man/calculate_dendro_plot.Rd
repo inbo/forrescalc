@@ -2,18 +2,20 @@
 % Please edit documentation in R/calculate_dendro_plot.R
 \name{calculate_dendro_plot}
 \alias{calculate_dendro_plot}
-\title{aggregate parameters by plot}
+\title{aggregate parameters by plot and year}
 \usage{
-calculate_dendro_plot(by_plot_year)
+calculate_dendro_plot(data_dendro, data_deadwood)
 }
 \arguments{
-\item{by_plot_year}{dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot_year()}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+
+\item{data_deadwood}{dataframe on logs with variables plot_id, Plottype, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
-dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_ha_diff, basal_area_m2_ha_diff, volume_stem_m3_ha_diff
+dataframe with columns plot, year, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
-This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
+This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area, and volume.
 }
 \examples{
 \dontrun{
@@ -22,8 +24,7 @@ data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
-calculate_dendro_plot(by_plot_year)
+calculate_dendro_plot(data_dendro, data_deadwood)
 }
 
 }

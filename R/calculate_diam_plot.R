@@ -3,7 +3,6 @@
 #' This function calculates for each plot, year and diamter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.
 #'
 #' @inheritParams calculate_dendrometry
-#' @inheritParams calculate_diam_plot_species_year
 #'
 #' @return dataframe with columns plot, year, DBHClass_5cm, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
@@ -17,7 +16,7 @@
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_diam_plot_year(data_stems, data_dendro, data_deadwood)
+#' calculate_diam_plot(data_stems, data_dendro, data_deadwood)
 #' }
 #'
 #' @export
@@ -25,8 +24,8 @@
 #' @importFrom dplyr %>% filter group_by n summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_diam_plot_year <- function(data_stems, data_dendro, data_deadwood) {
-  by_diam_plot_year <- data_stems %>%
+calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
+  by_diam_plot <- data_stems %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$DBHClass_5cm,
       .data$AliveDead
@@ -72,5 +71,5 @@ calculate_diam_plot_year <- function(data_stems, data_dendro, data_deadwood) {
         ungroup(),
       by = c("plot_id", "year", "period", "DBHClass_5cm")
     )
-  return(by_diam_plot_year)
+  return(by_diam_plot)
 }

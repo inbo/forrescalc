@@ -179,7 +179,7 @@ check_data_trees <- function(database) {
         ),
       coppiceproblem = NULL
     ) %>%
-    filter(!is.na(problem))
+    filter(!is.na(.data$problem))
 
   return(incorrect_trees)
 }

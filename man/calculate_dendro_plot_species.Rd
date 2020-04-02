@@ -2,18 +2,20 @@
 % Please edit documentation in R/calculate_dendro_plot_species.R
 \name{calculate_dendro_plot_species}
 \alias{calculate_dendro_plot_species}
-\title{aggregate parameters by plot}
+\title{aggregate parameters by plot and tree species}
 \usage{
-calculate_dendro_plot_species(by_plot_species_year)
+calculate_dendro_plot_species(data_dendro, data_deadwood)
 }
 \arguments{
-\item{by_plot_species_year}{dataframe with values for each plot, species and year, which is the result of the calculation by function calculate_dendro_plot_species_year()}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+
+\item{data_deadwood}{dataframe on logs with variables plot_id, Plottype, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
-dataframe with columns plot, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
+dataframe with columns plot, year, tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
-This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
+This function calculates for each plot, tree species and year some values per hectare: number of trees, basal area, and volume.
 }
 \examples{
 \dontrun{
@@ -22,9 +24,7 @@ data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot_species_year <-
-  calculate_dendro_plot_species_year(data_dendro, data_deadwood)
-calculate_dendro_plot_species(by_plot_species_year)
+calculate_dendro_plot_species(data_dendro, data_deadwood)
 }
 
 }

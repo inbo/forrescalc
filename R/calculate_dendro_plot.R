@@ -1,10 +1,10 @@
-#' aggregate parameters by plot
+#' aggregate parameters by plot and year
 #'
-#' This function compares for each plot the differences between years for: number of tree species, number of trees, basal area, and volume (calculated per hectare). It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
+#' This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area, and volume.
 #'
-#' @param by_plot_year dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot_year()
+#' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_ha_diff, basal_area_m2_ha_diff, volume_stem_m3_ha_diff
+#' @return dataframe with columns plot, year, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'
 #' @examples
 #' \dontrun{
@@ -13,43 +13,48 @@
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' by_plot_year <- calculate_dendro_plot_year(data_dendro, data_deadwood)
-#' calculate_dendro_plot(by_plot_year)
+#' calculate_dendro_plot(data_dendro, data_deadwood)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select transmute
-#' @importFrom tidyr pivot_wider
+#' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot <- function(by_plot_year) {
-  #data from long to wide
-  by_plot <- by_plot_year %>%
-    select(-.data$volume_log_m3_ha, -.data$volume_deadwood_m3_ha) %>%
-    pivot_wider(
-      names_from = "period",
-      values_from =
-        c(.data$year, .data$number_of_tree_species, .data$number_of_trees_ha,
-          .data$basal_area_alive_m2_ha, .data$basal_area_snag_m2_ha,
-          .data$volume_alive_m3_ha, .data$volume_snag_m3_ha)
+calculate_dendro_plot <- function(data_dendro, data_deadwood) {
+  by_plot <- data_dendro %>%
+    mutate(
+      species_alive = ifelse(.data$AliveDead == 11, .data$species, NA)
     ) %>%
-    transmute(  #calculate: make the comparison
-      .data$plot_id,
-      period_diff = "2 - 1",
-      year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
-      number_of_tree_species_diff =
-        .data$number_of_tree_species_2 - .data$number_of_tree_species_1,
-      number_of_trees_ha_diff =
-        .data$number_of_trees_ha_2 - .data$number_of_trees_ha_1,
-      basal_area_alive_m2_ha_diff =
-        .data$basal_area_alive_m2_ha_2 - .data$basal_area_alive_m2_ha_1,
-      basal_area_snag_m2_ha_diff =
-        .data$basal_area_snag_m2_ha_2 - .data$basal_area_snag_m2_ha_1,
-      volume_alive_m3_ha_diff =
-        .data$volume_alive_m3_ha_2 - .data$volume_alive_m3_ha_1,
-      volume_snag_m3_ha_diff =
-        .data$volume_snag_m3_ha_2 - .data$volume_snag_m3_ha_1
+    group_by(.data$plot_id, .data$year, .data$period, .data$Plottype) %>%
+    summarise(
+      number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
+      number_of_trees_ha =
+        round(
+          sum((.data$AliveDead == 11) * .data$Individual / .data$plotarea_ha)
+        ),
+      stem_number_ha =
+        round(
+          sum((.data$AliveDead == 11) * .data$TreeNumber / .data$plotarea_ha)
+        ),
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
+      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
+      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
+      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
+    ) %>%
+    ungroup() %>%
+    left_join(
+      data_deadwood %>%
+        group_by(.data$plot_id, .data$year, .data$period, .data$Plottype) %>%
+        summarise(
+          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+        ) %>%
+        ungroup(),
+      by = c("plot_id", "year", "period")
+    ) %>%
+    mutate(
+      volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,
+      stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
   return(by_plot)
