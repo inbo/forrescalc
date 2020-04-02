@@ -140,6 +140,20 @@ load_data_regeneration <-
       number_classes %>%
         select(-.data$number_class),
       by = c("number_class" = "id")
+    ) %>%
+    mutate(
+      min_number_of_trees =
+        ifelse(
+          is.na(.data$min_number_of_trees),
+          .data$Number,
+          .data$min_number_of_trees
+        ),
+      max_number_of_trees =
+        ifelse(
+          is.na(.data$max_number_of_trees),
+          .data$Number,
+          .data$max_number_of_trees
+        )
     )
   odbcClose(con)
 
