@@ -106,7 +106,7 @@ load_data_regeneration <-
           .data$height_class %in% c(3000, 4000),
           "A2",
           ifelse(
-            .data$height_class %in% c(1000, 2000),
+            .data$height_class %in% c(1000, 2000, 5000),
             "A1",
             NA_character_
           )
