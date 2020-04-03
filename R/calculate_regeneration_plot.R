@@ -23,7 +23,9 @@ calculate_regeneration_plot <- function(data_regeneration) {
   by_plot <- data_regeneration %>%
     group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
-      number_of_tree_species = n_distinct(.data$species)
+      number_of_tree_species = n_distinct(.data$species),
+      min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
+      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha)
     ) %>%
     ungroup()
 
