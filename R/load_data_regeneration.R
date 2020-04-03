@@ -134,7 +134,8 @@ load_data_regeneration <-
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
-        )
+        ),
+      game_damage_perc = .data$GameDamage_number * 100 / .data$Number
     ) %>%
     left_join(
       number_classes %>%
