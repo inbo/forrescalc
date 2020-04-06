@@ -10,6 +10,9 @@
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
+#' @param extra_variables Should additional variables such as Calcheight_m,
+#' IntactSnag, CrownVolumeReduction, BrancheLengthReduction, IUFROHght,
+#' IUFROVital, IUFROSocia and ExpansionFactor be added?  Default is FALSE (no).
 #'
 #' @return Dataframe with dendrometry data
 #'
@@ -27,9 +30,18 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-
-  function(database, plottype = NA, forest_reserve = NA) {
+  function(database, plottype = NA, forest_reserve = NA, extra_variables = FALSE) {
   selection <-
     translate_input_to_selectionquery(database, plottype, forest_reserve)
+  add_fields <-
+    ifelse(
+      extra_variables,
+      ", Trees.Calcheight_m, Trees.IntactSnag,
+        Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
+        Trees.IUFROHght, Trees.IUFROVital, IUFROSocia,
+        Trees.ExpansionFactor",
+      ""
+    )
   query_dendro <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
@@ -51,14 +63,10 @@ load_data_dendrometry <-
         Trees.BasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
-        Trees.Individual,
-        Trees.Calcheight_m,
-        Trees.IntactSnag,
-        Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
-        Trees.ExpansionFactor
+        Trees.Individual %s
       FROM ((Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots) %s;",
-      selection
+      add_fields, selection
     )
 
   query_dendro2 <-
@@ -82,15 +90,10 @@ load_data_dendrometry <-
         Trees.BasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
-        Trees.Individual,
-        Trees.Calcheight_m,
-        Trees.IntactSnag,
-        Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
-        Trees.ExpansionFactor,
-        Trees.OldID
+        Trees.Individual %s
       FROM ((Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
-      selection
+      add_fields, selection
     )
 
   con <- odbcConnectAccess2007(database)
