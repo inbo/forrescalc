@@ -45,10 +45,10 @@ load_data_dendrometry <-
         Trees.Species AS species,
         Trees.AliveDead,
         Trees.DecayStage AS decaystage,
-        Trees.Adjust_Vol_tot_m3,
-        Trees.Adjust_Vol_stem_m3,
-        Trees.Adjust_Vol_crown_m3,
-        Trees.AdjustBasalArea_m2,
+        Trees.Vol_tot_m3,
+        Trees.Vol_stem_m3,
+        Trees.Vol_crown_m3,
+        Trees.BasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual,
@@ -76,10 +76,10 @@ load_data_dendrometry <-
         Trees.Species AS species,
         Trees.AliveDead,
         Trees.DecayStage AS decaystage,
-        Trees.Adjust_Vol_tot_m3,
-        Trees.Adjust_Vol_stem_m3,
-        Trees.Adjust_Vol_crown_m3,
-        Trees.AdjustBasalArea_m2,
+        Trees.Vol_tot_m3,
+        Trees.Vol_stem_m3,
+        Trees.Vol_crown_m3,
+        Trees.BasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual,
@@ -143,25 +143,25 @@ load_data_dendrometry <-
       basal_area_alive_m2_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          .data$BasalArea_m2 / .data$plotarea_ha,
           0
         ),
       basal_area_snag_m2_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$AdjustBasalArea_m2 / .data$plotarea_ha,
+          .data$BasalArea_m2 / .data$plotarea_ha,
           0
         ),
       volume_alive_m3_ha =
         ifelse(
           .data$AliveDead == 11,
-          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          .data$Vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       volume_snag_m3_ha =
         ifelse(
           .data$AliveDead == 12,
-          .data$Adjust_Vol_tot_m3 / .data$plotarea_ha,
+          .data$Vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       DBHClass_5cm = give_diamclass_5cm(.data$DBH_mm)

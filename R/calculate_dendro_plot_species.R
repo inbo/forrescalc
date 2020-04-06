@@ -33,11 +33,11 @@ calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
         round(
           sum((.data$AliveDead == 11) * .data$TreeNumber / .data$plotarea_ha)
         ),
-      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
-      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
-      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha),
-      adjust_vol_stem_m3 = sum(.data$Adjust_Vol_stem_m3)
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha * .data$TreeNumber),
+      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha * .data$TreeNumber),
+      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha * .data$TreeNumber),
+      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha * .data$TreeNumber),
+      vol_stem_m3 = sum(.data$Vol_stem_m3 * .data$TreeNumber)
     ) %>%
     ungroup() %>%
     left_join(
