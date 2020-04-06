@@ -24,7 +24,8 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
     group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$species) %>%
     summarise(
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
-      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha)
+      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
+      game_damage_perc_ha = sum(.data$game_damage_perc / .data$plotarea_ha)
     ) %>%
     ungroup()
 
