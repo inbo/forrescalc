@@ -11,8 +11,9 @@
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
 #' @param extra_variables Should additional variables such as Calcheight_m,
-#' IntactSnag, CrownVolumeReduction, BrancheLengthReduction, IUFROHght,
-#' IUFROVital, IUFROSocia and ExpansionFactor be added?  Default is FALSE (no).
+#' IntactSnag, x_m, y_m, CrownVolumeReduction, BrancheLengthReduction, CoppiceID,
+#' IUFROHght, IUFROVital, IUFROSocia, Remark and CommenRemark be added?
+#' Default is FALSE (no).
 #'
 #' @return Dataframe with dendrometry data
 #'
@@ -37,10 +38,10 @@ load_data_dendrometry <-
     ifelse(
       extra_variables,
       ", Trees.Calcheight_m, Trees.IntactSnag,
-        (Trees.X_m - Plots.Xorig_m) AS X_m, (Trees.Y_m - Plots.Yorig_m) AS Y_m,
+        (Trees.X_m - Plots.Xorig_m) AS x_m, (Trees.Y_m - Plots.Yorig_m) AS y_m,
         Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
-        Trees.IUFROHght, Trees.IUFROVital, IUFROSocia,
-        Trees.ExpansionFactor",
+        Trees.CoppiceID, Trees.IUFROHght, Trees.IUFROVital, IUFROSocia,
+        Trees.Remark, Trees.CommenRemark",
       ""
     )
   query_dendro <-

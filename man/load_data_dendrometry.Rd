@@ -19,8 +19,9 @@ by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 
 \item{extra_variables}{Should additional variables such as Calcheight_m,
-IntactSnag, CrownVolumeReduction, BrancheLengthReduction, IUFROHght,
-IUFROVital, IUFROSocia and ExpansionFactor be added?  Default is FALSE (no).}
+IntactSnag, x_m, y_m, CrownVolumeReduction, BrancheLengthReduction, CoppiceID,
+IUFROHght, IUFROVital, IUFROSocia, Remark and CommenRemark be added?
+Default is FALSE (no).}
 }
 \value{
 Dataframe with dendrometry data
