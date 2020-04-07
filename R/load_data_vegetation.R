@@ -37,7 +37,8 @@ load_data_vegetation <-
           Veg.Total_shrub_cover,
           Veg.Total_tree_cover,
           Herb.Species as species,
-          Herb.Coverage
+          Herb.Coverage,
+          Herb.BrowseIndex
         FROM ((Plots
           INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
@@ -60,7 +61,8 @@ load_data_vegetation <-
           Veg.Total_shrub_cover,
           Veg.Total_tree_cover,
           Herb.Species as species,
-          Herb.Coverage
+          Herb.Coverage,
+          Herb.BrowseIndex
         FROM ((Plots
           INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
