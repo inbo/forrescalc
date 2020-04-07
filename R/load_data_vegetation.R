@@ -16,7 +16,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% bind_rows left_join mutate rename
 #' @importFrom lubridate year
 #'
 load_data_vegetation <-
@@ -32,13 +32,13 @@ load_data_vegetation <-
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
-          Veg.Total_moss_cover,
-          Veg.Total_herb_cover,
-          Veg.Total_shrub_cover,
-          Veg.Total_tree_cover,
+          Veg.Total_moss_cover AS total_moss_cover_id,
+          Veg.Total_herb_cover AS total_herb_cover_id,
+          Veg.Total_shrub_cover AS total_shrub_cover_id,
+          Veg.Total_tree_cover AS total_tree_cover_id,
           Herb.Species as species,
-          Herb.Coverage,
-          Herb.BrowseIndex
+          Herb.Coverage AS coverage_id,
+          Herb.BrowseIndex AS browse_index_id
         FROM ((Plots
           INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
@@ -56,13 +56,13 @@ load_data_vegetation <-
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
-          Veg.Total_moss_cover,
-          Veg.Total_herb_cover,
-          Veg.Total_shrub_cover,
-          Veg.Total_tree_cover,
+          Veg.Total_moss_cover AS total_moss_cover_id,
+          Veg.Total_herb_cover AS total_herb_cover_id,
+          Veg.Total_shrub_cover AS total_shrub_cover_id,
+          Veg.Total_tree_cover AS total_tree_cover_id,
           Herb.Species as species,
-          Herb.Coverage,
-          Herb.BrowseIndex
+          Herb.Coverage AS coverage_id,
+          Herb.BrowseIndex AS browse_index_id
         FROM ((Plots
           INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
@@ -72,8 +72,21 @@ load_data_vegetation <-
         selection
       )
 
+    query_total_cover <-
+      "SELECT tc.ID AS id, tc.Value1 AS cover_interval FROM qtotalCover tc"
 
   con <- odbcConnectAccess2007(database)
+  total_cover <- sqlQuery(con, query_total_cover, stringsAsFactors = FALSE) %>%
+    mutate(
+      min_cover = gsub("^(\\d+) - (\\d+) %", "\\1", .data$cover_interval),
+      max_cover = gsub("^(\\d+) - (\\d+) %", "\\2", .data$cover_interval),
+      min_cover = ifelse(.data$min_cover == "< 1%", 0, .data$min_cover),
+      max_cover = ifelse(.data$max_cover == "< 1%", 1, .data$max_cover),
+      min_cover = ifelse(.data$min_cover == "nvt", NA, .data$min_cover),
+      max_cover = ifelse(.data$max_cover == "nvt", NA, .data$max_cover),
+      min_cover = as.numeric(.data$min_cover),
+      max_cover = as.numeric(.data$max_cover)
+    )
   data_vegetation <- sqlQuery(con, query_vegetation, stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
@@ -105,6 +118,30 @@ load_data_vegetation <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         )
+    ) %>%
+    left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
+    rename(
+      moss_cover_interval = .data$cover_interval,
+      moss_cover_min = .data$min_cover,
+      moss_cover_max = .data$max_cover
+    ) %>%
+    left_join(total_cover, by = c("total_herb_cover_id" = "id")) %>%
+    rename(
+      herb_cover_interval = .data$cover_interval,
+      herb_cover_min = .data$min_cover,
+      herb_cover_max = .data$max_cover
+    ) %>%
+    left_join(total_cover, by = c("total_shrub_cover_id" = "id")) %>%
+    rename(
+      shrub_cover_interval = .data$cover_interval,
+      shrub_cover_min = .data$min_cover,
+      shrub_cover_max = .data$max_cover
+    ) %>%
+    left_join(total_cover, by = c("total_tree_cover_id" = "id")) %>%
+    rename(
+      tree_cover_interval = .data$cover_interval,
+      tree_cover_min = .data$min_cover,
+      tree_cover_max = .data$max_cover
     )
   odbcClose(con)
 
