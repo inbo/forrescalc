@@ -21,13 +21,18 @@
 #'
 calculate_vegetation_plot <- function(data_vegetation) {
   by_plot <- data_vegetation %>%
-    group_by(
-      .data$plot_id, .data$year, .data$period, .data$total_moss_cover_id,
-      .data$total_herb_cover_id, .data$total_shrub_cover_id,
-      .data$total_tree_cover_id, .data$shrub_cover_min, .data$shrub_cover_max,
-      .data$tree_cover_min, .data$tree_cover_max
-    ) %>%
+    group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
+      moss_cover_min = mean(.data$moss_cover_min, na.rm = TRUE),
+      moss_cover_max = mean(.data$moss_cover_max, na.rm = TRUE),
+      herb_cover_min = mean(.data$herb_cover_min, na.rm = TRUE),
+      herb_cover_max = mean(.data$herb_cover_max, na.rm = TRUE),
+      shrub_cover_min = mean(.data$shrub_cover_min, na.rm = TRUE),
+      shrub_cover_max = mean(.data$shrub_cover_max, na.rm = TRUE),
+      tree_cover_min = mean(.data$tree_cover_min, na.rm = TRUE),
+      tree_cover_max = mean(.data$tree_cover_max, na.rm = TRUE),
+      watelayer_cover_min = mean(.data$waterlayer_cover_min, na.rm = TRUE),
+      waterlayer_cover_max = mean(.data$waterlayer_cover_max, na.rm = TRUE),
       number_of_species = n_distinct(.data$species)
     ) %>%
     ungroup() %>%
@@ -36,10 +41,6 @@ calculate_vegetation_plot <- function(data_vegetation) {
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
       shrub_tree_cover_max =
         100 * (1 - (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100))
-    ) %>%
-    select(
-      -.data$shrub_cover_min, -.data$shrub_cover_max, -.data$tree_cover_min,
-      -.data$tree_cover_max
     )
 
   return(by_plot)
