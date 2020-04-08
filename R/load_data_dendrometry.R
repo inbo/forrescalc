@@ -92,7 +92,8 @@ load_data_dendrometry <-
         Trees.BasalArea_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
-        Trees.Individual %s
+        Trees.Individual %s,
+        Trees.OldID as old_id
       FROM ((Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
       add_fields, selection
