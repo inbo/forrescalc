@@ -16,6 +16,7 @@ List of dataframes that are mentioned in the above description
 This function makes aggregations of vegetation data on the levels of
 \itemize{
  \item plot and year
+ \item subplot and year (only for plot type 'core area')
 }
 }
 \examples{
