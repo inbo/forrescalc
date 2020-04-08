@@ -36,8 +36,8 @@ check_data_trees <- function(database) {
       Trees.DecayStage,
       Trees.Remark,
       Trees.TreeNumber,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2
+      Trees.Vol_tot_m3,
+      Trees.BasalArea_m2
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots <-
@@ -60,8 +60,8 @@ check_data_trees <- function(database) {
       Trees.DecayStage,
       Trees.Remark,
       Trees.TreeNumber,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2,
+      Trees.Vol_tot_m3,
+      Trees.BasalArea_m2,
       Trees.OldID
     FROM Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots;"
 
