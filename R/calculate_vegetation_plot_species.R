@@ -1,10 +1,10 @@
-#' give percentage presence of species in subplots
+#' aggregate vegetation parameters by plot, species and year
 #'
-#' This function calculates for each plot, species and year the percentage of subplots in which the species is present
+#' This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, species, year and perc_of_subplots
+#' @return dataframe with columns plot, species, year, perc_of_subplots, perc_of_subplots_browsed and perc_of_subplots_seriously_browsed
 #'
 #' @examples
 #' \dontrun{
@@ -25,7 +25,14 @@ calculate_vegetation_plot_species <- function(data_vegetation) {
   by_plot_species <- data_vegetation %>%
     group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
     summarise(
-      perc_of_subplots = n_distinct(.data$subplot_id) * 100 / 98
+      number_of_subplots = n_distinct(.data$subplot_id),
+      perc_of_subplots = .data$number_of_subplots * 100 / 98,
+      number_of_subplots_browsed =
+        sum(!is.na(.data$browse_index_id) & .data$browse_index_id %in% c(10, 20)),
+      number_of_subplots_seriously_browsed =
+        sum(!is.na(.data$browse_index_id) & .data$browse_index_id == 20),
+      perc_of_subplots_browsed = .data$number_of_subplots_browsed * 100 / .data$number_of_subplots,
+      perc_of_subplots_seriously_browsed = .data$number_of_subplots_seriously_browsed * 100 / .data$number_of_subplots
     ) %>%
     ungroup()
 

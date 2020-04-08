@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_vegetation_plot_species.R
 \name{calculate_vegetation_plot_species}
 \alias{calculate_vegetation_plot_species}
-\title{give percentage presence of species in subplots}
+\title{aggregate vegetation parameters by plot, species and year}
 \usage{
 calculate_vegetation_plot_species(data_vegetation)
 }
@@ -10,10 +10,10 @@ calculate_vegetation_plot_species(data_vegetation)
 \item{data_vegetation}{dataframe on vegetation with variables ...}
 }
 \value{
-dataframe with columns plot, species, year and perc_of_subplots
+dataframe with columns plot, species, year, perc_of_subplots, perc_of_subplots_browsed and perc_of_subplots_seriously_browsed
 }
 \description{
-This function calculates for each plot, species and year the percentage of subplots in which the species is present
+This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.
 }
 \examples{
 \dontrun{
