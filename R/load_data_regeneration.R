@@ -30,6 +30,7 @@ load_data_regeneration <-
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Reg.ID AS subplot_id,
           Reg.Date AS date_regeneration
           , Reg.Year AS year_record
           , HeightClass.HeightClass AS height_class
@@ -57,6 +58,7 @@ load_data_regeneration <-
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          Reg.ID AS subplot_id,
           Reg.Date AS date_regeneration
           , Reg.Year AS year_record
           , hc.HeightClass AS height_class
