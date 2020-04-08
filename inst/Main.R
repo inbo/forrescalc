@@ -48,4 +48,5 @@ data_vegetation <-
   load_data_vegetation(
     database = path_to_fieldmap
   )
-calculate_vegetation(...)
+
+vegetation <- calculate_vegetation(data_vegetation)
