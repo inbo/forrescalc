@@ -4,6 +4,7 @@
 #' \itemize{
 #'  \item plot and year
 #'  \item subplot and year (only for plot type 'core area')
+#'  \item plot, species and year (only for plot type 'core area')
 #' }
 #'
 #' @examples
@@ -28,11 +29,13 @@ calculate_vegetation <- function(data_vegetation) {
   data_vegetation_CA <- data_vegetation %>%
     filter(.data$Plottype == 30)
   by_subplot <- calculate_vegetation_subplot(data_vegetation_CA)
+  by_plot_species <- calculate_vegetation_plot_species(data_vegetation_CA)
 
   return(
     list(
       vegetation_by_plot = by_plot,
-      vegetation_by_subplot = by_subplot
+      vegetation_by_subplot = by_subplot,
+      vegetation_by_plot_species = by_plot_species
     )
   )
 }
