@@ -13,7 +13,7 @@ calculate_regeneration_plot_height_species(data_regeneration)
 dataframe with columns plot, year, height_class, species and number_of_trees_ha
 }
 \description{
-This function calculates for each plot, tree height class, species and year the number of trees per hectare for regeneration.
+This function calculates for each plot, tree height class, species and year the number of trees and game damage percentage per hectare for regeneration. For core area plots, also the number and percentage of subplots with regeneration is calculated.
 }
 \examples{
 \dontrun{

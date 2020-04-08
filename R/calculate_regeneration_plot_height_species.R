@@ -1,6 +1,6 @@
 #' aggregate parameters by plot, tree height class, species and year
 #'
-#' This function calculates for each plot, tree height class, species and year the number of trees per hectare for regeneration.
+#' This function calculates for each plot, tree height class, species and year the number of trees and game damage percentage per hectare for regeneration. For core area plots, also the number and percentage of subplots with regeneration is calculated.
 #'
 #' @inheritParams calculate_regeneration
 #'
@@ -26,6 +26,14 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
       game_damage_perc = mean(.data$game_damage_perc),
+      number_of_subplots_with_regeneration =
+        ifelse(
+          mean(.data$Plottype) == 30,
+          n_distinct(.data$subplot_id),
+          NA
+        ),
+      perc_subplots_with_regeneration =
+        .data$number_of_subplots_with_regeneration * 100 / 98
     ) %>%
     ungroup()
 
