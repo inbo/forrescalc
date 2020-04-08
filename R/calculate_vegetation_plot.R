@@ -37,9 +37,9 @@ calculate_vegetation_plot <- function(data_vegetation) {
     ) %>%
     ungroup() %>%
     mutate(
-      shrub_tree_cover_min =
+      cumulated_canopy_cover_min =
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
-      shrub_tree_cover_max =
+      cumulated_canopy_cover_max =
         100 * (1 - (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100))
     )
 
