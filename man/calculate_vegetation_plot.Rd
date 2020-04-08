@@ -6,6 +6,9 @@
 \usage{
 calculate_vegetation_plot(data_vegetation)
 }
+\arguments{
+\item{data_vegetation}{dataframe on vegetation with variables ...}
+}
 \value{
 dataframe with columns plot, year and number_of_tree_species
 }
