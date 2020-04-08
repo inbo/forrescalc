@@ -31,7 +31,7 @@ calculate_vegetation_plot <- function(data_vegetation) {
       shrub_cover_max = mean(.data$shrub_cover_max, na.rm = TRUE),
       tree_cover_min = mean(.data$tree_cover_min, na.rm = TRUE),
       tree_cover_max = mean(.data$tree_cover_max, na.rm = TRUE),
-      watelayer_cover_min = mean(.data$waterlayer_cover_min, na.rm = TRUE),
+      waterlayer_cover_min = mean(.data$waterlayer_cover_min, na.rm = TRUE),
       waterlayer_cover_max = mean(.data$waterlayer_cover_max, na.rm = TRUE),
       number_of_species = n_distinct(.data$species)
     ) %>%
