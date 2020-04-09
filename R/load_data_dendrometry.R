@@ -10,9 +10,9 @@
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
-#' @param extra_variables Should additional variables such as Calcheight_m,
-#' IntactSnag, x_m, y_m, CrownVolumeReduction, BrancheLengthReduction, CoppiceID,
-#' IUFROHght, IUFROVital, IUFROSocia, Remark and CommenRemark be added?
+#' @param extra_variables Should additional variables such as calc_height_m,
+#' intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
+#' coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 #' Default is FALSE (no).
 #'
 #' @return Dataframe with dendrometry data
@@ -37,11 +37,13 @@ load_data_dendrometry <-
   add_fields <-
     ifelse(
       extra_variables,
-      ", Trees.Calcheight_m, Trees.IntactSnag,
+      ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
         (Trees.X_m - Plots.Xorig_m) AS x_m, (Trees.Y_m - Plots.Yorig_m) AS y_m,
-        Trees.CrownVolumeReduction, Trees.BrancheLengthReduction,
-        Trees.CoppiceID, Trees.IUFROHght, Trees.IUFROVital, IUFROSocia,
-        Trees.Remark, Trees.CommenRemark",
+        Trees.CrownVolumeReduction AS crown_volume_reduction,
+        Trees.BrancheLengthReduction AS branche_length_reduction,
+        Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
+        Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
+        Trees.Remark AS remark, Trees.CommenRemark AS common_remark",
       ""
     )
   query_dendro <-
