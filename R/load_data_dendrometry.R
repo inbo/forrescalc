@@ -65,7 +65,7 @@ load_data_dendrometry <-
         Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
-        Trees.BasalArea_m2,
+        Trees.BasalArea_m2 AS basal_area_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual %s
@@ -93,7 +93,7 @@ load_data_dendrometry <-
         Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
-        Trees.BasalArea_m2,
+        Trees.BasalArea_m2 AS basal_area_m2,
         Trees.IndShtCop,
         Trees.TreeNumber,
         Trees.Individual %s,
@@ -153,13 +153,13 @@ load_data_dendrometry <-
       basal_area_alive_m2_ha =
         ifelse(
           .data$alive_dead == 11,
-          .data$BasalArea_m2 / .data$plotarea_ha,
+          .data$basal_area_m2 / .data$plotarea_ha,
           0
         ),
       basal_area_snag_m2_ha =
         ifelse(
           .data$alive_dead == 12,
-          .data$BasalArea_m2 / .data$plotarea_ha,
+          .data$basal_area_m2 / .data$plotarea_ha,
           0
         ),
       volume_alive_m3_ha =
