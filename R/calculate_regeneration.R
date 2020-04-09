@@ -26,12 +26,16 @@ calculate_regeneration <- function(data_regeneration) {
   by_plot <- calculate_regeneration_plot(data_regeneration)
   by_plot_height_species <-
     calculate_regeneration_plot_height_species(data_regeneration)
+  data_regeneration_CA <- data_regeneration %>%
+    filter(.data$plottype == 30)
+  by_plot_species <- calculate_regeneration_plot_species(data_regeneration_CA)
 
   return(
     list(
       regeneration_by_plot_height = by_plot_height,
       regeneration_by_plot = by_plot,
-      regeneration_by_plot_height_species = by_plot_height_species
+      regeneration_by_plot_height_species = by_plot_height_species,
+      regeneration_by_plot_species = by_plot_species
     )
   )
 }
