@@ -37,7 +37,7 @@ load_data_regeneration <-
           , HeightClass.HeightClass AS height_class
           , RegSpecies.Species AS species
           , RegSpecies.NumberClass AS number_class
-          , RegSpecies.Number AS number
+          , RegSpecies.Number AS reg_number
           , RegSpecies.GameDamage_number AS rubbing_damage_number
         FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
@@ -66,7 +66,7 @@ load_data_regeneration <-
           , hc.HeightClass AS height_class
           , rc.Species AS species
           , rc.NumberClass AS number_class
-          , rc.Number AS number
+          , rc.Number AS reg_number
           , rc.GameDamage_number AS rubbing_damage_number
         FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
@@ -139,7 +139,7 @@ load_data_regeneration <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$number
+      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$reg_number
     ) %>%
     left_join(
       number_classes %>%
@@ -150,13 +150,13 @@ load_data_regeneration <-
       min_number_of_trees =
         ifelse(
           is.na(.data$min_number_of_trees),
-          .data$number,
+          .data$reg_number,
           .data$min_number_of_trees
         ),
       max_number_of_trees =
         ifelse(
           is.na(.data$max_number_of_trees),
-          .data$number,
+          .data$reg_number,
           .data$max_number_of_trees
         )
     )
