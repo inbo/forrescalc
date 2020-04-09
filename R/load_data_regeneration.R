@@ -38,7 +38,7 @@ load_data_regeneration <-
           , RegSpecies.Species AS species
           , RegSpecies.NumberClass AS number_class
           , RegSpecies.Number AS number
-          , RegSpecies.GameDamage_number
+          , RegSpecies.GameDamage_number AS rubbing_damage_number
         FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN
@@ -67,7 +67,7 @@ load_data_regeneration <-
           , rc.Species AS species
           , rc.NumberClass AS number_class
           , rc.Number AS number
-          , rc.GameDamage_number
+          , rc.GameDamage_number AS rubbing_damage_number
         FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN
@@ -139,7 +139,7 @@ load_data_regeneration <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      game_damage_perc = .data$GameDamage_number * 100 / .data$number
+      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$number
     ) %>%
     left_join(
       number_classes %>%

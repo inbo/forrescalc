@@ -1,6 +1,6 @@
 #' calculate species number by plot, tree height class and year
 #'
-#' This function calculates for each plot, tree height class and year the number of species, total number of trees and game damage percentage for regeneration.
+#' This function calculates for each plot, tree height class and year the number of species, total number of trees and rubbing damage percentage for regeneration.
 #'
 #' @inheritParams calculate_regeneration
 #'
@@ -26,7 +26,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       number_of_tree_species = n_distinct(.data$species),
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
-      game_damage_perc = mean(.data$game_damage_perc)
+      rubbing_damage_perc = mean(.data$rubbing_damage_perc)
     ) %>%
     ungroup()
 
