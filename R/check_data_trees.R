@@ -26,7 +26,7 @@ check_data_trees <- function(database) {
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
-      Trees.Height_m,
+      Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
       Trees.AliveDead,
@@ -41,7 +41,7 @@ check_data_trees <- function(database) {
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots <-
-    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m, IntactSnag
+    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots"
 
   query_trees2 <-
@@ -50,7 +50,7 @@ check_data_trees <- function(database) {
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
-      Trees.Height_m,
+      Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
       Trees.AliveDead,
@@ -68,7 +68,7 @@ check_data_trees <- function(database) {
   query_shoots2 <-
     "SELECT IDPlots,
       XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees, ID AS shoot_id,
-      DBH_mm AS dbh_mm, Height_m, IntactSnag
+      DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots_2eSET"
 
   con <- odbcConnectAccess2007(database)

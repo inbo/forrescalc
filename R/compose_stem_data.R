@@ -37,7 +37,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
     filter(.data$IndShtCop != 12) %>%
     bind_rows(
       data_dendro_relevant %>%
-        select(-.data$dbh_mm, -.data$Height_m, -.data$decaystage) %>%
+        select(-.data$dbh_mm, -.data$height_m, -.data$decaystage) %>%
         filter(.data$IndShtCop == 12) %>%
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%
