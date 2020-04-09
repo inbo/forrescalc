@@ -14,7 +14,7 @@ calculate_diam_plot_species(data_stems, data_dendro, data_deadwood)
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
-dataframe with columns plot, year, tree_species, DBHClass_5cm, basal_area_m2_ha, volume_m3_ha
+dataframe with columns plot, year, tree_species, dbh_class_5cm, basal_area_m2_ha, volume_m3_ha
 }
 \description{
 This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.

@@ -31,7 +31,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
       -.data$basal_area_m2, -.data$tree_number,
       -.data$individual, -.data$basal_area_alive_m2_ha,
       -.data$basal_area_snag_m2_ha, -.data$volume_alive_m3_ha,
-      -.data$volume_snag_m3_ha, -.data$DBHClass_5cm
+      -.data$volume_snag_m3_ha, -.data$dbh_class_5cm
     )
   stem_data <- data_dendro_relevant %>%
     filter(.data$ind_sht_cop != 12) %>%
@@ -42,7 +42,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%
     mutate(
-      DBHClass_5cm = give_diamclass_5cm(.data$dbh_mm),
+      dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm),
       basal_area_m2 = pi * (.data$dbh_mm / 2000) ^ 2
     )
 

@@ -77,7 +77,7 @@ load_data_deadwood <-
     ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
-      DBHClass_5cm = give_diamclass_5cm(.data$max_diam_mm),
+      dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(
           .data$plottype == 20,

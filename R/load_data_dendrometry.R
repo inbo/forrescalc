@@ -174,7 +174,7 @@ load_data_dendrometry <-
           .data$vol_tot_m3 / .data$plotarea_ha,
           0
         ),
-      DBHClass_5cm = give_diamclass_5cm(.data$dbh_mm)
+      dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
   odbcClose(con)
 
