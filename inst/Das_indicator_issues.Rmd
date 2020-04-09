@@ -107,7 +107,7 @@ selection_1step %>%
 data_dendro %>%
   group_by(forest_reserve, year, period) %>%
   summarise(
-    DBH_mm_average = mean(.data$DBH_mm)
+    dbh_mm_average = mean(.data$dbh_mm)
   ) %>%
   ungroup() %>%
   left_join(data_dendro, by = c("forest_reserve", "year", "period")) %>%
@@ -115,12 +115,12 @@ data_dendro %>%
     read_csv2(system.file("./extdata/DAS_tree_groups.csv", package = "forrescalc")),
     by = "species"
   ) %>%
-  group_by(forest_reserve, year, period, DBH_mm_average, group) %>%
+  group_by(forest_reserve, year, period, dbh_mm_average, group) %>%
   summarise(
     basal_area_m2_ha = sum(.data$basal_area_alive_m2_ha)
   ) %>%
   ungroup() %>%
-  group_by(forest_reserve, year, period, DBH_mm_average) %>%
+  group_by(forest_reserve, year, period, dbh_mm_average) %>%
   mutate(
     basal_area_proportion =
       .data$basal_area_m2_ha / sum(.data$basal_area_m2_ha)

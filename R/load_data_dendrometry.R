@@ -57,7 +57,7 @@ load_data_dendrometry <-
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
-        Trees.DBH_mm,
+        Trees.DBH_mm AS dbh_mm,
         Trees.Height_m,
         Trees.Species AS species,
         Trees.AliveDead,
@@ -85,7 +85,7 @@ load_data_dendrometry <-
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
-        Trees.DBH_mm,
+        Trees.DBH_mm AS dbh_mm,
         Trees.Height_m,
         Trees.Species AS species,
         Trees.AliveDead,
@@ -118,10 +118,10 @@ load_data_dendrometry <-
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
         ifelse(
-          .data$AliveDead == 11 & .data$DBH_mm >= 400,
+          .data$AliveDead == 11 & .data$dbh_mm >= 400,
           "A4",
           ifelse(
-            .data$AliveDead == 12 & .data$DBH_mm >= 100,
+            .data$AliveDead == 12 & .data$dbh_mm >= 100,
             "A4",
             "A3"
           )
@@ -174,7 +174,7 @@ load_data_dendrometry <-
           .data$Vol_tot_m3 / .data$plotarea_ha,
           0
         ),
-      DBHClass_5cm = give_diamclass_5cm(.data$DBH_mm)
+      DBHClass_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
   odbcClose(con)
 

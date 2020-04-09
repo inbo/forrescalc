@@ -26,11 +26,11 @@ library(dplyr)
 table_long <-
   read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") \%>\%
   filter(plot_id < 110) \%>\%
-  select(plot_id, species, tree_id, period, DBH_mm, AliveDead)
+  select(plot_id, species, tree_id, period, dbh_mm, AliveDead)
 table_wide <-
   make_table_wide(table_long, column_to_repeat = "period",
-                  columns_for_comparison = c("DBH_mm", "AliveDead"))
-#if DBH_mm is not mentioned in columns_for_comparison, it is considered as a
+                  columns_for_comparison = c("dbh_mm", "AliveDead"))
+#if dbh_mm is not mentioned in columns_for_comparison, it is considered as a
 #grouping variable while it has different values for each period.
 #This gives an unwanted result with still many rows and a lot of NA values:
 table_wide <-

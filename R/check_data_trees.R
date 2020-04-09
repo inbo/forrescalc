@@ -25,7 +25,7 @@ check_data_trees <- function(database) {
       Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
-      Trees.DBH_mm,
+      Trees.DBH_mm AS dbh_mm,
       Trees.Height_m,
       Trees.Species,
       Trees.IntactSnag,
@@ -41,7 +41,7 @@ check_data_trees <- function(database) {
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots <-
-    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm, Height_m, IntactSnag
+    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m, IntactSnag
     FROM Shoots"
 
   query_trees2 <-
@@ -49,7 +49,7 @@ check_data_trees <- function(database) {
       Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
-      Trees.DBH_mm,
+      Trees.DBH_mm AS dbh_mm,
       Trees.Height_m,
       Trees.Species,
       Trees.IntactSnag,
@@ -68,7 +68,7 @@ check_data_trees <- function(database) {
   query_shoots2 <-
     "SELECT IDPlots,
       XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees, ID AS shoot_id,
-      DBH_mm, Height_m, IntactSnag
+      DBH_mm AS dbh_mm, Height_m, IntactSnag
     FROM Shoots_2eSET"
 
   con <- odbcConnectAccess2007(database)
@@ -105,14 +105,14 @@ check_data_trees <- function(database) {
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$AliveDead == 11 & .data$DBH_mm < 400 &
+          .data$plottype == 20 & .data$AliveDead == 11 & .data$dbh_mm < 400 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$AliveDead == 12 & .data$DBH_mm < 100 &
+          .data$plottype == 20 & .data$AliveDead == 12 & .data$dbh_mm < 100 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem

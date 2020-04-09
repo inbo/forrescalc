@@ -38,14 +38,14 @@ calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
   if (na.rm) {
     data_dendro <- data_dendro %>%
       filter(
-        !is.na(.data$DBH_mm),
+        !is.na(.data$dbh_mm),
         !is.na(.data$basal_area_alive_m2_ha)
       )
   }
 
   assert_that(
-    all(!is.na(data_dendro$DBH_mm)),
-    msg = "Not all records have a value for 'DBH_mm'"
+    all(!is.na(data_dendro$dbh_mm)),
+    msg = "Not all records have a value for 'dbh_mm'"
   )
   assert_that(
     all(!is.na(data_dendro$basal_area_alive_m2_ha)),
