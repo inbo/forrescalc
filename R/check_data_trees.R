@@ -22,7 +22,7 @@
 check_data_trees <- function(database) {
   query_trees <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype,
+      Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm,
@@ -46,7 +46,7 @@ check_data_trees <- function(database) {
 
   query_trees2 <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype,
+      Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm,
@@ -99,20 +99,20 @@ check_data_trees <- function(database) {
     mutate(
       problem =
         ifelse(
-          .data$Plottype == 20 & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
+          .data$plottype == 20 & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
           "tree not in A4",
           NA
         ),
       problem =
         ifelse(
-          .data$Plottype == 20 & .data$AliveDead == 11 & .data$DBH_mm < 400 &
+          .data$plottype == 20 & .data$AliveDead == 11 & .data$DBH_mm < 400 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
-          .data$Plottype == 20 & .data$AliveDead == 12 & .data$DBH_mm < 100 &
+          .data$plottype == 20 & .data$AliveDead == 12 & .data$DBH_mm < 100 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem

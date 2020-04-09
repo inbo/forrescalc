@@ -7,7 +7,7 @@
 create_overview_status(data_dendro)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 }
 \value{
 a dataset with 1 record per measurement, containing the given data of each tree in different years

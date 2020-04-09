@@ -27,7 +27,7 @@ load_data_deadwood <-
   query_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve,
         pd.Date_dendro_1eSet AS date_dendro,
@@ -46,7 +46,7 @@ load_data_deadwood <-
   query_deadwood2 <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve,
         pd.Date_dendro_2eSet AS date_dendro,
@@ -78,13 +78,13 @@ load_data_deadwood <-
       DBHClass_5cm = give_diamclass_5cm(.data$MaxDiam_mm),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 20,
+          .data$plottype == 20,
           (pi * .data$rA4 ^ 2)/10000,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 30,
+          .data$plottype == 30,
           .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
           .data$plotarea_ha
         ),

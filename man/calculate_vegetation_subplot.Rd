@@ -20,7 +20,7 @@ This function calculates for each subplot and year the the number of species and
 #change path before running
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb") \%>\%
-  filter(Plottype == 30)
+  filter(plottype == 30)
 calculate_vegetation_subplot(data_vegetation)
 }
 

@@ -49,7 +49,7 @@ load_data_dendrometry <-
   query_dendro <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve,
@@ -76,7 +76,7 @@ load_data_dendrometry <-
   query_dendro2 <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve,
@@ -132,13 +132,13 @@ load_data_dendrometry <-
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 20,
+          .data$plottype == 20,
           .data$subcirclearea_ha,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 30,
+          .data$plottype == 30,
           .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
           .data$plotarea_ha
         ),

@@ -28,7 +28,7 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       game_damage_perc = mean(.data$game_damage_perc),
       number_of_subplots_with_regeneration =
         ifelse(
-          mean(.data$Plottype) == 30,
+          mean(.data$plottype) == 30,
           n_distinct(.data$subplot_id),
           NA
         ),

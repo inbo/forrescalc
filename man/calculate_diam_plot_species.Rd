@@ -9,9 +9,9 @@ calculate_diam_plot_species(data_stems, data_dendro, data_deadwood)
 \arguments{
 \item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 
-\item{data_dendro}{dataframe on tree measures with variables plot_id, Plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, Plottype, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
 dataframe with columns plot, year, tree_species, DBHClass_5cm, basal_area_m2_ha, volume_m3_ha

@@ -26,7 +26,7 @@ load_data_regeneration <-
     query_regeneration <-
       sprintf(
         "SELECT Plots.ID AS plot_id,
-          Plots.Plottype,
+          Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
@@ -54,7 +54,7 @@ load_data_regeneration <-
     query_regeneration2 <-
       sprintf(
         "SELECT Plots.ID AS plot_id,
-          Plots.Plottype,
+          Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
@@ -121,13 +121,13 @@ load_data_regeneration <-
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 20,
+          .data$plottype == 20,
           .data$subcirclearea_ha,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 30,
+          .data$plottype == 30,
           .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
           .data$plotarea_ha
         ),

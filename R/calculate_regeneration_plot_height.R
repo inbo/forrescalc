@@ -21,7 +21,7 @@
 #'
 calculate_regeneration_plot_height <- function(data_regeneration) {
   by_plot_height <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$Plottype) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$height_class, .data$plottype) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species),
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),

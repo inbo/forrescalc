@@ -27,7 +27,7 @@
 calculate_vegetation <- function(data_vegetation) {
   by_plot <- calculate_vegetation_plot(data_vegetation)
   data_vegetation_CA <- data_vegetation %>%
-    filter(.data$Plottype == 30)
+    filter(.data$plottype == 30)
   by_subplot <- calculate_vegetation_subplot(data_vegetation_CA)
   by_plot_species <- calculate_vegetation_plot_species(data_vegetation_CA)
 
