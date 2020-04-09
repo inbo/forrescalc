@@ -36,7 +36,7 @@ load_data_deadwood <-
         pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
-        Deadwood.CalcVolume_m3,
+        Deadwood.CalcVolume_m3 AS calc_volume_m3,
         Deadwood.MaxDiam_mm,
         Deadwood.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
@@ -56,7 +56,7 @@ load_data_deadwood <-
         pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood_2eSet.Species AS species,
         Deadwood_2eSet.DecayStage AS decaystage,
-        Deadwood_2eSet.CalcVolume_m3,
+        Deadwood_2eSet.CalcVolume_m3 AS calc_volume_m3,
         Deadwood_2eSet.MaxDiam_mm,
         Deadwood_2eSet.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)

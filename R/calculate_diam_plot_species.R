@@ -70,7 +70,7 @@ calculate_diam_plot_species <-
         ) %>%
         summarise(
           log_number_ha = round(sum(n() / .data$plotarea_ha)),
-          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "species", "DBHClass_5cm")

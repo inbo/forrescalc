@@ -66,7 +66,7 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
         ) %>%
         summarise(
           log_number_ha = round(sum(n() / .data$plotarea_ha)),
-          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "DBHClass_5cm")
