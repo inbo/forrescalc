@@ -37,7 +37,7 @@ load_data_deadwood <-
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
         Deadwood.CalcVolume_m3 AS calc_volume_m3,
-        Deadwood.MaxDiam_mm,
+        Deadwood.MaxDiam_mm AS max_diam_mm,
         Deadwood.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
         INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
@@ -57,7 +57,7 @@ load_data_deadwood <-
         Deadwood_2eSet.Species AS species,
         Deadwood_2eSet.DecayStage AS decaystage,
         Deadwood_2eSet.CalcVolume_m3 AS calc_volume_m3,
-        Deadwood_2eSet.MaxDiam_mm,
+        Deadwood_2eSet.MaxDiam_mm AS max_diam_mm,
         Deadwood_2eSet.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
@@ -77,7 +77,7 @@ load_data_deadwood <-
     ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
-      DBHClass_5cm = give_diamclass_5cm(.data$MaxDiam_mm),
+      DBHClass_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(
           .data$plottype == 20,
