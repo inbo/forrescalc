@@ -32,7 +32,8 @@ load_data_deadwood <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
-        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+        pd.LenghtCoreArea_m AS length_core_area_m,
+        pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
         Deadwood.CalcVolume_m3,
@@ -51,7 +52,8 @@ load_data_deadwood <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1, pd.rA2, pd.rA3, pd.rA4,
-        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+        pd.LenghtCoreArea_m AS length_core_area_m,
+        pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood_2eSet.Species AS species,
         Deadwood_2eSet.DecayStage AS decaystage,
         Deadwood_2eSet.CalcVolume_m3,
@@ -85,7 +87,7 @@ load_data_deadwood <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$length_core_area_m * .data$width_core_area_m,
           .data$plotarea_ha
         ),
       plotarea_ha =

@@ -29,7 +29,8 @@ load_data_vegetation <-
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
-          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          pd.LenghtCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
           Veg.ID AS subplot_id,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
@@ -56,7 +57,8 @@ load_data_vegetation <-
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
-          pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+          pd.LenghtCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
           Veg.ID AS subplot_id,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
@@ -115,7 +117,7 @@ load_data_vegetation <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$length_core_area_m * .data$width_core_area_m,
           .data$plotarea_ha
         ),
       plotarea_ha =
