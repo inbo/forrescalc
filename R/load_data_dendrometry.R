@@ -62,7 +62,7 @@ load_data_dendrometry <-
         Trees.Species AS species,
         Trees.AliveDead AS alive_dead,
         Trees.DecayStage AS decaystage,
-        Trees.Vol_tot_m3,
+        Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3,
         Trees.Vol_crown_m3,
         Trees.BasalArea_m2,
@@ -90,7 +90,7 @@ load_data_dendrometry <-
         Trees.Species AS species,
         Trees.AliveDead AS alive_dead,
         Trees.DecayStage AS decaystage,
-        Trees.Vol_tot_m3,
+        Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3,
         Trees.Vol_crown_m3,
         Trees.BasalArea_m2,
@@ -165,13 +165,13 @@ load_data_dendrometry <-
       volume_alive_m3_ha =
         ifelse(
           .data$alive_dead == 11,
-          .data$Vol_tot_m3 / .data$plotarea_ha,
+          .data$vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       volume_snag_m3_ha =
         ifelse(
           .data$alive_dead == 12,
-          .data$Vol_tot_m3 / .data$plotarea_ha,
+          .data$vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       DBHClass_5cm = give_diamclass_5cm(.data$dbh_mm)
