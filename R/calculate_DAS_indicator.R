@@ -54,23 +54,23 @@ calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
 
   #select relevant plots
   DAS_reserve <- data_dendro %>%
-    select_for_DAS_indicator(grouping_vars = c("ForestReserve", "year", "period")) %>%
-    inner_join(data_dendro, by = c("ForestReserve", "year", "period")) %>%
+    select_for_DAS_indicator(grouping_vars = c("forest_reserve", "year", "period")) %>%
+    inner_join(data_dendro, by = c("forest_reserve", "year", "period")) %>%
     select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
     inner_join(
       data_dendro %>%
-        select(.data$plot_id, .data$ForestReserve) %>%
+        select(.data$plot_id, .data$forest_reserve) %>%
         distinct(),
       by = c("plot_id")
     ) %>%
-    group_by(.data$ForestReserve, .data$period, .data$year) %>%
+    group_by(.data$forest_reserve, .data$period, .data$year) %>%
     mutate(
       n_plots = n()
     ) %>%
     ungroup() %>%
     filter(.data$n_plots >= 12) %>%
     #add data again to selected plots and calculate difference in basal area proportion
-    inner_join(data_dendro, by = c("ForestReserve", "plot_id", "year", "period")) %>%
+    inner_join(data_dendro, by = c("forest_reserve", "plot_id", "year", "period")) %>%
     left_join(
       read_delim(
         system.file("extdata/DAS_tree_groups.csv", package = "forrescalc"),
@@ -78,17 +78,17 @@ calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
       ),
       by = "species"
     ) %>%
-    group_by(.data$ForestReserve, .data$period, .data$year, .data$group, .data$plot_id) %>%
+    group_by(.data$forest_reserve, .data$period, .data$year, .data$group, .data$plot_id) %>%
     summarise(
       basal_area_m2_ha = sum(.data$basal_area_alive_m2_ha)
     ) %>%
     ungroup() %>%
-    group_by(.data$ForestReserve, .data$period, .data$year, .data$group) %>%
+    group_by(.data$forest_reserve, .data$period, .data$year, .data$group) %>%
     summarise(
       basal_area_m2_ha = mean(.data$basal_area_m2_ha)
     ) %>%
     ungroup() %>%
-    group_by(.data$ForestReserve, .data$period, .data$year) %>%
+    group_by(.data$forest_reserve, .data$period, .data$year) %>%
     mutate(
       basal_area_proportion =
         .data$basal_area_m2_ha / sum(.data$basal_area_m2_ha)
@@ -98,7 +98,7 @@ calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
       names_from = .data$period,
       values_from = c("year", "basal_area_m2_ha", "basal_area_proportion")
     ) %>%
-    group_by(.data$ForestReserve) %>%
+    group_by(.data$forest_reserve) %>%
     mutate(
       d_res =
         (sum(.data$basal_area_m2_ha_2) / sum(.data$basal_area_m2_ha_1)) ^

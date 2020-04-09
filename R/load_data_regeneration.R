@@ -28,7 +28,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve, pd.rA2, pd.rA1,
+          pd.ForestReserve AS forest_reserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Reg.ID AS subplot_id,
           Reg.Date AS date_regeneration
@@ -56,7 +56,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve, pd.rA2, pd.rA1,
+          pd.ForestReserve AS forest_reserve, pd.rA2, pd.rA1,
           pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
           Reg.ID AS subplot_id,
           Reg.Date AS date_regeneration
