@@ -1,6 +1,6 @@
 #' aggregate vegetation parameters by plot, species and year
 #'
-#' This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.
+#' This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots.
 #'
 #' @inheritParams calculate_vegetation
 #'
