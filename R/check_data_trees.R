@@ -35,7 +35,7 @@ check_data_trees <- function(database) {
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
       Trees.Remark,
-      Trees.TreeNumber,
+      Trees.TreeNumber AS tree_number,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
@@ -59,7 +59,7 @@ check_data_trees <- function(database) {
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
       Trees.Remark,
-      Trees.TreeNumber,
+      Trees.TreeNumber AS tree_number,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID

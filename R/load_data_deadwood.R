@@ -38,7 +38,7 @@ load_data_deadwood <-
         Deadwood.DecayStage AS decaystage,
         Deadwood.CalcVolume_m3,
         Deadwood.MaxDiam_mm,
-        Deadwood.TreeNumber
+        Deadwood.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
         INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
       selection
@@ -58,7 +58,7 @@ load_data_deadwood <-
         Deadwood_2eSet.DecayStage AS decaystage,
         Deadwood_2eSet.CalcVolume_m3,
         Deadwood_2eSet.MaxDiam_mm,
-        Deadwood_2eSet.TreeNumber
+        Deadwood_2eSet.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
       selection

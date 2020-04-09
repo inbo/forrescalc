@@ -28,7 +28,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
   data_dendro_relevant <- data_dendro %>%
     select(
       -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3,
-      -.data$basal_area_m2, -.data$TreeNumber,
+      -.data$basal_area_m2, -.data$tree_number,
       -.data$Individual, -.data$basal_area_alive_m2_ha,
       -.data$basal_area_snag_m2_ha, -.data$volume_alive_m3_ha,
       -.data$volume_snag_m3_ha, -.data$DBHClass_5cm
