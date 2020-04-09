@@ -34,11 +34,11 @@ compose_stem_data <- function(data_dendro, data_shoots) {
       -.data$volume_snag_m3_ha, -.data$DBHClass_5cm
     )
   stem_data <- data_dendro_relevant %>%
-    filter(.data$IndShtCop != 12) %>%
+    filter(.data$ind_sht_cop != 12) %>%
     bind_rows(
       data_dendro_relevant %>%
         select(-.data$dbh_mm, -.data$height_m, -.data$decaystage) %>%
-        filter(.data$IndShtCop == 12) %>%
+        filter(.data$ind_sht_cop == 12) %>%
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%
     mutate(

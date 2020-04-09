@@ -30,7 +30,7 @@ check_data_trees <- function(database) {
       Trees.Species,
       Trees.IntactSnag,
       Trees.AliveDead AS alive_dead,
-      Trees.IndShtCop,
+      Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
@@ -54,7 +54,7 @@ check_data_trees <- function(database) {
       Trees.Species,
       Trees.IntactSnag,
       Trees.AliveDead AS alive_dead,
-      Trees.IndShtCop,
+      Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
@@ -121,7 +121,7 @@ check_data_trees <- function(database) {
     # shoots niet correct gelinkt met trees
     left_join(
       data_trees %>%
-        filter(.data$IndShtCop == 12) %>%
+        filter(.data$ind_sht_cop == 12) %>%
         anti_join(
           data_shoots,
           by = c("IDPlots", "X_m" = "XTrees", "Y_m" = "YTrees",
@@ -153,7 +153,7 @@ check_data_trees <- function(database) {
        data_shoots %>%
         anti_join(
           data_trees %>%
-            filter(.data$IndShtCop == 12),
+            filter(.data$ind_sht_cop == 12),
           by = c("IDPlots", "XTrees" = "X_m", "YTrees" = "Y_m",
                  "IDTrees" = "tree_measure_id", "period")
         ) %>%

@@ -66,7 +66,7 @@ load_data_dendrometry <-
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
         Trees.BasalArea_m2 AS basal_area_m2,
-        Trees.IndShtCop,
+        Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber,
         Trees.Individual %s
       FROM ((Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
@@ -94,7 +94,7 @@ load_data_dendrometry <-
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
         Trees.BasalArea_m2 AS basal_area_m2,
-        Trees.IndShtCop,
+        Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber,
         Trees.Individual %s,
         Trees.OldID as old_id
