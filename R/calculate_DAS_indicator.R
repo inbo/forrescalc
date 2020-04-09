@@ -33,7 +33,7 @@
 calculate_DAS_indicator <- function(data_dendro, na.rm = FALSE) {
   #only consider living trees
   data_dendro <- data_dendro %>%
-    filter(.data$AliveDead == 11)
+    filter(.data$alive_dead == 11)
 
   if (na.rm) {
     data_dendro <- data_dendro %>%

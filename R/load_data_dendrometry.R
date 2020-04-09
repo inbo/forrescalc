@@ -60,7 +60,7 @@ load_data_dendrometry <-
         Trees.DBH_mm AS dbh_mm,
         Trees.Height_m AS height_m,
         Trees.Species AS species,
-        Trees.AliveDead,
+        Trees.AliveDead AS alive_dead,
         Trees.DecayStage AS decaystage,
         Trees.Vol_tot_m3,
         Trees.Vol_stem_m3,
@@ -88,7 +88,7 @@ load_data_dendrometry <-
         Trees.DBH_mm AS dbh_mm,
         Trees.Height_m AS height_m,
         Trees.Species AS species,
-        Trees.AliveDead,
+        Trees.AliveDead AS alive_dead,
         Trees.DecayStage AS decaystage,
         Trees.Vol_tot_m3,
         Trees.Vol_stem_m3,
@@ -118,10 +118,10 @@ load_data_dendrometry <-
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
         ifelse(
-          .data$AliveDead == 11 & .data$dbh_mm >= 400,
+          .data$alive_dead == 11 & .data$dbh_mm >= 400,
           "A4",
           ifelse(
-            .data$AliveDead == 12 & .data$dbh_mm >= 100,
+            .data$alive_dead == 12 & .data$dbh_mm >= 100,
             "A4",
             "A3"
           )
@@ -152,25 +152,25 @@ load_data_dendrometry <-
         ),
       basal_area_alive_m2_ha =
         ifelse(
-          .data$AliveDead == 11,
+          .data$alive_dead == 11,
           .data$BasalArea_m2 / .data$plotarea_ha,
           0
         ),
       basal_area_snag_m2_ha =
         ifelse(
-          .data$AliveDead == 12,
+          .data$alive_dead == 12,
           .data$BasalArea_m2 / .data$plotarea_ha,
           0
         ),
       volume_alive_m3_ha =
         ifelse(
-          .data$AliveDead == 11,
+          .data$alive_dead == 11,
           .data$Vol_tot_m3 / .data$plotarea_ha,
           0
         ),
       volume_snag_m3_ha =
         ifelse(
-          .data$AliveDead == 12,
+          .data$alive_dead == 12,
           .data$Vol_tot_m3 / .data$plotarea_ha,
           0
         ),

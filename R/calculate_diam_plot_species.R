@@ -30,7 +30,7 @@ calculate_diam_plot_species <-
   by_diam_plot_species <- data_stems %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,
-      .data$DBHClass_5cm, .data$AliveDead
+      .data$DBHClass_5cm, .data$alive_dead
     ) %>%
     summarise(
       stem_number_ha = round(sum(n() / .data$plotarea_ha)),
@@ -38,7 +38,7 @@ calculate_diam_plot_species <-
     ) %>%
     ungroup() %>%
     pivot_wider(
-      names_from = "AliveDead",
+      names_from = "alive_dead",
       values_from = c("stem_number_ha", "basal_area_m2_ha")
     ) %>%
     rename(

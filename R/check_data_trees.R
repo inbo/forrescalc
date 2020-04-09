@@ -29,7 +29,7 @@ check_data_trees <- function(database) {
       Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
-      Trees.AliveDead,
+      Trees.AliveDead AS alive_dead,
       Trees.IndShtCop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
@@ -53,7 +53,7 @@ check_data_trees <- function(database) {
       Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
-      Trees.AliveDead,
+      Trees.AliveDead AS alive_dead,
       Trees.IndShtCop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
@@ -105,14 +105,14 @@ check_data_trees <- function(database) {
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$AliveDead == 11 & .data$dbh_mm < 400 &
+          .data$plottype == 20 & .data$alive_dead == 11 & .data$dbh_mm < 400 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$AliveDead == 12 & .data$dbh_mm < 100 &
+          .data$plottype == 20 & .data$alive_dead == 12 & .data$dbh_mm < 100 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem

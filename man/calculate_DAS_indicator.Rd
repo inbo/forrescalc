@@ -7,7 +7,7 @@
 calculate_DAS_indicator(data_dendro, na.rm = FALSE)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, AliveDead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, Vol_tot_m3, BasalArea_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 
 \item{na.rm}{Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'}
 }

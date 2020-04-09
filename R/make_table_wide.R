@@ -19,16 +19,16 @@
 #' table_long <-
 #'   read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") %>%
 #'   filter(plot_id < 110) %>%
-#'   select(plot_id, species, tree_id, period, dbh_mm, AliveDead)
+#'   select(plot_id, species, tree_id, period, dbh_mm, alive_dead)
 #' table_wide <-
 #'   make_table_wide(table_long, column_to_repeat = "period",
-#'                   columns_for_comparison = c("dbh_mm", "AliveDead"))
+#'                   columns_for_comparison = c("dbh_mm", "alive_dead"))
 #' #if dbh_mm is not mentioned in columns_for_comparison, it is considered as a
 #' #grouping variable while it has different values for each period.
 #' #This gives an unwanted result with still many rows and a lot of NA values:
 #' table_wide <-
 #'   make_table_wide(table_long, column_to_repeat = "period",
-#'                   columns_for_comparison = c("AliveDead"))
+#'                   columns_for_comparison = c("alive_dead"))
 #' }
 #'
 make_table_wide <- function(table_long, column_to_repeat, columns_for_comparison) {

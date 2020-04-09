@@ -24,18 +24,18 @@
 calculate_dendro_plot <- function(data_dendro, data_deadwood) {
   by_plot <- data_dendro %>%
     mutate(
-      species_alive = ifelse(.data$AliveDead == 11, .data$species, NA)
+      species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
     ) %>%
     group_by(.data$plot_id, .data$year, .data$period, .data$plottype) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
       number_of_trees_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$Individual / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$Individual / .data$plotarea_ha)
         ),
       stem_number_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$TreeNumber / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$TreeNumber / .data$plotarea_ha)
         ),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha * .data$TreeNumber),
       basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha * .data$TreeNumber),
