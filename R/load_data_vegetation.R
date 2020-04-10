@@ -39,7 +39,7 @@ load_data_vegetation <-
           Veg.Total_shrub_cover AS total_shrub_cover_id,
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game,
+          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
           Herb.BrowseIndex AS browse_index_id
@@ -67,7 +67,7 @@ load_data_vegetation <-
           Veg.Total_shrub_cover AS total_shrub_cover_id,
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game,
+          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
           Herb.BrowseIndex AS browse_index_id
@@ -156,6 +156,12 @@ load_data_vegetation <-
       waterlayer_cover_interval = .data$cover_interval,
       waterlayer_cover_min = .data$min_cover,
       waterlayer_cover_max = .data$max_cover
+    ) %>%
+    left_join(total_cover, by = c("total_soildisturbance_game_id" = "id")) %>%
+    rename(
+      soildisturbance_game_cover_interval = .data$cover_interval,
+      soildisturbance_game_cover_min = .data$min_cover,
+      soildisturbance_game_cover_max = .data$max_cover
     )
   odbcClose(con)
 
