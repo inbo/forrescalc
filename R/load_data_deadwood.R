@@ -31,7 +31,7 @@ load_data_deadwood <-
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood.Species AS species,
@@ -51,7 +51,7 @@ load_data_deadwood <-
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood_2eSet.Species AS species,
@@ -81,7 +81,7 @@ load_data_deadwood <-
       plotarea_ha =
         ifelse(
           .data$plottype == 20,
-          (pi * .data$rA4 ^ 2)/10000,
+          (pi * .data$r_A4 ^ 2)/10000,
           NA
         ),
       plotarea_ha =

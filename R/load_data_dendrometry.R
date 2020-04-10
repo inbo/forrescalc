@@ -54,7 +54,7 @@ load_data_dendrometry <-
         Trees.ID AS tree_measure_id,
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
         Trees.DBH_mm AS dbh_mm,
@@ -82,7 +82,7 @@ load_data_dendrometry <-
         Trees.ID AS tree_measure_id,
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
         Trees.DBH_mm AS dbh_mm,
@@ -129,8 +129,8 @@ load_data_dendrometry <-
       subcirclearea_ha =
         ifelse(
           .data$subcircle == "A4",
-          (pi * .data$rA4 ^ 2)/10000,
-          (pi * .data$rA3 ^ 2)/10000
+          (pi * .data$r_A4 ^ 2)/10000,
+          (pi * .data$r_A3 ^ 2)/10000
         ),
       plotarea_ha =
         ifelse(

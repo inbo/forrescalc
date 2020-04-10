@@ -28,7 +28,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve, pd.rA2, pd.rA1,
+          pd.ForestReserve AS forest_reserve, pd.rA2 AS r_A2, pd.rA1 AS r_A1,
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Reg.ID AS subplot_id,
@@ -57,7 +57,7 @@ load_data_regeneration <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve, pd.rA2, pd.rA1,
+          pd.ForestReserve AS forest_reserve,  pd.rA2 AS r_A2, pd.rA1 AS r_A1,
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Reg.ID AS subplot_id,
@@ -118,8 +118,8 @@ load_data_regeneration <-
       subcirclearea_ha =
         ifelse(
           .data$subcircle == "A2",
-          (pi * .data$rA2 ^ 2)/10000,
-          (pi * .data$rA1 ^ 2)/10000
+          (pi * .data$r_A2 ^ 2)/10000,
+          (pi * .data$r_A1 ^ 2)/10000
         ),
       plotarea_ha =
         ifelse(
