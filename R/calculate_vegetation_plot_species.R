@@ -4,15 +4,13 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, species, year, perc_of_subplots, perc_of_subplots_browsed and perc_of_subplots_seriously_browsed
+#' @return dataframe with columns plot, species, year, number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc
 #'
 #' @examples
 #' \dontrun{
 #' #change path before running
-#' library(dplyr)
 #' data_vegetation_CA <-
-#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb") %>%
-#'   filter(plottype == 30)
+#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb", plottype == 30)
 #' calculate_vegetation_plot_species(data_vegetation_CA)
 #' }
 #'
@@ -32,7 +30,8 @@ calculate_vegetation_plot_species <- function(data_vegetation) {
       number_of_subplots_seriously_browsed =
         sum(!is.na(.data$browse_index_id) & .data$browse_index_id == 20),
       perc_of_subplots_browsed = .data$number_of_subplots_browsed * 100 / .data$number_of_subplots,
-      perc_of_subplots_seriously_browsed = .data$number_of_subplots_seriously_browsed * 100 / .data$number_of_subplots
+      perc_of_subplots_seriously_browsed = .data$number_of_subplots_seriously_browsed * 100 / .data$number_of_subplots,
+      mean_coverage_class_average_perc = mean(.data$coverage_class_average_perc)
     ) %>%
     ungroup()
 

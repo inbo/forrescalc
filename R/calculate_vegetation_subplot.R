@@ -10,8 +10,7 @@
 #' \dontrun{
 #' #change path before running
 #' data_vegetation <-
-#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb") %>%
-#'   filter(plottype == 30)
+#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb", plottype = "Core area")
 #' calculate_vegetation_subplot(data_vegetation)
 #' }
 #'
@@ -24,7 +23,9 @@ calculate_vegetation_subplot <- function(data_vegetation) {
   by_subplot <- data_vegetation %>%
     group_by(.data$plot_id, .data$subplot_id, .data$year, .data$period) %>%
     summarise(
-      number_of_species = n_distinct(.data$species)
+      number_of_species = n_distinct(.data$species),
+      cumm_herb_coverage_class_average_perc =
+        sum(.data$coverage_class_average_perc)
     ) %>%
     ungroup()
 

@@ -37,7 +37,9 @@ calculate_vegetation_plot <- function(data_vegetation) {
         mean(.data$soildisturbance_game_cover_min, na.rm = TRUE),
       soildisturbance_game_cover_max =
         mean(.data$soildisturbance_game_cover_max, na.rm = TRUE),
-      number_of_species = n_distinct(.data$species)
+      number_of_species = n_distinct(.data$species),
+      cumm_herb_coverage_class_average_perc =
+        sum(.data$coverage_class_average_perc) / n_distinct(.data$subplot_id)
     ) %>%
     ungroup() %>%
     mutate(
