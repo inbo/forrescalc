@@ -10,7 +10,10 @@
 #' \dontrun{
 #' #change path before running
 #' data_vegetation_CA <-
-#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb", plottype == 30)
+#'   load_data_vegetation(
+#'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+#'     plottype == 30
+#'   )
 #' calculate_vegetation_plot_species(data_vegetation_CA)
 #' }
 #'
