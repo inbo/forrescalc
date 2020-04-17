@@ -50,3 +50,7 @@ data_vegetation <-
   )
 
 vegetation <- calculate_vegetation(data_vegetation)
+
+save_results_git(
+  results = vegetation,
+  repo_path = path_to_git_forresdat
