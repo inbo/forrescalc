@@ -39,7 +39,7 @@ load_data_regeneration <-
           , RegSpecies.NumberClass AS number_class
           , RegSpecies.Number AS reg_number
           , RegSpecies.GameDamage_number AS rubbing_damage_number
-        FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
+        FROM (((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN
             (HeightClass
@@ -48,7 +48,7 @@ load_data_regeneration <-
                 AND HeightClass.IDPlots = RegSpecies.IDPlots
                 AND HeightClass.ID = RegSpecies.IDHeightClass)
             ON Reg.ID = HeightClass.IDRegeneration
-            AND Reg.IDPlots = HeightClass.IDPlots %s;",
+            AND Reg.IDPlots = HeightClass.IDPlots) %s;",
         selection
       )
 
@@ -68,7 +68,7 @@ load_data_regeneration <-
           , rc.NumberClass AS number_class
           , rc.Number AS reg_number
           , rc.GameDamage_number AS rubbing_damage_number
-        FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
+        FROM (((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN
             (HeightClass_2eSet hc
@@ -77,7 +77,7 @@ load_data_regeneration <-
                 AND hc.IDPlots = rc.IDPlots
                 AND hc.ID = rc.IDHeightClass_2eSet)
             ON Reg.ID = hc.IDRegeneration_2eSet
-            AND Reg.IDPlots = hc.IDPlots %s;",
+            AND Reg.IDPlots = hc.IDPlots) %s;",
         selection
       )
 
