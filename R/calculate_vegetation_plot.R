@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by n_distinct mutate summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_vegetation_plot <- function(data_vegetation) {

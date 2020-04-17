@@ -13,7 +13,7 @@
 #'
 #' @noRd
 #'
-#' @importFrom RODBC odbcConnectAccess2007 sqlQuery
+#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #'
 #'
 check_input <- function(input, database, table, column, table2 = NA) {
@@ -27,6 +27,7 @@ check_input <- function(input, database, table, column, table2 = NA) {
         c(values, sqlQuery(con, query2, stringsAsFactors = FALSE)[, column])
       )
   }
+  odbcClose(con)
   if (!input %in% values) {
     stop(
       paste0(

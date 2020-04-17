@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_logs_decay_plot <- function(data_deadwood) {

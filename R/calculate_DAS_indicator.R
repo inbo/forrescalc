@@ -25,8 +25,8 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr %>% distinct filter group_by inner_join left_join select summarise ungroup
-#' @importFrom readr read_csv2
+#' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n select summarise ungroup
+#' @importFrom readr read_delim
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'

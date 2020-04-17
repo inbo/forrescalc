@@ -19,6 +19,9 @@
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
+#' @importFrom dplyr %>% filter
+#' @importFrom rlang .data
+#'
 #' @export
 #'
 calculate_regeneration <- function(data_regeneration) {

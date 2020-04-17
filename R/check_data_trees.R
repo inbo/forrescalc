@@ -17,7 +17,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr anti_join bind_rows full_join left_join mutate
+#' @importFrom dplyr %>% anti_join bind_rows filter full_join left_join mutate select
 #'
 check_data_trees <- function(database) {
   query_trees <-

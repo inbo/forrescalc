@@ -21,7 +21,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter group_by n summarise ungroup
+#' @importFrom dplyr %>% group_by n summarise ungroup
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'

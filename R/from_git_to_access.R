@@ -10,8 +10,8 @@
 #'
 #' @export
 #'
-#' @importFrom git2rdata commit pull push repository write_vc
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlFetch
+#' @importFrom git2rdata pull repository read_vc
+#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlSave
 #'
 #' @examples
 #' \dontrun{

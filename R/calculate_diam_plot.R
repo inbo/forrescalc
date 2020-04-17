@@ -21,7 +21,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter group_by n summarise ungroup
+#' @importFrom dplyr %>% group_by left_join n rename summarise ungroup
+#' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
 calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {

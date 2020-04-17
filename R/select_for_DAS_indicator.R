@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join select_at summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join mutate select_at summarise ungroup
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #'

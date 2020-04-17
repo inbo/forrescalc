@@ -27,7 +27,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
+#' @importFrom dplyr %>% bind_rows mutate
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-

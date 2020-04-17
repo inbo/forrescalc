@@ -18,7 +18,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by inner_join mutate n summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {

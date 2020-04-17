@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
+#' @importFrom dplyr %>% bind_rows filter inner_join mutate select
 #'
 compose_stem_data <- function(data_dendro, data_shoots) {
   #omit data that could be misinterpreted if data on shoot level are added

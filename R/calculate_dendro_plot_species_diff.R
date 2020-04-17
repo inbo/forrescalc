@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select summarise transmute
+#' @importFrom dplyr %>% select transmute
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
