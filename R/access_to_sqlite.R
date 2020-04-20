@@ -8,9 +8,6 @@
 #' @return A SQLite database with the specified name is saved at the specified path
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
-#' @importFrom lubridate year
 #'
 access_to_sqlite <- function(source_db, new_db) {
   query_plots <-

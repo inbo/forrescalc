@@ -18,39 +18,40 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by inner_join n_distinct mutate summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot <- function(data_dendro, data_deadwood) {
   by_plot <- data_dendro %>%
     mutate(
-      species_alive = ifelse(.data$AliveDead == 11, .data$species, NA)
+      species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
     ) %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$Plottype) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$plottype) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
       number_of_trees_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$Individual / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$individual / .data$plotarea_ha)
         ),
       stem_number_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$TreeNumber / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$tree_number / .data$plotarea_ha)
         ),
-      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
-      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
-      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha * .data$tree_number),
+      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha * .data$tree_number),
+      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha * .data$tree_number),
+      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha * .data$tree_number),
+      vol_stem_m3 = sum(.data$vol_stem_m3 * .data$tree_number)
     ) %>%
     ungroup() %>%
     left_join(
       data_deadwood %>%
-        group_by(.data$plot_id, .data$year, .data$period, .data$Plottype) %>%
+        group_by(.data$plot_id, .data$year, .data$period, .data$plottype) %>%
         summarise(
-          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period")
+      by = c("plot_id", "year", "period", "plottype")
     ) %>%
     mutate(
       volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,

@@ -13,7 +13,7 @@ calculate_regeneration_plot(data_regeneration)
 dataframe with columns plot, year and number_of_tree_species
 }
 \description{
-This function calculates for each plot and year the number of species for generation (for all height classes together).
+This function calculates for each plot and year the number of species, total number of trees and rubbing damage percentage for generation (for all height classes together).
 }
 \examples{
 \dontrun{

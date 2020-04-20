@@ -16,14 +16,14 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by inner_join n n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_logs_decay_plot <- function(data_deadwood) {
   by_decay_plot <- data_deadwood %>%
     group_by(.data$plot_id, .data$year, .data$period, .data$decaystage) %>%
     summarise(
-      volume_log_m3_ha = sum(.data$CalcVolume_m3) / ((pi * .data$rA4 ^ 2)/10000)
+      volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
     ) %>%
     ungroup()
 

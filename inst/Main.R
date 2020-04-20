@@ -48,4 +48,9 @@ data_vegetation <-
   load_data_vegetation(
     database = path_to_fieldmap
   )
-calculate_vegetation(...)
+
+vegetation <- calculate_vegetation(data_vegetation)
+
+save_results_git(
+  results = vegetation,
+  repo_path = path_to_git_forresdat

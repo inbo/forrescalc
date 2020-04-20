@@ -18,7 +18,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% bind_rows filter group_by inner_join mutate summarise transmute ungroup
+#' @importFrom dplyr %>% transmute
+#' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height_species_diff <- function(by_plot_height_species) {

@@ -4,7 +4,8 @@
 \alias{load_data_dendrometry}
 \title{retrieve dendrometry data from fieldmap database}
 \usage{
-load_data_dendrometry(database, plottype = NA, forest_reserve = NA)
+load_data_dendrometry(database, plottype = NA, forest_reserve = NA,
+  extra_variables = FALSE)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -16,6 +17,11 @@ or 'core area' (the default NA means that data from all plots are retrieved)}
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{extra_variables}{Should additional variables such as calc_height_m,
+intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
+coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
+Default is FALSE (no).}
 }
 \value{
 Dataframe with dendrometry data

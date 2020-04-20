@@ -1,6 +1,6 @@
 #' calculate species number by plot and year
 #'
-#' This function calculates for each plot and year the number of species for generation (for all height classes together).
+#' This function calculates for each plot and year the number of species, total number of trees and rubbing damage percentage for generation (for all height classes together).
 #'
 #' @inheritParams calculate_regeneration
 #'
@@ -23,7 +23,10 @@ calculate_regeneration_plot <- function(data_regeneration) {
   by_plot <- data_regeneration %>%
     group_by(.data$plot_id, .data$year, .data$period) %>%
     summarise(
-      number_of_tree_species = n_distinct(.data$species)
+      number_of_tree_species = n_distinct(.data$species),
+      min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
+      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
+      rubbing_damage_perc = mean(.data$rubbing_damage_perc)
     ) %>%
     ungroup()
 

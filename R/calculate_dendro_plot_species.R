@@ -18,35 +18,36 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by inner_join mutate n summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
   by_plot_species <- data_dendro %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$Plottype) %>%
+    group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$plottype) %>%
     summarise(
       number_of_trees_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$Individual / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$individual / .data$plotarea_ha)
         ),
       stem_number_ha =
         round(
-          sum((.data$AliveDead == 11) * .data$TreeNumber / .data$plotarea_ha)
+          sum((.data$alive_dead == 11) * .data$tree_number / .data$plotarea_ha)
         ),
-      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
-      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha),
-      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha)
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha * .data$tree_number),
+      basal_area_snag_m2_ha = sum(.data$basal_area_snag_m2_ha * .data$tree_number),
+      volume_alive_m3_ha = sum(.data$volume_alive_m3_ha * .data$tree_number),
+      volume_snag_m3_ha = sum(.data$volume_snag_m3_ha * .data$tree_number),
+      vol_stem_m3 = sum(.data$vol_stem_m3 * .data$tree_number)
     ) %>%
     ungroup() %>%
     left_join(
       data_deadwood %>%
-        group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$Plottype) %>%
+        group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$plottype) %>%
         summarise(
-          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "species")
+      by = c("plot_id", "year", "period", "species", "plottype")
     ) %>%
     mutate(
       volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,

@@ -16,7 +16,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
+#' @importFrom dplyr %>% bind_rows mutate
 #' @importFrom lubridate round_date year
 #'
 load_data_deadwood <-
@@ -27,17 +27,18 @@ load_data_deadwood <-
   query_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-        pd.ForestReserve,
+        pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
-        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
+        pd.LenghtCoreArea_m AS length_core_area_m,
+        pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
-        Deadwood.CalcVolume_m3,
-        Deadwood.MaxDiam_mm,
-        Deadwood.TreeNumber
+        Deadwood.CalcVolume_m3 AS calc_volume_m3,
+        Deadwood.MaxDiam_mm AS max_diam_mm,
+        Deadwood.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
         INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
       selection
@@ -46,17 +47,18 @@ load_data_deadwood <-
   query_deadwood2 <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype,
+        Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-        pd.ForestReserve,
+        pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
-        pd.rA1, pd.rA2, pd.rA3, pd.rA4,
-        pd.LenghtCoreArea_m, pd.WidthCoreArea_m,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
+        pd.LenghtCoreArea_m AS length_core_area_m,
+        pd.WidthCoreArea_m AS width_core_area_m,
         Deadwood_2eSet.Species AS species,
         Deadwood_2eSet.DecayStage AS decaystage,
-        Deadwood_2eSet.CalcVolume_m3,
-        Deadwood_2eSet.MaxDiam_mm,
-        Deadwood_2eSet.TreeNumber
+        Deadwood_2eSet.CalcVolume_m3 AS calc_volume_m3,
+        Deadwood_2eSet.MaxDiam_mm AS max_diam_mm,
+        Deadwood_2eSet.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
       selection
@@ -75,17 +77,17 @@ load_data_deadwood <-
     ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
-      DBHClass_5cm = give_diamclass_5cm(.data$MaxDiam_mm),
+      dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 20,
-          (pi * .data$rA4 ^ 2)/10000,
+          .data$plottype == 20,
+          (pi * .data$r_A4 ^ 2)/10000,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$Plottype == 30,
-          .data$LenghtCoreArea_m * .data$WidthCoreArea_m,
+          .data$plottype == 30,
+          .data$length_core_area_m * .data$width_core_area_m,
           .data$plotarea_ha
         ),
       plotarea_ha =

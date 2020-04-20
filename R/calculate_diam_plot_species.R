@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year, tree_species, DBHClass_5cm, basal_area_m2_ha, volume_m3_ha
+#' @return dataframe with columns plot, year, tree_species, dbh_class_5cm, basal_area_m2_ha, volume_m3_ha
 #'
 #' @examples
 #' \dontrun{
@@ -21,7 +21,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter group_by n summarise ungroup
+#' @importFrom dplyr %>% group_by n summarise ungroup
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'
@@ -30,7 +30,7 @@ calculate_diam_plot_species <-
   by_diam_plot_species <- data_stems %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,
-      .data$DBHClass_5cm, .data$AliveDead
+      .data$dbh_class_5cm, .data$alive_dead
     ) %>%
     summarise(
       stem_number_ha = round(sum(n() / .data$plotarea_ha)),
@@ -38,7 +38,7 @@ calculate_diam_plot_species <-
     ) %>%
     ungroup() %>%
     pivot_wider(
-      names_from = "AliveDead",
+      names_from = "alive_dead",
       values_from = c("stem_number_ha", "basal_area_m2_ha")
     ) %>%
     rename(
@@ -51,7 +51,7 @@ calculate_diam_plot_species <-
       data_dendro %>%
         group_by(
           .data$plot_id, .data$year, .data$period, .data$species,
-          .data$DBHClass_5cm
+          .data$dbh_class_5cm
         ) %>%
         summarise(
           basal_area_tree_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
@@ -60,20 +60,20 @@ calculate_diam_plot_species <-
           volume_tree_snag_m3_ha = sum(.data$volume_snag_m3_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "species", "DBHClass_5cm")
+      by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
     ) %>%
     left_join(
       data_deadwood %>%
         group_by(
           .data$plot_id, .data$year, .data$period, .data$species,
-          .data$DBHClass_5cm
+          .data$dbh_class_5cm
         ) %>%
         summarise(
           log_number_ha = round(sum(n() / .data$plotarea_ha)),
-          volume_log_m3_ha = sum(.data$CalcVolume_m3 / .data$plotarea_ha)
+          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "species", "DBHClass_5cm")
+      by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
     )
 
   return(by_diam_plot_species)
