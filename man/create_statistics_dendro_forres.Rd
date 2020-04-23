@@ -4,10 +4,10 @@
 \alias{create_statistics_dendro_forres}
 \title{Calculate statistics by forest reserve and year}
 \usage{
-create_statistics_dendro_forres(dendro_by_plot_year)
+create_statistics_dendro_forres(dendro_by_plot)
 }
 \arguments{
-\item{dendro_by_plot_year}{data on the level of plot and year, e.g. table dendro_by_plot_year in git repository forresdat or the result of function calculate_dendro_plot_year()}
+\item{dendro_by_plot}{data on the level of plot and year, e.g. table dendro_by_plot in git repository forresdat or the result of function calculate_dendro_plot()}
 }
 \value{
 dataframe with columns forres, year, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
@@ -18,9 +18,9 @@ This function shows data from the git-repository forresdat on the level of plot 
 \examples{
 \dontrun{
 #change path before running
-dendro_by_plot_year <-
-  read_git(tablename = "dendro_by_plot_year", repo_path = "C:/gitrepo/forresdat")
-statisticize_dendro_forres_year(dendro_by_plot_year)
+dendro_by_plot <-
+  read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+create_statistics_dendro_forres(dendro_by_plot)
 }
 
 }
