@@ -17,58 +17,58 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr anti_join bind_rows full_join left_join mutate
+#' @importFrom dplyr %>% anti_join bind_rows filter full_join left_join mutate select
 #'
 check_data_trees <- function(database) {
   query_trees <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype,
+      Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
-      Trees.DBH_mm,
-      Trees.Height_m,
+      Trees.DBH_mm AS dbh_mm,
+      Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
-      Trees.AliveDead,
-      Trees.IndShtCop,
+      Trees.AliveDead AS alive_dead,
+      Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
       Trees.Remark,
-      Trees.TreeNumber,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2
+      Trees.TreeNumber AS tree_number,
+      Trees.Vol_tot_m3 AS vol_tot_m3,
+      Trees.BasalArea_m2 AS basal_area_m2
     FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots <-
-    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm, Height_m, IntactSnag
+    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots"
 
   query_trees2 <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype,
+      Plots.Plottype AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
-      Trees.DBH_mm,
-      Trees.Height_m,
+      Trees.DBH_mm AS dbh_mm,
+      Trees.Height_m AS height_m,
       Trees.Species,
       Trees.IntactSnag,
-      Trees.AliveDead,
-      Trees.IndShtCop,
+      Trees.AliveDead AS alive_dead,
+      Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage,
       Trees.Remark,
-      Trees.TreeNumber,
-      Trees.Adjust_Vol_tot_m3,
-      Trees.AdjustBasalArea_m2,
+      Trees.TreeNumber AS tree_number,
+      Trees.Vol_tot_m3 AS vol_tot_m3,
+      Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
     FROM Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots;"
 
   query_shoots2 <-
     "SELECT IDPlots,
       XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees, ID AS shoot_id,
-      DBH_mm, Height_m, IntactSnag
+      DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots_2eSET"
 
   con <- odbcConnectAccess2007(database)
@@ -99,20 +99,20 @@ check_data_trees <- function(database) {
     mutate(
       problem =
         ifelse(
-          .data$Plottype == 20 & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
+          .data$plottype == 20 & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
           "tree not in A4",
           NA
         ),
       problem =
         ifelse(
-          .data$Plottype == 20 & .data$AliveDead == 11 & .data$DBH_mm < 400 &
+          .data$plottype == 20 & .data$alive_dead == 11 & .data$dbh_mm < 400 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
-          .data$Plottype == 20 & .data$AliveDead == 12 & .data$DBH_mm < 100 &
+          .data$plottype == 20 & .data$alive_dead == 12 & .data$dbh_mm < 100 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
@@ -121,7 +121,7 @@ check_data_trees <- function(database) {
     # shoots niet correct gelinkt met trees
     left_join(
       data_trees %>%
-        filter(.data$IndShtCop == 12) %>%
+        filter(.data$ind_sht_cop == 12) %>%
         anti_join(
           data_shoots,
           by = c("IDPlots", "X_m" = "XTrees", "Y_m" = "YTrees",
@@ -153,7 +153,7 @@ check_data_trees <- function(database) {
        data_shoots %>%
         anti_join(
           data_trees %>%
-            filter(.data$IndShtCop == 12),
+            filter(.data$ind_sht_cop == 12),
           by = c("IDPlots", "XTrees" = "X_m", "YTrees" = "Y_m",
                  "IDTrees" = "tree_measure_id", "period")
         ) %>%
@@ -179,7 +179,7 @@ check_data_trees <- function(database) {
         ),
       coppiceproblem = NULL
     ) %>%
-    filter(!is.na(problem))
+    filter(!is.na(.data$problem))
 
   return(incorrect_trees)
 }

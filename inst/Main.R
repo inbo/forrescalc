@@ -19,8 +19,13 @@ data_deadwood <-
   load_data_deadwood(
     database = path_to_fieldmap
   )
+data_shoots <-
+  load_data_shoots(
+    database = path_to_fieldmap
+  )
+data_stems  <- compose_stem_data(data_dendro, data_shoots)
 
-dendro <- calculate_dendrometry(data_dendro, data_deadwood)
+dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems)
 
 save_results_git(
   results = dendro,
@@ -43,4 +48,9 @@ data_vegetation <-
   load_data_vegetation(
     database = path_to_fieldmap
   )
-calculate_vegetation(...)
+
+vegetation <- calculate_vegetation(data_vegetation)
+
+save_results_git(
+  results = vegetation,
+  repo_path = path_to_git_forresdat

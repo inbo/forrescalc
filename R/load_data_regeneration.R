@@ -2,7 +2,7 @@
 #'
 #' This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with regeneration data
 #'
@@ -16,52 +16,70 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows left_join mutate
+#' @importFrom dplyr %>% bind_rows left_join mutate select
 #' @importFrom lubridate year
 #'
-load_data_regeneration <- function(database) {
-  query_regeneration <-
-    "SELECT Plots.ID AS plot_id
-  , pd.ForestReserve, Reg.Area_m2
-  , Reg.Date AS date_regeneration
-  , Reg.Year AS year_record
-  , HeightClass.HeightClass AS height_class
-  , RegSpecies.Species AS species
-  , RegSpecies.NumberClass AS number_class
-  , RegSpecies.Number
-  , RegSpecies.GameDamage_number
-  FROM ((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
-  INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
-  INNER JOIN (HeightClass INNER JOIN RegSpecies ON (HeightClass.IDRegeneration = RegSpecies.IDRegeneration)
-  AND (HeightClass.IDPlots = RegSpecies.IDPlots)
-  AND (HeightClass.ID = RegSpecies.IDHeightClass))
-  ON (Reg.ID = HeightClass.IDRegeneration) AND (Reg.IDPlots = HeightClass.IDPlots)
-  WHERE (((Plots.Plottype)=20));
-  "
+load_data_regeneration <-
+  function(database, plottype = NA, forest_reserve = NA) {
+    selection <-
+      translate_input_to_selectionquery(database, plottype, forest_reserve)
+    query_regeneration <-
+      sprintf(
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype AS plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          pd.ForestReserve AS forest_reserve, pd.rA2 AS r_A2, pd.rA1 AS r_A1,
+          pd.LenghtCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
+          Reg.ID AS subplot_id,
+          Reg.Date AS date_regeneration
+          , Reg.Year AS year_record
+          , HeightClass.HeightClass AS height_class
+          , RegSpecies.Species AS species
+          , RegSpecies.NumberClass AS number_class
+          , RegSpecies.Number AS reg_number
+          , RegSpecies.GameDamage_number AS rubbing_damage_number
+        FROM (((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
+          INNER JOIN
+            (HeightClass
+              INNER JOIN RegSpecies
+                ON HeightClass.IDRegeneration = RegSpecies.IDRegeneration
+                AND HeightClass.IDPlots = RegSpecies.IDPlots
+                AND HeightClass.ID = RegSpecies.IDHeightClass)
+            ON Reg.ID = HeightClass.IDRegeneration
+            AND Reg.IDPlots = HeightClass.IDPlots) %s;",
+        selection
+      )
 
-  #   Reg.Area_m2: opp. beter halen uit plotdetails: obv rA2
-  # idem voor Date
-
-
-  query_regeneration2 <-
-    "SELECT Plots.ID AS plot_id
-  , pd.ForestReserve, Reg.Area_m2
-  , Reg.Date AS date_regeneration
-  , Reg.Year AS year_record
-  , HeightClass_2eSet.HeightClass AS height_class
-  , RegSpecies_2eSet.Species AS species
-  , RegSpecies_2eSet.NumberClass AS number_class
-  , RegSpecies_2eSet.Number
-  , RegSpecies_2eSet.GameDamage_number
-  FROM ((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
-  INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
-  INNER JOIN (HeightClass_2eSet INNER JOIN RegSpecies_2eSet ON
-  (HeightClass_2eSet.IDRegeneration_2eSet = RegSpecies_2eSet.IDRegeneration_2eSet)
-  AND (HeightClass_2eSet.IDPlots = RegSpecies_2eSet.IDPlots)
-  AND (HeightClass_2eSet.ID = RegSpecies_2eSet.IDHeightClass_2eSet))
-  ON (Reg.ID = HeightClass_2eSet.IDRegeneration_2eSet) AND (Reg.IDPlots = HeightClass_2eSet.IDPlots)
-  WHERE (((Plots.Plottype)=20));
-  "
+    query_regeneration2 <-
+      sprintf(
+        "SELECT Plots.ID AS plot_id,
+          Plots.Plottype AS plottype,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          pd.ForestReserve AS forest_reserve,  pd.rA2 AS r_A2, pd.rA1 AS r_A1,
+          pd.LenghtCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
+          Reg.ID AS subplot_id,
+          Reg.Date AS date_regeneration
+          , Reg.Year AS year_record
+          , hc.HeightClass AS height_class
+          , rc.Species AS species
+          , rc.NumberClass AS number_class
+          , rc.Number AS reg_number
+          , rc.GameDamage_number AS rubbing_damage_number
+        FROM (((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
+          INNER JOIN
+            (HeightClass_2eSet hc
+              INNER JOIN RegSpecies_2eSet rc
+                ON hc.IDRegeneration_2eSet = rc.IDRegeneration_2eSet
+                AND hc.IDPlots = rc.IDPlots
+                AND hc.ID = rc.IDHeightClass_2eSet)
+            ON Reg.ID = hc.IDRegeneration_2eSet
+            AND Reg.IDPlots = hc.IDPlots) %s;",
+        selection
+      )
 
   number_classes <-
     data.frame(
@@ -85,15 +103,62 @@ load_data_regeneration <- function(database) {
         )
     ) %>%
     mutate(
-      area_ha = .data$Area_m2 / 10000,
-      Area_m2 = NULL,
       year = year(.data$date_regeneration),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year)
+      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      subcircle =
+        ifelse(
+          .data$height_class %in% c(3000, 4000),
+          "A2",
+          ifelse(
+            .data$height_class %in% c(1000, 2000, 5000),
+            "A1",
+            NA_character_
+          )
+        ),
+      subcirclearea_ha =
+        ifelse(
+          .data$subcircle == "A2",
+          (pi * .data$r_A2 ^ 2)/10000,
+          (pi * .data$r_A1 ^ 2)/10000
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == 20,
+          .data$subcirclearea_ha,
+          NA
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == 30,
+          .data$length_core_area_m * .data$width_core_area_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          is.na(.data$plotarea_ha),
+          .data$totalplotarea_ha,
+          .data$plotarea_ha
+        ),
+      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$reg_number
     ) %>%
     left_join(
       number_classes %>%
         select(-.data$number_class),
       by = c("number_class" = "id")
+    ) %>%
+    mutate(
+      min_number_of_trees =
+        ifelse(
+          is.na(.data$min_number_of_trees),
+          .data$reg_number,
+          .data$min_number_of_trees
+        ),
+      max_number_of_trees =
+        ifelse(
+          is.na(.data$max_number_of_trees),
+          .data$reg_number,
+          .data$max_number_of_trees
+        )
     )
   odbcClose(con)
 

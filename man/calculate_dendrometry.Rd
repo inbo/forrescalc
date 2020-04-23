@@ -4,12 +4,14 @@
 \alias{calculate_dendrometry}
 \title{aggregates parameters on dendrometry of trees}
 \usage{
-calculate_dendrometry(data_dendro, data_deadwood)
+calculate_dendrometry(data_dendro, data_deadwood, data_stems)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, tree_measure_id, date_dendro, DBH_mm, Height_m, species, AliveDead, decaystage, Adjust_Vol_tot_m3, AdjustBasalArea_m2, period, OldID, year, plottype, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, date_dendro, species, decaystage, CalcVolume_m3, period and year (output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
+
+\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -20,6 +22,8 @@ This function makes aggregations of individual tree measures on the levels of
  \item plot and year
  \item plot, tree species and year
  \item individual trees: statuses in different years
+ \item diameter class, plot and year
+ \item diameter class, plot, tree species and year
 }
 and it makes aggregations of volume data on logs on the levels of
 \itemize{
@@ -34,7 +38,10 @@ data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_dendrometry(data_dendro, data_deadwood)
+data_shoots <-
+  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_stems <- compose_stem_data(data_dendro, data_shoots)
+calculate_dendrometry(data_dendro, data_deadwood, data_stems)
 }
 
 }

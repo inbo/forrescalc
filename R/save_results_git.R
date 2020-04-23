@@ -25,7 +25,7 @@ save_results_git <- function(results, repo_path, push = FALSE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   sorting_max <-
-    c("period", "year", "plot_id", "tree_measure_id", "height_class", "species")
+    c("period", "year", "plot_id", "dbh_class_5cm", "decaystage", "subplot_id", "tree_measure_id", "height_class", "species")
   for (tablename in names(results)) {
     sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
     write_vc(results[[tablename]], file = paste0("data/", tablename),
