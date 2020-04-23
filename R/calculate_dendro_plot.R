@@ -26,7 +26,10 @@ calculate_dendro_plot <- function(data_dendro, data_deadwood) {
     mutate(
       species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
     ) %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$plottype) %>%
+    group_by(
+      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+      .data$plottype
+    ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
       number_of_trees_ha =

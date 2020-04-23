@@ -21,7 +21,7 @@
 #'
 calculate_vegetation_plot <- function(data_vegetation) {
   by_plot <- data_vegetation %>%
-    group_by(.data$plot_id, .data$year, .data$period) %>%
+    group_by(.data$plot_id, .data$forest_reserve, .data$year, .data$period) %>%
     summarise(
       moss_cover_min = mean(.data$moss_cover_min, na.rm = TRUE),
       moss_cover_max = mean(.data$moss_cover_max, na.rm = TRUE),

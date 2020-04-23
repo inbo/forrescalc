@@ -23,7 +23,8 @@ calculate_logs_decay_plot_species <- function(data_deadwood) {
   by_decay_plot_species <-
     data_deadwood %>%
       group_by(
-        .data$plot_id, .data$year, .data$period, .data$species, .data$decaystage
+        .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+        .data$species, .data$decaystage
       ) %>%
       summarise(
         volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)

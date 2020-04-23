@@ -28,8 +28,8 @@
 calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
   by_diam_plot <- data_stems %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$dbh_class_5cm,
-      .data$alive_dead
+      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+      .data$dbh_class_5cm, .data$alive_dead
     ) %>%
     summarise(
       stem_number_ha = round(sum(n() / .data$plotarea_ha)),

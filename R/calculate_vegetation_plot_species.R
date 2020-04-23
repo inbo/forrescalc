@@ -24,7 +24,10 @@
 #'
 calculate_vegetation_plot_species <- function(data_vegetation) {
   by_plot_species <- data_vegetation %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
+    group_by(
+      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+      .data$species
+    ) %>%
     summarise(
       number_of_subplots = n_distinct(.data$subplot_id),
       perc_of_subplots = .data$number_of_subplots * 100 / 98,

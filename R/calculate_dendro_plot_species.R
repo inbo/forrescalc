@@ -23,7 +23,10 @@
 #'
 calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
   by_plot_species <- data_dendro %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$plottype) %>%
+    group_by(
+      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+      .data$species, .data$plottype
+    ) %>%
     summarise(
       number_of_trees_ha =
         round(

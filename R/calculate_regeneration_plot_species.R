@@ -24,7 +24,10 @@
 #'
 calculate_regeneration_plot_species <- function(data_regeneration) {
   by_plot_species <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
+    group_by(
+      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
+      .data$species
+    ) %>%
     summarise(
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =

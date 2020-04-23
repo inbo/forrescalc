@@ -24,7 +24,10 @@
 #'
 calculate_vegetation_subplot <- function(data_vegetation) {
   by_subplot <- data_vegetation %>%
-    group_by(.data$plot_id, .data$subplot_id, .data$year, .data$period) %>%
+    group_by(
+      .data$plot_id, .data$forest_reserve, .data$subplot_id, .data$year,
+      .data$period
+    ) %>%
     summarise(
       number_of_species = n_distinct(.data$species),
       cumm_herb_coverage_class_average_perc =
