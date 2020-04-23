@@ -4,7 +4,7 @@
 \alias{save_results_git}
 \title{save results of calculations in git repository}
 \usage{
-save_results_git(results, repo_path, push = FALSE, strict = FALSE)
+save_results_git(results, repo_path, push = FALSE, strict = TRUE)
 }
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
@@ -13,7 +13,7 @@ save_results_git(results, repo_path, push = FALSE, strict = FALSE)
 
 \item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
 
-\item{strict}{keep default FALSE to update data, change to TRUE if tables are structurally changed (e.g. additional column, change in sorting order,...)}
+\item{strict}{keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)}
 }
 \value{
 No value is returned, data are saved in the specified git repository
