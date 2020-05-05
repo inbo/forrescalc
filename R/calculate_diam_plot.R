@@ -22,7 +22,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% group_by left_join n rename summarise ungroup
-#' @importFrom tidyr pivot_wider
+#' @importFrom tidyr pivot_wider replace_na
 #' @importFrom rlang .data
 #'
 calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
@@ -71,6 +71,21 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "dbh_class_5cm")
+    ) %>%
+    replace_na(
+      list(
+        stem_number_alive_ha = 0,
+        stem_number_snag_ha = 0,
+        basal_area_shoot_alive_m2_ha = 0,
+        basal_area_shoot_snag_m2_ha = 0,
+        basal_area_tree_alive_m2_ha = 0,
+        basal_area_tree_snag_m2_ha = 0,
+        volume_tree_alive_m3_ha = 0,
+        volume_tree_snag_m3_ha = 0,
+        log_number_ha = 0,
+        volume_log_m3_ha = 0
+      )
     )
+
   return(by_diam_plot)
 }
