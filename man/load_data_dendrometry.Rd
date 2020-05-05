@@ -4,8 +4,12 @@
 \alias{load_data_dendrometry}
 \title{retrieve dendrometry data from fieldmap database}
 \usage{
-load_data_dendrometry(database, plottype = NA, forest_reserve = NA,
-  extra_variables = FALSE)
+load_data_dendrometry(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  extra_variables = FALSE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
