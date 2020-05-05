@@ -60,7 +60,7 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
         ungroup(),
       by = c("plot_id", "year", "period", "dbh_class_5cm")
     ) %>%
-    left_join(
+    full_join(
       data_deadwood %>%
         group_by(
           .data$plot_id, .data$year, .data$period, .data$dbh_class_5cm

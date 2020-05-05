@@ -62,7 +62,7 @@ calculate_diam_plot_species <-
         ungroup(),
       by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
     ) %>%
-    left_join(
+    full_join(
       data_deadwood %>%
         group_by(
           .data$plot_id, .data$year, .data$period, .data$species,
