@@ -174,6 +174,18 @@ load_data_dendrometry <-
           .data$vol_tot_m3 / .data$plotarea_ha,
           0
         ),
+      volume_stem_alive_m3_ha =
+        ifelse(
+          .data$alive_dead == 11,
+          .data$vol_stem_m3 / .data$plotarea_ha,
+          0
+        ),
+      volume_stem_snag_m3_ha =
+        ifelse(
+          .data$alive_dead == 12,
+          .data$vol_stem_m3 / .data$plotarea_ha,
+          0
+        ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
   odbcClose(con)
