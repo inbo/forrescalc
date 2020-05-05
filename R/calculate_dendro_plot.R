@@ -55,6 +55,12 @@ calculate_dendro_plot <- function(data_dendro, data_deadwood) {
       by = c("plot_id", "year", "period", "plottype")
     ) %>%
     mutate(
+      volume_log_m3_ha =
+        ifelse(
+          is.na(.data$volume_log_m3_ha) & .data$plottype %in% c(20, 30) &
+            !is.na(.data$volume_alive_m3_ha),
+          0, .data$volume_log_m3_ha
+        ),
       volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
