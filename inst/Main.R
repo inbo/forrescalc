@@ -18,7 +18,8 @@ data_dendro <-
 data_deadwood <-
   load_data_deadwood(
     database = path_to_fieldmap
-  )
+  ) %>%
+  filter(plot_id != 11000)  # in KV Kersselaerspleyn (plot 11000) no lying deadwood is meausured
 data_shoots <-
   load_data_shoots(
     database = path_to_fieldmap
@@ -26,6 +27,8 @@ data_shoots <-
 data_stems  <- compose_stem_data(data_dendro, data_shoots)
 
 dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems)
+
+# WARNING: if plotid 11000 in data, replace (lying) deadwood results for plot_id = 11000 by "NA"
 
 save_results_git(
   results = dendro,
