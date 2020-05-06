@@ -20,7 +20,7 @@
 #' @importFrom rlang .data
 #'
 create_statistics_dendro_forres <- function(dendro_by_plot) {
-  by_forres_year <- dendro_by_plot %>%
+  by_forres <- dendro_by_plot %>%
     group_by(.data$forest_reserve, .data$year, .data$period) %>%
     summarise(
       number_of_tree_species = mean(.data$number_of_tree_species),
@@ -30,12 +30,13 @@ create_statistics_dendro_forres <- function(dendro_by_plot) {
       basal_area_snag_m2_ha = mean(.data$basal_area_snag_m2_ha),
       volume_alive_m3_ha = mean(.data$volume_alive_m3_ha),
       volume_snag_m3_ha = mean(.data$volume_snag_m3_ha),
-      vol_stem_m3 = mean(.data$vol_stem_m3),
+      vol_stem_alive_m3_ha = mean(.data$vol_stem_alive_m3_ha),
+      vol_stem_snag_m3_ha = mean(.data$vol_stem_snag_m3_ha),
       volume_log_m3_ha = mean(.data$volume_log_m3_ha),
       volume_deadwood_m3_ha = mean(.data$volume_deadwood_m3_ha),
       stems_per_tree = mean(.data$stems_per_tree)
     ) %>%
     ungroup()
 
-  return(by_forres_year)
+  return(by_forres)
 }
