@@ -38,7 +38,7 @@ load_data_dendrometry <-
     ifelse(
       extra_variables,
       ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
-        (Trees.X_m - Plots.Xorig_m) AS x_m, (Trees.Y_m - Plots.Yorig_m) AS y_m,
+        (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CrownVolumeReduction AS crown_volume_reduction,
         Trees.BrancheLengthReduction AS branche_length_reduction,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
