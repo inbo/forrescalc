@@ -19,11 +19,7 @@ give_diamclass_5cm <- function(diameterdata) {
       ifelse(
         diameterdata >= 2500,
         49,
-        ifelse(
-          diameterdata == 50,
-          1,
-          round((diameterdata - 25) / 50)
-        )
+        floor(diameterdata / 50)
       ),
       levels = 1:49,
       labels =
