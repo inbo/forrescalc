@@ -22,6 +22,7 @@ load_data_shoots <- function(database) {
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
       Shoots.IDTrees AS tree_measure_id,
+      Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
       Shoots.DecayStage_Shoots as decaystage
@@ -30,6 +31,7 @@ load_data_shoots <- function(database) {
   query_shoots2 <-
     "SELECT Shoots.IDPlots AS plot_id,
       Shoots.IDTrees_2eSet AS tree_measure_id,
+      Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
       Shoots.DecayStage_shoots as decaystage
