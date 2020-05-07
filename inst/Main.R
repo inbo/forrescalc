@@ -19,8 +19,7 @@ data_dendro <-
 data_deadwood <-
   load_data_deadwood(
     database = path_to_fieldmap
-  ) %>%
-  filter(plot_id != 11000)  # in KV Kersselaerspleyn (plot 11000) no lying deadwood is meausured
+  )
 data_shoots <-
   load_data_shoots(
     database = path_to_fieldmap
