@@ -32,7 +32,7 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
       .data$dbh_class_5cm, .data$alive_dead
     ) %>%
     summarise(
-      stem_number_ha = round(n() / mean(.data$plotarea_ha)),
+      stem_number_ha = round(sum(1 / .data$plotarea_ha)),
       basal_area_m2_ha = sum(.data$basal_area_m2 / .data$plotarea_ha)
     ) %>%
     ungroup() %>%
