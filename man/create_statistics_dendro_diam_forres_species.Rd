@@ -10,7 +10,7 @@ create_statistics_dendro_diam_forres_species(dendro_by_diam_plot_species)
 \item{dendro_by_diam_plot_species}{data on the level of plot, diameter, species and year, e.g. table dendro_by_diam_plot_species in git repository forresdat or the result of function calculate_diam_plot_species()}
 }
 \value{
-dataframe with columns forres, year, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
+dataframe with columns forres, species, year, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
 This function shows data from the git-repository forresdat on the level of plot, species and year some values per diameter class and hectare: number of trees, basal area, and volume.
