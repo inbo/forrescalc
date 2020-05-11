@@ -1,12 +1,12 @@
 #' Calculate statistics for the given dataset
 #'
-#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include mean, variance and confidence interval.
+#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include mean, variance and confidence interval (lci and uci).
 #'
 #' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
 #' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve and species), given as a string or a vector of strings.  Datasets are automatically grouped by year and period and it is not necessary to include these variables here.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #'
-#' @return dataframe with columns year, period and the columns chosen for level and variable
+#' @return dataframe with columns year, period, the columns chosen for level and for each variable the columns mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 #'
 #' @examples
 #' \dontrun{
@@ -22,6 +22,10 @@
 #'   variables = c("basal_area_shoot_alive_m2_ha", "basal_area_shoot_snag_m2_ha",
 #'       "basal_area_tree_alive_m2_ha", "basal_area_tree_snag_m2_ha")
 #' )
+#' vegetation_by_plot <-
+#'   read_git(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
+#' create_statistics(dataset = vegetation_by_plot, level = "forest_reserve",
+#'   variables = c("number_of_species", "cumm_herb_coverage_class_average_perc"))
 #' }
 #'
 #' @export
