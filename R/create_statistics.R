@@ -26,17 +26,29 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by_at summarise_at ungroup vars
+#' @importFrom dplyr %>% group_by_at select summarise ungroup vars
+#' @importFrom tidyselect all_of
+#' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom rlang .data
 #'
 create_statistics <- function(dataset, level = "forest_reserve", variables) {
   level <- c("year", "period", level)
+
   statistics <- dataset %>%
-    group_by_at(vars(level)) %>%
-    summarise_at(
-      variables, list(n = n, mean = mean, var = var)
+    select(all_of(c(level, variables))) %>%
+    pivot_longer(cols = all_of(variables), names_to = "varnames") %>%
+    group_by_at(vars(c(level, "varnames"))) %>%
+    summarise(
+      mean = mean(.data$value),
+      variance = var(.data$value),
+      lci = .data$mean - 1.96 * sqrt(.data$variance) / sqrt(n()),
+      uci = .data$mean + 1.96 * sqrt(.data$variance) / sqrt(n())
     ) %>%
-    ungroup()
+    ungroup() %>%
+    pivot_wider(
+      names_from = "varnames",
+      values_from = c("mean", "variance", "lci", "uci")
+    )
 
   return(statistics)
 }
