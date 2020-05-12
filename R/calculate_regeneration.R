@@ -6,6 +6,11 @@
 #'  \item plot and year
 #'  \item plot, height class, tree species and year
 #' }
+#' For core area plots it makes additional aggregations on the levels of
+#' \itemize{
+#'  \item core area, tree species and year
+#'  \item core area, height class, tree species and year
+#' }
 #'
 #' @examples
 #' \dontrun{
@@ -31,14 +36,17 @@ calculate_regeneration <- function(data_regeneration) {
     calculate_regeneration_plot_height_species(data_regeneration)
   data_regeneration_CA <- data_regeneration %>%
     filter(.data$plottype == 30)
-  by_plot_species <- calculate_regeneration_plot_species(data_regeneration_CA)
+  by_ca_species <- calculate_regeneration_core_area_species(data_regeneration_CA)
+  by_ca_height_species <-
+    calculate_regeneration_core_area_height_species(data_regeneration_CA)
 
   return(
     list(
       regeneration_by_plot_height = by_plot_height,
       regeneration_by_plot = by_plot,
       regeneration_by_plot_height_species = by_plot_height_species,
-      regeneration_by_plot_species = by_plot_species
+      regeneration_by_core_area_species = by_ca_species,
+      regeneration_by_core_area_height_species = by_ca_height_species
     )
   )
 }
