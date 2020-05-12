@@ -16,7 +16,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows left_join mutate rename
+#' @importFrom dplyr %>% bind_rows mutate
 #' @importFrom lubridate year
 #'
 load_data_herblayer <-
