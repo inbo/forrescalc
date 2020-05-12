@@ -28,15 +28,7 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
     summarise(
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
-      rubbing_damage_perc = mean(.data$rubbing_damage_perc),
-      number_of_subplots_with_regeneration =
-        ifelse(
-          mean(.data$plottype) == 30,
-          n_distinct(.data$subplot_id),
-          NA
-        ),
-      perc_subplots_with_regeneration =
-        .data$number_of_subplots_with_regeneration * 100 / 98
+      rubbing_damage_perc = mean(.data$rubbing_damage_perc)
     ) %>%
     ungroup()
 
