@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height_species <- function(data_regeneration) {
