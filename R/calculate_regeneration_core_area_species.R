@@ -22,7 +22,7 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_regeneration_plot_species <- function(data_regeneration) {
+calculate_regeneration_core_area_species <- function(data_regeneration) {
   by_plot_species <- data_regeneration %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
