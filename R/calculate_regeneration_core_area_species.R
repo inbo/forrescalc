@@ -33,7 +33,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
-        .data$number_of_subplots_with_regeneration * 100 / 98
+        .data$number_of_subplots_with_regeneration * 100 / n_distinct(.data$subplot_id)
     ) %>%
     ungroup()
 

@@ -30,7 +30,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
     ) %>%
     summarise(
       number_of_subplots = n_distinct(.data$subplot_id),
-      perc_of_subplots = .data$number_of_subplots * 100 / 98,
+      perc_of_subplots = .data$number_of_subplots * 100 / n_distinct(.data$subplot_id),
       number_of_subplots_browsed =
         sum(!is.na(.data$browse_index_id) & .data$browse_index_id %in% c(10, 20)),
       number_of_subplots_seriously_browsed =
