@@ -1,4 +1,4 @@
-#' aggregate vegetation parameters by plot, species and year
+#' aggregate vegetation parameters by core area, species and year
 #'
 #' This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots.
 #'
@@ -14,7 +14,7 @@
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
 #'     plottype = "Core area"
 #'   )
-#' calculate_vegetation_plot_species(data_herblayer_CA)
+#' calculate_vegetation_core_area_species(data_herblayer_CA)
 #' }
 #'
 #' @export
@@ -22,8 +22,8 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_plot_species <- function(data_herblayer) {
-  by_plot_species <- data_herblayer %>%
+calculate_vegetation_core_area_species <- function(data_herblayer) {
+  by_core_area_species <- data_herblayer %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
       .data$species
@@ -41,5 +41,5 @@ calculate_vegetation_plot_species <- function(data_herblayer) {
     ) %>%
     ungroup()
 
-  return(by_plot_species)
+  return(by_core_area_species)
 }
