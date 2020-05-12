@@ -39,17 +39,10 @@ load_data_vegetation <-
           Veg.Total_shrub_cover AS total_shrub_cover_id,
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id,
-          Herb.Species as species,
-          Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average_perc,
-          Herb.BrowseIndex AS browse_index_id
-        FROM ((((Plots
+          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
+        FROM ((Plots
           INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation)
-          INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
         %s;",
         selection
       )
@@ -70,17 +63,10 @@ load_data_vegetation <-
           Veg.Total_shrub_cover AS total_shrub_cover_id,
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id,
-          Herb.Species as species,
-          Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average_perc,
-          Herb.BrowseIndex AS browse_index_id
-        FROM ((((Plots
+          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
+        FROM ((Plots
           INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer_2eSet Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation_2eSet)
-          INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
         %s;",
         selection
       )
@@ -130,9 +116,7 @@ load_data_vegetation <-
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
-        ),
-      coverage_class_average_perc =
-        as.numeric(gsub(",", ".", .data$coverage_class_average_perc))
+        )
     ) %>%
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(

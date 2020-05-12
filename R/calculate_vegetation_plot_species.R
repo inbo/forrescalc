@@ -9,12 +9,12 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
-#' data_vegetation_CA <-
-#'   load_data_vegetation(
+#' data_herblayer_CA <-
+#'   load_data_herblayer(
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'     plottype == 30
+#'     plottype = "Core area"
 #'   )
-#' calculate_vegetation_plot_species(data_vegetation_CA)
+#' calculate_vegetation_plot_species(data_herblayer_CA)
 #' }
 #'
 #' @export
@@ -22,8 +22,8 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_plot_species <- function(data_vegetation) {
-  by_plot_species <- data_vegetation %>%
+calculate_vegetation_plot_species <- function(data_herblayer) {
+  by_plot_species <- data_herblayer %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
       .data$species

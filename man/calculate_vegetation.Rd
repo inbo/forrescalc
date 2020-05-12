@@ -4,10 +4,12 @@
 \alias{calculate_vegetation}
 \title{aggregates parameters on vegetation of forests}
 \usage{
-calculate_vegetation(data_vegetation)
+calculate_vegetation(data_vegetation, data_herblayer)
 }
 \arguments{
 \item{data_vegetation}{dataframe on vegetation with variables ...}
+
+\item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
 }
 \value{
 List of dataframes that are mentioned in the above description

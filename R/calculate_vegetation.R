@@ -16,6 +16,7 @@
 #' }
 #'
 #' @param data_vegetation dataframe on vegetation with variables ...
+#' @param data_herblayer dataframe on vegetation in the species level ('herb layer') with variables ...
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
@@ -24,8 +25,8 @@
 #' @importFrom dplyr %>% filter
 #' @importFrom rlang .data
 #'
-calculate_vegetation <- function(data_vegetation) {
-  by_plot <- calculate_vegetation_plot(data_vegetation)
+calculate_vegetation <- function(data_vegetation, data_herblayer) {
+  by_plot <- calculate_vegetation_plot(data_vegetation, data_herblayer)
   data_vegetation_CA <- data_vegetation %>%
     filter(.data$plottype == 30)
   by_subplot <- calculate_vegetation_subplot(data_vegetation_CA)

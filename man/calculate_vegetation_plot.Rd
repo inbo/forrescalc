@@ -4,10 +4,12 @@
 \alias{calculate_vegetation_plot}
 \title{aggregate vegetation parameters by plot and year}
 \usage{
-calculate_vegetation_plot(data_vegetation)
+calculate_vegetation_plot(data_vegetation, data_herblayer)
 }
 \arguments{
 \item{data_vegetation}{dataframe on vegetation with variables ...}
+
+\item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
 }
 \value{
 dataframe with columns plot, year and number_of_tree_species
@@ -20,7 +22,9 @@ This function calculates for each plot and year the total coverage and the numbe
 #change path before running
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_vegetation_plot(data_vegetation)
+data_herblayer <-
+  load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_vegetation_plot(data_vegetation, data_herblayer)
 }
 
 }

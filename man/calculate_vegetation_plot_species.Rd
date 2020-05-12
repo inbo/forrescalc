@@ -4,10 +4,10 @@
 \alias{calculate_vegetation_plot_species}
 \title{aggregate vegetation parameters by plot, species and year}
 \usage{
-calculate_vegetation_plot_species(data_vegetation)
+calculate_vegetation_plot_species(data_herblayer)
 }
 \arguments{
-\item{data_vegetation}{dataframe on vegetation with variables ...}
+\item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
 }
 \value{
 dataframe with columns plot, species, year, number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc
@@ -18,12 +18,12 @@ This function calculates for each plot, species and year the percentage of subpl
 \examples{
 \dontrun{
 #change path before running
-data_vegetation_CA <-
-  load_data_vegetation(
+data_herblayer_CA <-
+  load_data_herblayer(
     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-    plottype == 30
+    plottype = "Core area"
   )
-calculate_vegetation_plot_species(data_vegetation_CA)
+calculate_vegetation_plot_species(data_herblayer_CA)
 }
 
 }
