@@ -12,7 +12,9 @@
 #' #change path before running
 #' data_vegetation <-
 #'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_vegetation(data_vegetation)
+#' data_herblayer <-
+#'   load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_vegetation(data_vegetation, data_herblayer)
 #' }
 #'
 #' @param data_vegetation dataframe on vegetation with variables ...
@@ -27,16 +29,14 @@
 #'
 calculate_vegetation <- function(data_vegetation, data_herblayer) {
   by_plot <- calculate_vegetation_plot(data_vegetation, data_herblayer)
-  data_vegetation_CA <- data_vegetation %>%
+  data_herblayer_CA <- data_herblayer %>%
     filter(.data$plottype == 30)
-  by_subplot <- calculate_vegetation_subplot(data_vegetation_CA)
-  by_plot_species <- calculate_vegetation_plot_species(data_vegetation_CA)
+  by_core_area_species <- calculate_vegetation_core_area_species(data_herblayer_CA)
 
   return(
     list(
       vegetation_by_plot = by_plot,
-      vegetation_by_subplot = by_subplot,
-      vegetation_by_plot_species = by_plot_species
+      vegetation_by_core_area_species = by_core_area_species
     )
   )
 }

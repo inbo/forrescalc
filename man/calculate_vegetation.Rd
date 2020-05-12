@@ -27,7 +27,9 @@ This function makes aggregations of vegetation data on the levels of
 #change path before running
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_vegetation(data_vegetation)
+data_herblayer <-
+  load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_vegetation(data_vegetation, data_herblayer)
 }
 
 }
