@@ -2,18 +2,16 @@
 #'
 #' This function compares for each plot, height class and species the differences between years for the number of individuals per hectare. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure.
 #'
-#' @param by_plot_height_species dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species()
+#' @param regeneration_by_plot_height_species dataframe with values for each plot, height class, species and year, which is the result of the calculation by function calculate_regeneration_plot_height_species() and can be retrieved from forresdat
 #'
 #' @return dataframe with columns plot, height class, species and number_of_trees_ha_diff
 #'
 #' @examples
 #' \dontrun{
 #' #change path before running
-#' data_regeneration <-
-#'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' by_plot_height_species <-
-#'   calculate_regeneration_plot_height_species(data_regeneration)
-#' calculate_regeneration_plot_height_species_diff(by_plot_height_species)
+#' regeneration_by_plot_height_species <-
+#'   read_git(tablename = "regeneration_by_plot_height_species", repo_path = "C:/gitrepo/forresdat")
+#' calculate_regeneration_plot_height_species_diff(regeneration_by_plot_height_species)
 #' }
 #'
 #' @export
@@ -22,9 +20,9 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
-calculate_regeneration_plot_height_species_diff <- function(by_plot_height_species) {
+calculate_regeneration_plot_height_species_diff <- function(regeneration_by_plot_height_species) {
   #data from long to wide
-  by_plot_height_species_diff <- by_plot_height_species %>%
+  by_plot_height_species_diff <- regeneration_by_plot_height_species %>%
     mutate(
       min_number_of_trees_ha =
         replace(

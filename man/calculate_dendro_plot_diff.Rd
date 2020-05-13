@@ -4,10 +4,10 @@
 \alias{calculate_dendro_plot_diff}
 \title{aggregate parameters by plot}
 \usage{
-calculate_dendro_plot_diff(by_plot)
+calculate_dendro_plot_diff(dendro_by_plot)
 }
 \arguments{
-\item{by_plot}{dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot()}
+\item{dendro_by_plot}{dataframe with values for each plot and year, which is the result of the calculation by function calculate_dendro_plot() and can be retrieved from forresdat}
 }
 \value{
 dataframe with columns plot, year_diff, number_of_tree_species_diff, number_of_trees_ha_diff, basal_area_m2_ha_diff, volume_stem_m3_ha_diff
@@ -18,12 +18,9 @@ This function compares for each plot the differences between years for: number o
 \examples{
 \dontrun{
 #change path before running
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_deadwood <-
-  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-by_plot <- calculate_dendro_plot(data_dendro, data_deadwood)
-calculate_dendro_plot_diff(by_plot)
+dendro_by_plot <-
+  read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+calculate_dendro_plot_diff(dendro_by_plot)
 }
 
 }
