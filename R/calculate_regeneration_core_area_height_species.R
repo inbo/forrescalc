@@ -24,6 +24,9 @@
 #'
 calculate_regeneration_core_area_height_species <- function(data_regeneration) {
   by_plot_species <- data_regeneration %>%
+    mutate(
+      n_subplots = n_distinct(.data$subplot_id)
+    ) %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
       .data$height_class, .data$species
@@ -33,7 +36,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
-        .data$number_of_subplots_with_regeneration * 100 / n_distinct(.data$subplot_id)
+        .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots)
     ) %>%
     ungroup()
 

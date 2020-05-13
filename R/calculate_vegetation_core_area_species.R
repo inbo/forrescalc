@@ -24,13 +24,16 @@
 #'
 calculate_vegetation_core_area_species <- function(data_herblayer) {
   by_core_area_species <- data_herblayer %>%
+    mutate(
+      n_subplots = n_distinct(.data$subplot_id)
+    ) %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
       .data$species
     ) %>%
     summarise(
       number_of_subplots = n_distinct(.data$subplot_id),
-      perc_of_subplots = .data$number_of_subplots * 100 / n_distinct(.data$subplot_id),
+      perc_of_subplots = .data$number_of_subplots * 100 / unique(.data$n_subplots),
       number_of_subplots_browsed =
         sum(!is.na(.data$browse_index_id) & .data$browse_index_id %in% c(10, 20)),
       number_of_subplots_seriously_browsed =
