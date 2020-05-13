@@ -23,24 +23,14 @@
 calculate_regeneration_plot_height_species_diff <- function(regeneration_by_plot_height_species) {
   #data from long to wide
   by_plot_height_species_diff <- regeneration_by_plot_height_species %>%
-    mutate(
-      min_number_of_trees_ha =
-        replace(
-          .data$min_number_of_trees_ha,
-          is.na(.data$min_number_of_trees_ha) & !is.na(.data$year),
-          0
-        ),
-      max_number_of_trees_ha =
-        replace(
-          .data$max_number_of_trees_ha,
-          is.na(.data$max_number_of_trees_ha) & !is.na(.data$year),
-          0
-        )
-    ) %>%
     pivot_wider(
       names_from = "period",
       values_from =
-        c(.data$year, .data$min_number_of_trees_ha, .data$max_number_of_trees_ha)
+        c(.data$year, .data$min_number_of_trees_ha, .data$max_number_of_trees_ha),
+      values_fill =
+        list(
+          min_number_of_trees_ha = 0, max_number_of_trees_ha = 0
+        )
     ) %>%
     transmute(  #calculate: make the comparison
       .data$plot_id, .data$height_class, .data$species,
