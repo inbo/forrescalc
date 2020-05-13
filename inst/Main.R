@@ -81,8 +81,12 @@ data_vegetation <-
   load_data_vegetation(
     database = path_to_fieldmap
   )
+data_herblayer <-
+  load_data_herblayer(
+    database = path_to_fieldmap
+  )
 
-vegetation <- calculate_vegetation(data_vegetation)
+vegetation <- calculate_vegetation(data_vegetation, data_herblayer)
 
 save_results_git(
   results = vegetation,
