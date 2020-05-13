@@ -18,6 +18,7 @@
 #'
 #' @importFrom dplyr %>% group_by summarise ungroup
 #' @importFrom rlang .data
+#' @importFrom stats median quantile
 #'
 create_diam_statistics_forres_species <- function(data_dendro) {
   diam_by_forres_species <- data_dendro %>%

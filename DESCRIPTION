@@ -20,7 +20,9 @@ Imports:
   readr,
   rlang,
   RODBC,
-  tidyr (>= 1.0.0)
+  stats,
+  tidyr (>= 1.0.0),
+  tidyselect
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,

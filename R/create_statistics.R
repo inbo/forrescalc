@@ -13,7 +13,11 @@
 #' #change path before running
 #' dendro_by_plot <-
 #'   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
-#' create_statistics(dataset = dendro_by_plot, level = "forest_reserve", variables = "volume_alive_m3_ha")
+#' create_statistics(
+#'   dataset = dendro_by_plot,
+#'   level = "forest_reserve",
+#'   variables = "volume_alive_m3_ha"
+#' )
 #' dendro_by_diam_plot_species <-
 #'   read_git(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
 #' create_statistics(
@@ -34,6 +38,7 @@
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom rlang .data
+#' @importFrom stats var
 #'
 create_statistics <- function(dataset, level = "forest_reserve", variables) {
   level <- c("year", "period", level)
