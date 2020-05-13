@@ -34,6 +34,7 @@ calculate_regeneration_plot_height_species_diff <- function(by_plot_height_speci
       .data$plot_id, .data$height_class, .data$species,
       period_diff = "2 - 1",
       year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
+      n_years = .data$year_2 - .data$year_1,
       min_number_of_trees_ha_diff =
         .data$min_number_of_trees_ha_2 - .data$min_number_of_trees_ha_1,
       max_number_of_trees_ha_diff =

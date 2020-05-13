@@ -43,6 +43,7 @@ calculate_dendro_plot_diff <- function(by_plot) {
       .data$plot_id,
       period_diff = "2 - 1",
       year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
+      n_years = .data$year_2 - .data$year_1,
       number_of_tree_species_diff =
         .data$number_of_tree_species_2 - .data$number_of_tree_species_1,
       number_of_trees_ha_diff =
