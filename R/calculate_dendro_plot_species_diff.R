@@ -20,15 +20,60 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select transmute
+#' @importFrom dplyr %>% mutate select transmute
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot_species_diff <- function(by_plot_species) {
   #data from long to wide
   by_plot_species_diff <- by_plot_species %>%
-    select(-.data$volume_stem_alive_m3_ha, -.data$volume_stem_snag_m3_ha
-           , -.data$stem_number_ha, -.data$stems_per_tree
+    select(
+      -.data$volume_stem_alive_m3_ha, -.data$volume_stem_snag_m3_ha,
+      -.data$stem_number_ha, -.data$stems_per_tree
+    ) %>%
+    mutate(
+      number_of_trees_ha =
+        replace(
+          .data$number_of_trees_ha,
+          is.na(.data$number_of_trees_ha) & !is.na(.data$year),
+          0
+        ),
+      basal_area_alive_m2_ha =
+        replace(
+          .data$basal_area_alive_m2_ha,
+          is.na(.data$basal_area_alive_m2_ha) & !is.na(.data$year),
+          0
+        ),
+      basal_area_snag_m2_ha =
+        replace(
+          .data$basal_area_snag_m2_ha,
+          is.na(.data$basal_area_snag_m2_ha) & !is.na(.data$year),
+          0
+        ),
+      volume_alive_m3_ha =
+        replace(
+          .data$volume_alive_m3_ha,
+          is.na(.data$volume_alive_m3_ha) & !is.na(.data$year),
+          0
+        ),
+      volume_snag_m3_ha =
+        replace(
+          .data$volume_snag_m3_ha,
+          is.na(.data$volume_snag_m3_ha) & !is.na(.data$year),
+          0
+        ),
+      volume_log_m3_ha =
+        replace(
+          .data$volume_log_m3_ha,
+          is.na(.data$volume_log_m3_ha) & !is.na(.data$year),
+          0
+        ),
+      volume_deadwood_m3_ha =
+        replace(
+          .data$volume_deadwood_m3_ha,
+          is.na(.data$volume_deadwood_m3_ha) & !is.na(.data$year),
+          0
+        )
     ) %>%
     pivot_wider(
       names_from = "period",
