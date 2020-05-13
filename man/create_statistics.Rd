@@ -24,7 +24,11 @@ This function calculates statistics for the given data (e.g. from the git-reposi
 #change path before running
 dendro_by_plot <-
   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
-create_statistics(dataset = dendro_by_plot, level = "forest_reserve", variables = "volume_alive_m3_ha")
+create_statistics(
+  dataset = dendro_by_plot,
+  level = "forest_reserve",
+  variables = "volume_alive_m3_ha"
+)
 dendro_by_diam_plot_species <-
   read_git(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
 create_statistics(
