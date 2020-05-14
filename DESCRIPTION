@@ -22,7 +22,7 @@ Imports:
   RODBC,
   stats,
   tidyr (>= 1.0.0),
-  tidyselect
+  tidyselect (>= 1.0.0)
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,
