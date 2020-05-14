@@ -42,6 +42,12 @@ calculate_dendro_plot_species_diff <- function(dendro_by_plot_species) {
           volume_log_m3_ha = 0, volume_deadwood_m3_ha = 0
         )
     ) %>%
+    group_by(.data$plot_id) %>%
+    mutate(
+      year_1 = ifelse(is.na(.data$year_1), mean(.data$year_1, na.rm = TRUE), .data$year_1),
+      year_2 = ifelse(is.na(.data$year_2), mean(.data$year_2, na.rm = TRUE), .data$year_2)
+    ) %>%
+    ungroup() %>%
     transmute(  #calculate: make the comparison
       .data$forest_reserve,
       .data$plot_id,
