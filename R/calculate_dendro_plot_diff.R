@@ -38,7 +38,7 @@ calculate_dendro_plot_diff <- function(dendro_by_plot) {
       values_fill =
         list(
           number_of_tree_species = 0, number_of_trees_ha = 0,
-          basal_area_alive_m2_ha = 0, .data$basal_area_snag_m2_ha = 0,
+          basal_area_alive_m2_ha = 0, basal_area_snag_m2_ha = 0,
           volume_alive_m3_ha = 0, volume_snag_m3_ha = 0,
           volume_log_m3_ha = 0, volume_deadwood_m3_ha = 0
         )
