@@ -39,7 +39,7 @@ calculate_regeneration_plot_height_species_diff <- function(regeneration_by_plot
     ) %>%
     ungroup() %>%
     transmute(  #calculate: make the comparison
-      .data$plot_id, .data$height_class, .data$species,
+      .data$forest_reserve, .data$plot_id, .data$height_class, .data$species,
       period_diff = "2 - 1",
       year_diff = paste(.data$year_2, .data$year_1, sep = " - "),
       n_years = .data$year_2 - .data$year_1,
