@@ -21,13 +21,14 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% bind_rows filter group_by group_by_at left_join mutate mutate_at rename_at select ungroup vars
-#' @importFrom purrr map
-#' @importFrom tidyr nest pivot_longer unnest
-#' @importFrom tidyselect starts_with
+#' @importFrom dplyr %>% group_by group_by_at mutate mutate_at ungroup vars
+#' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
 compare_periods <- function(dataset, measure_vars) {
+  fill_vars <- rep(list(0), length(measure_vars) - 1)
+  names(fill_vars) <- measure_vars[measure_vars != "year"]
   grouping_vars <-
     colnames(dataset)[!colnames(dataset) %in% c(measure_vars, "period")]
 
@@ -35,61 +36,59 @@ compare_periods <- function(dataset, measure_vars) {
   #measures in the same group (plot_id and period)
   replace_na_year <- function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)
 
-  #helper function that arranges periods into period differences
-  diff_fun <- function(data) {
-    diff_data <- data.frame(period_max = unique(data$period[data$period != 1])) %>%
-      mutate(
-        period_min = .data$period_max - 1
-      )
-    if (max(data$period) > 2) {
-      diff_data <- diff_data %>%
-      bind_rows(
-        data.frame(period_max = max(data$period), period_min = 1)
-      )
-    }
-    diff_results <- diff_data %>%
-      mutate(
-        period_diff = paste(.data$period_max, "-", .data$period_min)
-      ) %>%
-      pivot_longer(
-        starts_with("period_m"), names_to = "period_order",
-        names_prefix = "period_", values_to = "period"
-      ) %>%
-      left_join(data, by = "period") %>%
-      group_by(.data$period_diff) %>%
-      nest() %>%
-      mutate(
-        data = map(data, diff2_fun)
-      ) %>%
-      unnest()
-
-    return(diff_results)
-  }
-
-  #low level helper function that calculates differences
-  diff2_fun <- function(data) {
-    data_max <- data %>% filter(.data$period_order == "max")
-    data_min <- data %>% filter(.data$period_order == "min")
-    result <- (data_max[, measure_vars] - data_min[, measure_vars]) %>%
-      rename_at(vars(measure_vars), function(x) paste0(x, "_diff")) %>%
-      mutate(
-        n_years = .data$year_diff,
-        year_diff = paste(data_max$year, data_min$year, sep = " - ")
-      )
-  }
-
-  #main script of compare_periods
   result_diff <- dataset %>%
-    group_by(.data$plot_id, .data$period) %>%
+    pivot_wider(
+      names_from = "period",
+      values_from = all_of(measure_vars),
+      values_fill = fill_vars
+    ) %>%
+    group_by(.data$plot_id) %>%
     mutate_at(vars(matches("year")), replace_na_year) %>%
     ungroup() %>%
-    group_by_at(vars(grouping_vars)) %>%
-    nest() %>%
-    mutate(
-      diff = map(data, diff_fun)
+    pivot_longer(
+      cols = matches(measure_vars),
+      names_to = "measure_var_period"
     ) %>%
-    select(!!grouping_vars, .data$diff) %>%
-    unnest()
+    mutate(
+      measure_var =
+        substr(.data$measure_var_period, 1, nchar(.data$measure_var_period) - 2),
+      measure_var =
+        ifelse(
+          .data$measure_var == "year",
+          "n_year",
+          paste(.data$measure_var, "diff", sep = "_")
+        ),
+      period =
+        substr(
+          .data$measure_var_period,
+          nchar(.data$measure_var_period), nchar(.data$measure_var_period)
+        ),
+      measure_var_period = NULL
+    ) %>%
+    pivot_wider(
+      names_from = "period",
+      values_from = "value",
+      names_prefix = "p"
+    ) %>%
+    mutate(
+      diff_2_1 = .data$p2 - .data$p1,
+      year_diff =
+        ifelse(
+          .data$measure_var == "n_year",
+          paste( .data$p2, .data$p1, sep = " - "),
+          ""
+        ),
+      p1 = NULL, p2 = NULL
+    ) %>%
+    group_by_at(vars(all_of(grouping_vars))) %>%
+    mutate(
+      year_diff = paste(.data$year_diff, collapse = "")
+    ) %>%
+    ungroup() %>%
+    pivot_wider(
+      names_from = "measure_var",
+      values_from = "diff_2_1"
+    )
 
   return(result_diff)
 }
