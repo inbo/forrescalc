@@ -20,11 +20,13 @@ This function compares for each plot (and other provided variables) the differen
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
+library(dplyr)
 treenr_by_plot <-
   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") \%>\%
   select(period, year, plot_id, number_of_tree_species, number_of_trees_ha) \%>\%
   distinct()
-calculate_dendro_plot_diff(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
+compare_periods(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
 }
 
 }
