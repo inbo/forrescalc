@@ -34,6 +34,7 @@ compare_periods <- function(dataset, measure_vars) {
   names(fill_vars) <- measure_vars[measure_vars != "year"]
   grouping_vars <-
     colnames(dataset)[!colnames(dataset) %in% c(measure_vars, "period")]
+  prefix <- ifelse(length(measure_vars) == 1, paste0(measure_vars, "_"), "")
 
   #helper function to replace NA in year due to missing species by year of other
   #measures in the same group (plot_id and period)
@@ -44,6 +45,7 @@ compare_periods <- function(dataset, measure_vars) {
   result_diff <- dataset %>%
     pivot_wider(
       names_from = "period",
+      names_prefix = prefix,
       values_from = all_of(measure_vars),
       values_fill = fill_vars
     ) %>%
