@@ -21,20 +21,25 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by group_by_at mutate mutate_at ungroup vars
+#' @importFrom dplyr %>% group_by group_by_at mutate mutate_at select ungroup vars
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
 compare_periods <- function(dataset, measure_vars) {
-  fill_vars <- rep(list(0), length(measure_vars) - 1)
+  if (!all(c("period", "plot_id") %in% names(dataset))) {
+    stop("Dataset must contain the columns period and plot_id.")
+  }
+  fill_vars <- rep(list(0), length(measure_vars) - ("year" %in% measure_vars))
   names(fill_vars) <- measure_vars[measure_vars != "year"]
   grouping_vars <-
     colnames(dataset)[!colnames(dataset) %in% c(measure_vars, "period")]
 
   #helper function to replace NA in year due to missing species by year of other
   #measures in the same group (plot_id and period)
-  replace_na_year <- function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)
+  replace_na_year <- function(x) {
+    ifelse(is.na(x) & "year" %in% measure_vars, mean(x, na.rm = TRUE), x)
+  }
 
   result_diff <- dataset %>%
     pivot_wider(
@@ -89,6 +94,10 @@ compare_periods <- function(dataset, measure_vars) {
       names_from = "measure_var",
       values_from = "diff_2_1"
     )
+  if (!"year" %in% measure_vars) {
+    result_diff <- result_diff %>%
+      select(-.data$year_diff)
+  }
 
   return(result_diff)
 }
