@@ -23,6 +23,7 @@ This function loads one or more tables from  a git repository and saves them in 
 \examples{
 \dontrun{
 #change paths before running
+library(forrescalc)
 from_git_to_access(
   tables = c("qAliveDead", "qdecaystage"),
   repo_path = "C:/gitrepo/forresdat",

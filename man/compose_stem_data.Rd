@@ -21,6 +21,7 @@ the diameters from coppice trees by their separate stems given in the shoot data
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_shoots <-

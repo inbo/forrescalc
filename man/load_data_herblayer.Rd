@@ -26,6 +26,7 @@ This function queries the given database to retrieve data on vegetation (ready f
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 }
 

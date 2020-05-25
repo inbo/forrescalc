@@ -10,6 +10,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat")
 #' }
 #'

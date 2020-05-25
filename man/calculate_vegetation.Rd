@@ -25,6 +25,7 @@ This function makes aggregations of vegetation data on the levels of
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_herblayer <-

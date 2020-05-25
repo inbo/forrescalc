@@ -15,6 +15,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' library(dplyr)
 #' table_long <-
 #'   read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") %>%
