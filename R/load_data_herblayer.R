@@ -37,7 +37,7 @@ load_data_herblayer <-
           Veg.Year AS year_record,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average_perc,
+          qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
           INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
@@ -62,7 +62,7 @@ load_data_herblayer <-
           Veg.Year AS year_record,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average_perc,
+          qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
           INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
@@ -107,7 +107,8 @@ load_data_herblayer <-
           .data$plotarea_ha
         ),
       coverage_class_average_perc =
-        as.numeric(gsub(",", ".", .data$coverage_class_average_perc))
+        as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
+      coverage_class_average = NULL
     )
   odbcClose(con)
 
