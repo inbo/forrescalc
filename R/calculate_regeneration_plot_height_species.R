@@ -22,6 +22,9 @@
 #'
 calculate_regeneration_plot_height_species <- function(data_regeneration) {
   by_plot_height_species <- data_regeneration %>%
+    mutate(
+      plotarea_ha = ifelse(.data$plottype == 30, 0.01, .data$plotarea_ha)
+    ) %>%
     group_by(
       .data$plot_id, .data$forest_reserve, .data$year, .data$period,
       .data$height_class, .data$species, .data$subplot_id
