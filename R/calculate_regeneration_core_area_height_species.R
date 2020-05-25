@@ -38,7 +38,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
         .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
-      rubbing_damage_perc = sum(.data$rubbing_damage_number) / sum(.data$reg_number)
+      rubbing_damage_perc = sum(.data$rubbing_damage_number) * 100 / sum(.data$reg_number)
     ) %>%
     ungroup()
 
