@@ -173,6 +173,18 @@ load_data_regeneration <-
           is.na(.data$max_number_of_trees),
           .data$reg_number,
           .data$max_number_of_trees
+        ),
+      min_number_of_trees =
+        ifelse(
+          is.na(.data$min_number_of_trees) & is.na(.data$species),
+          0,
+          .data$min_number_of_trees
+        ),
+      max_number_of_trees =
+        ifelse(
+          is.na(.data$max_number_of_trees) & is.na(.data$species),
+          0,
+          .data$max_number_of_trees
         )
     )
   odbcClose(con)
