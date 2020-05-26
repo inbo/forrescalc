@@ -33,7 +33,8 @@ load_data_herblayer <-
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Veg.ID AS subplot_id,
-          IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date IS NULL) AS date_vegetation,
+          Herb.Deviating_date AS deviating_date,
+          Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
@@ -58,7 +59,8 @@ load_data_herblayer <-
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Veg.ID AS subplot_id,
-           IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date IS NULL) AS date_vegetation,
+          Herb.Deviating_date AS deviating_date,
+          Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
@@ -86,7 +88,12 @@ load_data_herblayer <-
         )
     ) %>%
     mutate(
-      year = year(.data$date_vegetation),
+      year =
+        ifelse(
+          is.na(.data$deviating_date),
+          year(.data$date_vegetation),
+          year(.data$deviating_date)
+        ),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       plotarea_ha =
         ifelse(
