@@ -18,6 +18,7 @@ This function calculates for each plot, species and year the number of trees per
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_regeneration_CA <-
   load_data_regeneration(
     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",

@@ -20,6 +20,7 @@ This function calculates for each plot and year some values per hectare: number 
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_deadwood <-

@@ -18,6 +18,7 @@ This function groups all given information on the life stages of an individual t
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 create_overview_status(data_dendro)

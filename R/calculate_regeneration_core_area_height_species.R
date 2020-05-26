@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_regeneration_CA <-
 #'   load_data_regeneration(
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
@@ -37,7 +38,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
         .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
-      rubbing_damage_perc = sum(.data$rubbing_damage_number) / sum(.data$reg_number)
+      rubbing_damage_perc = sum(.data$rubbing_damage_number) * 100 / sum(.data$reg_number)
     ) %>%
     ungroup()
 

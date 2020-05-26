@@ -26,6 +26,7 @@ This function queries the given database to retrieve data on deadwood (logs) (re
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 }
 

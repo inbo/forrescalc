@@ -15,6 +15,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_regeneration <-
 #'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' calculate_regeneration(data_regeneration)

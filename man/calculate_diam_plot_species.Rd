@@ -22,6 +22,7 @@ This function calculates for each plot, tree species, year and diameter class so
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_shoots <-

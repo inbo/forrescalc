@@ -22,6 +22,7 @@ This function calculates statistics for the given data (e.g. from the git-reposi
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 dendro_by_plot <-
   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
 create_statistics(

@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+#' library(forrescalc)
 #' give_diamclass_5cm(c(80, 1512, 2222))
 #'
 

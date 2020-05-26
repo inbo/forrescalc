@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_herblayer_CA <-
 #'   load_data_herblayer(
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
@@ -32,7 +33,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
       .data$species
     ) %>%
     summarise(
-      number_of_subplots = n_distinct(.data$subplot_id),
+      number_of_subplots_with_vegetation = n_distinct(.data$subplot_id),
       perc_of_subplots = .data$number_of_subplots * 100 / unique(.data$n_subplots),
       number_of_subplots_browsed =
         sum(!is.na(.data$browse_index_id) & .data$browse_index_id %in% c(10, 20)),

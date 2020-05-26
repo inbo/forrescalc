@@ -12,6 +12,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' result_dendro <- calculate_dendrometry(data_dendro)

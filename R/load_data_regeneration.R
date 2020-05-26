@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' }
 #'
@@ -172,6 +173,18 @@ load_data_regeneration <-
         ifelse(
           is.na(.data$max_number_of_trees),
           .data$reg_number,
+          .data$max_number_of_trees
+        ),
+      min_number_of_trees =
+        ifelse(
+          is.na(.data$min_number_of_trees) & is.na(.data$species),
+          0,
+          .data$min_number_of_trees
+        ),
+      max_number_of_trees =
+        ifelse(
+          is.na(.data$max_number_of_trees) & is.na(.data$species),
+          0,
           .data$max_number_of_trees
         )
     )

@@ -22,6 +22,7 @@ This function changes a dataframe from long to wide format, e.g. to show data fr
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 library(dplyr)
 table_long <-
   read_git(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") \%>\%

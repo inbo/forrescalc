@@ -20,6 +20,7 @@ This function calculates for each plot and year the total coverage and the numbe
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_herblayer <-

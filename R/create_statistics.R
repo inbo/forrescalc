@@ -11,6 +11,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' dendro_by_plot <-
 #'   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
 #' create_statistics(

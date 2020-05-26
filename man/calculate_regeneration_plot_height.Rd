@@ -18,6 +18,7 @@ This function calculates for each plot, tree height class and year the number of
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 calculate_regeneration_plot_height(data_regeneration)

@@ -18,6 +18,7 @@ This function calculates for each plot, tree height class, species and year the 
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 calculate_regeneration_plot_height_species(data_regeneration)
