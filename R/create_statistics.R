@@ -1,12 +1,12 @@
 #' Calculate statistics for the given dataset
 #'
-#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include mean, variance and confidence interval (lci and uci).
+#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
 #'
 #' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
 #' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #'
-#' @return dataframe with the columns chosen for level and for each variable the columns mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+#' @return dataframe with the columns chosen for level and for each variable the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 #'
 #' @examples
 #' \dontrun{
@@ -49,6 +49,7 @@ create_statistics <-
     pivot_longer(cols = all_of(variables), names_to = "varnames") %>%
     group_by_at(vars(c(level, "varnames"))) %>%
     summarise(
+      n_obs = n(),
       mean = mean(.data$value),
       variance = var(.data$value),
       lci = .data$mean - 1.96 * sqrt(.data$variance) / sqrt(n()),
@@ -57,7 +58,7 @@ create_statistics <-
     ungroup() %>%
     pivot_wider(
       names_from = "varnames",
-      values_from = c("mean", "variance", "lci", "uci")
+      values_from = c("n_obs", "mean", "variance", "lci", "uci")
     )
 
   return(statistics)

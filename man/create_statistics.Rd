@@ -14,10 +14,10 @@ create_statistics(dataset, level = c("period", "forest_reserve"), variables)
 \item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
 }
 \value{
-dataframe with the columns chosen for level and for each variable the columns mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+dataframe with the columns chosen for level and for each variable the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 }
 \description{
-This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include mean, variance and confidence interval (lci and uci).
+This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
 }
 \examples{
 \dontrun{
