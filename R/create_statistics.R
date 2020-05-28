@@ -6,7 +6,7 @@
 #' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #'
-#' @return dataframe with the columns chosen for level and for each variable the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+#' @return dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 #'
 #' @examples
 #' \dontrun{
@@ -46,8 +46,8 @@ create_statistics <-
 
   statistics <- dataset %>%
     select(all_of(c(level, variables))) %>%
-    pivot_longer(cols = all_of(variables), names_to = "varnames") %>%
-    group_by_at(vars(c(level, "varnames"))) %>%
+    pivot_longer(cols = all_of(variables), names_to = "variable") %>%
+    group_by_at(vars(c(level, "variable"))) %>%
     summarise(
       n_obs = n(),
       mean = mean(.data$value),
@@ -55,11 +55,7 @@ create_statistics <-
       lci = .data$mean - 1.96 * sqrt(.data$variance) / sqrt(n()),
       uci = .data$mean + 1.96 * sqrt(.data$variance) / sqrt(n())
     ) %>%
-    ungroup() %>%
-    pivot_wider(
-      names_from = "varnames",
-      values_from = c("n_obs", "mean", "variance", "lci", "uci")
-    )
+    ungroup()
 
   return(statistics)
 }
