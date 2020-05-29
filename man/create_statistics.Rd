@@ -24,14 +24,14 @@ This function calculates statistics for the given data (e.g. from the git-reposi
 #change path before running
 library(forrescalc)
 dendro_by_plot <-
-  read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
 create_statistics(
   dataset = dendro_by_plot,
   level = c("forest_reserve", "period"),
   variables = "volume_alive_m3_ha"
 )
 dendro_by_diam_plot_species <-
-  read_git(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
 create_statistics(
   dataset = dendro_by_diam_plot_species,
   level = c("forest_reserve", "year", "species", "dbh_class_5cm"),
@@ -39,7 +39,7 @@ create_statistics(
       "basal_area_tree_alive_m2_ha", "basal_area_tree_snag_m2_ha")
 )
 vegetation_by_plot <-
-  read_git(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
 create_statistics(dataset = vegetation_by_plot, level = c("forest_reserve", "period"),
   variables = c("number_of_species", "cumm_herb_coverage_class_average_perc"))
 }
