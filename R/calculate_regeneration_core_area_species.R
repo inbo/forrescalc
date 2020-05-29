@@ -29,8 +29,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       n_subplots = n_distinct(.data$subplot_id)
     ) %>%
     group_by(
-      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
-      .data$species
+      .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
     summarise(
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),

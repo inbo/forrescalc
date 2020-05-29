@@ -29,8 +29,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
       n_subplots = n_distinct(.data$subplot_id)
     ) %>%
     group_by(
-      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
-      .data$species
+      .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
     summarise(
       number_of_subplots_with_vegetation = n_distinct(.data$subplot_id),
