@@ -12,7 +12,7 @@
 #' \dontrun{
 #' #change path before running
 #' library(forrescalc)
-#' load_plotdata("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' }
 #'
 #' @export
@@ -20,7 +20,7 @@
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom dplyr %>% bind_rows distinct
 #'
-load_plotdata <- function(database) {
+load_plotinfo <- function(database) {
   query_plot <-
     "SELECT Plots.ID AS plot_id,
       Plots.Plottype AS plottype,
@@ -34,12 +34,12 @@ load_plotdata <- function(database) {
     FROM Plots INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
 
   con <- odbcConnectAccess2007(database)
-  data_dendro <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
+  plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
     bind_rows(
       sqlQuery(con, query_plot2, stringsAsFactors = FALSE)
     ) %>%
     distinct()
   odbcClose(con)
 
-  return(data_dendro)
+  return(plotinfo)
 }

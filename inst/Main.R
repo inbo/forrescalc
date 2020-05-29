@@ -12,9 +12,9 @@ from_access_to_git(
 )
 #evt. ook gegevens over plot toevoegen?  Moeten eigenlijk telkens alle kolommen overgenomen worden, of toch beter met specifieke queries werken?
 
-plotdata <- load_plotdata(database = path_to_fieldmap)
+plotinfo <- load_plotinfo(database = path_to_fieldmap)
 save_results_git(
-  results = list(plotdata = plotdata),
+  results = list(plotinfo = plotinfo),
   repo_path = path_to_git_forresdat
 )
 
