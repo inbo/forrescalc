@@ -25,16 +25,15 @@
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
   by_plot <- data_herblayer %>%
     select(
-      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
-      .data$subplot_id, .data$species, .data$coverage_class_average_perc
+      .data$plot_id, .data$year, .data$period, .data$subplot_id, .data$species,
+      .data$coverage_class_average_perc
     ) %>%
     left_join(
       data_vegetation,
-      by = c("plot_id", "forest_reserve", "year", "period", "subplot_id")
+      by = c("plot_id", "year", "period", "subplot_id")
     ) %>%
     group_by(
-      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
-      .data$subplot_id
+      .data$plot_id, .data$year, .data$period, .data$subplot_id
     ) %>%
     summarise(
       moss_cover_min = mean(.data$moss_cover_min, na.rm = TRUE),

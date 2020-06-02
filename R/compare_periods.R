@@ -13,7 +13,7 @@
 #' library(forrescalc)
 #' library(dplyr)
 #' treenr_by_plot <-
-#'   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") %>%
+#'   read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") %>%
 #'   select(period, year, plot_id, number_of_tree_species, number_of_trees_ha) %>%
 #'   distinct()
 #' compare_periods(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
@@ -41,17 +41,25 @@ compare_periods <- function(dataset, measure_vars) {
   replace_na_year <- function(x) {
     ifelse(is.na(x) & "year" %in% measure_vars, mean(x, na.rm = TRUE), x)
   }
+  #helper function to replace NA by 0 in grouping vars
+  replace_na_var <- function(x) {
+    ifelse(is.na(x) & !is.na(mean(x, na.rm = TRUE)), 0, x)
+  }
 
-  result_diff <- dataset %>%
+  dataset_wide <- dataset %>%
     pivot_wider(
       names_from = "period",
       names_prefix = prefix,
-      values_from = all_of(measure_vars),
-      values_fill = fill_vars
+      values_from = all_of(measure_vars)
     ) %>%
     group_by(.data$plot_id) %>%
     mutate_at(vars(matches("year")), replace_na_year) %>%
-    ungroup() %>%
+    mutate_at(vars(!matches(grouping_vars)), replace_na_var) %>%
+    ungroup()
+  result_diff <- dataset_wide %>%
+    filter_at(vars(all_of(grouping_vars)), any_vars(is.na(.))) %>%
+    filter_at(vars(!matches(c(grouping_vars, "year"))), all_vars(is.na(.) | . == 0)) %>%
+    anti_join(x = dataset_wide, by = grouping_vars) %>%
     pivot_longer(
       cols = matches(measure_vars),
       names_to = "measure_var_period"

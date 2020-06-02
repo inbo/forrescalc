@@ -1,35 +1,35 @@
 #' Calculate statistics for the given dataset
 #'
-#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include mean, variance and confidence interval (lci and uci).
+#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
 #'
 #' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
-#' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve and species), given as a string or a vector of strings.  Datasets are automatically grouped by year and period and it is not necessary to include these variables here.
+#' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #'
-#' @return dataframe with columns year, period, the columns chosen for level and for each variable the columns mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+#' @return dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 #'
 #' @examples
 #' \dontrun{
 #' #change path before running
 #' library(forrescalc)
 #' dendro_by_plot <-
-#'   read_git(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+#'   read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
 #' create_statistics(
 #'   dataset = dendro_by_plot,
-#'   level = "forest_reserve",
+#'   level = c("forest_reserve", "period"),
 #'   variables = "volume_alive_m3_ha"
 #' )
 #' dendro_by_diam_plot_species <-
-#'   read_git(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
+#'   read_forresdat(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
 #' create_statistics(
 #'   dataset = dendro_by_diam_plot_species,
-#'   level = c("forest_reserve", "species", "dbh_class_5cm"),
+#'   level = c("forest_reserve", "year", "species", "dbh_class_5cm"),
 #'   variables = c("basal_area_shoot_alive_m2_ha", "basal_area_shoot_snag_m2_ha",
 #'       "basal_area_tree_alive_m2_ha", "basal_area_tree_snag_m2_ha")
 #' )
 #' vegetation_by_plot <-
-#'   read_git(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
-#' create_statistics(dataset = vegetation_by_plot, level = "forest_reserve",
+#'   read_forresdat(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
+#' create_statistics(dataset = vegetation_by_plot, level = c("forest_reserve", "period"),
 #'   variables = c("number_of_species", "cumm_herb_coverage_class_average_perc"))
 #' }
 #'
@@ -41,24 +41,21 @@
 #' @importFrom rlang .data
 #' @importFrom stats var
 #'
-create_statistics <- function(dataset, level = "forest_reserve", variables) {
-  level <- c("year", "period", level)
+create_statistics <-
+  function(dataset, level = c("period", "forest_reserve"), variables) {
 
   statistics <- dataset %>%
     select(all_of(c(level, variables))) %>%
-    pivot_longer(cols = all_of(variables), names_to = "varnames") %>%
-    group_by_at(vars(c(level, "varnames"))) %>%
+    pivot_longer(cols = all_of(variables), names_to = "variable") %>%
+    group_by_at(vars(c(level, "variable"))) %>%
     summarise(
+      n_obs = n(),
       mean = mean(.data$value),
       variance = var(.data$value),
       lci = .data$mean - 1.96 * sqrt(.data$variance) / sqrt(n()),
       uci = .data$mean + 1.96 * sqrt(.data$variance) / sqrt(n())
     ) %>%
-    ungroup() %>%
-    pivot_wider(
-      names_from = "varnames",
-      values_from = c("mean", "variance", "lci", "uci")
-    )
+    ungroup()
 
   return(statistics)
 }

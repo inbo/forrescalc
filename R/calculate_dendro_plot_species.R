@@ -25,8 +25,7 @@
 calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
   by_plot_species <- data_dendro %>%
     group_by(
-      .data$plot_id, .data$forest_reserve, .data$year, .data$period,
-      .data$species, .data$plottype
+      .data$plot_id, .data$year, .data$period, .data$species, .data$plottype
     ) %>%
     summarise(
       number_of_trees_ha =
@@ -47,12 +46,12 @@ calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
     ungroup() %>%
     left_join(
       data_deadwood %>%
-        group_by(.data$plot_id, .data$year, .data$period, .data$species, .data$plottype) %>%
+        group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
         summarise(
           volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "species", "plottype")
+      by = c("plot_id", "year", "period", "species")
     ) %>%
     mutate(
       volume_log_m3_ha =
@@ -61,6 +60,7 @@ calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
             !is.na(.data$volume_alive_m3_ha),
           0, .data$volume_log_m3_ha
         ),
+      plottype = NULL,
       volume_deadwood_m3_ha = .data$volume_snag_m3_ha + .data$volume_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
