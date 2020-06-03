@@ -10,7 +10,6 @@ from_access_to_git(
   tables = c("qAliveDead", "qSpecies", "qHeightClass_regenaration", "qnumber_regeneration_classes", "qdecaystage"),
   repo_path = path_to_git_forresdat
 )
-#evt. ook gegevens over plot toevoegen?  Moeten eigenlijk telkens alle kolommen overgenomen worden, of toch beter met specifieke queries werken?
 
 plotinfo <- load_plotinfo(database = path_to_fieldmap)
 save_results_git(
