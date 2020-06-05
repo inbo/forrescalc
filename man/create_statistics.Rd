@@ -4,7 +4,12 @@
 \alias{create_statistics}
 \title{Calculate statistics for the given dataset}
 \usage{
-create_statistics(dataset, level = c("period", "forest_reserve"), variables)
+create_statistics(
+  dataset,
+  level = c("period", "forest_reserve"),
+  variables,
+  include_year_range = FALSE
+)
 }
 \arguments{
 \item{dataset}{dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat}
@@ -12,6 +17,8 @@ create_statistics(dataset, level = c("period", "forest_reserve"), variables)
 \item{level}{grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.}
 
 \item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
+
+\item{include_year_range}{Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.}
 }
 \value{
 dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
