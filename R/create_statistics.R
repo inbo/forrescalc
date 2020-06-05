@@ -35,6 +35,7 @@
 #'
 #' @export
 #'
+#' @importFrom assertthat has_name
 #' @importFrom dplyr %>% group_by_at select summarise ungroup vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr pivot_longer pivot_wider
@@ -43,6 +44,11 @@
 #'
 create_statistics <-
   function(dataset, level = c("period", "forest_reserve"), variables) {
+
+  if (has_name(dataset, "period") & length(unique(dataset$period)) > 1 &
+      !"period" %in% c(level, variables)) {
+    warning("Are you sure you don't want to include period in level? Your dataset has measurements in different periods.")  #nolint
+  }
 
   statistics <- dataset %>%
     select(all_of(c(level, variables))) %>%
