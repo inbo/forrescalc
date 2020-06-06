@@ -5,6 +5,7 @@
 #' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
 #' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
+#' @param include_year_range Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.
 #'
 #' @return dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
 #'
@@ -36,14 +37,14 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% group_by_at select summarise ungroup vars
+#' @importFrom dplyr %>% group_by_at left_join select summarise ungroup vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom rlang .data
 #' @importFrom stats var
 #'
 create_statistics <-
-  function(dataset, level = c("period", "forest_reserve"), variables) {
+  function(dataset, level = c("period", "forest_reserve"), variables, include_year_range = FALSE) {
 
   if (has_name(dataset, "period") & length(unique(dataset$period)) > 1 &
       !"period" %in% c(level, variables)) {
@@ -62,6 +63,28 @@ create_statistics <-
       uci = .data$mean + 1.96 * sqrt(.data$variance) / sqrt(n())
     ) %>%
     ungroup()
+
+  if (include_year_range) {
+    if (has_name(dataset, "year")) {
+      if (!"year" %in% level) {
+        statistics <- dataset %>%
+          group_by_at(vars(level)) %>%
+          summarise(
+            min_year = min(.data$year),
+            max_year = max(.data$year)
+          ) %>%
+          ungroup() %>%
+          left_join(
+            statistics,
+            by = level
+          )
+      } else {
+        warning("No year range is calculated as 'year' is given as a level (so each year has separate records).")
+      }
+    } else {
+      warning("Add column 'year' to dataset if you want the year range to be calculated.")
+    }
+  }
 
   return(statistics)
 }
