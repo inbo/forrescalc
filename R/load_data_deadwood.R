@@ -21,10 +21,16 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_deadwood <-
-  function(database, plottype = NA, forest_reserve = NA) {
+  function(database, plottype = NA, forest_reserve = NA, extra_variables = FALSE) {
     selection <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
-
+    add_fields <-
+      ifelse(
+        extra_variables,
+        ", Deadwood.CalcLength_m AS calc_length_m,
+        Deadwood.Remark AS remark, Deadwood.CommenRemark AS common_remark",
+        ""
+      )
   query_deadwood <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
@@ -38,12 +44,13 @@ load_data_deadwood <-
         Deadwood.ID AS lying_deadw_id,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
+        Deadwood.Length AS length_m,
         Deadwood.CalcVolume_m3 AS calc_volume_m3,
         Deadwood.MaxDiam_mm AS max_diam_mm,
         Deadwood.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
         INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
-      selection
+      add_fields, selection
     )
 
   query_deadwood2 <-
@@ -64,7 +71,7 @@ load_data_deadwood <-
         Deadwood_2eSet.TreeNumber AS tree_number
       FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
-      selection
+      add_fields, selection
     )
 
   con <- odbcConnectAccess2007(database)
