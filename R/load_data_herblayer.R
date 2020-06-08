@@ -38,7 +38,6 @@ load_data_herblayer <-
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Herb.Species as species,
-          Herb.Layer as layer,
           Herb.Coverage AS coverage_id,
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
@@ -66,7 +65,6 @@ load_data_herblayer <-
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Herb.Species as species,
-          Herb.Layer as layer,
           Herb.Coverage AS coverage_id,
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
