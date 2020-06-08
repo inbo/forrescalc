@@ -48,8 +48,8 @@ load_data_deadwood <-
         Deadwood.CalcVolume_m3 AS calc_volume_m3,
         Deadwood.MaxDiam_mm AS max_diam_mm,
         Deadwood.TreeNumber AS tree_number %s
-      FROM (Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
-        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots %s;",
+      FROM ((Plots INNER JOIN Deadwood ON Plots.ID = Deadwood.IDPlots)
+        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots) %s;",
       add_fields, selection
     )
 
@@ -69,8 +69,8 @@ load_data_deadwood <-
         Deadwood.CalcVolume_m3 AS calc_volume_m3,
         Deadwood.MaxDiam_mm AS max_diam_mm,
         Deadwood.TreeNumber AS tree_number %s
-      FROM (Plots INNER JOIN Deadwood_2eSET Deadwood ON Plots.ID = Deadwood.IDPlots)
-        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
+      FROM ((Plots INNER JOIN Deadwood_2eSET Deadwood ON Plots.ID = Deadwood.IDPlots)
+        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
       add_fields, selection
     )
 
