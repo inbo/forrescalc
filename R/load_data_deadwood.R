@@ -63,13 +63,13 @@ load_data_deadwood <-
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.LenghtCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
-        Deadwood_2eSet.ID AS lying_deadw_id,
-        Deadwood_2eSet.Species AS species,
-        Deadwood_2eSet.DecayStage AS decaystage,
-        Deadwood_2eSet.CalcVolume_m3 AS calc_volume_m3,
-        Deadwood_2eSet.MaxDiam_mm AS max_diam_mm,
-        Deadwood_2eSet.TreeNumber AS tree_number %s
-      FROM (Plots INNER JOIN Deadwood_2eSET ON Plots.ID = Deadwood_2eSET.IDPlots)
+        Deadwood.ID AS lying_deadw_id,
+        Deadwood.Species AS species,
+        Deadwood.DecayStage AS decaystage,
+        Deadwood.CalcVolume_m3 AS calc_volume_m3,
+        Deadwood.MaxDiam_mm AS max_diam_mm,
+        Deadwood.TreeNumber AS tree_number %s
+      FROM (Plots INNER JOIN Deadwood_2eSET Deadwood ON Plots.ID = Deadwood.IDPlots)
         INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots %s;",
       add_fields, selection
     )
