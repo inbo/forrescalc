@@ -44,7 +44,6 @@ load_data_deadwood <-
         Deadwood.ID AS lying_deadw_id,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
-        Deadwood.Length AS length_m,
         Deadwood.CalcVolume_m3 AS calc_volume_m3,
         Deadwood.MaxDiam_mm AS max_diam_mm,
         Deadwood.TreeNumber AS tree_number %s
