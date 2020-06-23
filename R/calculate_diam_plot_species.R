@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_shoots <-
@@ -33,7 +34,7 @@ calculate_diam_plot_species <-
       .data$dbh_class_5cm, .data$alive_dead
     ) %>%
     summarise(
-      stem_number_ha = round(sum(n() / .data$plotarea_ha)),
+      stem_number_ha = round(sum(1 / .data$plotarea_ha)),
       basal_area_m2_ha = sum(.data$basal_area_m2 / .data$plotarea_ha)
     ) %>%
     ungroup() %>%
@@ -54,10 +55,14 @@ calculate_diam_plot_species <-
           .data$dbh_class_5cm
         ) %>%
         summarise(
-          basal_area_tree_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-          basal_area_tree_snag_m2_ha = sum(.data$basal_area_snag_m2_ha),
-          volume_tree_alive_m3_ha = sum(.data$volume_alive_m3_ha),
-          volume_tree_snag_m3_ha = sum(.data$volume_snag_m3_ha)
+          basal_area_tree_alive_m2_ha =
+            sum(.data$basal_area_alive_m2_ha * .data$tree_number),
+          basal_area_tree_snag_m2_ha =
+            sum(.data$basal_area_snag_m2_ha * .data$tree_number),
+          volume_tree_alive_m3_ha =
+            sum(.data$volume_alive_m3_ha * .data$tree_number),
+          volume_tree_snag_m3_ha =
+            sum(.data$volume_snag_m3_ha * .data$tree_number)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "species", "dbh_class_5cm")

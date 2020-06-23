@@ -4,8 +4,12 @@
 \alias{load_data_dendrometry}
 \title{retrieve dendrometry data from fieldmap database}
 \usage{
-load_data_dendrometry(database, plottype = NA, forest_reserve = NA,
-  extra_variables = FALSE)
+load_data_dendrometry(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  extra_variables = FALSE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -33,6 +37,7 @@ This function queries the given database to retrieve data on dendrometry
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 }
 

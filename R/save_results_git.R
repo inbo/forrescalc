@@ -5,12 +5,14 @@
 #' @param results results from calculations in package forrescalc as a named list
 #' @param repo_path name and path of local git repository in which results should be saved
 #' @param push push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)
+#' @param strict keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)
 #'
 #' @return No value is returned, data are saved in the specified git repository
 #'
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' result_dendro <- calculate_dendrometry(data_dendro)
@@ -21,7 +23,7 @@
 #'
 #' @importFrom git2rdata commit pull push repository write_vc
 #'
-save_results_git <- function(results, repo_path, push = FALSE) {
+save_results_git <- function(results, repo_path, push = FALSE, strict = TRUE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   sorting_max <-
@@ -29,7 +31,7 @@ save_results_git <- function(results, repo_path, push = FALSE) {
   for (tablename in names(results)) {
     sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
     write_vc(results[[tablename]], file = paste0("data/", tablename),
-             root = repo, sorting = sorting, stage = TRUE)
+             root = repo, sorting = sorting, stage = TRUE, strict = strict)
   }
   tryCatch(
     commit(repo, message = "scripted commit from forrescalc", session = TRUE),

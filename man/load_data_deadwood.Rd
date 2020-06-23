@@ -4,7 +4,12 @@
 \alias{load_data_deadwood}
 \title{retrieves data on logs from fieldmap database}
 \usage{
-load_data_deadwood(database, plottype = NA, forest_reserve = NA)
+load_data_deadwood(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  extra_variables = FALSE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -16,6 +21,11 @@ or 'core area' (the default NA means that data from all plots are retrieved)}
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{extra_variables}{Should additional variables such as calc_height_m,
+intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
+coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
+Default is FALSE (no).}
 }
 \value{
 Dataframe with data on logs
@@ -26,6 +36,7 @@ This function queries the given database to retrieve data on deadwood (logs) (re
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 }
 

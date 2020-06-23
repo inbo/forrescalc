@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' }
 #'
@@ -23,6 +24,8 @@ load_data_regeneration <-
   function(database, plottype = NA, forest_reserve = NA) {
     selection <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
+    conjunction <-
+      ifelse(grepl("WHERE", selection), "AND", "WHERE")
     query_regeneration <-
       sprintf(
         "SELECT Plots.ID AS plot_id,
@@ -32,24 +35,30 @@ load_data_regeneration <-
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Reg.ID AS subplot_id,
-          Reg.Date AS date_regeneration
-          , Reg.Year AS year_record
-          , HeightClass.HeightClass AS height_class
-          , RegSpecies.Species AS species
-          , RegSpecies.NumberClass AS number_class
-          , RegSpecies.Number AS reg_number
-          , RegSpecies.GameDamage_number AS rubbing_damage_number
+          Reg.Date AS date_regeneration,
+          Reg.Year AS year_record,
+          Subquery.height_class,
+          Subquery.species,
+          Subquery.number_class,
+          Subquery.reg_number,
+          Subquery.rubbing_damage_number
         FROM (((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
-          INNER JOIN
-            (HeightClass
-              INNER JOIN RegSpecies
+          LEFT JOIN
+            (SELECT HeightClass.HeightClass AS height_class,
+              RegSpecies.Species AS species,
+              RegSpecies.NumberClass AS number_class,
+              RegSpecies.Number AS reg_number,
+              RegSpecies.GameDamage_number AS rubbing_damage_number,
+              HeightClass.IDRegeneration, HeightClass.IDPlots
+            FROM HeightClass INNER JOIN RegSpecies
                 ON HeightClass.IDRegeneration = RegSpecies.IDRegeneration
                 AND HeightClass.IDPlots = RegSpecies.IDPlots
-                AND HeightClass.ID = RegSpecies.IDHeightClass)
-            ON Reg.ID = HeightClass.IDRegeneration
-            AND Reg.IDPlots = HeightClass.IDPlots) %s;",
-        selection
+                AND HeightClass.ID = RegSpecies.IDHeightClass) AS Subquery
+            ON Reg.ID = Subquery.IDRegeneration
+            AND Reg.IDPlots = Subquery.IDPlots) %s
+        %s Reg.Date Is Not Null OR Reg.Year Is Not Null;",
+        selection, conjunction
       )
 
     query_regeneration2 <-
@@ -61,24 +70,31 @@ load_data_regeneration <-
           pd.LenghtCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           Reg.ID AS subplot_id,
-          Reg.Date AS date_regeneration
-          , Reg.Year AS year_record
-          , hc.HeightClass AS height_class
-          , rc.Species AS species
-          , rc.NumberClass AS number_class
-          , rc.Number AS reg_number
-          , rc.GameDamage_number AS rubbing_damage_number
+          Reg.Date AS date_regeneration,
+          Reg.Year AS year_record,
+          Subquery.height_class,
+          Subquery.species,
+          Subquery.number_class,
+          Subquery.reg_number,
+          Subquery.rubbing_damage_number
         FROM (((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
-          INNER JOIN
-            (HeightClass_2eSet hc
-              INNER JOIN RegSpecies_2eSet rc
-                ON hc.IDRegeneration_2eSet = rc.IDRegeneration_2eSet
-                AND hc.IDPlots = rc.IDPlots
-                AND hc.ID = rc.IDHeightClass_2eSet)
-            ON Reg.ID = hc.IDRegeneration_2eSet
-            AND Reg.IDPlots = hc.IDPlots) %s;",
-        selection
+          LEFT JOIN
+            (SELECT hc.HeightClass AS height_class,
+              rs.Species AS species,
+              rs.NumberClass AS number_class,
+              rs.Number AS reg_number,
+              rs.GameDamage_number AS rubbing_damage_number,
+              hc.IDRegeneration_2eSet, hc.IDPlots
+            FROM HeightClass_2eSet hc
+              INNER JOIN RegSpecies_2eSet rs
+                ON hc.IDRegeneration_2eSet = rs.IDRegeneration_2eSet
+                AND hc.IDPlots = rs.IDPlots
+                AND hc.ID = rs.IDHeightClass_2eSet) AS Subquery
+            ON Reg.ID = Subquery.IDRegeneration_2eSet
+            AND Reg.IDPlots = Subquery.IDPlots) %s
+        %s Reg.Date Is Not Null OR Reg.Year Is Not Null;",
+        selection, conjunction
       )
 
   number_classes <-
@@ -130,7 +146,7 @@ load_data_regeneration <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          .data$length_core_area_m * .data$width_core_area_m,
+          (.data$length_core_area_m * .data$width_core_area_m)/10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
@@ -157,6 +173,18 @@ load_data_regeneration <-
         ifelse(
           is.na(.data$max_number_of_trees),
           .data$reg_number,
+          .data$max_number_of_trees
+        ),
+      min_number_of_trees =
+        ifelse(
+          is.na(.data$min_number_of_trees) & is.na(.data$species),
+          0,
+          .data$min_number_of_trees
+        ),
+      max_number_of_trees =
+        ifelse(
+          is.na(.data$max_number_of_trees) & is.na(.data$species),
+          0,
           .data$max_number_of_trees
         )
     )

@@ -18,6 +18,7 @@ This function calculates for each plot and year the volume logs per hectare and 
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 calculate_logs_decay_plot(data_deadwood)

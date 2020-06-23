@@ -9,19 +9,32 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_vegetation <-
 #'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_vegetation_plot(data_vegetation)
+#' data_herblayer <-
+#'   load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_vegetation_plot(data_vegetation, data_herblayer)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct mutate summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_plot <- function(data_vegetation) {
-  by_plot <- data_vegetation %>%
-    group_by(.data$plot_id, .data$year, .data$period) %>%
+calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
+  by_plot <- data_herblayer %>%
+    select(
+      .data$plot_id, .data$year, .data$period, .data$subplot_id, .data$species,
+      .data$coverage_class_average_perc
+    ) %>%
+    left_join(
+      data_vegetation,
+      by = c("plot_id", "year", "period", "subplot_id")
+    ) %>%
+    group_by(
+      .data$plot_id, .data$year, .data$period, .data$subplot_id
+    ) %>%
     summarise(
       moss_cover_min = mean(.data$moss_cover_min, na.rm = TRUE),
       moss_cover_max = mean(.data$moss_cover_max, na.rm = TRUE),
@@ -37,7 +50,7 @@ calculate_vegetation_plot <- function(data_vegetation) {
         mean(.data$soildisturbance_game_cover_min, na.rm = TRUE),
       soildisturbance_game_cover_max =
         mean(.data$soildisturbance_game_cover_max, na.rm = TRUE),
-      number_of_species = n_distinct(.data$species),
+      number_of_species = n_distinct(.data$species, na.rm = TRUE),
       cumm_herb_coverage_class_average_perc =
         sum(.data$coverage_class_average_perc) / n_distinct(.data$subplot_id)
     ) %>%

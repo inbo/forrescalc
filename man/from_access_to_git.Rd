@@ -25,6 +25,7 @@ This function loads one or more tables from the access database and saves them i
 \examples{
 \dontrun{
 #change paths before running
+library(forrescalc)
 from_access_to_git(
   database = "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
   tables = c("qAliveDead", "qdecaystage"),

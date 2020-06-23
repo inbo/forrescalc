@@ -4,6 +4,8 @@ Version: 0.0.0.9000
 Authors@R: c(
   person("Els", "Lommelen", email = "els.lommelen@inbo.be",
     comment = c(ORCID = "0000-0002-3481-5684"), role = c("aut", "cre")),
+  person("Anja", "Leyman", email = "anja.leyman@inbo.be",
+    role = c("aut")),
   person(family = "Research Institute for Nature and Forest (INBO)",
     email = "info@inbo.be", role = "cph"))
 Description: The package contains functions to aggregate individual tree measures to aggregated values of dendrometry, regeneration and vegetation on plot level (and higher levels). (Results are stocked in data repository forresdat to allow for further analysis.)
@@ -20,8 +22,10 @@ Imports:
   readr,
   rlang,
   RODBC,
-  tidyr (>= 1.0.0)
-RoxygenNote: 6.1.1
+  stats,
+  tidyr (>= 1.0.0),
+  tidyselect (>= 1.0.0)
+RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown

@@ -4,7 +4,7 @@
 \alias{save_results_git}
 \title{save results of calculations in git repository}
 \usage{
-save_results_git(results, repo_path, push = FALSE)
+save_results_git(results, repo_path, push = FALSE, strict = TRUE)
 }
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
@@ -12,6 +12,8 @@ save_results_git(results, repo_path, push = FALSE)
 \item{repo_path}{name and path of local git repository in which results should be saved}
 
 \item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
+
+\item{strict}{keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)}
 }
 \value{
 No value is returned, data are saved in the specified git repository
@@ -22,6 +24,7 @@ This function saves the results from calculations in the forrescalc package (or 
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 result_dendro <- calculate_dendrometry(data_dendro)

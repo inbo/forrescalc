@@ -20,6 +20,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' }
 #'
@@ -38,7 +39,7 @@ load_data_dendrometry <-
     ifelse(
       extra_variables,
       ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
-        (Trees.X_m - Plots.Xorig_m) AS x_m, (Trees.Y_m - Plots.Yorig_m) AS y_m,
+        (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CrownVolumeReduction AS crown_volume_reduction,
         Trees.BrancheLengthReduction AS branche_length_reduction,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
@@ -141,7 +142,7 @@ load_data_dendrometry <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          .data$length_core_area_m * .data$width_core_area_m,
+          (.data$length_core_area_m * .data$width_core_area_m)/10000,
           .data$plotarea_ha
         ),
       plotarea_ha =

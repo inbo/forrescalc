@@ -13,11 +13,12 @@ calculate_regeneration_plot_height_species(data_regeneration)
 dataframe with columns plot, year, height_class, species and number_of_trees_ha
 }
 \description{
-This function calculates for each plot, tree height class, species and year the number of trees and rubbing damage percentage per hectare for regeneration. For core area plots, also the number and percentage of subplots with regeneration is calculated.
+This function calculates for each plot, tree height class, species and year the number of trees and rubbing damage percentage per hectare for regeneration.  For core area plots, these variables are calculated for each subplot.
 }
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 calculate_regeneration_plot_height_species(data_regeneration)

@@ -17,6 +17,7 @@ This function returns a factor with diameter classes of 5 cm for a given
 vector with diameter data in mm.
 }
 \examples{
+library(forrescalc)
 give_diamclass_5cm(c(80, 1512, 2222))
 
 }

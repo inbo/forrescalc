@@ -79,7 +79,7 @@ _NOTE: to be able to save/retrieve data to/from `forresdat` or another git repos
 
 With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_git()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_git()` (and other functions related to git) use the functionality of the [git2rdata](https://ropensci.github.io/git2rdata/) package.
 
-Tables from git can be loaded again in R with the function `read_git()`.
+Tables from git can be loaded again in R with the function `read_forresdat()`.
 
 Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_git()` and `from_git_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
 

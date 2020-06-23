@@ -19,10 +19,16 @@ This function makes aggregations of tree generation data on the levels of
  \item plot and year
  \item plot, height class, tree species and year
 }
+For core area plots it makes additional aggregations on the levels of
+\itemize{
+ \item core area, tree species and year
+ \item core area, height class, tree species and year
+}
 }
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 calculate_regeneration(data_regeneration)

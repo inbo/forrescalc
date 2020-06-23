@@ -4,10 +4,12 @@
 \alias{calculate_vegetation}
 \title{aggregates parameters on vegetation of forests}
 \usage{
-calculate_vegetation(data_vegetation)
+calculate_vegetation(data_vegetation, data_herblayer)
 }
 \arguments{
 \item{data_vegetation}{dataframe on vegetation with variables ...}
+
+\item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -23,9 +25,12 @@ This function makes aggregations of vegetation data on the levels of
 \examples{
 \dontrun{
 #change path before running
+library(forrescalc)
 data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_vegetation(data_vegetation)
+data_herblayer <-
+  load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_vegetation(data_vegetation, data_herblayer)
 }
 
 }

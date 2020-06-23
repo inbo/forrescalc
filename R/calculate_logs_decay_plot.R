@@ -9,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' #change path before running
+#' library(forrescalc)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' calculate_logs_decay_plot(data_deadwood)
@@ -21,7 +22,9 @@
 #'
 calculate_logs_decay_plot <- function(data_deadwood) {
   by_decay_plot <- data_deadwood %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$decaystage) %>%
+    group_by(
+      .data$plot_id, .data$year, .data$period, .data$decaystage
+    ) %>%
     summarise(
       volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
     ) %>%
