@@ -32,6 +32,8 @@ Installation of the package:
 remotes::install_github("inbo/forrescalc", build_vignettes = TRUE)
 ```
 
+Some functions require local access to the github repository [forresdat](https://github.com/inbo/forresdat).
+
 # Recommended use of the package
 
 The package `forrescalc` can be used for different reasons:
