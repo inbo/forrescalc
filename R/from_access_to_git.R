@@ -24,14 +24,15 @@
 #' )
 #' }
 #'
-from_access_to_git <- function(database, tables, repo_path, push = FALSE) {
+from_access_to_git <-
+  function(database, tables, repo_path, push = FALSE, strict = TRUE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   con <- odbcConnectAccess2007(database)
   for (tablename in tables) {
     table <- sqlFetch(con, tablename, stringsAsFactors = FALSE)
     write_vc(table, file = paste0("data/", tablename), root = repo,
-             sorting = "ID", stage = TRUE)
+             sorting = "ID", stage = TRUE, strict = strict)
   }
   odbcClose(con)
   tryCatch(
