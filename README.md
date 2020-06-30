@@ -1,6 +1,6 @@
 # forrescalc
 
-Calculation of agregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Fieldmap.
+Calculation of aggregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Fieldmap.
 
 # Installation
   
