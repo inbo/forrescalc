@@ -1,0 +1,31 @@
+---
+title: "Missig plots forest reserves"
+author: "Anja Leyman"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Overview package forrescalc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(forrescalc)
+```
+
+# Missing plots
+
+werkwijze dataverwerking Wijnendaele": 
+-        OPGEPAST: er werden een aantal plots NIET heropgemeten in 2012 => om vergelijking volledig correct te maken, moeten deze ook uit 1eSET verwijderd worden (niet in moederDB, maar wel bij de verwerking). Het gaat om volgende plots:
+
+o   400, 424, 426 die op een pad liggen dat toch behouden zal blijven
+
+o   482: open plek (kapvlakte) die open gehouden wordt
+
