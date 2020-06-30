@@ -36,7 +36,7 @@ jobs:
           devtools::install()
         shell: Rscript {0}
 
-      - name: Deploy package
+      - name: Deploy
         uses: peaceiris/action-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
