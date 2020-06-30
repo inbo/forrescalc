@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY}}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - uses: r-lib/actions/setup-r@master
 
