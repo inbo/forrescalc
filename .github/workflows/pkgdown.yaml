@@ -42,13 +42,13 @@ jobs:
             old_branch <- pkgdown:::git_current_branch()
             pkgdown:::git("checkout", "--orphan", "gh-pages")
             pkgdown:::git("rm", "-rf", "--quiet", ".")
-            pkgdown:::git("config", "--global", "user.email", "info@inbo.be")
-            pkgdown:::git("config", "--global", "user.name", "INBO")
+            pkgdown:::git("config", "--global", "user.email", "els.lommelen@inbo.be")
+            pkgdown:::git("config", "--global", "user.name", "ElsLommelen")
             pkgdown:::git("commit", "--allow-empty", "-m", "Initializing gh-pages branch")
             pkgdown:::git("push", "origin", "HEAD:gh-pages")
             pkgdown:::git("checkout", old_branch)
           }
-          pkgdown:::git("config", "--global", "user.email", "info@inbo.be")
-          pkgdown:::git("config", "--global", "user.name", "INBO")
+          pkgdown:::git("config", "--global", "user.email", "els.lommelen@inbo.be")
+          pkgdown:::git("config", "--global", "user.name", "ElsLommelen")
           pkgdown::deploy_to_branch(new_process = FALSE)
         shell: Rscript {0}
