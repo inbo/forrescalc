@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy package
         run: |
-          if (!pkgdown::git_has_remote_branch("origin", "gh-pages")) {
+          if (!pkgdown:::git_has_remote_branch("origin", "gh-pages")) {
             old_branch <- pkgdown::git_current_branch()
             git("checkout", "--orphan", "gh-pages")
             git("rm", "-rf", "--quiet", ".")
