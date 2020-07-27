@@ -3,7 +3,7 @@
 #' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
 #'
 #' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
-#' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.
+#' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #' @param include_year_range Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.
 #'
