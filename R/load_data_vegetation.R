@@ -4,7 +4,8 @@
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with regeneration data
+#' @return Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_record (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_record), ....
+#'
 #'
 #' @examples
 #' \dontrun{
