@@ -1,6 +1,6 @@
 #' aggregate vegetation parameters by plot and year
 #'
-#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer.
+#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "vegetation"), and can differ from the year of the spring flora survey.
 #'
 #' @inheritParams calculate_vegetation
 #'
