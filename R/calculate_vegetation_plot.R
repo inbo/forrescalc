@@ -1,10 +1,10 @@
 #' aggregate vegetation parameters by plot and year
 #'
-#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer.
+#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "vegetation"), and will in some cases differ from the year of the spring flora survey.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, year and number_of_tree_species
+#' @return dataframe with columns plot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
 #'
 #' @examples
 #' \dontrun{
@@ -25,12 +25,12 @@
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
   by_plot <- data_herblayer %>%
     select(
-      .data$plot_id, .data$year, .data$period, .data$subplot_id, .data$species,
+      .data$plot_id, .data$period, .data$subplot_id, .data$species,
       .data$coverage_class_average_perc
     ) %>%
     left_join(
       data_vegetation,
-      by = c("plot_id", "year", "period", "subplot_id")
+      by = c("plot_id", "period", "subplot_id")
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$subplot_id

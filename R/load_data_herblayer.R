@@ -1,10 +1,12 @@
 #' retrieve species specific vegetation data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
+#' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")
+#'
+#'
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data on the species level ('herb layer')
+#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
 #'
 #' @examples
 #' \dontrun{

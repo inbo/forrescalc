@@ -34,7 +34,7 @@ calculate_diam_plot_species <-
       .data$dbh_class_5cm, .data$alive_dead
     ) %>%
     summarise(
-      stem_number_ha = round(sum(1 / .data$plotarea_ha)),
+      stem_number_ha = sum(1 / .data$plotarea_ha),
       basal_area_m2_ha = sum(.data$basal_area_m2 / .data$plotarea_ha)
     ) %>%
     ungroup() %>%
@@ -74,7 +74,7 @@ calculate_diam_plot_species <-
           .data$dbh_class_5cm
         ) %>%
         summarise(
-          log_number_ha = round(sum(n() / .data$plotarea_ha)),
+          log_number_ha = sum(n() / .data$plotarea_ha),
           volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
