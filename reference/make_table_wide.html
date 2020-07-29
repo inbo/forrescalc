@@ -124,7 +124,7 @@
     <p>This function changes a dataframe from long to wide format, e.g. to show data from 2 different periods in different columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/make_table_wide.html'>make_table_wide</a></span>(<span class='kw'>table_long</span>, <span class='kw'>column_to_repeat</span>, <span class='kw'>columns_for_comparison</span>)</pre>
+    <pre class="usage"><span class='fu'>make_table_wide</span>(<span class='kw'>table_long</span>, <span class='kw'>column_to_repeat</span>, <span class='kw'>columns_for_comparison</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,17 +153,17 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 <span class='kw'>table_long</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_status_tree"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_status_tree"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>plot_id</span> <span class='op'>&lt;</span> <span class='fl'>110</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>plot_id</span>, <span class='kw'>species</span>, <span class='kw'>tree_id</span>, <span class='kw'>period</span>, <span class='kw'>dbh_mm</span>, <span class='kw'>alive_dead</span>)
 <span class='kw'>table_wide</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/make_table_wide.html'>make_table_wide</a></span>(<span class='kw'>table_long</span>, column_to_repeat = <span class='st'>"period"</span>,
+  <span class='fu'>make_table_wide</span>(<span class='kw'>table_long</span>, column_to_repeat = <span class='st'>"period"</span>,
                   columns_for_comparison = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dbh_mm"</span>, <span class='st'>"alive_dead"</span>))
 <span class='co'>#if dbh_mm is not mentioned in columns_for_comparison, it is considered as a</span>
 <span class='co'>#grouping variable while it has different values for each period.</span>
 <span class='co'>#This gives an unwanted result with still many rows and a lot of NA values:</span>
 <span class='kw'>table_wide</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/make_table_wide.html'>make_table_wide</a></span>(<span class='kw'>table_long</span>, column_to_repeat = <span class='st'>"period"</span>,
+  <span class='fu'>make_table_wide</span>(<span class='kw'>table_long</span>, column_to_repeat = <span class='st'>"period"</span>,
                   columns_for_comparison = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"alive_dead"</span>))
 }
 </div></pre>

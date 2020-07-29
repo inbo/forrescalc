@@ -124,7 +124,7 @@
     <p>This function calculates for each plot, height, species and year the number of trees per ha, and the number and percentage of subplots in which the species is regenerating. This calculation is designed for core areas, that consist of different subplots.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_regeneration_core_area_height_species.html'>calculate_regeneration_core_area_height_species</a></span>(<span class='kw'>data_regeneration</span>)</pre>
+    <pre class="usage"><span class='fu'>calculate_regeneration_core_area_height_species</span>(<span class='kw'>data_regeneration</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,11 +144,11 @@
 <span class='co'>#change path before running</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='kw'>data_regeneration_CA</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_regeneration.html'>load_data_regeneration</a></span>(
+  <span class='fu'><a href='load_data_regeneration.html'>load_data_regeneration</a></span>(
     <span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>,
     plottype = <span class='st'>"Core area"</span>
   )
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_regeneration_core_area_height_species.html'>calculate_regeneration_core_area_height_species</a></span>(<span class='kw'>data_regeneration_CA</span>)
+<span class='fu'>calculate_regeneration_core_area_height_species</span>(<span class='kw'>data_regeneration_CA</span>)
 }
 </div></pre>
   </div>

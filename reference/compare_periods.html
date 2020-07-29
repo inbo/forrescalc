@@ -124,7 +124,7 @@
     <p>This function compares for each plot (and other provided variables) the differences between periods/years for the column names given in parameter measure_vars. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure. All column names of the dataset that are not added to parameter measure_vars, are considered as grouping variables, except for period. If the result is not as expected, please verify that the dataset only consists of grouping variables, variables added to measure_vars and period.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/compare_periods.html'>compare_periods</a></span>(<span class='kw'>dataset</span>, <span class='kw'>measure_vars</span>)</pre>
+    <pre class="usage"><span class='fu'>compare_periods</span>(<span class='kw'>dataset</span>, <span class='kw'>measure_vars</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,10 +149,10 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 <span class='kw'>treenr_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>period</span>, <span class='kw'>year</span>, <span class='kw'>plot_id</span>, <span class='kw'>number_of_tree_species</span>, <span class='kw'>number_of_trees_ha</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span>()
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/compare_periods.html'>compare_periods</a></span>(<span class='kw'>treenr_by_plot</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year"</span>, <span class='st'>"number_of_tree_species"</span>, <span class='st'>"number_of_trees_ha"</span>))
+<span class='fu'>compare_periods</span>(<span class='kw'>treenr_by_plot</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"year"</span>, <span class='st'>"number_of_tree_species"</span>, <span class='st'>"number_of_trees_ha"</span>))
 }
 </div></pre>
   </div>

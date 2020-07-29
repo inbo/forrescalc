@@ -124,7 +124,7 @@
     <p>This function calculates for each plot and year the total coverage and the number of species in the vegetation layer.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_vegetation_plot.html'>calculate_vegetation_plot</a></span>(<span class='kw'>data_vegetation</span>, <span class='kw'>data_herblayer</span>)</pre>
+    <pre class="usage"><span class='fu'>calculate_vegetation_plot</span>(<span class='kw'>data_vegetation</span>, <span class='kw'>data_herblayer</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,10 +148,10 @@
 <span class='co'>#change path before running</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='kw'>data_vegetation</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_vegetation.html'>load_data_vegetation</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
+  <span class='fu'><a href='load_data_vegetation.html'>load_data_vegetation</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
 <span class='kw'>data_herblayer</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_herblayer.html'>load_data_herblayer</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_vegetation_plot.html'>calculate_vegetation_plot</a></span>(<span class='kw'>data_vegetation</span>, <span class='kw'>data_herblayer</span>)
+  <span class='fu'><a href='load_data_herblayer.html'>load_data_herblayer</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
+<span class='fu'>calculate_vegetation_plot</span>(<span class='kw'>data_vegetation</span>, <span class='kw'>data_herblayer</span>)
 }
 </div></pre>
   </div>

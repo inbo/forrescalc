@@ -124,7 +124,7 @@
     <p>This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/create_statistics.html'>create_statistics</a></span>(
+    <pre class="usage"><span class='fu'>create_statistics</span>(
   <span class='kw'>dataset</span>,
   level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"period"</span>, <span class='st'>"forest_reserve"</span>),
   <span class='kw'>variables</span>,
@@ -161,23 +161,23 @@
 <span class='co'>#change path before running</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='kw'>dendro_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/create_statistics.html'>create_statistics</a></span>(
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
+<span class='fu'>create_statistics</span>(
   dataset = <span class='kw'>dendro_by_plot</span>,
   level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>),
   variables = <span class='st'>"volume_alive_m3_ha"</span>
 )
 <span class='kw'>dendro_by_diam_plot_species</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_diam_plot_species"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/create_statistics.html'>create_statistics</a></span>(
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_diam_plot_species"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
+<span class='fu'>create_statistics</span>(
   dataset = <span class='kw'>dendro_by_diam_plot_species</span>,
   level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"year"</span>, <span class='st'>"species"</span>, <span class='st'>"dbh_class_5cm"</span>),
   variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"basal_area_shoot_alive_m2_ha"</span>, <span class='st'>"basal_area_shoot_snag_m2_ha"</span>,
       <span class='st'>"basal_area_tree_alive_m2_ha"</span>, <span class='st'>"basal_area_tree_snag_m2_ha"</span>)
 )
 <span class='kw'>vegetation_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"vegetation_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/create_statistics.html'>create_statistics</a></span>(dataset = <span class='kw'>vegetation_by_plot</span>, level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>),
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"vegetation_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
+<span class='fu'>create_statistics</span>(dataset = <span class='kw'>vegetation_by_plot</span>, level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>),
   variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"number_of_species"</span>, <span class='st'>"cumm_herb_coverage_class_average_perc"</span>))
 }
 </div></pre>

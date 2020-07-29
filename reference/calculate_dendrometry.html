@@ -144,7 +144,7 @@ decay stage, plot, tree species and year
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_dendrometry.html'>calculate_dendrometry</a></span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_deadwood</span>, <span class='kw'>data_stems</span>)</pre>
+    <pre class="usage"><span class='fu'>calculate_dendrometry</span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_deadwood</span>, <span class='kw'>data_stems</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,13 +172,13 @@ decay stage, plot, tree species and year
 <span class='co'>#change path before running</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
 <span class='kw'>data_dendro</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_dendrometry.html'>load_data_dendrometry</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
+  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
 <span class='kw'>data_deadwood</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_deadwood.html'>load_data_deadwood</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
+  <span class='fu'><a href='load_data_deadwood.html'>load_data_deadwood</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
 <span class='kw'>data_shoots</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/load_data_shoots.html'>load_data_shoots</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
-<span class='kw'>data_stems</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/compose_stem_data.html'>compose_stem_data</a></span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_shoots</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/forrescalc/man/calculate_dendrometry.html'>calculate_dendrometry</a></span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_deadwood</span>, <span class='kw'>data_stems</span>)
+  <span class='fu'><a href='load_data_shoots.html'>load_data_shoots</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
+<span class='kw'>data_stems</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compose_stem_data.html'>compose_stem_data</a></span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_shoots</span>)
+<span class='fu'>calculate_dendrometry</span>(<span class='kw'>data_dendro</span>, <span class='kw'>data_deadwood</span>, <span class='kw'>data_stems</span>)
 }
 </div></pre>
   </div>
