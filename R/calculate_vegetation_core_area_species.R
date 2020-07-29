@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, species, year, number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc
+#' @return dataframe with columns plot, species, year (year in which cover of species was noted, possibly different for spring flora), number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc
 #'
 #' @examples
 #' \dontrun{

@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, year and number_of_tree_species
+#' @return dataframe with columns plot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
 #'
 #' @examples
 #' \dontrun{

@@ -4,7 +4,7 @@
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data on the species level ('herb layer')
+#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
 #'
 #' @examples
 #' \dontrun{
