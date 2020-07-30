@@ -124,7 +124,7 @@
     <p>This function loads one or more tables from the access database and saves them in a git repository.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>from_access_to_git</span>(<span class='kw'>database</span>, <span class='kw'>tables</span>, <span class='kw'>repo_path</span>, push = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>from_access_to_git</span>(<span class='kw'>database</span>, <span class='kw'>tables</span>, <span class='kw'>repo_path</span>, push = <span class='fl'>FALSE</span>, strict = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +145,10 @@ structure) including path</p></td>
     <tr>
       <th>push</th>
       <td><p>push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)</p></td>
+    </tr>
+    <tr>
+      <th>strict</th>
+      <td><p>keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)</p></td>
     </tr>
     </table>
 

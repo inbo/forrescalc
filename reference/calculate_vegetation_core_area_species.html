@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="aggregate vegetation parameters by core area, species and year — calculate_vegetation_core_area_species" />
-<meta property="og:description" content="This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots." />
+<meta property="og:description" content="This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots. Year refers to year of recording of that specific species (source is table &quot;data_herblayer&quot;), and is possibly different for spring flora than for other species in the same subplot." />
 
 
 
@@ -121,7 +121,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots.</p>
+    <p>This function calculates for each plot, species and year the percentage of subplots in which the species is present and the percentage of subplots where the species is browsed (relative to the plots where it is present).  A difference is made between browsed (which contains all damage) and seriously browsed, which is reported if the damage is more than 1/20.  This calculation is designed for core areas, that consist of different subplots. Year refers to year of recording of that specific species (source is table "data_herblayer"), and is possibly different for spring flora than for other species in the same subplot.</p>
     </div>
 
     <pre class="usage"><span class='fu'>calculate_vegetation_core_area_species</span>(<span class='kw'>data_herblayer</span>)</pre>
@@ -137,7 +137,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dataframe with columns plot, species, year, number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc</p>
+    <p>dataframe with columns plot, species, year (year of recording of specific species, possibly different for spring flora), number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {

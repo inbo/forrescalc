@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="retrieve species specific vegetation data from fieldmap database — load_data_herblayer" />
-<meta property="og:description" content="This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function)." />
+<meta property="og:description" content="This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table &quot;vegetation&quot;), while year refers to year of recording of that specific species (possibly different for spring flora; source is table &quot;herblayer&quot;)" />
 
 
 
@@ -121,7 +121,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).</p>
+    <p>This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")</p>
     </div>
 
     <pre class="usage"><span class='fu'>load_data_herblayer</span>(<span class='kw'>database</span>, plottype = <span class='fl'>NA</span>, forest_reserve = <span class='fl'>NA</span>)</pre>
@@ -149,7 +149,7 @@ from all plots are retrieved)</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with vegetation data on the species level ('herb layer')</p>
+    <p>Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
