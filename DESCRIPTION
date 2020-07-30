@@ -25,7 +25,7 @@ Imports:
   stats,
   tidyr (>= 1.0.0),
   tidyselect (>= 1.0.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown

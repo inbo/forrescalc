@@ -14,7 +14,7 @@ create_statistics(
 \arguments{
 \item{dataset}{dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat}
 
-\item{level}{grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings.}
+\item{level}{grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.}
 
 \item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
 
