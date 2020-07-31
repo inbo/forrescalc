@@ -49,7 +49,10 @@
 #' @importFrom stats var
 #'
 create_statistics <-
-  function(dataset, level = c("period", "forest_reserve"), variables, include_year_range = FALSE) {
+  function(
+    dataset, level = c("period", "forest_reserve"), variables,
+    include_year_range = FALSE
+  ) {
 
   if (has_name(dataset, "period") & length(unique(dataset$period)) > 1 &
       !"period" %in% c(level, variables)) {
