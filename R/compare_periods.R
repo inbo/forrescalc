@@ -21,7 +21,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by group_by_at mutate mutate_at select ungroup vars
+#' @importFrom dplyr %>% all_vars any_vars filter_at group_by group_by_at mutate mutate_at select ungroup vars
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
