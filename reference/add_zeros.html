@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate statistics for the given dataset — create_statistics • forrescalc</title>
+<title>Add records with zero values for lacking observations in a given dataset — add_zeros • forrescalc</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,12 @@
 
 
 
-<meta property="og:title" content="Calculate statistics for the given dataset — create_statistics" />
-<meta property="og:description" content="This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
-These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with a zero value.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics are calculated on 3 plots.
-Records with zero values for absent observations can automatically be added using the function add_zeros()." />
+<meta property="og:title" content="Add records with zero values for lacking observations in a given dataset — add_zeros" />
+<meta property="og:description" content="Datasets for which this package has been developed, typically contain measurements of observations.
+Absence is often not reported explicitly (e.g. there exists no records for species that are not observed in a plot), while it can be important to include these zero values in an analysis.
+This function automatically adds lacking zero records to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
+All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
+Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value." />
 
 
 
@@ -118,73 +119,55 @@ Records with zero values for absent observations can automatically be added usin
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate statistics for the given dataset</h1>
+    <h1>Add records with zero values for lacking observations in a given dataset</h1>
     
-    <div class="hidden name"><code>create_statistics.Rd</code></div>
+    <div class="hidden name"><code>add_zeros.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).</p>
-<p>These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with a zero value.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics are calculated on 3 plots.
-Records with zero values for absent observations can automatically be added using the function add_zeros().</p>
+    <p>Datasets for which this package has been developed, typically contain measurements of observations.
+Absence is often not reported explicitly (e.g. there exists no records for species that are not observed in a plot), while it can be important to include these zero values in an analysis.
+This function automatically adds lacking zero records to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
+All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
+Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_statistics</span>(
-  <span class='kw'>dataset</span>,
-  level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"period"</span>, <span class='st'>"forest_reserve"</span>),
-  <span class='kw'>variables</span>,
-  include_year_range = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>add_zeros</span>(<span class='kw'>dataset</span>, <span class='kw'>comb_vars</span>, <span class='kw'>grouping_vars</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dataset</th>
-      <td><p>dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat</p></td>
+      <td><p>data.frame in which records should be added</p></td>
     </tr>
     <tr>
-      <th>level</th>
-      <td><p>grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve &amp; period.</p></td>
+      <th>comb_vars</th>
+      <td><p>variables (given as a vector of strings) of which all combinations of their values should have a record in the dataset.</p></td>
     </tr>
     <tr>
-      <th>variables</th>
-      <td><p>variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)</p></td>
-    </tr>
-    <tr>
-      <th>include_year_range</th>
-      <td><p>Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.</p></td>
+      <th>grouping_vars</th>
+      <td><p>one or more variables for which the combination of values of the variables given in `comb_vars` should be made for each value, e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"), all combinations of the values in "plot" and "species" are made within each value of "forest_reserve".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)</p>
+    <p>dataframe based on `dataset` to which records are added with value 0 (zero) for each measurement.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>#change path before running</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
-<span class='kw'>dendro_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'>create_statistics</span>(
-  dataset = <span class='kw'>dendro_by_plot</span>,
-  level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>),
-  variables = <span class='st'>"volume_alive_m3_ha"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>tidyverse</span>)
+<span class='kw'>dendro_by_plot_species</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_plot_species"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span>(<span class='op'>-</span><span class='kw'>year</span>, <span class='op'>-</span><span class='kw'>plottype</span>)
+<span class='fu'>add_zeros</span>(
+  dataset = <span class='kw'>dendro_by_plot_species</span>,
+  comb_vars = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"plot_id"</span>, <span class='st'>"species"</span>),
+  grouping_vars = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>)
 )
-<span class='kw'>dendro_by_diam_plot_species</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"dendro_by_diam_plot_species"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'>create_statistics</span>(
-  dataset = <span class='kw'>dendro_by_diam_plot_species</span>,
-  level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"year"</span>, <span class='st'>"species"</span>, <span class='st'>"dbh_class_5cm"</span>),
-  variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"basal_area_shoot_alive_m2_ha"</span>, <span class='st'>"basal_area_shoot_snag_m2_ha"</span>,
-      <span class='st'>"basal_area_tree_alive_m2_ha"</span>, <span class='st'>"basal_area_tree_snag_m2_ha"</span>)
-)
-<span class='kw'>vegetation_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span>(tablename = <span class='st'>"vegetation_by_plot"</span>, repo_path = <span class='st'>"C:/gitrepo/forresdat"</span>)
-<span class='fu'>create_statistics</span>(dataset = <span class='kw'>vegetation_by_plot</span>, level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span>),
-  variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"number_of_species"</span>, <span class='st'>"cumm_herb_coverage_class_average_perc"</span>))
 }
 </div></pre>
   </div>
