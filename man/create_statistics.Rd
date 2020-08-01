@@ -25,6 +25,10 @@ dataframe with the columns chosen for level, a column variable with the chosen v
 }
 \description{
 This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
+
+These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with a zero value.
+E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics are calculated on 3 plots.
+Records with zero values for absent observations can automatically be added using the function add_zeros().
 }
 \examples{
 \dontrun{
