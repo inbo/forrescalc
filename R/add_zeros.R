@@ -1,11 +1,11 @@
-#' Add records with zero values for lacking observations in a given dataset
+#' Add records with value zero for missing variable combinations in a given dataset
 #'
 #' @description
 #' Datasets for which this package has been developed, typically contain measurements of observations.
-#' Absence is often not reported explicitly (e.g. there exists no records for species that are not observed in a plot), while it can be important to include these zero values in an analysis.
-#' This function automatically adds lacking zero records to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
+#' Absence is often not reported explicitly (e.g. there exists no record of a species that is not observed in a plot), while it can be important to include these zero values in an analysis (e.g. mean coverage per species in a certain forest reserve; mean stem number per diameter class in a forest reserve).
+#' This function automatically adds missing combinations with value zero to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
 #' All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
-#' Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value.
+#' Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value (e.g. a plot or diameterclass that doesn't exist in the given dataset, but has to be included in the output).
 #'
 #'
 #' @param dataset data.frame in which records should be added
