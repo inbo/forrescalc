@@ -45,6 +45,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -79,12 +81,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -124,7 +120,7 @@
     <p>This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")</p>
     </div>
 
-    <pre class="usage"><span class='fu'>load_data_herblayer</span>(<span class='kw'>database</span>, plottype = <span class='fl'>NA</span>, forest_reserve = <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>load_data_herblayer</span><span class='op'>(</span><span class='va'>database</span>, plottype <span class='op'>=</span> <span class='cn'>NA</span>, forest_reserve <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +148,12 @@ from all plots are retrieved)</p></td>
     <p>Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>#change path before running</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
-<span class='fu'>load_data_herblayer</span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
-}
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
+<span class='fu'>load_data_herblayer</span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
+<span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -173,7 +170,7 @@ from all plots are retrieved)</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

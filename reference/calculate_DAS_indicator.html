@@ -60,6 +60,8 @@ yearly change of basal area proportion for each forest reserve: \(d = (pBA_t1 / 
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -94,12 +96,6 @@ yearly change of basal area proportion for each forest reserve: \(d = (pBA_t1 / 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -154,7 +150,7 @@ yearly change of basal area proportion for each forest reserve: \(d = (pBA_t1 / 
 
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_DAS_indicator</span>(<span class='kw'>data_dendro</span>, na.rm = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>calculate_DAS_indicator</span><span class='op'>(</span><span class='va'>data_dendro</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,13 +170,14 @@ yearly change of basal area proportion for each forest reserve: \(d = (pBA_t1 / 
     <p>dataframe with results for DAS indicator on forest level (?)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>#change path before running</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>forrescalc</span>)
-<span class='kw'>data_dendro</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span>(<span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>)
-<span class='fu'>calculate_DAS_indicator</span>(<span class='kw'>data_dendro</span>)
-}
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
+<span class='va'>data_dendro</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
+<span class='fu'>calculate_DAS_indicator</span><span class='op'>(</span><span class='va'>data_dendro</span><span class='op'>)</span>
+<span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -197,7 +194,7 @@ yearly change of basal area proportion for each forest reserve: \(d = (pBA_t1 / 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
