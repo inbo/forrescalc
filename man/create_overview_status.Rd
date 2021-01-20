@@ -10,10 +10,10 @@ create_overview_status(data_dendro)
 \item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
 }
 \value{
-a dataset with 1 record per measurement, containing the given data of each tree in different years
+a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.
 }
 \description{
-This function groups all given information on the life stages of an individual tree during different measures.
+This function creates a unique ID for each tree, that allows to group (f.e. by use of make_table_wide) all given information on the life stages of an individual tree during different measures.
 }
 \examples{
 \dontrun{
