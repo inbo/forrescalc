@@ -39,11 +39,9 @@ load_data_deadwood <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_A3 AS dbh_min_a3,
-        pd.TresHoldDBH_A4 AS dbh_min_a4,
-        pd.TresHoldDBH_CoreArea AS dbh_min_core_area,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
+        pd.Area_ha AS core_area_ha,
         Deadwood.ID AS lying_deadw_id,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
@@ -63,11 +61,9 @@ load_data_deadwood <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_A3 AS dbh_min_a3,
-        pd.TresHoldDBH_A4 AS dbh_min_a4,
-        pd.TresHoldDBH_CoreArea AS dbh_min_core_area,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
+        pd.Area_ha AS core_area_ha,
         Deadwood.ID AS lying_deadw_id,
         Deadwood.Species AS species,
         Deadwood.DecayStage AS decaystage,
@@ -103,6 +99,12 @@ load_data_deadwood <-
         ifelse(
           .data$plottype == 30,
           .data$length_core_area_m * .data$width_core_area_m,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$core_area_ha,
           .data$plotarea_ha
         ),
       plotarea_ha =

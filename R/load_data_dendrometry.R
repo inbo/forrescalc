@@ -56,11 +56,15 @@ load_data_dendrometry <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_1eSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_A3 AS dbh_min_a3,
-        pd.TresHoldDBH_A4 AS dbh_min_a4,
-        pd.TresHoldDBH_CoreArea AS dbh_min_core_area,
+        pd.TresHoldDBH_Trees_A3_living AS dbh_min_a3,
+        pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
+        pd.TresHoldDBH_Trees_A4_living AS dbh_min_a4,
+        pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
+        pd.TresHoldDBH_CoreArea_living AS dbh_min_core_area,
+        pd.TresHoldDBH_CoreArea_dead AS dbh_min_core_area_dead,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
+        pd.Area_ha AS core_area_ha,
         Trees.DBH_mm AS dbh_mm,
         Trees.Height_m AS height_m,
         Trees.Species AS species,
@@ -87,11 +91,15 @@ load_data_dendrometry <-
         pd.ForestReserve AS forest_reserve,
         pd.Date_dendro_2eSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_A3 AS dbh_min_a3,
-        pd.TresHoldDBH_A4 AS dbh_min_a4,
-        pd.TresHoldDBH_CoreArea AS dbh_min_core_area,
+        pd.TresHoldDBH_Trees_A3_living AS dbh_min_a3,
+        pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
+        pd.TresHoldDBH_Trees_A4_living AS dbh_min_a4,
+        pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
+        pd.TresHoldDBH_CoreArea_living AS dbh_min_core_area,
+        pd.TresHoldDBH_CoreArea_dead AS dbh_min_core_area_dead,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
+        pd.Area_ha AS core_area_ha,
         Trees.DBH_mm AS dbh_mm,
         Trees.Height_m AS height_m,
         Trees.Species AS species,
@@ -125,10 +133,10 @@ load_data_dendrometry <-
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
         ifelse(
-          .data$alive_dead == 11 & .data$dbh_mm >= 400,
+          .data$alive_dead == 11 & .data$dbh_mm >= dbh_min_a4,
           "A4",
           ifelse(
-            .data$alive_dead == 12 & .data$dbh_mm >= 100,
+            .data$alive_dead == 12 & .data$dbh_mm >= dbh_min_a4_dead,
             "A4",
             "A3"
           )
@@ -149,6 +157,12 @@ load_data_dendrometry <-
         ifelse(
           .data$plottype == 30,
           (.data$length_core_area_m * .data$width_core_area_m)/10000,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$core_area_ha,
           .data$plotarea_ha
         ),
       plotarea_ha =

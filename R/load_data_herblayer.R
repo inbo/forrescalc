@@ -34,6 +34,7 @@ load_data_herblayer <-
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
           Herb.Deviating_date AS deviating_date,
           Veg.Date AS date_vegetation,
@@ -60,6 +61,7 @@ load_data_herblayer <-
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
           Herb.Deviating_date AS deviating_date,
           Veg.Date AS date_vegetation,
@@ -107,6 +109,12 @@ load_data_herblayer <-
         ifelse(
           .data$plottype == 30,
           (.data$length_core_area_m * .data$width_core_area_m)/10000,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
+          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$core_area_ha,
           .data$plotarea_ha
         ),
       plotarea_ha =
