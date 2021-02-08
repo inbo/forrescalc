@@ -44,7 +44,7 @@ load_data_dendrometry <-
         Trees.BrancheLengthReduction AS branche_length_reduction,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
-        Trees.Remark AS remark, Trees.CommenRemark AS common_remark",
+        Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
       ""
     )
   query_dendro <-
