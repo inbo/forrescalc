@@ -28,7 +28,7 @@ load_data_deadwood <-
       ifelse(
         extra_variables,
         ", Deadwood.CalcLength_m AS calc_length_m,
-        Deadwood.Remark AS remark, Deadwood.CommenRemark AS common_remark",
+        Deadwood.Remark AS remark, Deadwood.CommonRemark AS common_remark",
         ""
       )
   query_deadwood <-
