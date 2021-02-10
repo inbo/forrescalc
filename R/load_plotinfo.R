@@ -24,22 +24,39 @@ load_plotinfo <- function(database) {
   query_plot <-
     "SELECT Plots.ID AS plot_id,
       Plots.Plottype AS plottype,
-      pd.ForestReserve AS forest_reserve
+      pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Vegetation_YN AS survey_veg,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.DataProcessed_YN AS data_processed
     FROM Plots INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots;"
 
   query_plot2 <-
     "SELECT Plots.ID AS plot_id,
       Plots.Plottype AS plottype,
-      pd.ForestReserve AS forest_reserve
+      pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Vegetation_YN AS survey_veg,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.DataProcessed_YN AS data_processed
     FROM Plots INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
 
   con <- odbcConnectAccess2007(database)
   plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
+    mutate(
+      period = 1
+    ) %>%
     bind_rows(
-      sqlQuery(con, query_plot2, stringsAsFactors = FALSE)
+      sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 2
+        )
     ) %>%
     distinct()
   odbcClose(con)
 
   return(plotinfo)
 }
+
