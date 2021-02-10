@@ -43,6 +43,17 @@ load_plotinfo <- function(database) {
       pd.DataProcessed_YN AS data_processed
     FROM Plots INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
 
+  query_plot3 <-
+    "SELECT Plots.ID AS plot_id,
+      Plots.Plottype AS plottype,
+      pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Vegetation_YN AS survey_veg,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.DataProcessed_YN AS data_processed
+    FROM Plots INNER JOIN PlotDetails_3eSet pd ON Plots.ID = pd.IDPlots;"
+
   con <- odbcConnectAccess2007(database)
   plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
     mutate(
@@ -52,6 +63,12 @@ load_plotinfo <- function(database) {
       sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
+        )
+    ) %>%
+    bind_rows(
+      sqlQuery(con, query_plot3, stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 3
         )
     ) %>%
     distinct()
