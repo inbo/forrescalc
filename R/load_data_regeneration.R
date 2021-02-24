@@ -125,7 +125,7 @@ load_data_regeneration <-
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       subcircle =
         ifelse(
-          .data$height_class %in% c(3000, 4000),
+          .data$height_class %in% c(3000, 4000, 6000, 7000, 8000),
           "A2",
           ifelse(
             .data$height_class %in% c(1000, 2000, 5000),
