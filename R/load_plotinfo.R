@@ -77,7 +77,7 @@ load_plotinfo <- function(database) {
                 group_by(plot_id, plottype, forest_reserve, survey_trees) %>%
                 summarize(min_period = min(period)) %>%
                 ungroup()) %>%
-    mutate(measurement_cycle = period - min_period + 1) %>%
+    mutate(survey_number = period - min_period + 1) %>%
     select(-min_period)
 
   odbcClose(con)
