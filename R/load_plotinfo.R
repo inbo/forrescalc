@@ -71,7 +71,15 @@ load_plotinfo <- function(database) {
           period = 3
         )
     ) %>%
-    distinct()
+    distinct() %>%
+    left_join(plotinfo %>%
+                filter(survey_trees == 10) %>%
+                group_by(plot_id, plottype, forest_reserve, survey_trees) %>%
+                summarize(min_period = min(period)) %>%
+                ungroup()) %>%
+    mutate(measurement_cycle = period - min_period + 1) %>%
+    select(-min_period)
+
   odbcClose(con)
 
   return(plotinfo)
