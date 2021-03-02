@@ -41,7 +41,7 @@ load_data_dendrometry <-
       ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
         (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CrownVolumeReduction AS crown_volume_reduction,
-        Trees.BrancheLengthReduction AS branche_length_reduction,
+        Trees.BranchLengthReduction AS branch_length_reduction,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
