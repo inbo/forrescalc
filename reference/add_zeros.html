@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add records with zero values for lacking observations in a given dataset — add_zeros • forrescalc</title>
+<title>Add records with value zero for missing variable combinations in a given dataset — add_zeros • forrescalc</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,12 @@
 
 
 
-<meta property="og:title" content="Add records with zero values for lacking observations in a given dataset — add_zeros" />
+<meta property="og:title" content="Add records with value zero for missing variable combinations in a given dataset — add_zeros" />
 <meta property="og:description" content="Datasets for which this package has been developed, typically contain measurements of observations.
-Absence is often not reported explicitly (e.g. there exists no records for species that are not observed in a plot), while it can be important to include these zero values in an analysis.
-This function automatically adds lacking zero records to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
+Absence is often not reported explicitly (e.g. there exists no record of a species that is not observed in a plot), while it can be important to include these zero values in an analysis (e.g. mean coverage per species in a certain forest reserve; mean stem number per diameter class in a forest reserve).
+This function automatically adds missing combinations with value zero to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
 All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
-Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value." />
+Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value (e.g. a plot or diameterclass that doesn't exist in the given dataset, but has to be included in the output)." />
 
 
 
@@ -62,9 +62,18 @@ Note that if a certain value is not present in the dataset (or in one of the sub
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -115,17 +124,17 @@ Note that if a certain value is not present in the dataset (or in one of the sub
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add records with zero values for lacking observations in a given dataset</h1>
+    <h1>Add records with value zero for missing variable combinations in a given dataset</h1>
     
     <div class="hidden name"><code>add_zeros.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Datasets for which this package has been developed, typically contain measurements of observations.
-Absence is often not reported explicitly (e.g. there exists no records for species that are not observed in a plot), while it can be important to include these zero values in an analysis.
-This function automatically adds lacking zero records to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
+Absence is often not reported explicitly (e.g. there exists no record of a species that is not observed in a plot), while it can be important to include these zero values in an analysis (e.g. mean coverage per species in a certain forest reserve; mean stem number per diameter class in a forest reserve).
+This function automatically adds missing combinations with value zero to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
 All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
-Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value.</p>
+Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value (e.g. a plot or diameterclass that doesn't exist in the given dataset, but has to be included in the output).</p>
     </div>
 
     <pre class="usage"><span class='fu'>add_zeros</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>comb_vars</span>, <span class='va'>grouping_vars</span><span class='op'>)</span></pre>
@@ -178,11 +187,11 @@ Note that if a certain value is not present in the dataset (or in one of the sub
 
       <footer>
       <div class="copyright">
-  <p>Developed by Els Lommelen, Anja Leyman.</p>
+  <p><p>Developed by Els Lommelen, Anja Leyman.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -190,6 +199,8 @@ Note that if a certain value is not present in the dataset (or in one of the sub
 
   
 
+
+  
 
   </body>
 </html>

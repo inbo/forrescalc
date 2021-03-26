@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="couple data of each individual tree in different years — create_overview_status" />
-<meta property="og:description" content="This function groups all given information on the life stages of an individual tree during different measures." />
+<meta property="og:description" content="This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures." />
 
 
 
@@ -58,9 +58,18 @@
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -117,7 +126,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This function groups all given information on the life stages of an individual tree during different measures.</p>
+    <p>This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_overview_status</span><span class='op'>(</span><span class='va'>data_dendro</span><span class='op'>)</span></pre>
@@ -133,7 +142,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a dataset with 1 record per measurement, containing the given data of each tree in different years</p>
+    <p>a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -156,11 +165,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Els Lommelen, Anja Leyman.</p>
+  <p><p>Developed by Els Lommelen, Anja Leyman.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -168,6 +177,8 @@
 
   
 
+
+  
 
   </body>
 </html>

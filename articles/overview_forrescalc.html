@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -68,7 +70,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview package forrescalc</h1>
             
-            <h4 class="date">2021-02-08</h4>
+            <h4 data-toc-skip class="date">2021-03-26</h4>
       
       
       <div class="hidden name"><code>overview_forrescalc.Rmd</code></div>
@@ -88,8 +90,8 @@
 <p>Installation of the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"inbo/forrescalc"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>Some functions require local access to the github repository <a href="https://github.com/inbo/forresdat">forresdat</a>.</p>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"inbo/forrescalc"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>Some functions require local access to the github repository <a href="https://github.com/inbo/forresdat" class="external-link">forresdat</a>.</p>
 </div>
 <div id="recommended-use-of-the-package" class="section level1">
 <h1 class="hasAnchor">
@@ -101,7 +103,7 @@
 <li>do similar aggregations on your own data</li>
 <li>…</li>
 </ul>
-<p>The next part shortly describes some common tasks and mentions the functions that are useful for these tasks. For detailed information on the use of specific functions (including an example), we refer to the help of the function (accessible in R by typing the function name preceded by a <code><a href="https://rdrr.io/r/utils/Question.html">?</a></code>, for instance <code><a href="../reference/load_data_dendrometry.html">?load_data_dendrometry</a></code>). Updating <code>forresdat</code> should be done following a strict routine, for other tasks it is up to the user to cherry-pick the desired functions.</p>
+<p>The next part shortly describes some common tasks and mentions the functions that are useful for these tasks. For detailed information on the use of specific functions (including an example), we refer to the help of the function (accessible in R by typing the function name preceded by a <code><a href="https://rdrr.io/r/utils/Question.html" class="external-link">?</a></code>, for instance <code><a href="../reference/load_data_dendrometry.html">?load_data_dendrometry</a></code>). Updating <code>forresdat</code> should be done following a strict routine, for other tasks it is up to the user to cherry-pick the desired functions.</p>
 <div id="load-data-from-fieldmap-database" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data-from-fieldmap-database" class="anchor"></a>Load data from Fieldmap database</h2>
@@ -145,8 +147,8 @@
 <div id="save-and-retrieve-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#save-and-retrieve-data" class="anchor"></a>Save and retrieve data</h2>
-<p><em>NOTE: to be able to save/retrieve data to/from <code>forresdat</code> or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described <a href="https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally">here</a> (see also the 2 figures below the text). The https link to <code>forresdat</code> can be copied from <a href="https://github.com/inbo/forresdat">its github page</a>.</em></p>
-<p>With the workflow for the update of <code>forresdat</code> in mind, we developed 2 functions to save the results from the umbrella functions: <code><a href="../reference/save_results_git.html">save_results_git()</a></code> (to save the tables in <code>forresdat</code> or another git repository) and <code><a href="../reference/save_results_access.html">save_results_access()</a></code> (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. <code><a href="../reference/save_results_git.html">save_results_git()</a></code> (and other functions related to git) use the functionality of the <a href="https://ropensci.github.io/git2rdata/">git2rdata</a> package.</p>
+<p><em>NOTE: to be able to save/retrieve data to/from <code>forresdat</code> or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described <a href="https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally" class="external-link">here</a> (see also the 2 figures below the text). The https link to <code>forresdat</code> can be copied from <a href="https://github.com/inbo/forresdat" class="external-link">its github page</a>.</em></p>
+<p>With the workflow for the update of <code>forresdat</code> in mind, we developed 2 functions to save the results from the umbrella functions: <code><a href="../reference/save_results_git.html">save_results_git()</a></code> (to save the tables in <code>forresdat</code> or another git repository) and <code><a href="../reference/save_results_access.html">save_results_access()</a></code> (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. <code><a href="../reference/save_results_git.html">save_results_git()</a></code> (and other functions related to git) use the functionality of the <a href="https://ropensci.github.io/git2rdata/" class="external-link">git2rdata</a> package.</p>
 <p>Tables from git can be loaded again in R with the function <code><a href="../reference/read_forresdat.html">read_forresdat()</a></code>.</p>
 <p>Two other functions allow to copy tables from an Access database to a git repository and visa versa (<code><a href="../reference/from_access_to_git.html">from_access_to_git()</a></code> and <code><a href="../reference/from_git_to_access.html">from_git_to_access()</a></code>). The first one allows to add lookup tables to <code>forresdat</code> and the second one might be useful to copy tables from <code>forresdat</code> to a personal analysis database in Access.</p>
 <p>Functions <code><a href="../reference/save_results_git.html">save_results_git()</a></code> and <code><a href="../reference/from_access_to_git.html">from_access_to_git()</a></code> save tables in your local copy of the git repository (grouped as 1 commit for each function). Changes can be checked in the local repository (project <code>forresdat</code>, tab <em>Git</em>, button <em>History</em>) and <em>pushed</em> to the <em>remote</em> repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function <code>remove_last_commit_git</code>, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.</p>
@@ -171,11 +173,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Els Lommelen, Anja Leyman.</p>
+  <p></p>
+<p>Developed by Els Lommelen, Anja Leyman.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -183,6 +187,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -41,9 +41,9 @@
 
 <meta property="og:title" content="Calculate statistics for the given dataset — create_statistics" />
 <meta property="og:description" content="This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
-These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with a zero value.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics are calculated on 3 plots.
-Records with zero values for absent observations can automatically be added using the function add_zeros()." />
+These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with value zero.
+E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics (e.g. mean coverage) are calculated on 3 plots.
+Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros()." />
 
 
 
@@ -61,9 +61,18 @@ Records with zero values for absent observations can automatically be added usin
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -121,9 +130,9 @@ Records with zero values for absent observations can automatically be added usin
 
     <div class="ref-description">
     <p>This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).</p>
-<p>These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with a zero value.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics are calculated on 3 plots.
-Records with zero values for absent observations can automatically be added using the function add_zeros().</p>
+<p>These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with value zero.
+E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics (e.g. mean coverage) are calculated on 3 plots.
+Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros().</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_statistics</span><span class='op'>(</span>
@@ -195,11 +204,11 @@ Records with zero values for absent observations can automatically be added usin
 
       <footer>
       <div class="copyright">
-  <p>Developed by Els Lommelen, Anja Leyman.</p>
+  <p><p>Developed by Els Lommelen, Anja Leyman.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -207,6 +216,8 @@ Records with zero values for absent observations can automatically be added usin
 
   
 
+
+  
 
   </body>
 </html>
