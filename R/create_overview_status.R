@@ -1,10 +1,11 @@
-#' couple data of each individual tree in different years
+#' @title couple data of each individual tree in different years
 #'
-#' This function groups all given information on the life stages of an individual tree during different measures.
+#' @description
+#' This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return a dataset with 1 record per measurement, containing the given data of each tree in different years
+#' @return a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.
 #'
 #' @examples
 #' \dontrun{

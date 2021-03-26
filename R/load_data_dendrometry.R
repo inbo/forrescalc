@@ -5,8 +5,8 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
-#' @param plottype possibility to select only data for a certain plot type, e.g. 'circular plot'
-#' or 'core area' (the default NA means that data from all plots are retrieved)
+#' @param plottype possibility to select only data for a certain plot type, e.g. 'Circular plot'
+#' or 'Core area' (the default NA means that data from all plots are retrieved)
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
