@@ -18,7 +18,8 @@
 #' @export
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom dplyr %>% bind_rows distinct
+#' @importFrom dplyr %>% bind_rows distinct filter group_by mutate left_join summarise ungroup
+
 #' @importFrom rlang .data
 #'
 
