@@ -60,31 +60,31 @@ load_plotinfo <- function(database) {
   con <- odbcConnectAccess2007(database)
   plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
     mutate(
-      period = 1
+      .data$period = 1
     ) %>%
     bind_rows(
       sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
         mutate(
-          period = 2
+          .data$period = 2
         )
     ) %>%
     bind_rows(
       sqlQuery(con, query_plot3, stringsAsFactors = FALSE) %>%
         mutate(
-          period = 3
+          .data$period = 3
         )
     ) %>%
     distinct()
 
   plotinfo2 <- plotinfo %>%
     left_join(plotinfo %>%
-                filter(survey_trees == 10) %>%
-                group_by(plot_id, plottype, forest_reserve, survey_trees) %>%
-                summarise(min_period = min(period)) %>%
+                filter(.data$survey_trees == 10) %>%
+                group_by(.data$plot_id, .data$plottype, .data$forest_reserve, .data$survey_trees) %>%
+                summarise(min_period = min(.data$period)) %>%
 
                 ungroup()) %>%
-    mutate(survey_number = period - min_period + 1) %>%
-    select(-min_period)
+    mutate(survey_number = .data$period - .data$min_period + 1) %>%
+    select(-.data$min_period)
 
   plotinfo <- plotinfo2
 
