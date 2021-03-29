@@ -19,7 +19,9 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom dplyr %>% bind_rows distinct
+#' @importFrom rlang .data
 #'
+
 load_plotinfo <- function(database) {
   query_plot <-
     "SELECT Plots.ID AS plot_id,
