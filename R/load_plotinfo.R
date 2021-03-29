@@ -77,7 +77,8 @@ load_plotinfo <- function(database) {
     left_join(plotinfo %>%
                 filter(survey_trees == 10) %>%
                 group_by(plot_id, plottype, forest_reserve, survey_trees) %>%
-                summarize(min_period = min(period)) %>%
+                summarise(min_period = min(period)) %>%
+
                 ungroup()) %>%
     mutate(survey_number = period - min_period + 1) %>%
     select(-min_period)
@@ -88,4 +89,3 @@ load_plotinfo <- function(database) {
 
   return(plotinfo)
 }
-
