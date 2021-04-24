@@ -133,7 +133,7 @@ load_data_dendrometry <-
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
         ifelse(
-          .data$alive_dead == 11 & .data$dbh_mm >= dbh_min_a4,
+          .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,
           "A4",
           ifelse(
             .data$alive_dead == 12 & .data$dbh_mm >= dbh_min_a4_dead,
