@@ -71,7 +71,7 @@ load_plotinfo <- function(database) {
     bind_rows(
       sqlQuery(con, query_plot3, stringsAsFactors = FALSE) %>%
         mutate(
-          .data$period = 3
+          period = 3
         )
     ) %>%
     distinct()
