@@ -60,7 +60,7 @@ load_plotinfo <- function(database) {
   con <- odbcConnectAccess2007(database)
   plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
     mutate(
-      .data$period = 1
+     period = 1
     ) %>%
     bind_rows(
       sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
