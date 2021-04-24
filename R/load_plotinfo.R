@@ -65,7 +65,7 @@ load_plotinfo <- function(database) {
     bind_rows(
       sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
         mutate(
-          .data$period = 2
+          period = 2
         )
     ) %>%
     bind_rows(
