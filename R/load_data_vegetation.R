@@ -26,7 +26,6 @@ load_data_vegetation <-
     selection <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_vegetation <-
-      sprintf(
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
@@ -44,36 +43,9 @@ load_data_vegetation <-
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
           Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
         FROM ((Plots
-          INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-        %s;",
-        selection
-      )
-
-    query_vegetation2 <-
-      sprintf(
-        "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
-          Veg.ID AS subplot_id,
-          Veg.Date AS date_vegetation,
-          Veg.Year AS year_record,
-          Veg.Total_moss_cover AS total_moss_cover_id,
-          Veg.Total_herb_cover AS total_herb_cover_id,
-          Veg.Total_shrub_cover AS total_shrub_cover_id,
-          Veg.Total_tree_cover AS total_tree_cover_id,
-          Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
-        FROM ((Plots
-          INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-        %s;",
-        selection
-      )
+          INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
+        %3$s;"
 
     query_total_cover <-
       "SELECT tc.ID AS id, tc.Value1 AS cover_interval FROM qtotalCover tc"
@@ -90,12 +62,13 @@ load_data_vegetation <-
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
-  data_vegetation <- sqlQuery(con, query_vegetation, stringsAsFactors = FALSE) %>%
+  data_vegetation <-
+    sqlQuery(con, sprintf(query_vegetation, 1, "", selection), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, query_vegetation2, stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_vegetation, 2, "_2eSet", selection), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
