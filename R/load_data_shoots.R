@@ -43,7 +43,7 @@ load_data_shoots <- function(database) {
     bind_rows(
       sqlQuery(con, sprintf(query_shoots, 3, "_3eSet"), stringsAsFactors = FALSE) %>%
         mutate(
-          period = 2
+          period = 3
         )
     )
   odbcClose(con)
