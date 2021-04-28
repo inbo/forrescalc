@@ -17,9 +17,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% mutate
 #' @importFrom lubridate year
 #'
 load_data_herblayer <-
@@ -50,23 +49,8 @@ load_data_herblayer <-
           INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
         %3$s;"
 
-  con <- odbcConnectAccess2007(database)
-  data_herblayer <- sqlQuery(con, sprintf(query_herblayer, 1, "", selection), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_herblayer, 2, "_2eSet", selection), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_herblayer, 3, "_3eSet", selection), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+  data_herblayer <-
+    query_database(database, query_herblayer, selection = selection) %>%
     mutate(
       year =
         ifelse(
@@ -103,7 +87,6 @@ load_data_herblayer <-
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
     )
-  odbcClose(con)
 
   return(data_herblayer)
 }

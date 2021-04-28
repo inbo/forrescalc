@@ -18,7 +18,7 @@
 #'
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows left_join mutate rename
+#' @importFrom dplyr %>% left_join mutate rename
 #' @importFrom lubridate year
 #'
 load_data_vegetation <-
@@ -62,23 +62,10 @@ load_data_vegetation <-
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
+  odbcClose(con)
+
   data_vegetation <-
-    sqlQuery(con, sprintf(query_vegetation, 1, "", selection), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_vegetation, 2, "_2eSet", selection), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_vegetation, 3, "_3eSet", selection), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+    query_database(database, query_vegetation, selection = selection) %>%
     mutate(
       year = year(.data$date_vegetation),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
@@ -143,7 +130,6 @@ load_data_vegetation <-
       soildisturbance_game_cover_min = .data$min_cover,
       soildisturbance_game_cover_max = .data$max_cover
     )
-  odbcClose(con)
 
   return(data_vegetation)
 }

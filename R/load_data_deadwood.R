@@ -15,9 +15,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% mutate
 #' @importFrom lubridate round_date year
 #'
 load_data_deadwood <-
@@ -49,23 +48,9 @@ load_data_deadwood <-
     FROM ((Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
 
-  con <- odbcConnectAccess2007(database)
-  data_deadwood <- sqlQuery(con, sprintf(query_deadwood, 1, "", selection, add_fields), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_deadwood, 2, "_2eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_deadwood, 3, "_3eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+  data_deadwood <-
+    query_database(database, query_deadwood,
+                   selection = selection, add_fields = add_fields) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
@@ -94,7 +79,6 @@ load_data_deadwood <-
           .data$plotarea_ha
         )
     )
-  odbcClose(con)
 
   return(data_deadwood)
 }

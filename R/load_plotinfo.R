@@ -17,9 +17,7 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom dplyr %>% bind_rows distinct filter group_by mutate left_join select summarise ungroup
-
+#' @importFrom dplyr %>% distinct filter group_by mutate left_join select summarise ungroup
 #' @importFrom rlang .data
 #'
 
@@ -35,23 +33,8 @@ load_plotinfo <- function(database) {
       pd.DataProcessed_YN AS data_processed
     FROM Plots INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
 
-  con <- odbcConnectAccess2007(database)
-  plotinfo <- sqlQuery(con, sprintf(query_plot, 1, ""), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_plot, 2, "2eSet"), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_plot, 3, "3eSet"), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+  plotinfo <-
+    query_database(database, query_plot) %>%
     distinct()
 
   plotinfo2 <- plotinfo %>%
@@ -65,8 +48,6 @@ load_plotinfo <- function(database) {
     select(-.data$min_period)
 
   plotinfo <- plotinfo2
-
-  odbcClose(con)
 
   return(plotinfo)
 }

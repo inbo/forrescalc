@@ -26,9 +26,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% mutate
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-
@@ -79,23 +78,9 @@ load_data_dendrometry <-
       FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
 
-  con <- odbcConnectAccess2007(database)
-  data_dendro <- sqlQuery(con, sprintf(query_dendro, 1, "", selection, add_fields), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_dendro, 2, "_2eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_dendro, 3, "_3eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+  data_dendro <-
+    query_database(database, query_dendro,
+                   selection = selection, add_fields = add_fields) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
@@ -176,7 +161,6 @@ load_data_dendrometry <-
         ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
-  odbcClose(con)
 
   return(data_dendro)
 }

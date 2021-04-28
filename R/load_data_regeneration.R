@@ -15,9 +15,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows left_join mutate select
+#' @importFrom dplyr %>% left_join mutate select
 #' @importFrom lubridate year
 #'
 load_data_regeneration <-
@@ -69,36 +68,9 @@ load_data_regeneration <-
       stringsAsFactors = FALSE
     )
 
-  con <- odbcConnectAccess2007(database)
   data_regeneration <-
-    sqlQuery(
-      con,
-      sprintf(query_regeneration, 1, "", selection, "", conjunction),
-      stringsAsFactors = FALSE
-    ) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(
-        con,
-        sprintf(query_regeneration, 2, "_2eSet", selection, "", conjunction),
-        stringsAsFactors = FALSE
-      ) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(
-        con,
-        sprintf(query_regeneration, 3, "_3eSet", selection, "", conjunction),
-        stringsAsFactors = FALSE
-      ) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+    query_database(database, query_regeneration,
+                   selection = selection, conjunction = conjunction) %>%
     mutate(
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
@@ -175,7 +147,6 @@ load_data_regeneration <-
           .data$max_number_of_trees
         )
     )
-  odbcClose(con)
 
   return(data_regeneration)
 }

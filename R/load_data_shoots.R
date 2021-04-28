@@ -15,10 +15,6 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
-#'
 load_data_shoots <- function(database) {
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
@@ -29,24 +25,7 @@ load_data_shoots <- function(database) {
       Shoots.DecayStage_Shoots as decaystage
     FROM Shoots%2$s Shoots;"
 
-  con <- odbcConnectAccess2007(database)
-  data_shoots <- sqlQuery(con, sprintf(query_shoots, 1, ""), stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_shoots, 2, "_2eSet"), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, sprintf(query_shoots, 3, "_3eSet"), stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    )
-  odbcClose(con)
+  data_shoots <- query_database(database, query_shoots)
 
   return(data_shoots)
 }
