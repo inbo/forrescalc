@@ -22,29 +22,20 @@
 load_data_shoots <- function(database) {
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
-      Shoots.IDTrees AS tree_measure_id,
+      Shoots.IDTrees%2$s AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
       Shoots.DecayStage_Shoots as decaystage
-    FROM Shoots;"
-
-  query_shoots2 <-
-    "SELECT Shoots.IDPlots AS plot_id,
-      Shoots.IDTrees_2eSet AS tree_measure_id,
-      Shoots.ID AS shoot_measure_id,
-      Shoots.DBH_mm AS dbh_mm,
-      Shoots.Height_m AS height_m,
-      Shoots.DecayStage_shoots as decaystage
-    FROM Shoots_2eSet Shoots;"
+    FROM Shoots%2$s Shoots;"
 
   con <- odbcConnectAccess2007(database)
-  data_shoots <- sqlQuery(con, query_shoots, stringsAsFactors = FALSE) %>%
+  data_shoots <- sqlQuery(con, sprintf(query_shoots, 1, ""), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, query_shoots2, stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_shoots, 2, "_2eSet"), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
