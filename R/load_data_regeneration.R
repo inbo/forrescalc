@@ -89,6 +89,16 @@ load_data_regeneration <-
           period = 2
         )
     ) %>%
+    bind_rows(
+      sqlQuery(
+        con,
+        sprintf(query_regeneration, 3, "_3eSet", selection, conjunction),
+        stringsAsFactors = FALSE
+      ) %>%
+        mutate(
+          period = 3
+        )
+    ) %>%
     mutate(
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
