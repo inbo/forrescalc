@@ -60,6 +60,12 @@ load_data_deadwood <-
           period = 2
         )
     ) %>%
+    bind_rows(
+      sqlQuery(con, sprintf(query_deadwood, 3, add_fields, "Deadwood_3eSET ", 3, selection), stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 3
+        )
+    ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
