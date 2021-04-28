@@ -90,6 +90,12 @@ load_data_dendrometry <-
           period = 2
         )
     ) %>%
+    bind_rows(
+      sqlQuery(con, sprintf(query_dendro, 3, "Trees_3eSET ", add_fields, selection), stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 3
+        )
+    ) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
