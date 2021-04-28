@@ -44,25 +44,25 @@ load_data_herblayer <-
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
           INNER JOIN PlotDetails_%deSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation%s Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer%s Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%s)
+          INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN Herblayer%2$s Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%2$s)
           INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
-        %s;"
+        %3$s;"
 
   con <- odbcConnectAccess2007(database)
-  data_herblayer <- sqlQuery(con, sprintf(query_herblayer, 1, "", "", "", selection), stringsAsFactors = FALSE) %>%
+  data_herblayer <- sqlQuery(con, sprintf(query_herblayer, 1, "", selection), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_herblayer, 2, "_2eSet", "_2eSet", "_2eSet", selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_herblayer, 2, "_2eSet", selection), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_herblayer, 3, "_3eSet", "_3eSet", "_3eSet", selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_herblayer, 3, "_3eSet", selection), stringsAsFactors = FALSE) %>%
         mutate(
           period = 3
         )
