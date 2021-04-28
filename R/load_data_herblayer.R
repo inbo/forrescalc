@@ -27,7 +27,6 @@ load_data_herblayer <-
     selection <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_herblayer <-
-      sprintf(
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
@@ -44,49 +43,20 @@ load_data_herblayer <-
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
-          INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation)
+          INNER JOIN PlotDetails_%deSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation%s Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN Herblayer%s Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%s)
           INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
-        %s;",
-        selection
-      )
-
-    query_herblayer2 <-
-      sprintf(
-        "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
-          Veg.ID AS subplot_id,
-          Herb.Deviating_date AS deviating_date,
-          Veg.Date AS date_vegetation,
-          Veg.Year AS year_record,
-          Herb.Species as species,
-          Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average,
-          Herb.BrowseIndex AS browse_index_id
-        FROM ((((Plots
-          INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer_2eSet Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation_2eSet)
-          INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
-        %s;",
-        selection
-      )
+        %s;"
 
   con <- odbcConnectAccess2007(database)
-  data_herblayer <- sqlQuery(con, query_herblayer, stringsAsFactors = FALSE) %>%
+  data_herblayer <- sqlQuery(con, sprintf(query_herblayer, 1, "", "", "", selection), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, query_herblayer2, stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_herblayer, 2, "_2eSet", "_2eSet", "_2eSet", selection), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
