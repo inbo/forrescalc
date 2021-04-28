@@ -73,6 +73,12 @@ load_data_vegetation <-
           period = 2
         )
     ) %>%
+    bind_rows(
+      sqlQuery(con, sprintf(query_vegetation, 3, "_3eSet", selection), stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 3
+        )
+    ) %>%
     mutate(
       year = year(.data$date_vegetation),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
