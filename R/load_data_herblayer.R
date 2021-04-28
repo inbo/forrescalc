@@ -61,6 +61,12 @@ load_data_herblayer <-
           period = 2
         )
     ) %>%
+    bind_rows(
+      sqlQuery(con, sprintf(query_herblayer, 3, "_3eSet", "_3eSet", "_3eSet", selection), stringsAsFactors = FALSE) %>%
+        mutate(
+          period = 3
+        )
+    ) %>%
     mutate(
       year =
         ifelse(
