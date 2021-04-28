@@ -33,21 +33,21 @@ load_plotinfo <- function(database) {
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.DataProcessed_YN AS data_processed
-    FROM Plots INNER JOIN PlotDetails_%deSet pd ON Plots.ID = pd.IDPlots;"
+    FROM Plots INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
 
   con <- odbcConnectAccess2007(database)
-  plotinfo <- sqlQuery(con, sprintf(query_plot, 1), stringsAsFactors = FALSE) %>%
+  plotinfo <- sqlQuery(con, sprintf(query_plot, 1, ""), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_plot, 2), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_plot, 2, "2eSet"), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_plot, 3), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_plot, 3, "3eSet"), stringsAsFactors = FALSE) %>%
         mutate(
           period = 3
         )

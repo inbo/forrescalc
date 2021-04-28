@@ -43,7 +43,7 @@ load_data_herblayer <-
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
-          INNER JOIN PlotDetails_%deSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
           INNER JOIN Herblayer%2$s Herb
             ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%2$s)

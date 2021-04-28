@@ -42,7 +42,7 @@ load_data_regeneration <-
           Subquery.number_class,
           Subquery.reg_number,
           Subquery.rubbing_damage_number
-        FROM (((Plots INNER JOIN PlotDetails_%deSet AS pd ON Plots.ID = pd.IDPlots)
+        FROM (((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
           LEFT JOIN
             (SELECT hc.HeightClass AS height_class,
@@ -57,7 +57,7 @@ load_data_regeneration <-
                 AND hc.ID = rs.IDHeightClass%2$s) AS Subquery
             ON Reg.ID = Subquery.IDRegeneration%2$s
             AND Reg.IDPlots = Subquery.IDPlots) %3$s
-        %4$s Reg.Date Is Not Null OR Reg.Year Is Not Null;"
+        %5$s Reg.Date Is Not Null OR Reg.Year Is Not Null;"
 
   number_classes <-
     data.frame(
@@ -73,7 +73,7 @@ load_data_regeneration <-
   data_regeneration <-
     sqlQuery(
       con,
-      sprintf(query_regeneration, 1, "", selection, conjunction),
+      sprintf(query_regeneration, 1, "", selection, "", conjunction),
       stringsAsFactors = FALSE
     ) %>%
     mutate(
@@ -82,7 +82,7 @@ load_data_regeneration <-
     bind_rows(
       sqlQuery(
         con,
-        sprintf(query_regeneration, 2, "_2eSet", selection, conjunction),
+        sprintf(query_regeneration, 2, "_2eSet", selection, "", conjunction),
         stringsAsFactors = FALSE
       ) %>%
         mutate(
@@ -92,7 +92,7 @@ load_data_regeneration <-
     bind_rows(
       sqlQuery(
         con,
-        sprintf(query_regeneration, 3, "_3eSet", selection, conjunction),
+        sprintf(query_regeneration, 3, "_3eSet", selection, "", conjunction),
         stringsAsFactors = FALSE
       ) %>%
         mutate(

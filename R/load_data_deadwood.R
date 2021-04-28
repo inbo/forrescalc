@@ -36,7 +36,7 @@ load_data_deadwood <-
       Plots.Plottype AS plottype,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
       pd.ForestReserve AS forest_reserve,
-      pd.Date_Dendro_%deSet AS date_dendro,
+      pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
       pd.LengthCoreArea_m AS length_core_area_m,
       pd.WidthCoreArea_m AS width_core_area_m,
@@ -45,23 +45,23 @@ load_data_deadwood <-
       Deadwood.Species AS species,
       Deadwood.DecayStage AS decaystage,
       Deadwood.CalcVolume_m3 AS calc_volume_m3,
-      Deadwood.MaxDiam_mm AS max_diam_mm %s
-    FROM ((Plots INNER JOIN %sDeadwood ON Plots.ID = Deadwood.IDPlots)
-      INNER JOIN PlotDetails_%deSet pd ON Plots.ID = pd.IDPlots) %s;"
+      Deadwood.MaxDiam_mm AS max_diam_mm %4$s
+    FROM ((Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
+      INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
 
   con <- odbcConnectAccess2007(database)
-  data_deadwood <- sqlQuery(con, sprintf(query_deadwood, 1, add_fields, "", 1, selection), stringsAsFactors = FALSE) %>%
+  data_deadwood <- sqlQuery(con, sprintf(query_deadwood, 1, "", selection, add_fields), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_deadwood, 2, add_fields, "Deadwood_2eSET ", 2, selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_deadwood, 2, "_2eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_deadwood, 3, add_fields, "Deadwood_3eSET ", 3, selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_deadwood, 3, "_3eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
         mutate(
           period = 3
         )

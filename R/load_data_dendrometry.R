@@ -53,7 +53,7 @@ load_data_dendrometry <-
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve AS forest_reserve,
-        pd.Date_Dendro_%deSet AS date_dendro,
+        pd.Date_Dendro_%1$deSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
@@ -75,23 +75,23 @@ load_data_dendrometry <-
         Trees.BasalArea_m2 AS basal_area_m2,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber AS tree_number,
-        Trees.Individual AS individual %3$s
-      FROM ((Plots INNER JOIN %2$sTrees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %4$s;"
+        Trees.Individual AS individual %4$s
+      FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
 
   con <- odbcConnectAccess2007(database)
-  data_dendro <- sqlQuery(con, sprintf(query_dendro, 1, "", add_fields, selection), stringsAsFactors = FALSE) %>%
+  data_dendro <- sqlQuery(con, sprintf(query_dendro, 1, "", selection, add_fields), stringsAsFactors = FALSE) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_dendro, 2, "Trees_2eSET ", add_fields, selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_dendro, 2, "_2eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
         mutate(
           period = 2
         )
     ) %>%
     bind_rows(
-      sqlQuery(con, sprintf(query_dendro, 3, "Trees_3eSET ", add_fields, selection), stringsAsFactors = FALSE) %>%
+      sqlQuery(con, sprintf(query_dendro, 3, "_3eSET ", selection, add_fields), stringsAsFactors = FALSE) %>%
         mutate(
           period = 3
         )
