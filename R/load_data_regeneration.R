@@ -15,9 +15,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows left_join mutate select
+#' @importFrom dplyr %>% left_join mutate select
 #' @importFrom lubridate year
 #'
 load_data_regeneration <-
@@ -27,7 +26,6 @@ load_data_regeneration <-
     conjunction <-
       ifelse(grepl("WHERE", selection), "AND", "WHERE")
     query_regeneration <-
-      sprintf(
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
@@ -43,61 +41,22 @@ load_data_regeneration <-
           Subquery.number_class,
           Subquery.reg_number,
           Subquery.rubbing_damage_number
-        FROM (((Plots INNER JOIN PlotDetails_1eSet AS pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Regeneration AS Reg ON Plots.ID = Reg.IDPlots)
-          LEFT JOIN
-            (SELECT HeightClass.HeightClass AS height_class,
-              RegSpecies.Species AS species,
-              RegSpecies.NumberClass AS number_class,
-              RegSpecies.Number AS reg_number,
-              RegSpecies.GameDamage_number AS rubbing_damage_number,
-              HeightClass.IDRegeneration, HeightClass.IDPlots
-            FROM HeightClass INNER JOIN RegSpecies
-                ON HeightClass.IDRegeneration = RegSpecies.IDRegeneration
-                AND HeightClass.IDPlots = RegSpecies.IDPlots
-                AND HeightClass.ID = RegSpecies.IDHeightClass) AS Subquery
-            ON Reg.ID = Subquery.IDRegeneration
-            AND Reg.IDPlots = Subquery.IDPlots) %s
-        %s Reg.Date Is Not Null OR Reg.Year Is Not Null;",
-        selection, conjunction
-      )
-
-    query_regeneration2 <-
-      sprintf(
-        "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,  pd.rA2 AS r_A2, pd.rA1 AS r_A1,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
-          Reg.ID AS subplot_id,
-          Reg.Date AS date_regeneration,
-          Reg.Year AS year_record,
-          Subquery.height_class,
-          Subquery.species,
-          Subquery.number_class,
-          Subquery.reg_number,
-          Subquery.rubbing_damage_number
-        FROM (((Plots INNER JOIN PlotDetails_2eSet AS pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Regeneration_2eSet AS Reg ON Plots.ID = Reg.IDPlots)
+        FROM (((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
           LEFT JOIN
             (SELECT hc.HeightClass AS height_class,
               rs.Species AS species,
               rs.NumberClass AS number_class,
               rs.Number AS reg_number,
               rs.GameDamage_number AS rubbing_damage_number,
-              hc.IDRegeneration_2eSet, hc.IDPlots
-            FROM HeightClass_2eSet hc
-              INNER JOIN RegSpecies_2eSet rs
-                ON hc.IDRegeneration_2eSet = rs.IDRegeneration_2eSet
+              hc.IDRegeneration%2$s, hc.IDPlots
+            FROM HeightClass%2$s hc INNER JOIN RegSpecies%2$s rs
+                ON hc.IDRegeneration%2$s = rs.IDRegeneration%2$s
                 AND hc.IDPlots = rs.IDPlots
-                AND hc.ID = rs.IDHeightClass_2eSet) AS Subquery
-            ON Reg.ID = Subquery.IDRegeneration_2eSet
-            AND Reg.IDPlots = Subquery.IDPlots) %s
-        %s Reg.Date Is Not Null OR Reg.Year Is Not Null;",
-        selection, conjunction
-      )
+                AND hc.ID = rs.IDHeightClass%2$s) AS Subquery
+            ON Reg.ID = Subquery.IDRegeneration%2$s
+            AND Reg.IDPlots = Subquery.IDPlots) %3$s
+        %5$s Reg.Date Is Not Null OR Reg.Year Is Not Null;"
 
   number_classes <-
     data.frame(
@@ -109,17 +68,9 @@ load_data_regeneration <-
       stringsAsFactors = FALSE
     )
 
-  con <- odbcConnectAccess2007(database)
-  data_regeneration <- sqlQuery(con, query_regeneration, stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_regeneration2, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
+  data_regeneration <-
+    query_database(database, query_regeneration,
+                   selection = selection, conjunction = conjunction) %>%
     mutate(
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
@@ -196,7 +147,6 @@ load_data_regeneration <-
           .data$max_number_of_trees
         )
     )
-  odbcClose(con)
 
   return(data_regeneration)
 }

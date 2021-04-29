@@ -26,9 +26,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% mutate
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-
@@ -48,13 +47,12 @@ load_data_dendrometry <-
       ""
     )
   query_dendro <-
-    sprintf(
       "SELECT Plots.ID AS plot_id,
         Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve AS forest_reserve,
-        pd.Date_dendro_1eSet AS date_dendro,
+        pd.Date_Dendro_%1$deSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
@@ -76,59 +74,13 @@ load_data_dendrometry <-
         Trees.BasalArea_m2 AS basal_area_m2,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber AS tree_number,
-        Trees.Individual AS individual %s
-      FROM ((Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots) %s;",
-      add_fields, selection
-    )
+        Trees.Individual AS individual %4$s
+      FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
 
-  query_dendro2 <-
-    sprintf(
-      "SELECT Plots.ID AS plot_id,
-        Plots.Plottype AS plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-        Trees.ID AS tree_measure_id,
-        pd.ForestReserve AS forest_reserve,
-        pd.Date_dendro_2eSet AS date_dendro,
-        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
-        pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
-        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4,
-        pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
-        pd.TresHoldDBH_Trees_CoreArea_alive AS dbh_min_core_area,
-        pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
-        pd.LengthCoreArea_m AS length_core_area_m,
-        pd.WidthCoreArea_m AS width_core_area_m,
-        pd.Area_ha AS core_area_ha,
-        Trees.DBH_mm AS dbh_mm,
-        Trees.Height_m AS height_m,
-        Trees.Species AS species,
-        Trees.AliveDead AS alive_dead,
-        Trees.DecayStage AS decaystage,
-        Trees.Vol_tot_m3 AS vol_tot_m3,
-        Trees.Vol_stem_m3 AS vol_stem_m3,
-        Trees.Vol_crown_m3 AS vol_crown_m3,
-        Trees.BasalArea_m2 AS basal_area_m2,
-        Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS tree_number,
-        Trees.Individual AS individual %s,
-        Trees.OldID as old_id
-      FROM ((Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots) %s;",
-      add_fields, selection
-    )
-
-  con <- odbcConnectAccess2007(database)
-  data_dendro <- sqlQuery(con, query_dendro, stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_dendro2, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
+  data_dendro <-
+    query_database(database, query_dendro,
+                   selection = selection, add_fields = add_fields) %>%
     mutate(
       year = year(round_date(.data$date_dendro, "year")) - 1,
       subcircle =
@@ -209,7 +161,6 @@ load_data_dendrometry <-
         ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
-  odbcClose(con)
 
   return(data_dendro)
 }

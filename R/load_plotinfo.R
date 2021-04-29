@@ -17,9 +17,7 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom dplyr %>% bind_rows distinct filter group_by mutate left_join summarise ungroup
-
+#' @importFrom dplyr %>% distinct filter group_by mutate left_join select summarise ungroup
 #' @importFrom rlang .data
 #'
 
@@ -33,47 +31,10 @@ load_plotinfo <- function(database) {
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.DataProcessed_YN AS data_processed
-    FROM Plots INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots;"
+    FROM Plots INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
 
-  query_plot2 <-
-    "SELECT Plots.ID AS plot_id,
-      Plots.Plottype AS plottype,
-      pd.ForestReserve AS forest_reserve,
-      pd.Survey_Trees_YN AS survey_trees,
-      pd.Survey_Deadwood_YN AS survey_deadw,
-      pd.Survey_Vegetation_YN AS survey_veg,
-      pd.Survey_Regeneration_YN AS survey_reg,
-      pd.DataProcessed_YN AS data_processed
-    FROM Plots INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots;"
-
-  query_plot3 <-
-    "SELECT Plots.ID AS plot_id,
-      Plots.Plottype AS plottype,
-      pd.ForestReserve AS forest_reserve,
-      pd.Survey_Trees_YN AS survey_trees,
-      pd.Survey_Deadwood_YN AS survey_deadw,
-      pd.Survey_Vegetation_YN AS survey_veg,
-      pd.Survey_Regeneration_YN AS survey_reg,
-      pd.DataProcessed_YN AS data_processed
-    FROM Plots INNER JOIN PlotDetails_3eSet pd ON Plots.ID = pd.IDPlots;"
-
-  con <- odbcConnectAccess2007(database)
-  plotinfo <- sqlQuery(con, query_plot, stringsAsFactors = FALSE) %>%
-    mutate(
-     period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_plot2, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_plot3, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 3
-        )
-    ) %>%
+  plotinfo <-
+    query_database(database, query_plot) %>%
     distinct()
 
   plotinfo2 <- plotinfo %>%
@@ -87,8 +48,6 @@ load_plotinfo <- function(database) {
     select(-.data$min_period)
 
   plotinfo <- plotinfo2
-
-  odbcClose(con)
 
   return(plotinfo)
 }
