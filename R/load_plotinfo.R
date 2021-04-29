@@ -37,7 +37,7 @@ load_plotinfo <- function(database) {
     query_database(database, query_plot) %>%
     distinct()
 
-  plotinfo2 <- plotinfo %>%
+  plotinfo <- plotinfo %>%
     left_join(plotinfo %>%
                 filter(.data$survey_trees == 10) %>%
                 group_by(.data$plot_id, .data$plottype, .data$forest_reserve, .data$survey_trees) %>%
@@ -46,8 +46,6 @@ load_plotinfo <- function(database) {
                 ungroup()) %>%
     mutate(survey_number = .data$period - .data$min_period + 1) %>%
     select(-.data$min_period)
-
-  plotinfo <- plotinfo2
 
   return(plotinfo)
 }
