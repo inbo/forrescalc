@@ -17,9 +17,8 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom dplyr %>% mutate
 #' @importFrom lubridate year
 #'
 load_data_herblayer <-
@@ -27,13 +26,13 @@ load_data_herblayer <-
     selection <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_herblayer <-
-      sprintf(
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
           Herb.Deviating_date AS deviating_date,
           Veg.Date AS date_vegetation,
@@ -43,52 +42,15 @@ load_data_herblayer <-
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
         FROM ((((Plots
-          INNER JOIN PlotDetails_1eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation)
+          INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN Herblayer%2$s Herb
+            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%2$s)
           INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
-        %s;",
-        selection
-      )
+        %3$s;"
 
-    query_herblayer2 <-
-      sprintf(
-        "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          Veg.ID AS subplot_id,
-          Herb.Deviating_date AS deviating_date,
-          Veg.Date AS date_vegetation,
-          Veg.Year AS year_record,
-          Herb.Species as species,
-          Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average,
-          Herb.BrowseIndex AS browse_index_id
-        FROM ((((Plots
-          INNER JOIN PlotDetails_2eSet pd ON Plots.ID = pd.IDPlots)
-          INNER JOIN Vegetation_2eSet Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer_2eSet Herb
-            ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation_2eSet)
-          INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
-        %s;",
-        selection
-      )
-
-  con <- odbcConnectAccess2007(database)
-  data_herblayer <- sqlQuery(con, query_herblayer, stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_herblayer2, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    ) %>%
+  data_herblayer <-
+    query_database(database, query_herblayer, selection = selection) %>%
     mutate(
       year =
         ifelse(
@@ -111,6 +73,12 @@ load_data_herblayer <-
         ),
       plotarea_ha =
         ifelse(
+          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$core_area_ha,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
@@ -119,7 +87,6 @@ load_data_herblayer <-
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
     )
-  odbcClose(con)
 
   return(data_herblayer)
 }

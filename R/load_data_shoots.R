@@ -15,41 +15,17 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom rlang .data
-#' @importFrom dplyr bind_rows mutate
-#'
 load_data_shoots <- function(database) {
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
-      Shoots.IDTrees AS tree_measure_id,
+      Shoots.IDTrees%2$s AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
       Shoots.DecayStage_Shoots as decaystage
-    FROM Shoots;"
+    FROM Shoots%2$s Shoots;"
 
-  query_shoots2 <-
-    "SELECT Shoots.IDPlots AS plot_id,
-      Shoots.IDTrees_2eSet AS tree_measure_id,
-      Shoots.ID AS shoot_measure_id,
-      Shoots.DBH_mm AS dbh_mm,
-      Shoots.Height_m AS height_m,
-      Shoots.DecayStage_shoots as decaystage
-    FROM Shoots_2eSet Shoots;"
-
-  con <- odbcConnectAccess2007(database)
-  data_shoots <- sqlQuery(con, query_shoots, stringsAsFactors = FALSE) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      sqlQuery(con, query_shoots2, stringsAsFactors = FALSE) %>%
-        mutate(
-          period = 2
-        )
-    )
-  odbcClose(con)
+  data_shoots <- query_database(database, query_shoots)
 
   return(data_shoots)
 }
