@@ -33,6 +33,7 @@
 #'
 #' @export
 #'
+#' @importFrom readr read_csv2
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% group_by left_join mutate n summarise ungroup
 #'
@@ -57,6 +58,67 @@ calc_variables_tree_level <-
       calc_height_r = 1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10),
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
+    ) %>%
+    left_join(
+      suppressMessages(
+        read_csv2(
+          system.file("extdata/inst/extdata/tarieven2ing.csv", package = "forrescalc")
+        )
+      ) %>%
+        select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+      by = "species"
+    ) %>%
+    mutate(
+      perimeter = pi * .data$dbh_mm / 10,
+      radius_m = .data$dbh_mm / 2000,
+      basal_area_m2 = pi * .data$radius_m ^ 2,
+      d_cm = .data$dbh_mm / 10,
+      vol_stem_m3 =
+        ifelse(
+          .data$formule_type == 1,
+          .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
+            .data$d * .data$perimeter ^ 3 + .data$e * .data$calc_height_m +
+            .data$f * .data$calc_height_m * .data$perimeter +
+            .data$g * .data$calc_height_m * .data$perimeter ^ 2,
+          1 / 1000 *
+            #spil
+            (exp(1.10597 * log(.data$calc_height_m) + 1.78865 * log(.data$d_cm) - 3.07192) -
+               #Verlies
+               exp(-4.608923 * log(.data$d_cm) + 3.005989 * log(.data$calc_height_m) -
+                     1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
+                     1.605266 * log(.data$d_cm) * log(.data$calc_height_m) + 5.410272))
+        ) %>%
+        select(
+          -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
+          -.data$formule_type, -.data$d_cm
+        )
+    ) %>%
+    left_join(
+      suppressMessages(
+        read_csv2(
+          system.file("extdata/inst/extdata/tarieven1ing_crown.csv", package = "forrescalc")
+        )
+      ) %>%
+        select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+      by = "species"
+    ) %>%
+    mutate(
+      vol_crown_m3 =
+        .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
+        .data$d * .data$perimeter ^ 3,
+      vol_crown_m3 = pmax(0, .data$vol_crown_m3),
+      reduction_crown = (.data$crown_volume_reduction - 10) / 40,
+      reduction_crown =
+        ifelse(is.na(.data$reduction_crown), 0, .data$reduction_crown),
+      vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
+      reduction_branch = (.data$branch_length_reduction - 10) / 40, #nog aanpassen!
+      reduction_branch =
+        ifelse(is.na(.data$reduction_branch), 0, .data$reduction_branch),
+      vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
+      vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
+    ) %>%
+    select(
+      -.data$a, -.data$b, -.data$c, -.data$d, -.data$perimeter, -.data$radius_m
     )
 
   return(data_dendro)
