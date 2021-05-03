@@ -71,13 +71,15 @@ load_data_dendrometry <-
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
         Trees.BasalArea_m2 AS basal_area_m2,
-        Trees.CrownVolumeReduction AS crown_volume_reduction,
-        Trees.BranchLengthReduction AS branch_length_reduction,
+        cvr.Value3 AS crown_volume_reduction,
+        blr.Value3 AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber AS tree_number,
         Trees.Individual AS individual %4$s
-      FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
+      FROM ((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+        LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
+        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %3$s;"
 
   data_dendro <-
     query_database(database, query_dendro,
