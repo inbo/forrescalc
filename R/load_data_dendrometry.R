@@ -10,8 +10,8 @@
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
-#' @param extra_variables Should additional variables such as calc_height_m,
-#' intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
+#' @param extra_variables Should additional variables such as
+#' intact_snag, x_m, y_m,
 #' coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 #' Default is FALSE (no).
 #'
@@ -37,10 +37,8 @@ load_data_dendrometry <-
   add_fields <-
     ifelse(
       extra_variables,
-      ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
+      ", Trees.IntactSnag AS intact_snag,
         (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
-        Trees.CrownVolumeReduction AS crown_volume_reduction,
-        Trees.BranchLengthReduction AS branch_length_reduction,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
@@ -68,10 +66,13 @@ load_data_dendrometry <-
         Trees.Species AS species,
         Trees.AliveDead AS alive_dead,
         Trees.DecayStage AS decaystage,
+        Trees.Calcheight_m AS calc_height_m,
         Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
         Trees.BasalArea_m2 AS basal_area_m2,
+        Trees.CrownVolumeReduction AS crown_volume_reduction,
+        Trees.BranchLengthReduction AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber AS tree_number,
         Trees.Individual AS individual %4$s
