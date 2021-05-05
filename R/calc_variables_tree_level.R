@@ -105,7 +105,7 @@ calc_variables_tree_level <-
       radius_m = .data$dbh_mm / 2000,
       basal_area_m2 = pi * .data$radius_m ^ 2,
       d_cm = .data$dbh_mm / 10,
-      vol_stem_m3 =
+      vol_stem_t2_m3 =
         ifelse(
           .data$formule_type == 1,
           .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
@@ -119,11 +119,17 @@ calc_variables_tree_level <-
                exp(-4.608923 * log(.data$d_cm) + 3.005989 * log(.data$calc_height_m) -
                      1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
                      1.605266 * log(.data$d_cm) * log(.data$calc_height_m) + 5.410272))
-        ) %>%
-        select(
-          -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
-          -.data$formule_type, -.data$d_cm
+        ),
+      vol_stem_m3 =
+        ifelse(
+          .data$ind_sht_cop == 12 | is.na(.data$vol_stem_t2_m3),
+          .data$vol_stem_t1_m3,
+          .data$vol_stem_t2_m3
         )
+    ) %>%
+    select(
+      -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
+      -.data$formule_type, -.data$d_cm
     ) %>%
     left_join(
       suppressMessages(
