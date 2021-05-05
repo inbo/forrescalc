@@ -14,8 +14,9 @@
 #'
 #' @inheritParams calculate_dendrometry
 #' @param data_shoots dataframe on shoots as given from the function load_data_shoots()
-#' @param height_model dataframe with coeficients `P1` and `P2` to calculate height model
-#' for each combination of `species`, `forest_reserve`, `period` and `plot_type`
+#' @param height_model dataframe with `model` containing 'exp' or 'ln',
+#' coeficients `P1` and `P2` to calculate height model for each combination of
+#' `species`, `forest_reserve`, `period` and `plot_type`
 #'
 #' @return Dataframe with ...
 #'
@@ -55,7 +56,12 @@ calc_variables_tree_level <-
       by = c("species", "forest_reserve", "period", "plottype")
     ) %>%
     mutate(
-      calc_height_r = 1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10),
+      calc_height_r =
+        ifelse(
+          grepl("exp", .data$model),
+          1.3 + exp(.data$P1 + .data$P2 / (.data$dbh_mm / 10)),
+          1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10)
+        ),
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
     ) %>%
