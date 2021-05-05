@@ -1,5 +1,6 @@
 # This script downloads data on 'tarifering' and saves them in the package
-# for use during calculations
+# for use during calculations in calc_variables_tree_level()
+# !!! rebuild the package to use the newly generated tables in your calculations
 
 library(RODBC)
 library(readr)
