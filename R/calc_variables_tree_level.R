@@ -107,13 +107,11 @@ calc_variables_tree_level <-
         .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
         .data$d * .data$perimeter ^ 3,
       vol_crown_m3 = pmax(0, .data$vol_crown_m3),
-      reduction_crown = (.data$crown_volume_reduction - 10) / 40,
       reduction_crown =
-        ifelse(is.na(.data$reduction_crown), 0, .data$reduction_crown),
+        ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
-      reduction_branch = (.data$branch_length_reduction - 10) / 40, #nog aanpassen!
       reduction_branch =
-        ifelse(is.na(.data$reduction_branch), 0, .data$reduction_branch),
+        ifelse(is.na(.data$branch_length_reduction), 0, .data$branch_length_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     ) %>%
