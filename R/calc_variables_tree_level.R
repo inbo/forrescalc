@@ -66,6 +66,32 @@ calc_variables_tree_level <-
         ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
     ) %>%
     left_join(
+      data_stems %>%
+        left_join(
+          suppressMessages(
+            read_csv2(
+              system.file("extdata/inst/extdata/tarieven1ing.csv", package = "forrescalc")
+            )
+          ) %>%
+            select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+          by = "species"
+        ) %>%
+        mutate(
+          perimeter = pi * .data$dbh_mm / 10,
+          vol_stem_t1_m3 =
+            .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
+            .data$d * .data$perimeter ^ 3
+        ) %>%
+        group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
+        summarise(
+          basal_area_m2 = sum(.data$basal_area_m2),
+          vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3),
+          perimeter = mean(.data$perimeter)
+        ) %>%
+        ungroup(),
+      by = c("plot_id", "tree_measure_id", "period")
+    )  %>%
+    left_join(
       suppressMessages(
         read_csv2(
           system.file("extdata/inst/extdata/tarieven2ing.csv", package = "forrescalc")
