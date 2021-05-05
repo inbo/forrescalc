@@ -101,9 +101,6 @@ calc_variables_tree_level <-
       by = "species"
     ) %>%
     mutate(
-      perimeter = pi * .data$dbh_mm / 10,
-      radius_m = .data$dbh_mm / 2000,
-      basal_area_m2 = pi * .data$radius_m ^ 2,
       d_cm = .data$dbh_mm / 10,
       vol_stem_t2_m3 =
         ifelse(
