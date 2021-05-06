@@ -82,10 +82,29 @@ calc_variables_tree_level <-
             .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
             .data$d * .data$perimeter ^ 3
         ) %>%
+        select(
+          -.data$a, -.data$b, -.data$c, -.data$d
+        ) %>%
+        left_join(
+          suppressMessages(
+            read_csv2(
+              system.file("extdata/inst/extdata/tarieven1ing_crown.csv", package = "forrescalc")
+            )
+          ) %>%
+            select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+          by = "species"
+        ) %>%
+        mutate(
+          vol_crown_m3 =
+            .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
+            .data$d * .data$perimeter ^ 3,
+          vol_crown_m3 = pmax(0, .data$vol_crown_m3)
+        ) %>%
         group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
         summarise(
           basal_area_m2 = sum(.data$basal_area_m2),
           vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3),
+          vol_crown_m3 = sum(.data$vol_crown_m3),
           perimeter = mean(.data$perimeter)
         ) %>%
         ungroup(),
@@ -128,20 +147,7 @@ calc_variables_tree_level <-
       -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
       -.data$formule_type, -.data$d_cm
     ) %>%
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/inst/extdata/tarieven1ing_crown.csv", package = "forrescalc")
-        )
-      ) %>%
-        select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
-      by = "species"
-    ) %>%
     mutate(
-      vol_crown_m3 =
-        .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
-        .data$d * .data$perimeter ^ 3,
-      vol_crown_m3 = pmax(0, .data$vol_crown_m3),
       reduction_crown =
         ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
@@ -151,7 +157,7 @@ calc_variables_tree_level <-
       vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     ) %>%
     select(
-      -.data$a, -.data$b, -.data$c, -.data$d, -.data$perimeter, -.data$radius_m
+      -.data$perimeter, -.data$radius_m
     )
 
   return(data_dendro)
