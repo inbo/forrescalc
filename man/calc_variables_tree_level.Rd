@@ -13,8 +13,9 @@ calc_variables_tree_level(data_dendro, data_shoots, data_stems, height_model)
 
 \item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 
-\item{height_model}{dataframe with coeficients `P1` and `P2` to calculate height model
-for each combination of `species`, `forest_reserve`, `period` and `plot_type`}
+\item{height_model}{dataframe with `model` containing 'exp' or 'ln',
+coeficients `P1` and `P2` to calculate height model for each combination of
+`species`, `forest_reserve`, `period` and `plot_type`}
 }
 \value{
 Dataframe with ...
