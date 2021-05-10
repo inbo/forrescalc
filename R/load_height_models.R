@@ -10,7 +10,7 @@
 #' @importFrom dplyr %>% mutate select transmute
 #' @importFrom rlang .data
 #' @importFrom stringr str_detect str_extract str_split
-#' @importFrom tidyr nest unnest
+#' @importFrom tidyr unnest
 #' @importFrom purrr map
 #' @importFrom readxl read_xlsx
 #'
@@ -46,9 +46,8 @@ load_height_models <- function(path_to_height_models) {
       path_file = paste0(path_to_height_models, .data$filename)
     ) %>%
     select(-.data$no_extension, -.data$x) %>%
-    nest(data = c(.data$path_file)) %>%
     mutate(
-      data = map(.data$data, add_models)
+      data = map(.data$path_file, add_models)
     ) %>%
     unnest(cols = c(.data$data))
 
@@ -56,8 +55,8 @@ load_height_models <- function(path_to_height_models) {
 }
 
 
-add_models <- function(data) {
-  read_xlsx(data$path_file) %>%
+add_models <- function(path_file) {
+  read_xlsx(path_file) %>%
     transmute(
       plot_id = as.numeric(.data$PlotID),
       species = as.numeric(.data$Species),
