@@ -39,10 +39,10 @@ load_height_models <- function(path_to_height_models) {
       x = str_split(.data$no_extension, "_"),
       forest_reserve = unlist(.data$x)[2],
       plottype = unlist(.data$x)[3],
-      period = unlist(.data$x)[4],
       plottype = ifelse(.data$plottype == "CP", "20", .data$plottype),
       plottype = ifelse(.data$plottype == "KV", "30", .data$plottype),
       plottype = as.numeric(.data$plottype),
+      period = as.numeric(unlist(.data$x)[4]),
       path_file = paste0(path_to_height_models, .data$filename)
     ) %>%
     select(-.data$no_extension, -.data$x) %>%
@@ -59,7 +59,7 @@ load_height_models <- function(path_to_height_models) {
 add_models <- function(data) {
   read_xlsx(data$path_file) %>%
     transmute(
-      plot_id = .data$PlotID,
+      plot_id = as.numeric(.data$PlotID),
       species = as.numeric(.data$Species),
       model = .data$Model,
       .data$P1, .data$P2
