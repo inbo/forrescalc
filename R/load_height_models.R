@@ -40,6 +40,9 @@ load_height_models <- function(path_to_height_models) {
       forest_reserve = unlist(.data$x)[2],
       plottype = unlist(.data$x)[3],
       period = unlist(.data$x)[4],
+      plottype = ifelse(.data$plottype == "CP", "20", .data$plottype),
+      plottype = ifelse(.data$plottype == "KV", "30", .data$plottype),
+      plottype = as.numeric(.data$plottype),
       path_file = paste0(path_to_height_models, .data$filename)
     ) %>%
     select(-.data$no_extension, -.data$x) %>%
