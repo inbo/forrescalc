@@ -37,7 +37,6 @@ load_height_models <- function(path_to_height_models) {
     mutate(
       no_extension = str_extract(.data$filename, "^(.+)(?=\\.)"),
       x = str_split(.data$no_extension, "_"),
-      forest_reserve = unlist(.data$x)[2],
       plottype = unlist(.data$x)[3],
       plottype = ifelse(.data$plottype == "CP", "20", .data$plottype),
       plottype = ifelse(.data$plottype == "KV", "30", .data$plottype),
@@ -61,6 +60,7 @@ add_models <- function(path_file) {
       plot_id = as.numeric(.data$PlotID),
       species = as.numeric(.data$Species),
       model = .data$Model,
-      .data$P1, .data$P2
+      .data$P1, .data$P2,
+      forest_reserve = .data$BR
     )
 }
