@@ -43,7 +43,7 @@
 #'
 calc_variables_tree_level <-
   function(data_dendro, data_shoots, data_stems, height_model) {
-  test <- data_dendro %>%
+  data_dendro1 <- data_dendro %>%
     left_join(
       data_stems %>%
         group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
@@ -56,7 +56,33 @@ calc_variables_tree_level <-
     ) %>%
     left_join(
       height_model,
-      by = c("species", "forest_reserve", "period", "plottype")
+      by = c("plot_id", "species", "forest_reserve", "period", "plottype")
+    )
+  data_dendro2 <- data_dendro1 %>%
+    filter(!is.na(.data$model)) %>%
+    bind_rows(
+      data_dendro1 %>%
+        filter(is.na(.data$model)) %>%
+        select(-.data$model, -.data$P1, -.data$P2) %>%
+        left_join(
+          height_model %>%
+            filter(is.na(.data$plot_id)) %>%
+            select(-.data$plot_id),
+          by = c("species", "forest_reserve", "period", "plottype")
+        )
+    )
+  data_dendro3 <- data_dendro2 %>%
+    filter(!is.na(.data$model)) %>%
+    bind_rows(
+      data_dendro2 %>%
+        filter(is.na(.data$model)) %>%
+        select(-.data$model, -.data$P1, -.data$P2) %>%
+        left_join(
+          height_model %>%
+            filter(is.na(.data$species)) %>%
+            select(-.data$plot_id, -.data$species),
+          by = c("forest_reserve", "period", "plottype")
+        )
     ) %>%
     mutate(
       calc_height_r =
@@ -163,5 +189,5 @@ calc_variables_tree_level <-
       -.data$perimeter, -.data$radius_m
     )
 
-  return(data_dendro)
+  return(data_dendro3)
 }
