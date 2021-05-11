@@ -40,7 +40,7 @@
 #'
 #' @importFrom readr read_csv2
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% group_by left_join mutate n select summarise ungroup
+#' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select summarise ungroup
 #'
 calc_variables_tree_level <-
   function(data_dendro, data_shoots, data_stems, height_model) {

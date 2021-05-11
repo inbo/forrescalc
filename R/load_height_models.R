@@ -7,7 +7,7 @@
 #'
 #' @return Dataframe with height model data
 #'
-#' @importFrom dplyr %>% mutate select transmute
+#' @importFrom dplyr %>% distinct mutate select transmute
 #' @importFrom rlang .data
 #' @importFrom stringr str_detect str_extract str_split
 #' @importFrom tidyr unnest
