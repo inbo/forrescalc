@@ -58,8 +58,15 @@ load_height_models <- function(path_to_height_models) {
 add_models <- function(path_file) {
   read_xlsx(path_file) %>%
     transmute(
-      plot_id = as.numeric(.data$PlotID),
-      species = as.numeric(.data$Species),
+      plot_id = ifelse(.data$PlotID == "<ALL>", -Inf, .data$PlotID),
+      plot_id = as.numeric(.data$plot_id),
+      plot_id = ifelse(.data$plot_id == -Inf, NA_real_, .data$plot_id),
+      species =
+        ifelse(
+          is.na(.data$Species) | .data$Species == "<ALL>", -Inf, .data$Species
+        ),
+      species = as.numeric(.data$species),
+      species = ifelse(.data$species == -Inf, NA_real_, .data$species),
       model = .data$Model,
       .data$P1, .data$P2,
       forest_reserve = .data$BR
