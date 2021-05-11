@@ -9,7 +9,8 @@
 #'  \item vol_tot_m3
 #'  \item vol_stem_m3
 #'  \item vol_crown_m3
-#'  \item dbh_mm for coppice trees
+#'  \item dbh_mm (based on average for coppice trees)
+#'  \item decaystage (based on average for coppice trees)
 #' }
 #'
 #' @inheritParams calculate_dendrometry
