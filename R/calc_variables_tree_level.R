@@ -14,7 +14,6 @@
 #' }
 #'
 #' @inheritParams calculate_dendrometry
-#' @param data_shoots dataframe on shoots as given from the function load_data_shoots()
 #' @param height_model dataframe with `model` containing 'exp' or 'ln',
 #' coeficients `P1` and `P2` to calculate height model for each combination of
 #' `species`, `forest_reserve`, `period` and `plot_type`. Height models in .xlsx
@@ -33,7 +32,7 @@
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' calc_variables_tree_level(data_dendro, data_shoots, data_stems, height_model)
+#' calc_variables_tree_level(data_dendro, data_stems, height_model)
 #' }
 #'
 #' @export
@@ -43,7 +42,7 @@
 #' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select summarise ungroup
 #'
 calc_variables_tree_level <-
-  function(data_dendro, data_shoots, data_stems, height_model) {
+  function(data_dendro, data_stems, height_model) {
   data_dendro1 <- data_dendro %>%
     left_join(
       data_stems %>%
