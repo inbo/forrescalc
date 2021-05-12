@@ -99,7 +99,7 @@ calc_variables_tree_level <-
         left_join(
           suppressMessages(
             read_csv2(
-              system.file("extdata/inst/extdata/tarieven1ing.csv", package = "forrescalc")
+              system.file("extdata/tarieven1ing.csv", package = "forrescalc")
             )
           ) %>%
             select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
@@ -117,7 +117,7 @@ calc_variables_tree_level <-
         left_join(
           suppressMessages(
             read_csv2(
-              system.file("extdata/inst/extdata/tarieven1ing_crown.csv", package = "forrescalc")
+              system.file("extdata/tarieven1ing_crown.csv", package = "forrescalc")
             )
           ) %>%
             select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
@@ -146,7 +146,7 @@ calc_variables_tree_level <-
     left_join(
       suppressMessages(
         read_csv2(
-          system.file("extdata/inst/extdata/tarieven2ing.csv", package = "forrescalc")
+          system.file("extdata/tarieven2ing.csv", package = "forrescalc")
         )
       ) %>%
         select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
