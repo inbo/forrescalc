@@ -137,7 +137,7 @@ calc_variables_tree_level <-
           dbh_mm = sqrt(sum(.data$dbh_mm ^ 2) / n()),
           decaystage =
             sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
-            sum( .data$dbh_mm ^ 2 / 4),
+            sum(.data$dbh_mm ^ 2 / 4),
           basal_area_m2 = sum(.data$basal_area_m2),
           vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3),
           vol_crown_m3 = sum(.data$vol_crown_m3),

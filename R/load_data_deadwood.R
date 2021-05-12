@@ -80,7 +80,7 @@ load_data_deadwood <-
       plotarea_ha =
         ifelse(
           .data$plottype == 20,
-          (pi * .data$r_A4 ^ 2)/10000,
+          (pi * .data$r_A4 ^ 2) / 10000,
           NA
         ),
       plotarea_ha =

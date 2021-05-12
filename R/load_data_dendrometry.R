@@ -99,8 +99,8 @@ load_data_dendrometry <-
       subcirclearea_ha =
         ifelse(
           .data$subcircle == "A4",
-          (pi * .data$r_A4 ^ 2)/10000,
-          (pi * .data$r_A3 ^ 2)/10000
+          (pi * .data$r_A4 ^ 2) / 10000,
+          (pi * .data$r_A3 ^ 2) / 10000
         ),
       plotarea_ha =
         ifelse(
@@ -111,7 +111,7 @@ load_data_dendrometry <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          (.data$length_core_area_m * .data$width_core_area_m)/10000,
+          (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =

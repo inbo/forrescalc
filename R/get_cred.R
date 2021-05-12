@@ -11,4 +11,3 @@ get_cred <- function(repo) {
   }
   return(cred)
 }
-
