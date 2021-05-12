@@ -149,7 +149,7 @@ calc_variables_tree_level <-
           system.file("extdata/tarieven2ing.csv", package = "forrescalc")
         )
       ) %>%
-        select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+        select(-.data$name_nl, -.data$tarief, -.data$groepnaam),
       by = "species"
     ) %>%
     mutate(
