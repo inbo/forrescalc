@@ -94,6 +94,9 @@ calc_variables_tree_level <-
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
     ) %>%
+    select(
+      -.data$dbh_mm, -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3
+    ) %>%
     left_join(
       data_stems %>%
         left_join(
