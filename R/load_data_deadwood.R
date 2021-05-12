@@ -2,6 +2,9 @@
 #'
 #' This function queries the given database to retrieve data on deadwood (logs) (ready for use in calculate_dendrometry function).
 #'
+#' @param extra_variables Should additional variables such as
+#' remark and common_remark be added?
+#' Default is FALSE (no).
 #' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with data on logs
