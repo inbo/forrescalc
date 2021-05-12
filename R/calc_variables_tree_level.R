@@ -190,7 +190,7 @@ calc_variables_tree_level <-
       vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     ) %>%
     select(
-      -.data$perimeter, -.data$radius_m
+      -.data$perimeter
     )
 
   return(data_dendro3)
