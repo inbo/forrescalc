@@ -5,7 +5,7 @@
 library(RODBC)
 library(readr)
 
-dbExterneData <- "AAN TE VULLEN DOOR ANJA (of link rechtstreeks beneden in code invullen"
+dbExterneData <- "C:\3BR\DataVerwerkingBR\Data\BR_ExterneData.accdb"
 
 query_tarieven2ing <-
   "SELECT tgbs.ID AS species
