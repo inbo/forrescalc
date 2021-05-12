@@ -132,7 +132,7 @@ calc_variables_tree_level <-
         ) %>%
         group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
         summarise(
-          dbh_mm = sum(.data$dbh_mm) / n(),
+          dbh_mm = sqrt(sum(.data$dbh_mm ^ 2) / n()),
           decaystage =
             sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
             sum( .data$dbh_mm ^ 2 / 4),
