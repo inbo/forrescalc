@@ -4,12 +4,10 @@
 \alias{calc_variables_tree_level}
 \title{Calculate additional variables on tree level}
 \usage{
-calc_variables_tree_level(data_dendro, data_shoots, data_stems, height_model)
+calc_variables_tree_level(data_dendro, data_stems, height_model)
 }
 \arguments{
 \item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
-
-\item{data_shoots}{dataframe on shoots as given from the function load_data_shoots()}
 
 \item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 
@@ -46,7 +44,7 @@ data_shoots <-
   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_stems <- compose_stem_data(data_dendro, data_shoots)
 height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-calc_variables_tree_level(data_dendro, data_shoots, data_stems, height_model)
+calc_variables_tree_level(data_dendro, data_stems, height_model)
 }
 
 }
