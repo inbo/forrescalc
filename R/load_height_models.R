@@ -30,7 +30,7 @@ load_height_models <- function(path_to_height_models) {
       path_to_height_models,
       paste0(path_to_height_models, "/")
     )
-  heigthtmodels <-
+  heightmodels <-
     data.frame(
       filename = list.files(path = path_to_height_models, pattern = "xlsx")
     ) %>%
@@ -52,7 +52,7 @@ load_height_models <- function(path_to_height_models) {
     select(-.data$filename, -.data$path_file) %>%
     distinct()
 
-  return(heigthtmodels)
+  return(heightmodels)
 }
 
 
