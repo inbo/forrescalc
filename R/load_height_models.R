@@ -59,9 +59,6 @@ load_height_models <- function(path_to_height_models) {
 add_models <- function(path_file) {
   read_xlsx(path_file) %>%
     transmute(
-      plot_id = ifelse(.data$PlotID == "<ALL>", -Inf, .data$PlotID),
-      plot_id = as.numeric(.data$plot_id),
-      plot_id = ifelse(.data$plot_id == -Inf, NA_real_, .data$plot_id),
       species =
         ifelse(
           is.na(.data$Species) | .data$Species == "<ALL>", -Inf, .data$Species
