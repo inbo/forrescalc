@@ -5,13 +5,14 @@
 library(RODBC)
 library(readr)
 
-dbExterneData <- "C:\3BR\DataVerwerkingBR\Data\BR_ExterneData.accdb"
+dbExterneData <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
 
-query_tarieven2ing <-
+query_tariffs2entries <-
   "SELECT tgbs.ID AS species
   , tgbs.Value1 AS name_nl
-  , t2.Tarief As tarief
-  , t2.groepNaam AS groepnaam
+  , tgbs.TariefID AS tariff_id
+  , t2.groepNaam AS tariff_group
+  , t2.Tarief As source
   , t2.a
   , t2.b
   , t2.c
@@ -19,45 +20,45 @@ query_tarieven2ing <-
   , t2.e
   , t2.f
   , t2.g
-  , t2.Formule_type AS formule_type
+  , t2.Formule_type AS formula
   FROM tblTariefgroepBoomsoort tgbs
     INNER JOIN tblTarieven_2ing t2 ON tgbs.TariefID = t2.groepID;"
 
-query_tarieven1ing <-
+query_tariffs1entry <-
   "SELECT tgbs.ID AS species
   , tgbs.Value1 AS name_nl
-  , tgbs.TariefID AS tarief_id
-  , t1.groepNaam AS groepnaam
+  , tgbs.TariefID AS tariff_id
+  , t1.groepNaam AS tariff_group
+  , t1.Tarief As source
   , t1.a
   , t1.b
   , t1.c
   , t1.d
-  , t1.Tarief AS tarief
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ing t1 ON tgbs.TariefID = t1.groepID;"
 
-query_tarieven1ing_crown <-
+query_tariffs1entry_crown <-
   "SELECT tgbs.ID AS species
   , tgbs.Value1 AS name_nl
-  , tgbs.TariefID AS tarief_id
-  , t1k.groepNaam
+  , tgbs.TariefID AS tariff_id
+  , t1k.groepNaam AS tariff_group
+  , t1k.Tarief As source
   , t1k.a
   , t1k.b
   , t1k.c
   , t1k.d
-  , t1k.Tarief AS tarief
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ingKroon t1k ON tgbs.TariefID = t1k.groepID;"
 
 con <- odbcConnectAccess2007(dbExterneData)
 
-tarieven2ing <- sqlQuery(con, query_tarieven2ing, stringsAsFactors = TRUE)
-tarieven1ing <- sqlQuery(con, query_tarieven1ing, stringsAsFactors = TRUE)
-tarieven1ing_crown <-
-  sqlQuery(con, query_tarieven1ing_crown, stringsAsFactors = TRUE)
+tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
+tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
+tariffs1entr_crown <-
+  sqlQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
 
 odbcClose(con)
 
-write_csv2(tarieven2ing, "inst/extdata/tarieven2ing.csv")
-write_csv2(tarieven1ing, "inst/extdata/tarieven1ing.csv")
-write_csv2(tarieven1ing_crown, "inst/extdata/tarieven1ing_crown.csv")
+write_csv2(tariffs2entr, "inst/extdata/tariffs2entries.csv")
+write_csv2(tariffs1entr, "inst/extdata/tariffs1entry.csv")
+write_csv2(tariffs1entr_crown, "inst/extdata/tariffs1entry_crown.csv")
