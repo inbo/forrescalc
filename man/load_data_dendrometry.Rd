@@ -23,7 +23,7 @@ by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 
 \item{extra_variables}{Should additional variables such as
-intact_snag, x_m, y_m,
+x_m, y_m,
 coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 Default is FALSE (no).}
 }
