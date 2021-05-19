@@ -172,15 +172,13 @@ calc_variables_tree_level <-
       -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
       -.data$formula, -.data$d_cm
     ) %>%
-    # volume correction for snags
     mutate(
+      # volume correction for snags
       vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3),
       vol_stem_m3 = ifelse(.data$intact_snag == 10, .data$calc_height_m*pi*(.data$dbh_mm/2000)^2, .data$vol_stem_m3),
       # TIJDELIJK vol_stem_m3 berekend als cilinder cfr. VBI (soms over- en soms onderschatting)
       # OP TERMIJN functie van Ifer (in afzonderlijke functie te stoppen)
-    ) %>%
-    # volume correction for broken crown or branches
-    mutate(
+      # volume correction for broken crown or branches
       reduction_crown =
         ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
