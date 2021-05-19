@@ -89,10 +89,10 @@ calc_variables_tree_level <-
         left_join(
           suppressMessages(
             read_csv2(
-              system.file("extdata/tarieven1ing.csv", package = "forrescalc")
+              system.file("extdata/tariffs1entry.csv", package = "forrescalc")
             )
           ) %>%
-            select(-.data$name_nl, -.data$tarief, -.data$groepnaam, -.data$tarief_id),
+            select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
           by = "species"
         ) %>%
         mutate(
@@ -107,10 +107,10 @@ calc_variables_tree_level <-
         left_join(
           suppressMessages(
             read_csv2(
-              system.file("extdata/tarieven1ing_crown.csv", package = "forrescalc")
+              system.file("extdata/tariffs1entry_crown.csv", package = "forrescalc")
             )
           ) %>%
-            select(-.data$name_nl, -.data$tarief, -.data$groepNaam, -.data$tarief_id),
+            select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
           by = "species"
         ) %>%
         mutate(
@@ -136,17 +136,17 @@ calc_variables_tree_level <-
     left_join(
       suppressMessages(
         read_csv2(
-          system.file("extdata/tarieven2ing.csv", package = "forrescalc")
+          system.file("extdata/tariffs2entries.csv", package = "forrescalc")
         )
       ) %>%
-        select(-.data$name_nl, -.data$tarief, -.data$groepnaam),
+        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
       by = "species"
     ) %>%
     mutate(
       d_cm = .data$dbh_mm / 10,
       vol_stem_t2_m3 =
         ifelse(
-          .data$formule_type == 1,
+          .data$formula == 1,
           .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
             .data$d * .data$perimeter ^ 3 + .data$e * .data$calc_height_m +
             .data$f * .data$calc_height_m * .data$perimeter +
@@ -168,7 +168,7 @@ calc_variables_tree_level <-
     ) %>%
     select(
       -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
-      -.data$formule_type, -.data$d_cm
+      -.data$formula, -.data$d_cm
     ) %>%
     mutate(
       reduction_crown =
