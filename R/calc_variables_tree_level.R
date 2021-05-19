@@ -178,7 +178,6 @@ calc_variables_tree_level <-
       vol_stem_m3 = ifelse(.data$intact_snag == 10, .data$calc_height_m*pi*(.data$dbh_mm/2000)^2, .data$vol_stem_m3),
       # TIJDELIJK vol_stem_m3 berekend als cilinder cfr. VBI (soms over- en soms onderschatting)
       # OP TERMIJN functie van Ifer (in afzonderlijke functie te stoppen)
-      vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     ) %>%
     # volume correction for broken crown or branches
     mutate(
