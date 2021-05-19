@@ -52,7 +52,7 @@ calc_variables_tree_level <-
       by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
-      individual = (.data$ind_sht_cop == 11)
+      individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12)
     ) %>%
     left_join(
       height_model,
