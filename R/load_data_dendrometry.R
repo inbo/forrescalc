@@ -11,7 +11,7 @@
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
 #' @param extra_variables Should additional variables such as
-#' intact_snag, x_m, y_m,
+#' x_m, y_m,
 #' coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 #' Default is FALSE (no).
 #'
@@ -37,8 +37,7 @@ load_data_dendrometry <-
   add_fields <-
     ifelse(
       extra_variables,
-      ", Trees.IntactSnag AS intact_snag,
-        (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
+      ", (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
@@ -65,6 +64,7 @@ load_data_dendrometry <-
         Trees.Height_m AS height_m,
         Trees.Species AS species,
         Trees.AliveDead AS alive_dead,
+        Trees.IntactSnag AS intact_snag,
         Trees.DecayStage AS decaystage,
         Trees.Calcheight_m AS calc_height_m,
         Trees.Vol_tot_m3 AS vol_tot_m3,
