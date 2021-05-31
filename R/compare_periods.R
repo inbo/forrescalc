@@ -90,7 +90,7 @@ compare_periods <- function(dataset, measure_vars) {
       year_diff =
         ifelse(
           .data$measure_var == "n_year",
-          paste( .data$p2, .data$p1, sep = " - "),
+          paste(.data$p2, .data$p1, sep = " - "),
           ""
         ),
       p1 = NULL, p2 = NULL
