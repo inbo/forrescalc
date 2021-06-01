@@ -37,31 +37,31 @@ dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems)
 # if plotid 11000 in data, replace (lying) deadwood results for plot_id = 11000 by "NA"
 dendro[["dendro_by_plot"]] <- dendro[["dendro_by_plot"]] %>%
   mutate(
-    volume_log_m3_ha  =
-      ifelse(plot_id == 11000 & volume_log_m3_ha == 0, NA, volume_log_m3_ha),
-    volume_deadwood_m3_ha  =
-      ifelse(plot_id == 11000 & is.na(volume_log_m3_ha), NA, volume_deadwood_m3_ha)
+    vol_log_m3_ha  =
+      ifelse(plot_id == 11000 & vol_log_m3_ha == 0, NA, vol_log_m3_ha),
+    vol_deadw_m3_ha  =
+      ifelse(plot_id == 11000 & is.na(vol_log_m3_ha), NA, vol_deadw_m3_ha)
   )
 dendro[["dendro_by_plot_species"]] <- dendro[["dendro_by_plot_species"]] %>%
   mutate(
-    volume_log_m3_ha  =
-      ifelse(plot_id == 11000 & volume_log_m3_ha == 0, NA, volume_log_m3_ha),
-    volume_deadwood_m3_ha  =
-      ifelse(plot_id == 11000 & is.na(volume_log_m3_ha), NA, volume_deadwood_m3_ha)
+    vol_log_m3_ha  =
+      ifelse(plot_id == 11000 & vol_log_m3_ha == 0, NA, vol_log_m3_ha),
+    vol_deadw_m3_ha  =
+      ifelse(plot_id == 11000 & is.na(vol_log_m3_ha), NA, vol_deadw_m3_ha)
   )
 dendro[["dendro_by_diam_plot"]] <- dendro[["dendro_by_diam_plot"]] %>%
   mutate(
     log_number_ha  =
       ifelse(plot_id == 11000 & log_number_ha == 0, NA, log_number_ha),
-    volume_log_m3_ha  =
-      ifelse(plot_id == 11000 & volume_log_m3_ha == 0, NA, volume_log_m3_ha)
+    vol_log_m3_ha  =
+      ifelse(plot_id == 11000 & vol_log_m3_ha == 0, NA, vol_log_m3_ha)
   )
 dendro[["dendro_by_diam_plot_species"]] <- dendro[["dendro_by_diam_plot_species"]] %>%
   mutate(
     log_number_ha  =
       ifelse(plot_id == 11000 & log_number_ha == 0, NA, log_number_ha),
-    volume_log_m3_ha  =
-      ifelse(plot_id == 11000 & volume_log_m3_ha == 0, NA, volume_log_m3_ha)
+    vol_log_m3_ha  =
+      ifelse(plot_id == 11000 & vol_log_m3_ha == 0, NA, vol_log_m3_ha)
   )
 
 

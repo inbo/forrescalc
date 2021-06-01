@@ -59,9 +59,9 @@ calculate_diam_plot_species <-
             sum(.data$basal_area_alive_m2_ha * .data$tree_number),
           basal_area_tree_dead_m2_ha =
             sum(.data$basal_area_dead_m2_ha * .data$tree_number),
-          volume_tree_alive_m3_ha =
+          vol_tree_alive_m3_ha =
             sum(.data$vol_alive_m3_ha * .data$tree_number),
-          volume_tree_dead_m3_ha =
+          vol_tree_dead_m3_ha =
             sum(.data$vol_dead_standing_m3_ha * .data$tree_number)
         ) %>%
         ungroup(),
@@ -75,7 +75,7 @@ calculate_diam_plot_species <-
         ) %>%
         summarise(
           log_number_ha = sum(n() / .data$plotarea_ha),
-          volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
+          vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
@@ -88,10 +88,10 @@ calculate_diam_plot_species <-
         basal_area_shoot_dead_m2_ha = 0,
         basal_area_tree_alive_m2_ha = 0,
         basal_area_tree_dead_m2_ha = 0,
-        volume_tree_alive_m3_ha = 0,
-        volume_tree_dead_m3_ha = 0,
+        vol_tree_alive_m3_ha = 0,
+        vol_tree_dead_m3_ha = 0,
         log_number_ha = 0,
-        volume_log_m3_ha = 0
+        vol_log_m3_ha = 0
       )
     )
 

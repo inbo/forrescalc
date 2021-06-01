@@ -10,7 +10,7 @@ calculate_logs_decay_plot(data_deadwood)
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
 }
 \value{
-dataframe with columns plot, year, decaystage, volume_log_m3_ha
+dataframe with columns plot, year, decaystage, vol_log_m3_ha
 }
 \description{
 This function calculates for each plot and year the volume logs per hectare and per decay stage.
