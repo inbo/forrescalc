@@ -43,9 +43,9 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
     ) %>%
     rename(
       stem_number_alive_ha = .data$stem_number_ha_11,
-      stem_number_snag_ha = .data$stem_number_ha_12,
+      stem_number_dead_ha = .data$stem_number_ha_12,
       basal_area_shoot_alive_m2_ha = .data$basal_area_m2_ha_11,
-      basal_area_shoot_snag_m2_ha = .data$basal_area_m2_ha_12
+      basal_area_shoot_dead_m2_ha = .data$basal_area_m2_ha_12
     ) %>%
     left_join(
       data_dendro %>%
@@ -55,12 +55,12 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
         summarise(
           basal_area_tree_alive_m2_ha =
             sum(.data$basal_area_alive_m2_ha * .data$tree_number),
-          basal_area_tree_snag_m2_ha =
-            sum(.data$basal_area_snag_m2_ha * .data$tree_number),
+          basal_area_tree_dead_m2_ha =
+            sum(.data$basal_area_dead_m2_ha * .data$tree_number),
           volume_tree_alive_m3_ha =
-            sum(.data$volume_alive_m3_ha * .data$tree_number),
-          volume_tree_snag_m3_ha =
-            sum(.data$volume_snag_m3_ha * .data$tree_number)
+            sum(.data$vol_alive_m3_ha * .data$tree_number),
+          volume_tree_dead_m3_ha =
+            sum(.data$vol_dead_standing_m3_ha * .data$tree_number)
         ) %>%
         ungroup(),
       by = c("plot_id", "year", "period", "dbh_class_5cm")
@@ -80,13 +80,13 @@ calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
     replace_na(
       list(
         stem_number_alive_ha = 0,
-        stem_number_snag_ha = 0,
+        stem_number_dead_ha = 0,
         basal_area_shoot_alive_m2_ha = 0,
-        basal_area_shoot_snag_m2_ha = 0,
+        basal_area_shoot_dead_m2_ha = 0,
         basal_area_tree_alive_m2_ha = 0,
-        basal_area_tree_snag_m2_ha = 0,
+        basal_area_tree_dead_m2_ha = 0,
         volume_tree_alive_m3_ha = 0,
-        volume_tree_snag_m3_ha = 0,
+        volume_tree_dead_m3_ha = 0,
         log_number_ha = 0,
         volume_log_m3_ha = 0
       )
