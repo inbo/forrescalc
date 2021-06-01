@@ -57,7 +57,7 @@ calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
           0, .data$volume_log_m3_ha
         ),
       plottype = NULL,
-      volume_deadwood_m3_ha = .data$vol_dead_standing_m3_ha + .data$volume_log_m3_ha,
+      vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$volume_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
