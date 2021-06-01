@@ -199,6 +199,7 @@ calc_variables_tree_level <-
           sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
             sum(.data$dbh_mm ^ 2 / 4)
         ),
+      intact_snag = max(.data$intact_snag),
       calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
         sum(.data$dbh_mm ^ 2 / 4),
       calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
