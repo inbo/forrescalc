@@ -13,7 +13,7 @@ load_data_shoots(database)
 Dataframe with shoot data
 }
 \description{
-This function queries the given database to retrieve additional data on shoots to use with dendrometry data (for functions on calculations of diameters).
+This function queries the given database to retrieve additional data on shoots to use with dendrometry data.
 }
 \examples{
 \dontrun{

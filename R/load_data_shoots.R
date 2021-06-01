@@ -1,6 +1,6 @@
 #' retrieve data on shoots from fieldmap database
 #'
-#' This function queries the given database to retrieve additional data on shoots to use with dendrometry data (for functions on calculations of diameters).
+#' This function queries the given database to retrieve additional data on shoots to use with dendrometry data.
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap structure) including path
 #'
