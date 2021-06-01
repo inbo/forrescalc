@@ -6,9 +6,9 @@
 #'  \item individual: true for individual tree or coppice, false if record is a secondary shoot
 #'  \item calc_height_m: calculated height based on `dbh_mm` and a species specific model
 #'  \item basal_area_m2
-#'  \item vol_stem_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
+#'  \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
 #'  \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs
-#'  \item vol_tot_m3: sum of `vol_stem_m3` and `vol_crowwn_m3`
+#'  \item vol_tot_m3: sum of `vol_bole_m3` and `vol_crowwn_m3`
 #'  \item dbh_mm (based on average for coppice trees)
 #'  \item decaystage (based on average for coppice trees)
 #' }
@@ -97,10 +97,10 @@ calc_variables_tree_level <-
     ) %>%
     mutate(
       perimeter = pi * .data$dbh_mm / 10
-      , vol_stem_t1_m3 =
+      , vol_bole_t1_m3 =
         .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
         .data$d * .data$perimeter ^ 3
-      , vol_stem_t1_m3 = pmax(0, .data$vol_stem_t1_m3)
+      , vol_bole_t1_m3 = pmax(0, .data$vol_bole_t1_m3)
     ) %>%
     select(
       -.data$a, -.data$b, -.data$c, -.data$d
@@ -137,7 +137,7 @@ calc_variables_tree_level <-
     ) %>%
       mutate(
         d_cm = .data$dbh_mm / 10
-        , vol_stem_t2_m3 =
+        , vol_bole_t2_m3 =
           ifelse(
             .data$formula == 1,
             yes =
@@ -154,12 +154,12 @@ calc_variables_tree_level <-
                        1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
                        1.605266 * log(.data$d_cm) * log(.data$calc_height_m) + 5.410272))
           )
-        , vol_stem_t2_m3 = pmax(0, .data$vol_stem_t2_m3)
-        , vol_stem_m3 =
+        , vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3)
+        , vol_bole_m3 =
           ifelse(
-            .data$ind_sht_cop == 12 & is.na(.data$vol_stem_t2_m3),
-            .data$vol_stem_t1_m3,
-            .data$vol_stem_t2_m3
+            .data$ind_sht_cop == 12 & is.na(.data$vol_bole_t2_m3),
+            .data$vol_bole_t1_m3,
+            .data$vol_bole_t2_m3
           )
       ) %>%
     select(
@@ -175,14 +175,14 @@ calc_variables_tree_level <-
       volume_snag_m3 = ifelse(.data$intact_snag == 10,
                                 pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
                                 # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
-                                # TIJDELIJK vol_stem_m3 berekend als afgeknotte kegel
+                                # TIJDELIJK vol_bole_m3 berekend als afgeknotte kegel
                                 # OP TERMIJN ev. functie van Ifer (in afzonderlijke functie te stoppen)
                                 NA),
       # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
       # nee, want dan ook geen volumes van de andere bomen ...)
-      vol_stem_m3 = ifelse(.data$intact_snag == 10,
+      vol_bole_m3 = ifelse(.data$intact_snag == 10,
                              .data$volume_snag_m3,
-                             .data$vol_stem_m3)
+                             .data$vol_bole_m3)
     )
     # %>%
     # select(-upper_diam_snag_mm, -volume_snag_m3, -calc_height_fm, -calc_height_r)
@@ -208,9 +208,9 @@ calc_variables_tree_level <-
         sum(.data$dbh_mm ^ 2 / 4),
       dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
       basal_area_m2 = sum(.data$basal_area_m2),
-      vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3),
-      vol_stem_t2_m3 = sum(.data$vol_stem_t2_m3),
-      vol_stem_m3 = sum(.data$vol_stem_m3),
+      vol_bole_t1_m3 = sum(.data$vol_bole_t1_m3),
+      vol_bole_t2_m3 = sum(.data$vol_bole_t2_m3),
+      vol_bole_m3 = sum(.data$vol_bole_m3),
       vol_crown_m3 = sum(.data$vol_crown_m3)
     ) %>%
     ungroup()
@@ -222,7 +222,7 @@ calc_variables_tree_level <-
     select(
       -.data$dbh_mm, -.data$tree_number, -.data$calc_height_fm,
       -.data$intact_snag, -.data$decaystage, -.data$basal_area_m2,
-      -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3
+      -.data$vol_tot_m3, -.data$vol_bole_m3, -.data$vol_crown_m3
     ) %>%
     left_join(
       data_stems4,
@@ -238,7 +238,7 @@ calc_variables_tree_level <-
         ifelse(is.na(.data$branch_length_reduction), 0, .data$branch_length_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
-      vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
+      vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
     )
 
 
@@ -269,16 +269,16 @@ calc_variables_tree_level <-
                .data$vol_tot_m3 / .data$plotarea_ha,
                0
              ),
-           vol_stem_alive_m3_ha =
+           vol_bole_alive_m3_ha =
              ifelse(
                .data$alive_dead == 11,
-               .data$vol_stem_m3 / .data$plotarea_ha,
+               .data$vol_bole_m3 / .data$plotarea_ha,
                0
              ),
-           vol_stem_dead_standing_m3_ha =
+           vol_bole_dead_standing_m3_ha =
              ifelse(
                .data$alive_dead == 12,
-               .data$vol_stem_m3 / .data$plotarea_ha,
+               .data$vol_bole_m3 / .data$plotarea_ha,
                0
              )
     )

@@ -68,7 +68,7 @@ load_data_dendrometry <-
         Trees.DecayStage AS decaystage,
         Trees.Calcheight_m AS calc_height_fm,
         Trees.Vol_tot_m3 AS vol_tot_m3,
-        Trees.Vol_stem_m3 AS vol_stem_m3,
+        Trees.Vol_stem_m3 AS vol_bole_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,
         Trees.BasalArea_m2 AS basal_area_m2,
         cvr.Value3 AS crown_volume_reduction,
