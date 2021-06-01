@@ -241,5 +241,47 @@ calc_variables_tree_level <-
       vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     )
 
-  return(data_dendro1)
+
+  # RESULTS PER HECTARE
+
+  data_dendro2 <- data_dendro1 %>%
+    mutate(basal_area_alive_m2_ha =
+             ifelse(
+               .data$alive_dead == 11,
+               .data$basal_area_m2 / .data$plotarea_ha,
+               0
+             ),
+           basal_area_snag_m2_ha =
+             ifelse(
+               .data$alive_dead == 12,
+               .data$basal_area_m2 / .data$plotarea_ha,
+               0
+             ),
+           volume_alive_m3_ha =
+             ifelse(
+               .data$alive_dead == 11,
+               .data$vol_tot_m3 / .data$plotarea_ha,
+               0
+             ),
+           volume_snag_m3_ha =
+             ifelse(
+               .data$alive_dead == 12,
+               .data$vol_tot_m3 / .data$plotarea_ha,
+               0
+             ),
+           volume_stem_alive_m3_ha =
+             ifelse(
+               .data$alive_dead == 11,
+               .data$vol_stem_m3 / .data$plotarea_ha,
+               0
+             ),
+           volume_stem_snag_m3_ha =
+             ifelse(
+               .data$alive_dead == 12,
+               .data$vol_stem_m3 / .data$plotarea_ha,
+               0
+             )
+    )
+
+  return(data_dendro2)
 }

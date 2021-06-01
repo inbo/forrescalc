@@ -126,42 +126,6 @@ load_data_dendrometry <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      basal_area_alive_m2_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$basal_area_m2 / .data$plotarea_ha,
-          0
-        ),
-      basal_area_snag_m2_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$basal_area_m2 / .data$plotarea_ha,
-          0
-        ),
-      volume_alive_m3_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$vol_tot_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_snag_m3_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$vol_tot_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_stem_alive_m3_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$vol_stem_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_stem_snag_m3_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$vol_stem_m3 / .data$plotarea_ha,
-          0
-        ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
 
