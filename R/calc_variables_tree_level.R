@@ -44,6 +44,10 @@
 calc_variables_tree_level <-
   function(data_dendro, data_stems, height_model) {
 
+  # CALCULATIONS ON STEM LEVEL
+
+  # (1) calculate height using height models (calc_height_r)
+
   data_stems1 <- data_stems %>%
     left_join(
     height_model,
@@ -70,10 +74,17 @@ calc_variables_tree_level <-
           1.3 + exp(.data$P1 + .data$P2 / (.data$dbh_mm / 10)),
           1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10)
         ),
+      DHmodel = ifelse(!is.na(.data$P1), "ja", "nee"),
+      # if no height_model is available, calc_height_m on tree level (< FM-IA) is used
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
     ) %>%
-    select(-.data$model, -.data$P1, -.data$P2) %>%
+    select(-.data$model, -.data$P1, -.data$P2)
+
+
+  # (2) calculate volume (bole and crown; 1 entry and 2 entries)
+
+  data_stems3 <- data_stems2 %>%
     # bole volume 1 entry
     left_join(
       suppressMessages(
@@ -94,7 +105,7 @@ calc_variables_tree_level <-
     select(
       -.data$a, -.data$b, -.data$c, -.data$d
     ) %>%
-    # crown volume 1 entry on shoot level
+    # crown volume 1 entry
     left_join(
       suppressMessages(
         read_csv2(
@@ -113,7 +124,7 @@ calc_variables_tree_level <-
     select(
       -.data$a, -.data$b, -.data$c, -.data$d
     ) %>%
-    # bole volume 2 entries on shoot level
+    # bole volume 2 entries
     # !! (when DH-model or calc_height_m is available)
     left_join(
       suppressMessages(
@@ -154,50 +165,77 @@ calc_variables_tree_level <-
     select(
       -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
       -.data$formula, -.data$d_cm, -.data$perimeter
+    ) %>%
+    mutate(
+      # volume correction for snags
+      vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3),
+      upper_diam_snag_mm = ifelse(.data$intact_snag == 10,
+                                    .data$dbh_mm * (.data$calc_height_m - .data$height_m) / .data$calc_height_m,
+                                    NA),
+      volume_snag_m3 = ifelse(.data$intact_snag == 10,
+                                pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
+                                # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
+                                # TIJDELIJK vol_stem_m3 berekend als afgeknotte kegel
+                                # OP TERMIJN ev. functie van Ifer (in afzonderlijke functie te stoppen)
+                                NA),
+      # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
+      # nee, want dan ook geen volumes van de andere bomen ...)
+      vol_stem_m3 = ifelse(.data$intact_snag == 10,
+                             .data$volume_snag_m3,
+                             .data$vol_stem_m3)
     )
+    # %>%
+    # select(-upper_diam_snag_mm,-volume_snag_m3)
+
+
+  # (3) group_by on tree level
+
+  data_stems_4 <- data_stems3 %>%
+    group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
+    summarise(
+      tree_number = n(),
+      decaystage =
+        round(
+          sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
+            sum(.data$dbh_mm ^ 2 / 4)
+        ),
+      calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
+        sum(.data$dbh_mm ^ 2 / 4),
+      calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
+        sum(.data$dbh_mm ^ 2 / 4),
+      dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
+      basal_area_m2 = sum(.data$basal_area_m2),
+      vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3),
+      vol_stem_t2_m3 = sum(.data$vol_stem_t2_m3),
+      vol_stem_m3 = sum(.data$vol_stem_m3),
+      vol_crown_m3 = sum(.data$vol_crown_m3)
+    ) %>%
+    ungroup()
+
+
+  # CALCULATIONS ON TREE LEVEL
 
   data_dendro1 <- data_dendro %>%
     select(
-      -.data$dbh_mm, -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3
+      -.data$dbh_mm, -.data$tree_number, -.data$calc_height_m,
+      -.data$intact_snag, -.data$decaystage, -.data$basal_area_m2,
+      -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3
     ) %>%
     left_join(
-      data_stems2 %>%
-        group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
-        summarise(
-          tree_number = n()
-          , decaystage =
-            round(
-              sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
-                sum(.data$dbh_mm ^ 2 / 4)
-            )
-          , dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n()))
-          , basal_area_m2 = sum(.data$basal_area_m2)
-          , vol_stem_t1_m3 = sum(.data$vol_stem_t1_m3)
-          , vol_stem_t2_m3 = sum(.data$vol_stem_t2_m3)
-          , vol_stem_m3 = sum(.data$vol_stem_m3)
-          , vol_crown_m3 = sum(.data$vol_crown_m3)
-          ) %>%
-        ungroup(),
+      data_stems4,
       by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
-      individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12)
-      # volume correction for snags
-      , vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3)
-      , vol_stem_m3 = ifelse(.data$intact_snag == 10,
-                             .data$calc_height_m * pi * (.data$dbh_mm/2000)^2,
-                             .data$vol_stem_m3)
-            # TIJDELIJK vol_stem_m3 berekend als cilinder cfr. VBI (soms over- en soms onderschatting)
-            # OP TERMIJN functie van Ifer (in afzonderlijke functie te stoppen)
+      individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12),
       # volume correction for broken crown or branches
-      , reduction_crown =
-        ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction)
-      , vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown)
-      , reduction_branch =
-        ifelse(is.na(.data$branch_length_reduction), 0, .data$branch_length_reduction)
-      , vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch)
+      reduction_crown =
+        ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
+      vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
+      reduction_branch =
+        ifelse(is.na(.data$branch_length_reduction), 0, .data$branch_length_reduction),
+      vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
-      , vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
+      vol_tot_m3 = .data$vol_stem_m3 + .data$vol_crown_m3
     )
 
   return(data_dendro1)
