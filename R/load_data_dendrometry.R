@@ -66,7 +66,7 @@ load_data_dendrometry <-
         Trees.AliveDead AS alive_dead,
         Trees.IntactSnag AS intact_snag,
         Trees.DecayStage AS decaystage,
-        Trees.Calcheight_m AS calc_height_m,
+        Trees.Calcheight_m AS calc_height_fm,
         Trees.Vol_tot_m3 AS vol_tot_m3,
         Trees.Vol_stem_m3 AS vol_stem_m3,
         Trees.Vol_crown_m3 AS vol_crown_m3,

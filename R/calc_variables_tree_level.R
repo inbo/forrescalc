@@ -75,9 +75,9 @@ calc_variables_tree_level <-
           1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10)
         ),
       DHmodel = ifelse(!is.na(.data$P1), "ja", "nee"),
-      # if no height_model is available, calc_height_m on tree level (< FM-IA) is used
+      # if no height_model is available, calc_height_fm on tree level (< FM-IA) is used
       calc_height_m =
-        ifelse(is.na(.data$calc_height_r), .data$calc_height_m, .data$calc_height_r)
+        ifelse(is.na(.data$calc_height_r), .data$calc_height_fm, .data$calc_height_r)
     ) %>%
     select(-.data$model, -.data$P1, -.data$P2)
 
@@ -125,7 +125,7 @@ calc_variables_tree_level <-
       -.data$a, -.data$b, -.data$c, -.data$d
     ) %>%
     # bole volume 2 entries
-    # !! (when DH-model or calc_height_m is available)
+    # !! (when DH-model or calc_height_fm is available)
     left_join(
       suppressMessages(
         read_csv2(
@@ -185,12 +185,12 @@ calc_variables_tree_level <-
                              .data$vol_stem_m3)
     )
     # %>%
-    # select(-upper_diam_snag_mm,-volume_snag_m3)
+    # select(-upper_diam_snag_mm, -volume_snag_m3, -calc_height_fm, -calc_height_r)
 
 
   # (3) group_by on tree level
 
-  data_stems_4 <- data_stems3 %>%
+  data_stems4 <- data_stems3 %>%
     group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
     summarise(
       tree_number = n(),
@@ -200,6 +200,8 @@ calc_variables_tree_level <-
             sum(.data$dbh_mm ^ 2 / 4)
         ),
       calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
+        sum(.data$dbh_mm ^ 2 / 4),
+      calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
         sum(.data$dbh_mm ^ 2 / 4),
       calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
         sum(.data$dbh_mm ^ 2 / 4),
@@ -217,7 +219,7 @@ calc_variables_tree_level <-
 
   data_dendro1 <- data_dendro %>%
     select(
-      -.data$dbh_mm, -.data$tree_number, -.data$calc_height_m,
+      -.data$dbh_mm, -.data$tree_number, -.data$calc_height_fm,
       -.data$intact_snag, -.data$decaystage, -.data$basal_area_m2,
       -.data$vol_tot_m3, -.data$vol_stem_m3, -.data$vol_crown_m3
     ) %>%
