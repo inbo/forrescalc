@@ -1,7 +1,8 @@
 #' Combine dendro data and shoot data to give detailed stem data
 #'
 #' This function replaces in the given dendrometric data (result from function load_data_dendrometry())
-#' the diameters from coppice trees by their separate stems given in the shoot data (result from function load_data_shoots()).
+#' the diameters, height, decaystage and info on intact/snag from coppice trees
+#' by their separate stems given in the shoot data (result from function load_data_shoots()).
 #'
 #' @inheritParams calculate_dendrometry
 #' @param data_shoots dataframe on shoots as given from the function load_data_shoots()

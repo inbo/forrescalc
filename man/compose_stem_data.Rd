@@ -16,7 +16,8 @@ Dataframe with shoot data
 }
 \description{
 This function replaces in the given dendrometric data (result from function load_data_dendrometry())
-the diameters from coppice trees by their separate stems given in the shoot data (result from function load_data_shoots()).
+the diameters, height, decaystage and info on intact/snag from coppice trees
+by their separate stems given in the shoot data (result from function load_data_shoots()).
 }
 \examples{
 \dontrun{
