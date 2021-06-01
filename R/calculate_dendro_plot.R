@@ -36,12 +36,12 @@ calculate_dendro_plot <- function(data_dendro, data_deadwood) {
         sum((.data$alive_dead == 11) * .data$individual / .data$plotarea_ha),
       stem_number_ha =
           sum((.data$alive_dead == 11) * .data$tree_number / .data$plotarea_ha),
-      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha * .data$tree_number),
-      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha * .data$tree_number),
-      vol_alive_m3_ha = sum(.data$vol_alive_m3_ha * .data$tree_number),
-      vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha * .data$tree_number),
-      vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha * .data$tree_number),
-      vol_bole_dead_standing_m3_ha = sum(.data$vol_bole_dead_standing_m3_ha * .data$tree_number)
+      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
+      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
+      vol_alive_m3_ha = sum(.data$vol_alive_m3_ha),
+      vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
+      vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha),
+      vol_bole_dead_standing_m3_ha = sum(.data$vol_bole_dead_standing_m3_ha)
     ) %>%
     ungroup() %>%
     left_join(
