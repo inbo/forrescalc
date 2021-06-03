@@ -37,7 +37,7 @@ calculate_dendro_plot_species <- function(data_dendro, data_deadwood) {
       vol_alive_m3_ha = sum(.data$vol_alive_m3_ha ),
       vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
       vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha),
-      vol_bole_dead_standing_m3_ha = sum(.data$vol_bole_dead_standing_m3_ha)
+      vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)
     ) %>%
     ungroup() %>%
     left_join(

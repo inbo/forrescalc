@@ -275,7 +275,7 @@ calc_variables_tree_level <-
                .data$vol_bole_m3 / .data$plotarea_ha,
                0
              ),
-           vol_bole_dead_standing_m3_ha =
+           vol_bole_dead_m3_ha =
              ifelse(
                .data$alive_dead == 12,
                .data$vol_bole_m3 / .data$plotarea_ha,
