@@ -44,10 +44,7 @@
 calc_variables_stem_level <-
   function(data_dendro, data_stems, height_model) {
 
-  # CALCULATIONS ON STEM LEVEL
-
   # (1) calculate height using height models (calc_height_r)
-
   data_stems1 <- data_stems %>%
     left_join(
     height_model,
@@ -83,7 +80,6 @@ calc_variables_stem_level <-
 
 
   # (2) calculate volume (bole and crown; 1 entry and 2 entries)
-
   data_stems3 <- data_stems2 %>%
     # bole volume 1 entry
     left_join(
@@ -183,53 +179,8 @@ calc_variables_stem_level <-
       vol_bole_m3 = ifelse(.data$intact_snag == 10,
                              .data$volume_snag_m3,
                              .data$vol_bole_m3)
-    )
-    # %>%
-    # select(-upper_diam_snag_mm, -volume_snag_m3, -calc_height_fm, -calc_height_r)
-
-
-  # (3) group_by on tree level
-
-  data_stems4 <- data_stems3 %>%
-    group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
-    summarise(
-      tree_number = n(),
-      decaystage =
-        round(
-          sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
-            sum(.data$dbh_mm ^ 2 / 4)
-        ),
-      intact_snag = max(.data$intact_snag),
-      calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
-      basal_area_m2 = sum(.data$basal_area_m2),
-      vol_bole_t1_m3 = sum(.data$vol_bole_t1_m3),
-      vol_bole_t2_m3 = sum(.data$vol_bole_t2_m3),
-      vol_bole_m3 = sum(.data$vol_bole_m3),
-      vol_crown_m3 = sum(.data$vol_crown_m3)
-    ) %>%
-    ungroup()
-
-
-  # CALCULATIONS ON TREE LEVEL
-
-  data_dendro1 <- data_dendro %>%
-    select(
-      -.data$dbh_mm, -.data$tree_number, -.data$calc_height_fm,
-      -.data$intact_snag, -.data$decaystage, -.data$basal_area_m2,
-      -.data$vol_tot_m3, -.data$vol_bole_m3, -.data$vol_crown_m3
-    ) %>%
-    left_join(
-      data_stems4,
-      by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
-      individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12),
       # volume correction for broken crown or branches
       reduction_crown =
         ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
@@ -239,12 +190,12 @@ calc_variables_stem_level <-
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
-    )
+    ) %>%
+    select(-upper_diam_snag_mm, -volume_snag_m3, -calc_height_fm, -calc_height_r)
 
 
-  # RESULTS PER HECTARE
-
-  data_dendro2 <- data_dendro1 %>%
+  # (3) results per hectare
+  data_stems4 <- data_stems3 %>%
     mutate(basal_area_alive_m2_ha =
              ifelse(
                .data$alive_dead == 11,
@@ -283,5 +234,5 @@ calc_variables_stem_level <-
              )
     )
 
-  return(data_dendro2)
+  return(data_stems4)
 }
