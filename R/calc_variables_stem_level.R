@@ -34,7 +34,7 @@
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' calc_variables_stem_level(data_dendro, data_stems, height_model)
+#' calc_variables_stem_level(data_stems, height_model)
 #' }
 #'
 #' @export
@@ -44,7 +44,7 @@
 #' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select summarise ungroup
 #'
 calc_variables_stem_level <-
-  function(data_dendro, data_stems, height_model) {
+  function(data_stems, height_model) {
 
   # (1) calculate height using height models (calc_height_r)
   data_stems1 <- data_stems %>%
