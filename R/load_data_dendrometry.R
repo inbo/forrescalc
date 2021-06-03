@@ -67,15 +67,10 @@ load_data_dendrometry <-
         Trees.IntactSnag AS intact_snag,
         Trees.DecayStage AS decaystage,
         Trees.Calcheight_m AS calc_height_fm,
-        Trees.Vol_tot_m3 AS vol_tot_m3,
-        Trees.Vol_stem_m3 AS vol_bole_m3,
-        Trees.Vol_crown_m3 AS vol_crown_m3,
-        Trees.BasalArea_m2 AS basal_area_m2,
         cvr.Value3 AS crown_volume_reduction,
         blr.Value3 AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS tree_number,
-        Trees.Individual AS individual %4$s
+        Trees.TreeNumber AS tree_number %4$s
       FROM ((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
