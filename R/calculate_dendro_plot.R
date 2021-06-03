@@ -1,6 +1,6 @@
 #' aggregate parameters by plot and year
 #'
-#' This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area, and volume.
+#' This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area and volume.
 #'
 #' @inheritParams calculate_dendrometry
 #'
@@ -12,9 +12,13 @@
 #' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' data_shoots <-
+#'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' data_stems <- compose_stem_data(data_dendro, data_shoots)
+#' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems, height_model)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_dendro_plot(data_dendro, data_deadwood)
+#' calculate_dendro_plot(data_dendro_calc, data_deadwood)
 #' }
 #'
 #' @export
@@ -22,8 +26,8 @@
 #' @importFrom dplyr %>% group_by inner_join n_distinct mutate summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot <- function(data_dendro, data_deadwood) {
-  by_plot <- data_dendro %>%
+calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
+  by_plot <- data_dendro_calc %>%
     mutate(
       species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
     ) %>%

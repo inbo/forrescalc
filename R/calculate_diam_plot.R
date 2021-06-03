@@ -1,6 +1,6 @@
 #' aggregate parameters by diameter class, plot and year
 #'
-#' This function calculates for each plot, year and diamter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.
+#' This function calculates for each plot, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), number and volume of logs (= lying deadwood).
 #'
 #' @inheritParams calculate_dendrometry
 #'
@@ -15,9 +15,10 @@
 #' data_shoots <-
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
+#' data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_diam_plot(data_stems, data_dendro, data_deadwood)
+#' calculate_diam_plot(data_stems_calc, data_deadwood)
 #' }
 #'
 #' @export
@@ -26,8 +27,8 @@
 #' @importFrom tidyr pivot_wider replace_na
 #' @importFrom rlang .data
 #'
-calculate_diam_plot <- function(data_stems, data_dendro, data_deadwood) {
-  by_diam_plot <- data_stems %>%
+calculate_diam_plot <- function(data_stems_calc, data_deadwood) {
+  by_diam_plot <- data_stems_calc %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$dbh_class_5cm,
       .data$alive_dead

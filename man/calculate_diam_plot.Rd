@@ -4,12 +4,10 @@
 \alias{calculate_diam_plot}
 \title{aggregate parameters by diameter class, plot and year}
 \usage{
-calculate_diam_plot(data_stems, data_dendro, data_deadwood)
+calculate_diam_plot(data_stems_calc, data_deadwood)
 }
 \arguments{
-\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
-
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_stems_calc}{dataframe on stems (shoots and trees) as given from the function calc_variables_stem_level()}
 
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
 }
@@ -17,7 +15,7 @@ calculate_diam_plot(data_stems, data_dendro, data_deadwood)
 dataframe with columns plot, year, dbh_class_5cm, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
-This function calculates for each plot, year and diamter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.
+This function calculates for each plot, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), number and volume of logs (= lying deadwood).
 }
 \examples{
 \dontrun{
@@ -28,9 +26,10 @@ data_dendro <-
 data_shoots <-
   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_stems <- compose_stem_data(data_dendro, data_shoots)
+data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_diam_plot(data_stems, data_dendro, data_deadwood)
+calculate_diam_plot(data_stems_calc, data_deadwood)
 }
 
 }

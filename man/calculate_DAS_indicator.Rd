@@ -4,10 +4,10 @@
 \alias{calculate_DAS_indicator}
 \title{calculate DAS indicator}
 \usage{
-calculate_DAS_indicator(data_dendro, na.rm = FALSE)
+calculate_DAS_indicator(data_dendro_calc, na.rm = FALSE)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro_calc}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
 
 \item{na.rm}{Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'}
 }
@@ -42,7 +42,11 @@ For the selected forest reserves and plots, the following calculations are made:
 library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_DAS_indicator(data_dendro)
+data_shoots <-
+  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_stems <- compose_stem_data(data_dendro, data_shoots)
+data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems, height_model)
+calculate_DAS_indicator(data_dendro_calc)
 }
 
 }
