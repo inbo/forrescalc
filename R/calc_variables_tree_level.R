@@ -11,6 +11,12 @@
 #'  \item vol_tot_m3: sum of `vol_bole_m3` and `vol_crowwn_m3`
 #'  \item dbh_mm (based on average for coppice trees)
 #'  \item decaystage (based on average for coppice trees)
+#'  \item basal_area_alive_m2_ha
+#'  \item basal_area_dead_m2_ha
+#'  \item vol_alive_m3_ha
+#'  \item vol_dead_standing_m3_ha
+#'  \item vol_bole_alive_m3_ha
+#'  \item vol_bole_dead_m3_ha
 #' }
 #'
 #' @inheritParams calculate_dendrometry
