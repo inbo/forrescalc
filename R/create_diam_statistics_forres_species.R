@@ -2,6 +2,7 @@
 #'
 #' This function calculates the diameter distribution on the level of forest reserve, species and year
 #'
+#' @inheritParams calc_variables_stem_level
 #' @inheritParams calc_variables_tree_level
 #'
 #' @return dataframe with columns forest_reserve, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
