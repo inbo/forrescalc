@@ -1,8 +1,8 @@
-#' Calculate additional variables on tree level
+#' Calculate additional variables on stem level
 #'
 #' This function calculates additional variables based on measurements, such as
 #' \itemize{
-#'  \item calc_height_m: calculated height based on `dbh_mm` and a species specific model
+#'  \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
 #'  \item basal_area_m2
 #'  \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
 #'  \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs

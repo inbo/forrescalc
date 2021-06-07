@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_variables_stem_level.R
 \name{calc_variables_stem_level}
 \alias{calc_variables_stem_level}
-\title{Calculate additional variables on tree level}
+\title{Calculate additional variables on stem level}
 \usage{
 calc_variables_stem_level(data_stems, height_model)
 }
@@ -21,7 +21,7 @@ Dataframe with ...
 \description{
 This function calculates additional variables based on measurements, such as
 \itemize{
- \item calc_height_m: calculated height based on `dbh_mm` and a species specific model
+ \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
  \item basal_area_m2
  \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
  \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs
