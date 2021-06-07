@@ -4,7 +4,6 @@
 #' \itemize{
 #'  \item plot and year
 #'  \item plot, tree species and year
-#'  \item individual trees: statuses in different years
 #'  \item diameter class, plot and year
 #'  \item diameter class, plot, tree species and year
 #' }
