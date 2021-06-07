@@ -59,6 +59,7 @@ calc_variables_tree_level <-
             sum(.data$dbh_mm ^ 2 / 4)
         ),
       intact_snag = max(.data$intact_snag),
+      dh_model = sum(.data$dh_model) >= 1,
       calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
         sum(.data$dbh_mm ^ 2 / 4),
       calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /

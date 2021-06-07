@@ -73,7 +73,7 @@ calc_variables_stem_level <-
           1.3 + exp(.data$P1 + .data$P2 / (.data$dbh_mm / 10)),
           1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10)
         ),
-      DHmodel = ifelse(!is.na(.data$P1), "ja", "nee"),
+      dh_model = ifelse(!is.na(.data$P1), TRUE, FALSE),
       # if no height_model is available, calc_height_fm on tree level (< FM-IA) is used
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_fm, .data$calc_height_r)
