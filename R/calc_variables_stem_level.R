@@ -171,10 +171,12 @@ calc_variables_stem_level <-
                                     .data$dbh_mm * (.data$calc_height_m - .data$height_m) / .data$calc_height_m,
                                     NA),
       volume_snag_m3 = ifelse(.data$intact_snag == 10,
-                                pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
-                                # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
-                                # TIJDELIJK vol_bole_m3 berekend als afgeknotte kegel
-                                # OP TERMIJN ev. functie van Ifer (in afzonderlijke functie te stoppen)
+                              # as truncated cone - appears to be less accurate!!!!
+                              # pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
+                              # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
+                              # AS CILINDER - GIVES BETTER RESULTS
+                              pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
+                              # ! TEMPORARY SOLUTION: goal is to incormporate taper functuions cfr FM-IA
                                 NA),
       # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
       # nee, want dan ook geen volumes van de andere bomen ...)
