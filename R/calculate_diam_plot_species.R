@@ -33,42 +33,27 @@ calculate_diam_plot_species <-
   by_diam_plot_species <- data_stems_calc %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,
-      .data$dbh_class_5cm, .data$alive_dead
+      .data$dbh_class_5cm
     ) %>%
     summarise(
-      stem_number_ha = sum(1 / .data$plotarea_ha),
-      basal_area_m2_ha = sum(.data$basal_area_m2 / .data$plotarea_ha)
+      stem_number_alive_ha =
+        sum(.data$stem_number_alive_ha),
+      stem_number_dead_ha =
+        sum(.data$stem_number_dead_ha),
+      basal_area_alive_m2_ha =
+        sum(.data$basal_area_alive_m2_ha),
+      basal_area_dead_m2_ha =
+        sum(.data$basal_area_dead_m2_ha),
+      vol_alive_m3_ha =
+        sum(.data$vol_alive_m3_ha),
+      vol_dead_standing_m3_ha =
+        sum(.data$vol_dead_standing_m3_ha),
+      vol_bole_alive_m3_ha =
+        sum(.data$vol_bole_alive_m3_ha),
+      vol_bole_dead_m3_ha =
+        sum(.data$vol_bole_dead_m3_ha)
     ) %>%
     ungroup() %>%
-    pivot_wider(
-      names_from = "alive_dead",
-      values_from = c("stem_number_ha", "basal_area_m2_ha")
-    ) %>%
-    rename(
-      stem_number_alive_ha = .data$stem_number_ha_11,
-      stem_number_dead_ha = .data$stem_number_ha_12,
-      basal_area_shoot_alive_m2_ha = .data$basal_area_m2_ha_11,
-      basal_area_shoot_dead_m2_ha = .data$basal_area_m2_ha_12
-    ) %>%
-    left_join(
-      data_dendro %>%
-        group_by(
-          .data$plot_id, .data$year, .data$period, .data$species,
-          .data$dbh_class_5cm
-        ) %>%
-        summarise(
-          basal_area_tree_alive_m2_ha =
-            sum(.data$basal_area_alive_m2_ha * .data$tree_number),
-          basal_area_tree_dead_m2_ha =
-            sum(.data$basal_area_dead_m2_ha * .data$tree_number),
-          vol_tree_alive_m3_ha =
-            sum(.data$vol_alive_m3_ha * .data$tree_number),
-          vol_tree_dead_m3_ha =
-            sum(.data$vol_dead_standing_m3_ha * .data$tree_number)
-        ) %>%
-        ungroup(),
-      by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
-    ) %>%
     full_join(
       data_deadwood %>%
         group_by(
@@ -86,12 +71,12 @@ calculate_diam_plot_species <-
       list(
         stem_number_alive_ha = 0,
         stem_number_dead_ha = 0,
-        basal_area_shoot_alive_m2_ha = 0,
-        basal_area_shoot_dead_m2_ha = 0,
-        basal_area_tree_alive_m2_ha = 0,
-        basal_area_tree_dead_m2_ha = 0,
-        vol_tree_alive_m3_ha = 0,
-        vol_tree_dead_m3_ha = 0,
+        basal_area_alive_m2_ha = 0,
+        basal_area_dead_m2_ha = 0,
+        vol_alive_m3_ha = 0,
+        vol_dead_m3_ha = 0,
+        vol_bole_alive_m3_ha = 0,
+        vol_bole_dead_m3_ha = 0,
         log_number_ha = 0,
         vol_log_m3_ha = 0
       )
