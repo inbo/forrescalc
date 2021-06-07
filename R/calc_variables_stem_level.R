@@ -193,12 +193,24 @@ calc_variables_stem_level <-
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
     ) %>%
-    select(-upper_diam_snag_mm, -volume_snag_m3, -calc_height_fm, -calc_height_r)
+    select(-upper_diam_snag_mm, -volume_snag_m3)
 
 
   # (3) results per hectare
   data_stems4 <- data_stems3 %>%
-    mutate(basal_area_alive_m2_ha =
+    mutate(stem_number_alive_ha =
+             ifelse(
+                .data$alive_dead == 11,
+                1 / .data$plotarea_ha,
+                0
+            ),
+           stem_number_dead_ha =
+             ifelse(
+               .data$alive_dead == 12,
+               1 / .data$plotarea_ha,
+               0
+             ),
+           basal_area_alive_m2_ha =
              ifelse(
                .data$alive_dead == 11,
                .data$basal_area_m2 / .data$plotarea_ha,
