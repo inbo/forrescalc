@@ -78,11 +78,10 @@ calc_variables_stem_level <-
       calc_height_m =
         ifelse(is.na(.data$calc_height_r), .data$calc_height_fm, .data$calc_height_r)
     ) %>%
-    select(-.data$model, -.data$P1, -.data$P2)
-
-
+    select(
+      -.data$model, -.data$P1, -.data$P2
+    ) %>%
   # (2) calculate volume (bole and crown; 1 entry and 2 entries)
-  data_stems3 <- data_stems2 %>%
     # bole volume 1 entry
     left_join(
       suppressMessages(
@@ -195,11 +194,10 @@ calc_variables_stem_level <-
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
     ) %>%
-    select(-upper_diam_snag_mm, -volume_snag_m3)
-
-
+    select(
+      -upper_diam_snag_mm, -volume_snag_m3
+    ) %>%
   # (3) results per hectare
-  data_stems4 <- data_stems3 %>%
     mutate(stem_number_alive_ha =
              ifelse(
                 .data$alive_dead == 11,
@@ -249,7 +247,10 @@ calc_variables_stem_level <-
                0
              )
     ) %>%
-    select(-calc_height_fm, -calc_height_r, -dh_model, -vol_bole_t1_m3, -vol_bole_t2_m3, -reduction_crown, -reduction_branch)
+    select(
+      -calc_height_fm, -calc_height_r, -dh_model,
+      -vol_bole_t1_m3, -vol_bole_t2_m3,
+      -reduction_crown, -reduction_branch)
 
-  return(data_stems4)
+  return(data_stems2)
 }
