@@ -15,7 +15,7 @@ calculate_diam_plot_species(data_stems_calc, data_deadwood)
 dataframe with columns plot, year, tree_species, dbh_class_5cm, basal_area_m2_ha, volume_m3_ha
 }
 \description{
-This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), number and volume of logs (= lying deadwood).
+This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), and volume of logs (= lying deadwood).
 }
 \examples{
 \dontrun{

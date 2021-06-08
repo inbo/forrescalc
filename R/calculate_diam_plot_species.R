@@ -1,6 +1,6 @@
 #' aggregate parameters by diameter class, plot, tree species and year
 #'
-#' This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), number and volume of logs (= lying deadwood).
+#' This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), and volume of logs (= lying deadwood).
 #'
 #' @inheritParams calculate_dendrometry
 #'
@@ -61,7 +61,6 @@ calculate_diam_plot_species <-
           .data$dbh_class_5cm
         ) %>%
         summarise(
-          log_number_ha = sum(n() / .data$plotarea_ha),
           vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
