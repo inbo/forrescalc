@@ -16,7 +16,7 @@
 #'   read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") %>%
 #'   select(period, year, plot_id, number_of_tree_species, number_of_trees_ha) %>%
 #'   distinct()
-#' compare_periods(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
+#' compare_periods_per_plot(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
 #' }
 #'
 #' @export
