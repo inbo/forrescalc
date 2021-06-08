@@ -27,7 +27,7 @@ load_data_shoots <- function(database) {
     FROM Shoots%2$s Shoots;"
 
   data_shoots <- query_database(database, query_shoots) %>%
-    mutate(intact_snag = ifelse(is.na(intact_snag), 11, intact_snag))
+    mutate(intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag))
 
   return(data_shoots)
 }
