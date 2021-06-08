@@ -13,7 +13,7 @@
 #' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' create_overview_status(data_dendro)
+#' create_unique_tree_id(data_dendro)
 #' }
 #'
 #' @export
@@ -25,7 +25,7 @@
 create_unique_tree_id <- function(data_dendro) {
   assert_that(
     max(data_dendro$period) <= 3,
-    msg = "The code of create_overview_status is only adapted to 3 measure periods"
+    msg = "The code of create_unique_tree_id is only adapted to 3 measure periods"
   )
   status_tree <- data_dendro %>%
     mutate(

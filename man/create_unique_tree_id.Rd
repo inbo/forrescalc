@@ -21,7 +21,7 @@ This function creates a unique ID for each tree, that allows to group (f.e. by u
 library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-create_overview_status(data_dendro)
+create_unique_tree_id(data_dendro)
 }
 
 }
