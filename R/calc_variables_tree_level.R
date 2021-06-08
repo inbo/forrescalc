@@ -63,17 +63,10 @@ calc_variables_tree_level <-
                 sum(.data$dbh_mm ^ 2 / 4)
             ),
           intact_snag = max(.data$intact_snag),
-          dh_model = sum(.data$dh_model) >= 1,
           calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
-            sum(.data$dbh_mm ^ 2 / 4),
-          calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
-            sum(.data$dbh_mm ^ 2 / 4),
-          calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
             sum(.data$dbh_mm ^ 2 / 4),
           dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
           basal_area_m2 = sum(.data$basal_area_m2),
-          vol_bole_t1_m3 = sum(.data$vol_bole_t1_m3),
-          vol_bole_t2_m3 = sum(.data$vol_bole_t2_m3),
           vol_bole_m3 = sum(.data$vol_bole_m3),
           vol_crown_m3 = sum(.data$vol_crown_m3),
           vol_tot_m3 = sum(.data$vol_tot_m3),
@@ -104,7 +97,7 @@ calc_variables_tree_level <-
                0
              )
     ) %>%
-    select(-calc_height_fm, -calc_height_r, -dh_model, -vol_bole_t1_m3, -vol_bole_t2_m3, -individual)
+    select(-individual)
 
   return(data_dendro1)
 }
