@@ -97,7 +97,21 @@ calc_variables_tree_level <-
     ) %>%
     mutate(
       individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12)
-    )
+    ) %>%
+    mutate(tree_number_alive_ha =
+             ifelse(
+               .data$alive_dead == 11,
+               .data$individual / .data$plotarea_ha,
+               0
+             ),
+           tree_number_dead_ha =
+             ifelse(
+               .data$alive_dead == 12,
+               .data$individual / .data$plotarea_ha,
+               0
+             )
+    ) %>%
+    select(-calc_height_fm, -calc_height_r, -dh_model, -vol_bole_t1_m3, -vol_bole_t2_m3, -individual)
 
   return(data_dendro1)
 }
