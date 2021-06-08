@@ -22,9 +22,8 @@ or 'Core area' (the default NA means that data from all plots are retrieved)}
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 
-\item{extra_variables}{Should additional variables such as calc_height_m,
-intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
-coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
+\item{extra_variables}{Should additional variables such as
+remark and common_remark be added?
 Default is FALSE (no).}
 }
 \value{

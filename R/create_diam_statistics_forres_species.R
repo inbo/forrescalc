@@ -1,10 +1,11 @@
 #' Give diameter statistics by forest reserve, species and year
 #'
-#' This function calculates the diameter distribution on the level of forest reserve, species and year some values per diameter class and hectare: number of trees, basal area, and volume.
+#' This function calculates the diameter distribution on the level of forest reserve, species and year
 #'
-#' @inheritParams calculate_dendrometry
+#' @inheritParams calc_variables_stem_level
+#' @inheritParams calc_variables_tree_level
 #'
-#' @return dataframe with columns forres, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
+#' @return dataframe with columns forest_reserve, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
 #'
 #' @examples
 #' \dontrun{
@@ -12,7 +13,10 @@
 #' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' create_diam_statistics_forres_species(data_dendro)
+#' data_shoots <-
+#'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' data_stems <- compose_stem_data(data_dendro, data_shoots)
+#' create_diam_statistics_forres_species(data_stems)
 #' }
 #'
 #' @export
@@ -21,8 +25,8 @@
 #' @importFrom rlang .data
 #' @importFrom stats median quantile
 #'
-create_diam_statistics_forres_species <- function(data_dendro) {
-  diam_by_forres_species <- data_dendro %>%
+create_diam_statistics_forres_species <- function(data_stems) {
+  diam_by_forres_species <- data_stems %>%
     group_by(
       .data$forest_reserve, .data$year, .data$period, .data$species
     ) %>%

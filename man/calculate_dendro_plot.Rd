@@ -4,10 +4,10 @@
 \alias{calculate_dendro_plot}
 \title{aggregate parameters by plot and year}
 \usage{
-calculate_dendro_plot(data_dendro, data_deadwood)
+calculate_dendro_plot(data_dendro_calc, data_deadwood)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro_calc}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
 
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
 }
@@ -15,7 +15,7 @@ calculate_dendro_plot(data_dendro, data_deadwood)
 dataframe with columns plot, year, number_of_tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 }
 \description{
-This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area, and volume.
+This function calculates for each plot and year some values per hectare: number of tree species, number of trees, basal area and volume.
 }
 \examples{
 \dontrun{
@@ -23,9 +23,13 @@ This function calculates for each plot and year some values per hectare: number 
 library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_shoots <-
+  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_stems <- compose_stem_data(data_dendro, data_shoots)
+data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems, height_model)
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_dendro_plot(data_dendro, data_deadwood)
+calculate_dendro_plot(data_dendro_calc, data_deadwood)
 }
 
 }

@@ -4,16 +4,16 @@
 \alias{create_diam_statistics_forres_species}
 \title{Give diameter statistics by forest reserve, species and year}
 \usage{
-create_diam_statistics_forres_species(data_dendro)
+create_diam_statistics_forres_species(data_stems)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
 }
 \value{
-dataframe with columns forres, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
+dataframe with columns forest_reserve, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
 }
 \description{
-This function calculates the diameter distribution on the level of forest reserve, species and year some values per diameter class and hectare: number of trees, basal area, and volume.
+This function calculates the diameter distribution on the level of forest reserve, species and year
 }
 \examples{
 \dontrun{
@@ -21,7 +21,10 @@ This function calculates the diameter distribution on the level of forest reserv
 library(forrescalc)
 data_dendro <-
   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-create_diam_statistics_forres_species(data_dendro)
+data_shoots <-
+  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_stems <- compose_stem_data(data_dendro, data_shoots)
+create_diam_statistics_forres_species(data_stems)
 }
 
 }

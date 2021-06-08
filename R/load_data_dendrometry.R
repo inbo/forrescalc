@@ -10,8 +10,8 @@
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
-#' @param extra_variables Should additional variables such as calc_height_m,
-#' intact_snag, x_m, y_m, crown_volume_reduction, branche_length_reduction,
+#' @param extra_variables Should additional variables such as
+#' x_m, y_m,
 #' coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 #' Default is FALSE (no).
 #'
@@ -37,10 +37,7 @@ load_data_dendrometry <-
   add_fields <-
     ifelse(
       extra_variables,
-      ", Trees.Calcheight_m AS calc_height_m, Trees.IntactSnag AS intact_snag,
-        (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
-        Trees.CrownVolumeReduction AS crown_volume_reduction,
-        Trees.BranchLengthReduction AS branch_length_reduction,
+      ", (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
@@ -67,16 +64,17 @@ load_data_dendrometry <-
         Trees.Height_m AS height_m,
         Trees.Species AS species,
         Trees.AliveDead AS alive_dead,
+        Trees.IntactSnag AS intact_snag,
         Trees.DecayStage AS decaystage,
-        Trees.Vol_tot_m3 AS vol_tot_m3,
-        Trees.Vol_stem_m3 AS vol_stem_m3,
-        Trees.Vol_crown_m3 AS vol_crown_m3,
-        Trees.BasalArea_m2 AS basal_area_m2,
+        Trees.Calcheight_m AS calc_height_fm,
+        cvr.Value3 AS crown_volume_reduction,
+        blr.Value3 AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS tree_number,
-        Trees.Individual AS individual %4$s
-      FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
-        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots) %3$s;"
+        Trees.TreeNumber AS tree_number %4$s
+      FROM ((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+        INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+        LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
+        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %3$s;"
 
   data_dendro <-
     query_database(database, query_dendro,
@@ -96,8 +94,8 @@ load_data_dendrometry <-
       subcirclearea_ha =
         ifelse(
           .data$subcircle == "A4",
-          (pi * .data$r_A4 ^ 2)/10000,
-          (pi * .data$r_A3 ^ 2)/10000
+          (pi * .data$r_A4 ^ 2) / 10000,
+          (pi * .data$r_A3 ^ 2) / 10000
         ),
       plotarea_ha =
         ifelse(
@@ -108,7 +106,7 @@ load_data_dendrometry <-
       plotarea_ha =
         ifelse(
           .data$plottype == 30,
-          (.data$length_core_area_m * .data$width_core_area_m)/10000,
+          (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
@@ -122,42 +120,6 @@ load_data_dendrometry <-
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
-        ),
-      basal_area_alive_m2_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$basal_area_m2 / .data$plotarea_ha,
-          0
-        ),
-      basal_area_snag_m2_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$basal_area_m2 / .data$plotarea_ha,
-          0
-        ),
-      volume_alive_m3_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$vol_tot_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_snag_m3_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$vol_tot_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_stem_alive_m3_ha =
-        ifelse(
-          .data$alive_dead == 11,
-          .data$vol_stem_m3 / .data$plotarea_ha,
-          0
-        ),
-      volume_stem_snag_m3_ha =
-        ifelse(
-          .data$alive_dead == 12,
-          .data$vol_stem_m3 / .data$plotarea_ha,
-          0
         ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )

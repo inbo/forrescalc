@@ -1,9 +1,9 @@
-#' @title couple data of each individual tree in different years
+#' @title create_unique_tree_id for each individual tree over different years
 #'
 #' @description
 #' This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.
 #'
-#' @inheritParams calculate_dendrometry
+#' @inheritParams calc_variables_tree_level
 #'
 #' @return a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.
 #'
@@ -13,7 +13,7 @@
 #' library(forrescalc)
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' create_overview_status(data_dendro)
+#' create_unique_tree_id(data_dendro)
 #' }
 #'
 #' @export
@@ -22,10 +22,10 @@
 #' @importFrom dplyr %>% filter left_join mutate select
 #' @importFrom rlang .data
 #'
-create_overview_status <- function(data_dendro) {
+create_unique_tree_id <- function(data_dendro) {
   assert_that(
     max(data_dendro$period) <= 3,
-    msg = "The code of create_overview_status is only adapted to 3 measure periods"
+    msg = "The code of create_unique_tree_id is only adapted to 3 measure periods"
   )
   status_tree <- data_dendro %>%
     mutate(

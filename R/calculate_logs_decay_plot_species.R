@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year, tree_species, decaystage, volume_log_m3_ha
+#' @return dataframe with columns plot, year, tree_species, decaystage, vol_log_m3_ha
 #'
 #' @examples
 #' \dontrun{
@@ -26,7 +26,7 @@ calculate_logs_decay_plot_species <- function(data_deadwood) {
         .data$plot_id, .data$year, .data$period, .data$species, .data$decaystage
       ) %>%
       summarise(
-        volume_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
+        vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
       ) %>%
       ungroup()
 

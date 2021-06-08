@@ -16,7 +16,7 @@
 #'   read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") %>%
 #'   select(period, year, plot_id, number_of_tree_species, number_of_trees_ha) %>%
 #'   distinct()
-#' compare_periods(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
+#' compare_periods_per_plot(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
 #' }
 #'
 #' @export
@@ -26,7 +26,7 @@
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
-compare_periods <- function(dataset, measure_vars) {
+compare_periods_per_plot <- function(dataset, measure_vars) {
   if (!all(c("period", "plot_id") %in% names(dataset))) {
     stop("Dataset must contain the columns period and plot_id.")
   }
@@ -90,7 +90,7 @@ compare_periods <- function(dataset, measure_vars) {
       year_diff =
         ifelse(
           .data$measure_var == "n_year",
-          paste( .data$p2, .data$p1, sep = " - "),
+          paste(.data$p2, .data$p1, sep = " - "),
           ""
         ),
       p1 = NULL, p2 = NULL

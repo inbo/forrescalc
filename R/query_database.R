@@ -55,7 +55,7 @@ query_database <-
             stringsAsFactors = FALSE
           ) %>%
             mutate(
-              period = 2
+              period = n
             )
         )
     }

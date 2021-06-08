@@ -35,11 +35,17 @@ load_plotinfo <- function(database) {
 
   plotinfo <-
     query_database(database, query_plot) %>%
-    distinct()
+    distinct() %>%
+    mutate(survey_trees = ifelse(.data$survey_trees == 10 & !is.na(.data$survey_trees), TRUE, FALSE),
+           survey_deadw = ifelse(.data$survey_deadw == 10 & !is.na(.data$survey_deadw), TRUE, FALSE),
+           survey_veg = ifelse(.data$survey_veg == 10 & !is.na(.data$survey_veg), TRUE, FALSE),
+           survey_reg = ifelse(.data$survey_reg == 10 & !is.na(.data$survey_reg), TRUE, FALSE),
+           data_processed = ifelse(.data$data_processed == 10 & !is.na(.data$data_processed), TRUE, FALSE)
+           )
 
   plotinfo <- plotinfo %>%
     left_join(plotinfo %>%
-                filter(.data$survey_trees == 10) %>%
+                filter(.data$survey_trees == TRUE) %>%
                 group_by(.data$plot_id, .data$plottype, .data$forest_reserve, .data$survey_trees) %>%
                 summarise(min_period = min(.data$period)) %>%
 
