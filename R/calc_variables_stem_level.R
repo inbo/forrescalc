@@ -195,7 +195,7 @@ calc_variables_stem_level <-
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
     ) %>%
     select(
-      -upper_diam_snag_mm, -volume_snag_m3
+      -.data$upper_diam_snag_mm, -.data$volume_snag_m3
     ) %>%
   # (3) results per hectare
     mutate(stem_number_alive_ha =
@@ -248,9 +248,9 @@ calc_variables_stem_level <-
              )
     ) %>%
     select(
-      -calc_height_fm, -calc_height_r, -dh_model,
-      -vol_bole_t1_m3, -vol_bole_t2_m3,
-      -reduction_crown, -reduction_branch)
+      -.data$calc_height_fm, -.data$calc_height_r, -.data$dh_model,
+      -.data$vol_bole_t1_m3, -.data$vol_bole_t2_m3,
+      -.data$reduction_crown, -.data$reduction_branch)
 
   return(data_stems2)
 }

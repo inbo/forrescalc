@@ -97,7 +97,7 @@ calc_variables_tree_level <-
                0
              )
     ) %>%
-    select(-individual)
+    select(-.data$individual)
 
   return(data_dendro1)
 }
