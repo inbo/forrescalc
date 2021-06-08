@@ -248,7 +248,8 @@ calc_variables_stem_level <-
                .data$vol_bole_m3 / .data$plotarea_ha,
                0
              )
-    )
+    ) %>%
+    select(-calc_height_fm, -calc_height_r, -dh_model, -vol_bole_t1_m3, -vol_bole_t2_m3, -reduction_crown, -reduction_branch)
 
   return(data_stems4)
 }
