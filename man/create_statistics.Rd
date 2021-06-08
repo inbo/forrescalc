@@ -46,8 +46,7 @@ dendro_by_diam_plot_species <-
 create_statistics(
   dataset = dendro_by_diam_plot_species,
   level = c("forest_reserve", "year", "species", "dbh_class_5cm"),
-  variables = c("basal_area_shoot_alive_m2_ha", "basal_area_shoot_dead_m2_ha",
-      "basal_area_tree_alive_m2_ha", "basal_area_tree_dead_m2_ha")
+  variables = c("basal_area_alive_m2_ha", "basal_area_dead_m2_ha")
 )
 vegetation_by_plot <-
   read_forresdat(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
