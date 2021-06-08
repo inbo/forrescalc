@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -129,7 +126,7 @@
     <p>This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in an Access database.  List item names will be used to name each of the tables, which contain as a content the different dataframes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save_results_access</span><span class='op'>(</span><span class='va'>results</span>, <span class='va'>database</span>, remove_tables <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>save_results_access</span><span class='op'>(</span><span class='va'>results</span>, <span class='va'>database</span>, remove_tables <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,22 +152,22 @@ is explicitly put on TRUE.</p></td>
     <p>No value is returned, data are saved in the specified database</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>#change path before running</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
-<span class='va'>data_dendro</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='va'>data_deadwood</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_deadwood.html'>load_data_deadwood</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='va'>result_dendro</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calculate_dendrometry.html'>calculate_dendrometry</a></span><span class='op'>(</span><span class='va'>data_dendro</span>, <span class='va'>data_deadwood</span><span class='op'>)</span>
-<span class='fu'>save_results_access</span><span class='op'>(</span>result <span class='op'>=</span> <span class='va'>result_dendro</span>, database <span class='op'>=</span> <span class='st'>"C:/db/testdb.accdb"</span><span class='op'>)</span>
-<span class='co'>#Repeating the previous line of code will give an error, because you try to</span>
-<span class='co'>#overwrite a table that was already saved in the database on the first run.</span>
-<span class='co'>#To overwrite previously saved tables, use this command:</span>
-<span class='fu'>save_results_access</span><span class='op'>(</span>result <span class='op'>=</span> <span class='va'>result_dendro</span>, database <span class='op'>=</span> <span class='st'>"C:/db/testdb.accdb"</span>, remove_tables <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>#change path before running</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_dendro</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_deadwood</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='load_data_deadwood.html'>load_data_deadwood</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>result_dendro</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calculate_dendrometry.html'>calculate_dendrometry</a></span><span class='op'>(</span><span class='va'>data_dendro</span>, <span class='va'>data_deadwood</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>save_results_access</span><span class='op'>(</span>result <span class='op'>=</span> <span class='va'>result_dendro</span>, database <span class='op'>=</span> <span class='st'>"C:/db/testdb.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>#Repeating the previous line of code will give an error, because you try to</span></span>
+<span class='r-in'><span class='co'>#overwrite a table that was already saved in the database on the first run.</span></span>
+<span class='r-in'><span class='co'>#To overwrite previously saved tables, use this command:</span></span>
+<span class='r-in'><span class='fu'>save_results_access</span><span class='op'>(</span>result <span class='op'>=</span> <span class='va'>result_dendro</span>, database <span class='op'>=</span> <span class='st'>"C:/db/testdb.accdb"</span>, remove_tables <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

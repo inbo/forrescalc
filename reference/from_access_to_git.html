@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -129,7 +126,7 @@
     <p>This function loads one or more tables from the access database and saves them in a git repository.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>from_access_to_git</span><span class='op'>(</span><span class='va'>database</span>, <span class='va'>tables</span>, <span class='va'>repo_path</span>, push <span class='op'>=</span> <span class='cn'>FALSE</span>, strict <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>from_access_to_git</span><span class='op'>(</span><span class='va'>database</span>, <span class='va'>tables</span>, <span class='va'>repo_path</span>, push <span class='op'>=</span> <span class='cn'>FALSE</span>, strict <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,17 +159,17 @@ structure) including path</p></td>
     <p>No value is returned, the tables are saved in the git repository.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>#change paths before running</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
-<span class='fu'>from_access_to_git</span><span class='op'>(</span>
-  database <span class='op'>=</span> <span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>,
-  tables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"qAliveDead"</span>, <span class='st'>"qdecaystage"</span><span class='op'>)</span>,
-  repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>#change paths before running</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>from_access_to_git</span><span class='op'>(</span></span>
+<span class='r-in'>  database <span class='op'>=</span> <span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span>,</span>
+<span class='r-in'>  tables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"qAliveDead"</span>, <span class='st'>"qdecaystage"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

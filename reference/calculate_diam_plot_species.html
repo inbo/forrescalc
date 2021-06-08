@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="aggregate parameters by diameter class, plot, tree species and year — calculate_diam_plot_species" />
-<meta property="og:description" content="This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs." />
+<meta property="og:description" content="This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), and volume of logs (= lying deadwood)." />
 
 
 
@@ -56,9 +56,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-
-
-<!-- dependencies from examples -->
 
 
   
@@ -126,21 +123,17 @@
     </div>
 
     <div class="ref-description">
-    <p>This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems and basal area (for coppice trees based on data on shoot level), basal area and volume on tree level (for coppice trees based on data on tree level), number and volume of logs.</p>
+    <p>This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), and volume of logs (= lying deadwood).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_diam_plot_species</span><span class='op'>(</span><span class='va'>data_stems</span>, <span class='va'>data_dendro</span>, <span class='va'>data_deadwood</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>calculate_diam_plot_species</span><span class='op'>(</span><span class='va'>data_stems_calc</span>, <span class='va'>data_deadwood</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data_stems</th>
-      <td><p>dataframe on stems (shoots and trees) as given from the function compose_stem_data()</p></td>
-    </tr>
-    <tr>
-      <th>data_dendro</th>
-      <td><p>dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())</p></td>
+      <th>data_stems_calc</th>
+      <td><p>dataframe on stems (shoots and trees) as given from the function calc_variables_stem_level()</p></td>
     </tr>
     <tr>
       <th>data_deadwood</th>
@@ -153,20 +146,22 @@
     <p>dataframe with columns plot, year, tree_species, dbh_class_5cm, basal_area_m2_ha, volume_m3_ha</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>#change path before running</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
-<span class='va'>data_dendro</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='va'>data_shoots</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_shoots.html'>load_data_shoots</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='va'>data_stems</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compose_stem_data.html'>compose_stem_data</a></span><span class='op'>(</span><span class='va'>data_dendro</span>, <span class='va'>data_shoots</span><span class='op'>)</span>
-<span class='va'>data_deadwood</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_deadwood.html'>load_data_deadwood</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='fu'>calculate_diam_plot_species</span><span class='op'>(</span><span class='va'>data_stems</span>, <span class='va'>data_dendro</span>, <span class='va'>data_deadwood</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>#change path before running</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_dendro</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_shoots</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='load_data_shoots.html'>load_data_shoots</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_stems</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compose_stem_data.html'>compose_stem_data</a></span><span class='op'>(</span><span class='va'>data_dendro</span>, <span class='va'>data_shoots</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>height_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='load_height_models.html'>load_height_models</a></span><span class='op'>(</span><span class='st'>"C:/bosreservaten/Hoogtemodellen/"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_stems_calc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calc_variables_stem_level.html'>calc_variables_stem_level</a></span><span class='op'>(</span><span class='va'>data_stems</span>, <span class='va'>heightmodel</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_deadwood</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='load_data_deadwood.html'>load_data_deadwood</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>calculate_diam_plot_species</span><span class='op'>(</span><span class='va'>data_stems_calc</span>, <span class='va'>data_deadwood</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

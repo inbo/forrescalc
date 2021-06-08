@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>couple data of each individual tree in different years — create_overview_status • forrescalc</title>
+<title>retrieve height model data from xlsx files — load_height_models • forrescalc</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="couple data of each individual tree in different years — create_overview_status" />
-<meta property="og:description" content="This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures." />
+<meta property="og:title" content="retrieve height model data from xlsx files — load_height_models" />
+<meta property="og:description" content="This function groups the information on height models from the `.xlsx` files
+in the given folder together in one dataframe." />
 
 
 
@@ -56,9 +57,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-
-
-<!-- dependencies from examples -->
 
 
   
@@ -120,40 +118,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>couple data of each individual tree in different years</h1>
+    <h1>retrieve height model data from xlsx files</h1>
     
-    <div class="hidden name"><code>create_overview_status.Rd</code></div>
+    <div class="hidden name"><code>load_height_models.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.</p>
+    <p>This function groups the information on height models from the `.xlsx` files
+in the given folder together in one dataframe.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_overview_status</span><span class='op'>(</span><span class='va'>data_dendro</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>load_height_models</span><span class='op'>(</span><span class='va'>path_to_height_models</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data_dendro</th>
-      <td><p>dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())</p></td>
+      <th>path_to_height_models</th>
+      <td><p>path to folder where height models are stored</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.</p>
+    <p>Dataframe with height model data</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>#change path before running</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
-<span class='va'>data_dendro</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='load_data_dendrometry.html'>load_data_dendrometry</a></span><span class='op'>(</span><span class='st'>"C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"</span><span class='op'>)</span>
-<span class='fu'>create_overview_status</span><span class='op'>(</span><span class='va'>data_dendro</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>#change path before running</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>load_height_models</span><span class='op'>(</span><span class='st'>"C:/bosreservaten/Hoogtemodellen/"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

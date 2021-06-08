@@ -61,9 +61,6 @@ Records with value zero for certain variables (e.g. coverage of a certain specie
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -135,12 +132,12 @@ E.g. if a certain species only occurs in 3 plots out of 10 and no records are ad
 Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros().</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_statistics</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>create_statistics</span><span class='op'>(</span>
   <span class='va'>dataset</span>,
   level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"period"</span>, <span class='st'>"forest_reserve"</span><span class='op'>)</span>,
   <span class='va'>variables</span>,
   include_year_range <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,31 +165,30 @@ Records with value zero for certain variables (e.g. coverage of a certain specie
     <p>dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>#change path before running</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span>
-<span class='va'>dendro_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"dendro_by_plot"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span>
-<span class='fu'>create_statistics</span><span class='op'>(</span>
-  dataset <span class='op'>=</span> <span class='va'>dendro_by_plot</span>,
-  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span><span class='op'>)</span>,
-  variables <span class='op'>=</span> <span class='st'>"volume_alive_m3_ha"</span>
-<span class='op'>)</span>
-<span class='va'>dendro_by_diam_plot_species</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"dendro_by_diam_plot_species"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span>
-<span class='fu'>create_statistics</span><span class='op'>(</span>
-  dataset <span class='op'>=</span> <span class='va'>dendro_by_diam_plot_species</span>,
-  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"year"</span>, <span class='st'>"species"</span>, <span class='st'>"dbh_class_5cm"</span><span class='op'>)</span>,
-  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"basal_area_shoot_alive_m2_ha"</span>, <span class='st'>"basal_area_shoot_snag_m2_ha"</span>,
-      <span class='st'>"basal_area_tree_alive_m2_ha"</span>, <span class='st'>"basal_area_tree_snag_m2_ha"</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>vegetation_by_plot</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"vegetation_by_plot"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span>
-<span class='fu'>create_statistics</span><span class='op'>(</span>dataset <span class='op'>=</span> <span class='va'>vegetation_by_plot</span>, level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span><span class='op'>)</span>,
-  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"number_of_species"</span>, <span class='st'>"cumm_herb_coverage_class_average_perc"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>#change path before running</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>forrescalc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dendro_by_plot</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"dendro_by_plot"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>create_statistics</span><span class='op'>(</span></span>
+<span class='r-in'>  dataset <span class='op'>=</span> <span class='va'>dendro_by_plot</span>,</span>
+<span class='r-in'>  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  variables <span class='op'>=</span> <span class='st'>"vol_alive_m3_ha"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dendro_by_diam_plot_species</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"dendro_by_diam_plot_species"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>create_statistics</span><span class='op'>(</span></span>
+<span class='r-in'>  dataset <span class='op'>=</span> <span class='va'>dendro_by_diam_plot_species</span>,</span>
+<span class='r-in'>  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"year"</span>, <span class='st'>"species"</span>, <span class='st'>"dbh_class_5cm"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"basal_area_alive_m2_ha"</span>, <span class='st'>"basal_area_dead_m2_ha"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>vegetation_by_plot</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='read_forresdat.html'>read_forresdat</a></span><span class='op'>(</span>tablename <span class='op'>=</span> <span class='st'>"vegetation_by_plot"</span>, repo_path <span class='op'>=</span> <span class='st'>"C:/gitrepo/forresdat"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>create_statistics</span><span class='op'>(</span>dataset <span class='op'>=</span> <span class='va'>vegetation_by_plot</span>, level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forest_reserve"</span>, <span class='st'>"period"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"number_of_species"</span>, <span class='st'>"cumm_herb_coverage_class_average_perc"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -70,7 +70,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview package forrescalc</h1>
             
-            <h4 data-toc-skip class="date">2021-04-29</h4>
+            <h4 data-toc-skip class="date">2021-06-08</h4>
       
       
       <div class="hidden name"><code>overview_forrescalc.Rmd</code></div>
@@ -121,7 +121,7 @@
 <li><code><a href="../reference/calculate_regeneration.html">calculate_regeneration()</a></code></li>
 <li><code><a href="../reference/calculate_vegetation.html">calculate_vegetation()</a></code></li>
 </ul>
-<p>Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. <code><a href="../reference/calculate_dendrometry.html">calculate_dendrometry()</a></code> performs for instance the subfunctions <code><a href="../reference/calculate_dendro_plot.html">calculate_dendro_plot()</a></code>, <code><a href="../reference/calculate_dendro_plot_species.html">calculate_dendro_plot_species()</a></code> and <code><a href="../reference/create_overview_status.html">create_overview_status()</a></code>. The result of <code><a href="../reference/calculate_dendrometry.html">calculate_dendrometry()</a></code> is a list of 3 dataframes, each being the result of one of the subfunctions. To update <code>forresdat</code>, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.</p>
+<p>Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. <code><a href="../reference/calculate_dendrometry.html">calculate_dendrometry()</a></code> performs for instance the subfunctions <code><a href="../reference/calculate_dendro_plot.html">calculate_dendro_plot()</a></code>, <code><a href="../reference/calculate_dendro_plot_species.html">calculate_dendro_plot_species()</a></code> and <code><a href="../reference/create_unique_tree_id.html">create_unique_tree_id()</a></code>. The result of <code><a href="../reference/calculate_dendrometry.html">calculate_dendrometry()</a></code> is a list of 3 dataframes, each being the result of one of the subfunctions. To update <code>forresdat</code>, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.</p>
 </div>
 <div id="subfunctions" class="section level3">
 <h3 class="hasAnchor">
@@ -130,7 +130,7 @@
 <p>Subfunctions that not typically aggregate data, can have other names:</p>
 <ul>
 <li>
-<code>create_overview_status</code> brings data from individual trees over different years together</li>
+<code>create_unique_tree_id</code> brings data from individual trees over different years together</li>
 </ul>
 </div>
 <div id="additional-functions" class="section level3">
@@ -139,7 +139,7 @@
 <p>And there are also some functions that we thought to be useful (or user request functions) (these are not used to manipulate data for <code>forresdat</code>):</p>
 <ul>
 <li>
-<code><a href="../reference/make_table_wide.html">make_table_wide()</a></code> changes a dataframe from long to wide, what you might want to do with (a part of) the results from <code><a href="../reference/create_overview_status.html">create_overview_status()</a></code>
+<code><a href="../reference/make_table_wide.html">make_table_wide()</a></code> changes a dataframe from long to wide, what you might want to do with (a part of) the results from <code><a href="../reference/create_unique_tree_id.html">create_unique_tree_id()</a></code>
 </li>
 </ul>
 </div>
