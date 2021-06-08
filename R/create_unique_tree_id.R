@@ -1,4 +1,4 @@
-#' @title couple data of each individual tree in different years
+#' @title create_unique_tree_id for each individual tree over different years
 #'
 #' @description
 #' This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.
@@ -22,7 +22,7 @@
 #' @importFrom dplyr %>% filter left_join mutate select
 #' @importFrom rlang .data
 #'
-create_overview_status <- function(data_dendro) {
+create_unique_tree_id <- function(data_dendro) {
   assert_that(
     max(data_dendro$period) <= 3,
     msg = "The code of create_overview_status is only adapted to 3 measure periods"
