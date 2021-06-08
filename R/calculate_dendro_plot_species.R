@@ -2,7 +2,7 @@
 #'
 #' This function calculates for each plot, tree species and year some values per hectare: number of trees, basal area and volume.
 #'
-#' @inheritParams calculate_dendrometry
+#' @inheritParams calculate_dendro_plot
 #'
 #' @return dataframe with columns plot, year, tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
 #'

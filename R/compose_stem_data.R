@@ -4,8 +4,7 @@
 #' the diameters, height, decaystage and info on intact/snag from coppice trees
 #' by their separate stems given in the shoot data (result from function load_data_shoots()).
 #'
-#' @inheritParams calc_variables_tree_level
-#' @param data_shoots dataframe on shoots as given from the function load_data_shoots()
+#' @inheritParams calculate_dendrometry
 #'
 #' @return Dataframe with shoot data
 #'

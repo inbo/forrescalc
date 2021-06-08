@@ -9,7 +9,7 @@
 #'
 #' @template calculate_das_indicator_explanation_part2
 #'
-#' @inheritParams calculate_dendrometry
+#' @inheritParams calculate_dendro_plot
 #' @param na.rm Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
