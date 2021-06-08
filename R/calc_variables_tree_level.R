@@ -98,13 +98,13 @@ calc_variables_tree_level <-
     mutate(
       individual = (.data$ind_sht_cop == 10 | .data$ind_sht_cop == 12)
     ) %>%
-    mutate(tree_number_alive_ha =
+    mutate(number_of_trees_alive_ha =
              ifelse(
                .data$alive_dead == 11,
                .data$individual / .data$plotarea_ha,
                0
              ),
-           tree_number_dead_ha =
+           number_of_trees_dead_ha =
              ifelse(
                .data$alive_dead == 12,
                .data$individual / .data$plotarea_ha,
