@@ -26,7 +26,7 @@
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
-compare_periods <- function(dataset, measure_vars) {
+compare_periods_per_plot <- function(dataset, measure_vars) {
   if (!all(c("period", "plot_id") %in% names(dataset))) {
     stop("Dataset must contain the columns period and plot_id.")
   }
