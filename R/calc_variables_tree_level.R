@@ -47,52 +47,45 @@
 calc_variables_tree_level <-
   function(data_dendro, data_stems_calc) {
 
-  # GROUP BY
-
-  data_stems_grp <- data_stems_calc %>%
-    group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
-    summarise(
-      tree_number = n(),
-      decaystage =
-        round(
-          sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
-            sum(.data$dbh_mm ^ 2 / 4)
-        ),
-      intact_snag = max(.data$intact_snag),
-      dh_model = sum(.data$dh_model) >= 1,
-      calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
-        sum(.data$dbh_mm ^ 2 / 4),
-      dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
-      basal_area_m2 = sum(.data$basal_area_m2),
-      vol_bole_t1_m3 = sum(.data$vol_bole_t1_m3),
-      vol_bole_t2_m3 = sum(.data$vol_bole_t2_m3),
-      vol_bole_m3 = sum(.data$vol_bole_m3),
-      vol_crown_m3 = sum(.data$vol_crown_m3),
-      vol_tot_m3 = sum(.data$vol_tot_m3),
-      # RESULTS PER HECTARE
-      basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
-      basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
-      vol_alive_m3_ha = sum(.data$vol_alive_m3_ha),
-      vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
-      vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha),
-      vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)
-    ) %>%
-    ungroup()
-
-
-  # CALCULATIONS ON TREE LEVEL
-
   data_dendro1 <- data_dendro %>%
     select(
       -.data$dbh_mm, -.data$tree_number, -.data$calc_height_fm,
       -.data$intact_snag, -.data$decaystage
     ) %>%
     left_join(
-      data_stems_grp,
+      data_stems_calc %>%
+        group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
+        summarise(
+          tree_number = n(),
+          decaystage =
+            round(
+              sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
+                sum(.data$dbh_mm ^ 2 / 4)
+            ),
+          intact_snag = max(.data$intact_snag),
+          dh_model = sum(.data$dh_model) >= 1,
+          calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
+            sum(.data$dbh_mm ^ 2 / 4),
+          calc_height_fm = sum(.data$calc_height_fm * .data$dbh_mm ^ 2 / 4) /
+            sum(.data$dbh_mm ^ 2 / 4),
+          calc_height_r = sum(.data$calc_height_r * .data$dbh_mm ^ 2 / 4) /
+            sum(.data$dbh_mm ^ 2 / 4),
+          dbh_mm = round(sqrt(sum(.data$dbh_mm ^ 2) / n())),
+          basal_area_m2 = sum(.data$basal_area_m2),
+          vol_bole_t1_m3 = sum(.data$vol_bole_t1_m3),
+          vol_bole_t2_m3 = sum(.data$vol_bole_t2_m3),
+          vol_bole_m3 = sum(.data$vol_bole_m3),
+          vol_crown_m3 = sum(.data$vol_crown_m3),
+          vol_tot_m3 = sum(.data$vol_tot_m3),
+          # RESULTS PER HECTARE
+          basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
+          basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
+          vol_alive_m3_ha = sum(.data$vol_alive_m3_ha),
+          vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
+          vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha),
+          vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)
+        ) %>%
+        ungroup(),
       by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
