@@ -3,6 +3,7 @@
 #' This function calculates for each plot, tree species, year and diameter class some values per hectare: number of stems, basal area and volume of standing trees (for coppice based on data on shoot level), and volume of logs (= lying deadwood).
 #'
 #' @inheritParams calculate_dendrometry
+#' @inheritParams calc_variables_tree_level
 #'
 #' @return dataframe with columns plot, year, tree_species, dbh_class_5cm, basal_area_m2_ha, volume_m3_ha
 #'

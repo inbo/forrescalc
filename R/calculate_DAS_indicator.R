@@ -9,7 +9,7 @@
 #'
 #' @template calculate_das_indicator_explanation_part2
 #'
-#' @inheritParams calculate_dendrometry
+#' @inheritParams calculate_dendro_plot
 #' @param na.rm Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
@@ -23,7 +23,9 @@
 #' data_shoots <-
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems, height_model)
+#' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
+#' data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
+#' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' calculate_DAS_indicator(data_dendro_calc)
 #' }
 #'

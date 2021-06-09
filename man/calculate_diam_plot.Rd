@@ -7,7 +7,7 @@
 calculate_diam_plot(data_stems_calc, data_deadwood)
 }
 \arguments{
-\item{data_stems_calc}{dataframe on stems (shoots and trees) as given from the function calc_variables_stem_level()}
+\item{data_stems_calc}{dataframe on stem level measurements with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, year, subcircle, plotarea_ha,... (output of function calc_variables_stem_level())}
 
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())}
 }

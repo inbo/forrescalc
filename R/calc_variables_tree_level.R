@@ -19,8 +19,7 @@
 #'  \item vol_bole_dead_m3_ha
 #' }
 #'
-#' @inheritParams calc_variables_stem_level
-#' @param data_dendro dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())
+#' @inheritParams calculate_dendrometry
 #' @param data_stems_calc dataframe on stem level measurements with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, year, subcircle, plotarea_ha,... (output of function calc_variables_stem_level())
 #'
 #' @return Dataframe with ...
