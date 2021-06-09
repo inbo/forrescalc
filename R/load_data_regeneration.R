@@ -63,6 +63,7 @@ load_data_regeneration <-
       id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       number_class =
         c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
+      mean_number_of_trees = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       min_number_of_trees = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
       max_number_of_trees = c(1, 5, 10, 20, 40, 60, 100, 1000, NA),
       stringsAsFactors = FALSE
@@ -122,6 +123,12 @@ load_data_regeneration <-
       by = c("number_class" = "id")
     ) %>%
     mutate(
+      mean_number_of_trees =
+        ifelse(
+          is.na(.data$mean_number_of_trees),
+          .data$reg_number,
+          .data$mean_number_of_trees
+        ),
       min_number_of_trees =
         ifelse(
           is.na(.data$min_number_of_trees),
@@ -133,6 +140,12 @@ load_data_regeneration <-
           is.na(.data$max_number_of_trees),
           .data$reg_number,
           .data$max_number_of_trees
+        ),
+      mean_number_of_trees =
+        ifelse(
+          is.na(.data$mean_number_of_trees) & is.na(.data$species),
+          0,
+          .data$mean_number_of_trees
         ),
       min_number_of_trees =
         ifelse(
