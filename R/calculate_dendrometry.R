@@ -41,8 +41,8 @@
 #'
 calculate_dendrometry <- function(data_dendro, data_deadwood, data_shoots, height_model) {
   data_stems <- compose_stem_data(data_dendro, data_shoots)
-  data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems)
   data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
+  data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
   by_plot <- calculate_dendro_plot(data_dendro_calc, data_deadwood)
   by_plot_species <-
     calculate_dendro_plot_species(data_dendro_calc, data_deadwood)
