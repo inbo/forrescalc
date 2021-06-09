@@ -25,8 +25,14 @@
 #'
 calculate_regeneration_core_area_species <- function(data_regeneration) {
   by_plot_species <- data_regeneration %>%
-    mutate(
-      n_subplots = n_distinct(.data$subplot_id)
+    left_join(
+      data_regeneration %>%
+        group_by(.data$plot_id, .data$period
+        ) %>%
+        summarise(n_subplots = n_distinct(.data$subplot_id)
+        ) %>%
+        ungroup() %>%
+        select(.data$plot_id, .data$period, .data$n_subplots)
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species
