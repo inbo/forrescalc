@@ -34,6 +34,7 @@ load_data_regeneration <-
           pd.WidthCoreArea_m AS width_core_area_m,
           pd.Area_ha AS core_area_ha,
           Reg.ID AS subplot_id,
+          Reg.Plotnr AS subplot_name,
           Reg.Date AS date_regeneration,
           Reg.Year AS year_record,
           Subquery.height_class,
@@ -73,6 +74,7 @@ load_data_regeneration <-
     query_database(database, query_regeneration,
                    selection = selection, conjunction = conjunction) %>%
     mutate(
+      nr_subplots = ifelse(.data$plottype == 30, .data$length_core_area_m * .data$width_core_area_m / 100, 1),
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       subcircle =
