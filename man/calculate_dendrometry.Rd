@@ -46,6 +46,7 @@ data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_shoots <-
   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
 calculate_dendrometry(data_dendro, data_deadwood, data_shoots, heightmodel)
 }
 
