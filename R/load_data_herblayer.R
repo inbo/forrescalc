@@ -34,6 +34,7 @@ load_data_herblayer <-
           pd.WidthCoreArea_m AS width_core_area_m,
           pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
+          Veg.Plotnr AS subplot_name,
           Herb.Deviating_date AS deviating_date,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
