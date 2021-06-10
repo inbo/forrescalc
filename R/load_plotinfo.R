@@ -56,7 +56,7 @@ load_plotinfo <- function(database) {
     mutate(survey_number = .data$period - .data$min_period + 1,
            year = year(round_date(.data$date_dendro, "year")) - 1
            ) %>%
-    select(-.data$min_period)
+    select(-.data$min_period, .data$date_dendro)
 
   return(plotinfo)
 }
