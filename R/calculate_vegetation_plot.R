@@ -58,11 +58,14 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       soildisturbance_game_cover_max =
         mean(.data$soildisturbance_game_cover_max, na.rm = TRUE),
       number_of_species = n_distinct(.data$species, na.rm = TRUE),
-      cumm_herb_coverage_class_average_perc =
+      # cumm_herb_coverage_class_average_perc =
+      cumm_herb_coverage =
         sum(.data$coverage_class_average_perc) / n_distinct(.data$subplot_id)
     ) %>%
     ungroup() %>%
     mutate(
+      # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
+      # where TL is the percentage cover of the tree layer and SL is the percentage cover of the shrub layer.
       cumulated_canopy_cover_mean =
         100 * (1 - (1 - .data$shrub_cover_mean / 100) * (1 - .data$tree_cover_mean / 100)),
       cumulated_canopy_cover_min =
