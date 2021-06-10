@@ -36,16 +36,23 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       .data$plot_id, .data$year, .data$period, .data$subplot_id
     ) %>%
     summarise(
+      moss_cover_mean = mean(.data$moss_cover_mean, na.rm = TRUE),
       moss_cover_min = mean(.data$moss_cover_min, na.rm = TRUE),
       moss_cover_max = mean(.data$moss_cover_max, na.rm = TRUE),
+      herb_cover_mean = mean(.data$herb_cover_mean, na.rm = TRUE),
       herb_cover_min = mean(.data$herb_cover_min, na.rm = TRUE),
       herb_cover_max = mean(.data$herb_cover_max, na.rm = TRUE),
+      shrub_cover_mean = mean(.data$shrub_cover_mean, na.rm = TRUE),
       shrub_cover_min = mean(.data$shrub_cover_min, na.rm = TRUE),
       shrub_cover_max = mean(.data$shrub_cover_max, na.rm = TRUE),
+      tree_cover_mean = mean(.data$tree_cover_mean, na.rm = TRUE),
       tree_cover_min = mean(.data$tree_cover_min, na.rm = TRUE),
       tree_cover_max = mean(.data$tree_cover_max, na.rm = TRUE),
+      waterlayer_cover_mean = mean(.data$waterlayer_cover_mean, na.rm = TRUE),
       waterlayer_cover_min = mean(.data$waterlayer_cover_min, na.rm = TRUE),
       waterlayer_cover_max = mean(.data$waterlayer_cover_max, na.rm = TRUE),
+      soildisturbance_game_cover_mean =
+        mean(.data$soildisturbance_game_cover_mean, na.rm = TRUE),
       soildisturbance_game_cover_min =
         mean(.data$soildisturbance_game_cover_min, na.rm = TRUE),
       soildisturbance_game_cover_max =
@@ -56,6 +63,8 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     ) %>%
     ungroup() %>%
     mutate(
+      cumulated_canopy_cover_mean =
+        100 * (1 - (1 - .data$shrub_cover_mean / 100) * (1 - .data$tree_cover_mean / 100)),
       cumulated_canopy_cover_min =
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
       cumulated_canopy_cover_max =

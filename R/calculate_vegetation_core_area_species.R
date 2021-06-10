@@ -25,9 +25,18 @@
 #'
 calculate_vegetation_core_area_species <- function(data_herblayer) {
   by_core_area_species <- data_herblayer %>%
-    mutate(
-      n_subplots = n_distinct(.data$subplot_id)
+    left_join(
+      data_vegetation %>%
+        group_by(.data$plot_id, .data$period
+        ) %>%
+        summarise(n_subplots = n_distinct(.data$subplot_id)
+        ) %>%
+        ungroup() %>%
+        select(.data$plot_id, .data$period, .data$n_subplots)
     ) %>%
+    # mutate(
+    #   n_subplots = n_distinct(.data$subplot_id)
+    # ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
