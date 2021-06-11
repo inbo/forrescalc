@@ -35,7 +35,7 @@ read_forresdat <- function(tablename, repo_path, join_plotinfo = TRUE) {
     )
     dataset <- dataset %>%
       left_join(
-        read_vc(file = "data/plotinfo", root = repo),
+        read_vc(file = "data/plotinfo", root = repo) %>% select(-.data$year),
         by = "plot_id"
       )
   }
