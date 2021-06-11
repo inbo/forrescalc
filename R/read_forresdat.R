@@ -6,11 +6,12 @@
 #' @param tablename name of the table that should be read
 #' @param repo_path name and path of local git repository from which data should be retrieved
 #' @param join_plotinfo should table plotinfo be joined to the chosen table to
-#' add columns plottype and forest_reserve?  Default is TRUE.  (This is only
+#' add columns plottype, forest_reserve, survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)?  Default is TRUE.  (This is only
 #' possible if the given table contains a column plot_id, so this parameter
 #' should be put FALSE if this column is absent.)
 #'
-#' @return A dataframe with the specified table, default columns plottype and forest_reserve.
+#' @return A dataframe with the specified table, default columns plottype, forest_reserve,
+#' survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)
 #'
 #' @examples
 #' \dontrun{
