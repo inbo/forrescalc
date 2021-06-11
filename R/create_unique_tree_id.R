@@ -28,6 +28,7 @@ create_unique_tree_id <- function(data_dendro) {
     msg = "The code of create_unique_tree_id is only adapted to 3 measure periods"
   )
   status_tree <- data_dendro %>%
+    mutate(old_id = ifelse(period == 1, NA, old_id)) %>%
     mutate(
       tree_id =
         ifelse(
