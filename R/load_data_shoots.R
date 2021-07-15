@@ -3,6 +3,9 @@
 #' This function queries the given database to retrieve additional data on shoots to use with dendrometry data.
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @param extra_variables Should additional variables such as iufro_hght, iufro_vital, iufro_socia,
+#' remark and common_remark be added?
+#' Default is FALSE (no).
 #'
 #' @return Dataframe with shoot data
 #'
@@ -15,7 +18,16 @@
 #'
 #' @export
 #'
-load_data_shoots <- function(database) {
+load_data_shoots <- function(database, extra_variables = FALSE) {
+  add_fields <-
+    ifelse(
+      extra_variables,
+      ", Shoots.IUFROHght AS iufro_hght,
+        Shoots.IUFROVital AS iufro_vital,
+        Shoots.IUFROSocia AS iufro_socia,
+        Shoots.Remark AS remark_shoots, Shoots.CommonRemark AS common_remark_shoots",
+      ""
+    )
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
       Shoots.IDTrees%2$s AS tree_measure_id,
@@ -23,10 +35,10 @@ load_data_shoots <- function(database) {
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
       Shoots.IntactSnag AS intact_snag,
-      Shoots.DecayStage_Shoots AS decaystage
+      Shoots.DecayStage_Shoots AS decaystage %4$s
     FROM Shoots%2$s Shoots;"
 
-  data_shoots <- query_database(database, query_shoots) %>%
+  data_shoots <- query_database(database, query_shoots, add_fields = add_fields) %>%
     mutate(intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag))
 
   return(data_shoots)

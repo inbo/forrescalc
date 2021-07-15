@@ -4,10 +4,14 @@
 \alias{load_data_shoots}
 \title{retrieve data on shoots from fieldmap database}
 \usage{
-load_data_shoots(database)
+load_data_shoots(database, extra_variables = FALSE)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+
+\item{extra_variables}{Should additional variables such as iufro_hght, iufro_vital, iufro_socia,
+remark and common_remark be added?
+Default is FALSE (no).}
 }
 \value{
 Dataframe with shoot data
