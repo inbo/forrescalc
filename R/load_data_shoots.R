@@ -22,10 +22,11 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
   add_fields <-
     ifelse(
       extra_variables,
-      ", Shoots.IUFROHght AS iufro_hght,
-        Shoots.IUFROVital AS iufro_vital,
-        Shoots.IUFROSocia AS iufro_socia,
-        Shoots.Remark AS remark_shoots, Shoots.CommonRemark AS common_remark_shoots",
+      ", Shoots.IUFROHght AS iufro_hght_shoots,
+        Shoots.IUFROVital AS iufro_vital_shoots,
+        Shoots.IUFROSocia AS iufro_socia_shoots,
+        Shoots.Remark AS remark_shoots,
+        Shoots.CommonRemark AS common_remark_shoots",
       ""
     )
   query_shoots <-
