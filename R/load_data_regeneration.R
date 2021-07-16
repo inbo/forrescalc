@@ -34,7 +34,6 @@ load_data_regeneration <-
           pd.WidthCoreArea_m AS width_core_area_m,
           pd.Area_ha AS core_area_ha,
           Reg.ID AS subplot_id,
-          Reg.Plotnr AS subplot_name,
           Reg.Date AS date_regeneration,
           Reg.Year AS year_record,
           Subquery.height_class,

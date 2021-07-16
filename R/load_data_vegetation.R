@@ -34,7 +34,6 @@ load_data_vegetation <-
           pd.WidthCoreArea_m AS width_core_area_m,
           pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
-          Veg.Plotnr AS subplot_name,
           Veg.Date AS date_vegetation,
           Veg.Year AS year_record,
           Veg.Total_moss_cover AS total_moss_cover_id,
