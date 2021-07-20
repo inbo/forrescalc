@@ -47,17 +47,21 @@ query_database <-
 
   if (n_periods >= 2) {
     for (n in 2:n_periods) {
-      dataset <- dataset %>%
-        bind_rows(
-          sqlQuery(
-            con,
-            sprintf(query, n, paste0("_", n, "eSet"), selection, add_fields, conjunction),
-            stringsAsFactors = FALSE
-          ) %>%
-            mutate(
-              period = n
-            )
-        )
+      data_period_n <-
+        sqlQuery(
+          con,
+          sprintf(
+            query, n, paste0("_", n, "eSet"), selection, add_fields, conjunction
+          ),
+          stringsAsFactors = FALSE
+        ) %>%
+          mutate(
+            period = n
+          )
+      if (nrow(data_period_n) > 0) {
+        dataset <- dataset %>%
+          bind_rows(data_period_n)
+      }
     }
   }
 
