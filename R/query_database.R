@@ -34,6 +34,13 @@ query_database <-
   function(database, query, selection = "", add_fields = "", conjunction = "",
            n_periods = 3) {
 
+  #code to avoid warning in sprintf due to absence of %x in string
+  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2,]
+  absent <- as.character(2:5)[!as.character(2:5) %in% present]
+  to_insert <- paste0("%", absent, "$s")
+  query <- paste0(query, to_insert)
+  no_neset <- !"2" %in% present
+
   con <- odbcConnectAccess2007(database)
   dataset <-
     sqlQuery(
@@ -47,11 +54,12 @@ query_database <-
 
   if (n_periods >= 2) {
     for (n in 2:n_periods) {
+      n_eset <- ifelse(no_neset, "", paste0("_", n, "eSet"))
       data_period_n <-
         sqlQuery(
           con,
           sprintf(
-            query, n, paste0("_", n, "eSet"), selection, add_fields, conjunction
+            query, n, n_eset, selection, add_fields, conjunction
           ),
           stringsAsFactors = FALSE
         ) %>%
