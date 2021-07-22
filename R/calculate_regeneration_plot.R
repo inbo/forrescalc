@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot/subplot, year and number_of_tree_species
+#' @return dataframe with columns plot, subplot, year and number_of_tree_species
 #'
 #' @examples
 #' \dontrun{
