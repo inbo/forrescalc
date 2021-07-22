@@ -4,10 +4,12 @@
 \alias{calculate_vegetation_core_area_species}
 \title{aggregate vegetation parameters by core area, species and year}
 \usage{
-calculate_vegetation_core_area_species(data_herblayer)
+calculate_vegetation_core_area_species(data_herblayer, data_vegetation)
 }
 \arguments{
 \item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
+
+\item{data_vegetation}{dataframe on vegetation with variables ...}
 }
 \value{
 dataframe with columns plot, species, year (year of recording of specific species, possibly different for spring flora), number_of_subplots (= number of subplots where the species occurs), perc_of_subplots (= percentage of subplots with species), number_of_subplots_browsed, perc_of_subplots_browsed, number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed and mean_coverage_class_average_perc

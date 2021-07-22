@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, year, height_class and number_of_tree_species
+#' @return dataframe with columns plot, subplot, year, height_class and number_of_tree_species
 #'
 #' @examples
 #' \dontrun{
@@ -31,6 +31,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
+      mean_number_of_trees_ha = sum(.data$mean_number_of_trees / .data$plotarea_ha),
       min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
       max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
       rubbing_damage_perc = sum(.data$rubbing_damage_number) * 100 / sum(.data$reg_number)

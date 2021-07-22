@@ -39,7 +39,7 @@ load_data_dendrometry <-
       extra_variables,
       ", (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
-        Trees.IUFROVital AS iufro_vital, IUFROSocia AS iufro_socia,
+        Trees.IUFROVital AS iufro_vital, Trees.IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
       ""
     )
@@ -48,6 +48,7 @@ load_data_dendrometry <-
         Plots.Plottype AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
+        Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
         pd.Date_Dendro_%1$deSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
