@@ -41,9 +41,9 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% group_by_at left_join select summarise ungroup vars
+#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup vars
 #' @importFrom tidyselect all_of
-#' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom tidyr nest pivot_longer pivot_wider unnest
 #' @importFrom rlang .data
 #' @importFrom stats var
 #'
@@ -58,14 +58,47 @@ create_statistics <-
     warning("Are you sure you don't want to include period in level? Your dataset has measurements in different periods.")  #nolint
   }
 
+  for (var in variables) {
+    if (!has_name(dataset, var)) {
+      assert_that(
+        has_name(dataset, paste0("min_", var)) &
+                   has_name(dataset, paste0("max_", var)),
+        msg = paste0(
+          "The variable", var, " or related range variables min_", var,
+          "and max_", var, "are not present as column names in the dataset."
+        )
+      )
+      var_min <- paste0("min_", var)
+      var_max <- paste0("max_", var)
+      dataset <- dataset %>%
+        mutate(
+          value = (UQ(sym(var_min)) + UQ(sym(var_max))) / 2,
+          variance = ((UQ(sym(var_max)) - UQ(sym(var_min))) / (2 * 1.96)) ^ 2
+        ) %>%
+        nest("{var}" := c(value, variance)) %>%
+        select(-UQ(sym(var_min)), -UQ(sym(var_max)))
+    } else {
+      dataset <- dataset %>%
+        mutate(
+          value = UQ(sym(var)),
+          variance = NA
+        ) %>%
+        select(-UQ(sym(var))) %>%
+        nest("{var}" := c(value, variance))
+    }
+  }
+
   statistics <- dataset %>%
     select(all_of(c(level, variables))) %>%
     pivot_longer(cols = all_of(variables), names_to = "variable") %>%
+    unnest(cols = value) %>%
     group_by_at(vars(c(level, "variable"))) %>%
     summarise(
       n_obs = n(),
       mean = mean(.data$value),
-      variance = var(.data$value),
+      variance = mean(.data$variance),
+      variance =
+        ifelse(is.na(.data$variance), var(.data$value), .data$variance),
       lci = .data$mean - 1.96 * sqrt(.data$variance) / sqrt(n()),
       uci = .data$mean + 1.96 * sqrt(.data$variance) / sqrt(n())
     ) %>%
