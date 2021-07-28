@@ -33,11 +33,21 @@ read_forresdat <- function(tablename, repo_path, join_plotinfo = TRUE) {
       has_name(dataset, "plot_id"),
       msg = "No column 'plot_id' in the requested table, please add 'join_plotinfo = FALSE'"
     )
-    dataset <- dataset %>%
-      left_join(
-        read_vc(file = "data/plotinfo", root = repo),
-        by = "plot_id"
-      )
+    if (has_name(dataset, "period")) {
+      dataset <- dataset %>%
+        left_join(
+          read_vc(file = "data/plotinfo", root = repo) %>%
+            select(-.data$year),
+          by = c("plot_id", "period")
+        )
+    } else {
+      dataset <- dataset %>%
+        left_join(
+          read_vc(file = "data/plotinfo", root = repo) %>%
+            select(-.data$year),
+          by = "plot_id"
+        )
+    }
   }
   return(dataset)
 }
