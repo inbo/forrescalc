@@ -5,8 +5,9 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
-#' @param plottype possibility to select only data for a certain plot type, e.g. 'Circular plot'
-#' or 'Core area' (the default NA means that data from all plots are retrieved)
+#' @param plottype possibility to select only data for a certain plot type, e.g.
+#' 'CP' for Circular plot or 'CA' for Core area
+#' (the default NA means that data from all plots are retrieved)
 #' @param forest_reserve possibility to select only data for 1 forest reserve
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
@@ -45,7 +46,7 @@ load_data_dendrometry <-
     )
   query_dendro <-
       "SELECT Plots.ID AS plot_id,
-        Plots.Plottype AS plottype,
+        qPlotType.Value3 AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         pd.ForestReserve AS forest_reserve,
@@ -71,8 +72,9 @@ load_data_dendrometry <-
         blr.Value3 AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.TreeNumber AS tree_number %4$s
-      FROM ((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+      FROM (((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+        INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
         LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %3$s;"
 
@@ -99,19 +101,19 @@ load_data_dendrometry <-
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 20,
+          .data$plottype == "CP",
           .data$subcirclearea_ha,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30,
+          .data$plottype == "CA",
           (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$plottype == "CA" & is.na(.data$plotarea_ha),
           .data$core_area_ha,
           .data$plotarea_ha
         ),

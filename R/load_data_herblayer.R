@@ -27,7 +27,7 @@ load_data_herblayer <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_herblayer <-
         "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
+          qPlotType.Value3 AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
             AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
@@ -42,12 +42,13 @@ load_data_herblayer <-
           Herb.Coverage AS coverage_id,
           qCoverHerbs.Value2 AS coverage_class_average,
           Herb.BrowseIndex AS browse_index_id
-        FROM ((((Plots
+        FROM (((((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
           INNER JOIN Herblayer%2$s Herb
             ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%2$s)
           INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
+          INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         %3$s;"
 
   data_herblayer <-
@@ -57,19 +58,19 @@ load_data_herblayer <-
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       plotarea_ha =
         ifelse(
-          .data$plottype == 20,
+          .data$plottype == "CP",
           0.16 * 0.16,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30,
+          .data$plottype == "CA",
           (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$plottype == "CA" & is.na(.data$plotarea_ha),
           .data$core_area_ha,
           .data$plotarea_ha
         ),

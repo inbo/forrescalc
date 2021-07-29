@@ -40,7 +40,7 @@ load_data_deadwood <-
       )
   query_deadwood <-
     "SELECT Plots.ID AS plot_id,
-      Plots.Plottype AS plottype,
+      qPlotType.Value3 AS plottype,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
       pd.ForestReserve AS forest_reserve,
       pd.Date_Dendro_%1$deSet AS date_dendro,
@@ -55,8 +55,9 @@ load_data_deadwood <-
       Deadwood.CalcLength_m AS calc_length_m,
       Deadw_Diam.Distance_m AS length_m,
       Deadw_Diam.Diameter_mm AS diam_mm %4$s
-    FROM (((Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
+    FROM ((((Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
       LEFT JOIN Deadwood%2$s_Diameters Deadw_Diam
         ON Deadwood.ID = Deadw_Diam.IDDeadwood%2$s)
       WHERE Plots.ID = Deadw_Diam.IDPlots %3$s;"
@@ -82,19 +83,19 @@ load_data_deadwood <-
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(
-          .data$plottype == 20,
+          .data$plottype == "CP",
           (pi * .data$r_A4 ^ 2) / 10000,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30,
+          .data$plottype == "CA",
           .data$length_core_area_m * .data$width_core_area_m,
           .data$plotarea_ha
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$plottype == "CA" & is.na(.data$plotarea_ha),
           .data$core_area_ha,
           .data$plotarea_ha
         ),

@@ -15,8 +15,9 @@ load_data_dendrometry(
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
 
-\item{plottype}{possibility to select only data for a certain plot type, e.g. 'Circular plot'
-or 'Core area' (the default NA means that data from all plots are retrieved)}
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
 
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data

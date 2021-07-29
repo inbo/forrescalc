@@ -27,7 +27,7 @@ load_data_regeneration <-
       ifelse(grepl("WHERE", selection), "AND", "WHERE")
     query_regeneration <-
         "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
+          qPlotType.Value3 AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve, pd.rA2 AS r_A2, pd.rA1 AS r_A1,
           pd.LengthCoreArea_m AS length_core_area_m,
@@ -41,8 +41,9 @@ load_data_regeneration <-
           Subquery.number_class,
           Subquery.reg_number,
           Subquery.rubbing_damage_number
-        FROM (((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
+        FROM ((((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
+          INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
           LEFT JOIN
             (SELECT hc.HeightClass AS height_class,
               rs.Species AS species,
@@ -56,7 +57,7 @@ load_data_regeneration <-
                 AND hc.ID = rs.IDHeightClass%2$s) AS Subquery
             ON Reg.ID = Subquery.IDRegeneration%2$s
             AND Reg.IDPlots = Subquery.IDPlots) %3$s
-        %5$s Reg.Date Is Not Null OR Reg.Year Is Not Null;"
+        %5$s (Reg.Date Is Not Null OR Reg.Year Is Not Null);"
 
   number_classes <-
     data.frame(
@@ -92,19 +93,19 @@ load_data_regeneration <-
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 20,
+          .data$plottype == "CP",
           .data$subcirclearea_ha,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30,
+          .data$plottype == "CA",
           (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$plottype == "CA" & is.na(.data$plotarea_ha),
           .data$core_area_ha,
           .data$plotarea_ha
         ),

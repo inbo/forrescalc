@@ -13,11 +13,9 @@
 translate_input_to_selectionquery <-
   function(database, plottype, forest_reserve) {
     if (!is.na(plottype)) {
-      check_input(plottype, database, "qPlotType", "Value2")
+      check_input(plottype, database, "qPlotType", "Value3")
       selection <-
-        paste0(
-          " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
-          " WHERE qPlotType.Value2 in ('", plottype, "')")
+        paste0(" WHERE qPlotType.Value3 in ('", plottype, "')")
     } else {
       selection <- ""
     }

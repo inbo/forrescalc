@@ -27,7 +27,7 @@ load_data_vegetation <-
       translate_input_to_selectionquery(database, plottype, forest_reserve)
     query_vegetation <-
         "SELECT Plots.ID AS plot_id,
-          Plots.Plottype AS plottype,
+          qPlotType.Value3 AS plottype,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
@@ -42,9 +42,10 @@ load_data_vegetation <-
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
           Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
-        FROM ((Plots
+        FROM (((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
+          INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         %3$s;"
 
     query_total_cover <-
@@ -71,19 +72,19 @@ load_data_vegetation <-
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       plotarea_ha =
         ifelse(
-          .data$plottype == 20,
+          .data$plottype == "CP",
           0.16 * 0.16,
           NA
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30,
+          .data$plottype == "CA",
           (.data$length_core_area_m * .data$width_core_area_m) / 10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
         ifelse(
-          .data$plottype == 30 & is.na(.data$plotarea_ha),
+          .data$plottype == "CA" & is.na(.data$plotarea_ha),
           .data$core_area_ha,
           .data$plotarea_ha
         ),

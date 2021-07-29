@@ -24,14 +24,16 @@
 load_plotinfo <- function(database) {
   query_plot <-
     "SELECT Plots.ID AS plot_id,
-      Plots.Plottype AS plottype,
+      qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
       pd.Survey_Trees_YN AS survey_trees,
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.DataProcessed_YN AS data_processed
-    FROM Plots INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
+    FROM (Plots
+      INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   plotinfo <-
     query_database(database, query_plot) %>%
