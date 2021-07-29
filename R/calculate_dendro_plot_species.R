@@ -57,7 +57,7 @@ calculate_dendro_plot_species <- function(data_dendro_calc, data_deadwood) {
     mutate(
       vol_log_m3_ha =
         ifelse(
-          is.na(.data$vol_log_m3_ha) & .data$plottype %in% c(20, 30) &
+          is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
             !is.na(.data$vol_alive_m3_ha),
           0, .data$vol_log_m3_ha
         ),

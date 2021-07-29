@@ -23,7 +23,7 @@
 check_data_trees <- function(database) {
   query_trees <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype AS plottype,
+      qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -39,7 +39,8 @@ check_data_trees <- function(database) {
       Trees.TreeNumber AS tree_number,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2
-    FROM Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots;"
+    FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots <-
     "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
@@ -47,7 +48,7 @@ check_data_trees <- function(database) {
 
   query_trees2 <-
     "SELECT Trees.IDPlots,
-      Plots.Plottype AS plottype,
+      qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -64,7 +65,8 @@ check_data_trees <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
-    FROM Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots;"
+    FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots2 <-
     "SELECT IDPlots,
@@ -100,20 +102,20 @@ check_data_trees <- function(database) {
     mutate(
       problem =
         ifelse(
-          .data$plottype == 20 & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
+          .data$plottype == "CP" & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
           "tree not in A4",
           NA
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$alive_dead == 11 & .data$dbh_mm < 400 &
+          .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
-          .data$plottype == 20 & .data$alive_dead == 12 & .data$dbh_mm < 100 &
+          .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
           "tree not in A3",
           .data$problem

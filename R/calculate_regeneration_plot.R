@@ -23,7 +23,7 @@
 calculate_regeneration_plot <- function(data_regeneration) {
   by_plot <- data_regeneration %>%
     mutate(
-      plotarea_ha = ifelse(.data$plottype == 30, 0.01, .data$plotarea_ha)
+      plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha)
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$subplot_id

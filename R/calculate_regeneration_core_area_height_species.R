@@ -13,7 +13,7 @@
 #' data_regeneration_CA <-
 #'   load_data_regeneration(
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'     plottype = "Core area"
+#'     plottype = "CA"
 #'   )
 #' calculate_regeneration_core_area_height_species(data_regeneration_CA)
 #' }
