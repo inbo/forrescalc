@@ -6,7 +6,7 @@
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
+#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of survey of specific species, different for spring flora and other flora in the same plot), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
 #'
 #' @examples
 #' \dontrun{
@@ -28,14 +28,15 @@ load_data_herblayer <-
     query_herblayer <-
         "SELECT Plots.ID AS plot_id,
           Plots.Plottype AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
           pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
-          Herb.Deviating_date AS deviating_date,
-          Veg.Date AS date_vegetation,
+          IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date)
+            AS date_vegetation,
           Veg.Year AS year_record,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
@@ -52,12 +53,7 @@ load_data_herblayer <-
   data_herblayer <-
     query_database(database, query_herblayer, selection = selection) %>%
     mutate(
-      year =
-        ifelse(
-          is.na(.data$deviating_date),
-          year(.data$date_vegetation),
-          year(.data$deviating_date)
-        ),
+      year = year(.data$date_vegetation),
       year = ifelse(is.na(.data$year), .data$year_record, .data$year),
       plotarea_ha =
         ifelse(
