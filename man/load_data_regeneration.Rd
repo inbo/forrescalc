@@ -29,6 +29,10 @@ This function queries the given database to retrieve data on regeneration (ready
 #change path before running
 library(forrescalc)
 load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+load_data_regeneration(
+  "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+  plottype = "CP"
+)
 }
 
 }
