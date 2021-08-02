@@ -19,7 +19,7 @@ by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 }
 \value{
-Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_record (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_record), ....
+Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_main_survey (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_main_survey), ....
 }
 \description{
 This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
