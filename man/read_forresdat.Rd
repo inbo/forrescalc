@@ -4,7 +4,12 @@
 \alias{read_forresdat}
 \title{load tables from git repository forresdat}
 \usage{
-read_forresdat(tablename, repo_path, join_plotinfo = TRUE)
+read_forresdat(
+  tablename,
+  repo_path,
+  join_plotinfo = TRUE,
+  plottype = c("CP", "CA")
+)
 }
 \arguments{
 \item{tablename}{name of the table that should be read}
@@ -15,6 +20,10 @@ read_forresdat(tablename, repo_path, join_plotinfo = TRUE)
 add columns plottype and forest_reserve?  Default is TRUE.  (This is only
 possible if the given table contains a column plot_id, so this parameter
 should be put FALSE if this column is absent.)}
+
+\item{plottype}{Data of which 'plottype' (used method) should be retrieved?
+Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area' could be
+chosen.}
 }
 \value{
 A dataframe with the specified table, default columns plottype and forest_reserve.
