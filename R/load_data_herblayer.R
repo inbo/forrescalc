@@ -1,12 +1,12 @@
 #' retrieve species specific vegetation data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")
+#' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_main_survey refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")
 #'
 #'
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of survey of specific species, different for spring flora and other flora in the same plot), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
+#' @return Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of survey of specific species, different for spring flora and other flora in the same plot), year_main_survey (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
 #'
 #' @examples
 #' \dontrun{
@@ -37,7 +37,7 @@ load_data_herblayer <-
           Veg.ID AS subplot_id,
           IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date)
             AS date_vegetation,
-          Veg.Year AS year_record,
+          Veg.Year AS year_main_survey,
           Herb.Species as species,
           Herb.Coverage AS coverage_id,
           qCoverHerbs.Value2 AS coverage_class_average,
@@ -55,7 +55,7 @@ load_data_herblayer <-
     query_database(database, query_herblayer, selection = selection) %>%
     mutate(
       year = year(.data$date_vegetation),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       plotarea_ha =
         ifelse(
           .data$plottype == "CP",

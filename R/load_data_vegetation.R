@@ -4,7 +4,7 @@
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_record (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_record), ....
+#' @return Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_main_survey (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_main_survey), ....
 #'
 #'
 #' @examples
@@ -35,7 +35,7 @@ load_data_vegetation <-
           pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
           Veg.Date AS date_vegetation,
-          Veg.Year AS year_record,
+          Veg.Year AS year_main_survey,
           Veg.Total_moss_cover AS total_moss_cover_id,
           Veg.Total_herb_cover AS total_herb_cover_id,
           Veg.Total_shrub_cover AS total_shrub_cover_id,
@@ -69,7 +69,7 @@ load_data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
     mutate(
       year = year(.data$date_vegetation),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       plotarea_ha =
         ifelse(
           .data$plottype == "CP",

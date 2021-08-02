@@ -35,7 +35,7 @@ load_data_regeneration <-
           pd.Area_ha AS core_area_ha,
           Reg.ID AS subplot_id,
           Reg.Date AS date_regeneration,
-          Reg.Year AS year_record,
+          Reg.Year AS year_main_survey,
           Subquery.height_class,
           Subquery.species,
           Subquery.number_class,
@@ -74,7 +74,7 @@ load_data_regeneration <-
                    selection = selection, conjunction = conjunction) %>%
     mutate(
       year = year(.data$date_regeneration),
-      year = ifelse(is.na(.data$year), .data$year_record, .data$year),
+      year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       subcircle =
         ifelse(
           .data$height_class %in% c(3000, 4000, 6000, 7000, 8000),
