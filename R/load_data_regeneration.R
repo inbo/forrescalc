@@ -150,7 +150,9 @@ load_data_regeneration <-
           is.na(.data$max_number_of_trees) & is.na(.data$species),
           0,
           .data$max_number_of_trees
-        )
+        ),
+      mid_number_of_trees =
+        (.data$min_number_of_trees + .data$max_number_of_trees) / 2
     )
 
   return(data_regeneration)

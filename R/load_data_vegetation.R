@@ -130,6 +130,17 @@ load_data_vegetation <-
       soildisturbance_game_cover_interval = .data$cover_interval,
       soildisturbance_game_cover_min = .data$min_cover,
       soildisturbance_game_cover_max = .data$max_cover
+    ) %>%
+    mutate(
+      moss_cover_mid = (.data$moss_cover_min + .data$moss_cover_max) / 2,
+      herb_cover_mid = (.data$herb_cover_min + .data$herb_cover_max) / 2,
+      shrub_cover_mid = (.data$shrub_cover_min + .data$shrub_cover_max) / 2,
+      tree_cover_mid = (.data$tree_cover_min + .data$tree_cover_max) / 2,
+      waterlayer_cover_mid =
+        (.data$waterlayer_cover_min + .data$waterlayer_cover_max) / 2,
+      soildisturbance_game_cover_mid =
+        (.data$soildisturbance_game_cover_min +
+           .data$soildisturbance_game_cover_max) / 2
     )
 
   return(data_vegetation)
