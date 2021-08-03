@@ -69,7 +69,7 @@ load_data_regeneration <-
       number_class =
         c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
       min_number_of_trees = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
-      max_number_of_trees = c(1, 5, 10, 20, 40, 60, 100, 1000, NA),
+      max_number_of_trees = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000),
       stringsAsFactors = FALSE
     )
 
