@@ -10,14 +10,14 @@ library(readr)
 class_data <-
   data.frame(
     var_name =
-      c("nr_seedlings", "moss_cover", "herb_cover", "shrub_cover",
+      c("number_of_regeneration", "moss_cover", "herb_cover", "shrub_cover",
         "tree_cover", "waterlayer_cover", "soildisturbance_game_cover"),
     var_min =
-      c("min_nr_seedlings", "moss_cover_min", "herb_cover_min",
+      c("min_number_of_regeneration", "moss_cover_min", "herb_cover_min",
         "shrub_cover_min", "tree_cover_min", "waterlayer_cover_min",
         "soildisturbance_game_cover_min"),
     var_max =
-      c("max_nr_seedlings", "moss_cover_max", "herb_cover_max",
+      c("max_number_of_regeneration", "moss_cover_max", "herb_cover_max",
         "shrub_cover_max", "tree_cover_max", "waterlayer_cover_max",
         "soildisturbance_game_cover_max"),
     preferred_transformation = c("log", "log", NA, "log", NA, "log", "log")

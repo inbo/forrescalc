@@ -1,5 +1,5 @@
 var_name;var_min;var_max;preferred_transformation
-nr_seedlings;min_nr_seedlings;max_nr_seedlings;log
+number_of_regeneration;min_number_of_regeneration;max_number_of_regeneration;log
 moss_cover;moss_cover_min;moss_cover_max;log
 herb_cover;herb_cover_min;herb_cover_max;NA
 shrub_cover;shrub_cover_min;shrub_cover_max;log
