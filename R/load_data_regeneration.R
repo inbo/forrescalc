@@ -43,7 +43,7 @@ load_data_regeneration <-
           Subquery.height_class,
           Subquery.species,
           Subquery.number_class,
-          Subquery.reg_number,
+          Subquery.nr_of_regeneration,
           Subquery.rubbing_damage_number
         FROM ((((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
@@ -52,7 +52,7 @@ load_data_regeneration <-
             (SELECT hc.HeightClass AS height_class,
               rs.Species AS species,
               rs.NumberClass AS number_class,
-              rs.Number AS reg_number,
+              rs.Number AS nr_of_regeneration,
               rs.GameDamage_number AS rubbing_damage_number,
               hc.IDRegeneration%2$s, hc.IDPlots
             FROM HeightClass%2$s hc INNER JOIN RegSpecies%2$s rs
@@ -68,8 +68,8 @@ load_data_regeneration <-
       id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       number_class =
         c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
-      min_number_of_trees = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
-      max_number_of_trees = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000),
+      min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
+      max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000),
       stringsAsFactors = FALSE
     )
 
@@ -119,7 +119,7 @@ load_data_regeneration <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$reg_number
+      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$nr_of_regeneration
     ) %>%
     left_join(
       number_classes %>%
@@ -127,32 +127,14 @@ load_data_regeneration <-
       by = c("number_class" = "id")
     ) %>%
     mutate(
-      min_number_of_trees =
+      nr_of_regeneration =
         ifelse(
-          is.na(.data$min_number_of_trees),
-          .data$reg_number,
-          .data$min_number_of_trees
-        ),
-      max_number_of_trees =
-        ifelse(
-          is.na(.data$max_number_of_trees),
-          .data$reg_number,
-          .data$max_number_of_trees
-        ),
-      min_number_of_trees =
-        ifelse(
-          is.na(.data$min_number_of_trees) & is.na(.data$species),
+          is.na(.data$nr_of_regeneration) & is.na(.data$species),
           0,
-          .data$min_number_of_trees
+          .data$nr_of_regeneration
         ),
-      max_number_of_trees =
-        ifelse(
-          is.na(.data$max_number_of_trees) & is.na(.data$species),
-          0,
-          .data$max_number_of_trees
-        ),
-      mid_number_of_trees =
-        (.data$min_number_of_trees + .data$max_number_of_trees) / 2
+      mid_number_of_regeneration =
+        (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2
     )
 
   return(data_regeneration)
