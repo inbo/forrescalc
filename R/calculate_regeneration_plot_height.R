@@ -1,10 +1,17 @@
 #' calculate species number by plot, tree height class and year
 #'
-#' This function calculates for each plot, tree height class and year the number of species, total number of trees and rubbing damage percentage for regeneration.  For core area plots, these variables are calculated for each subplot.
+#' This function calculates for each plot, tree height class and year
+#' the number of species, total number of regeneration (or interval with mean
+#' and confidence interval) and rubbing damage percentage for regeneration.
+#' For core area plots, these variables are calculated for each subplot.
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, year, height_class and number_of_tree_species
+#' @return dataframe with columns plot_id, year, period, height_class,
+#' number_of_tree_species, rubbing_damage_perc,
+#' nr_of_regeneration (in case exact numbers are observed),
+#' mean_number_of_regeneration (in case intervals are observed),
+#' lci_number_of_regeneration and uci_number_of_regeneration.
 #'
 #' @examples
 #' \dontrun{
@@ -27,15 +34,38 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$height_class,
-      .data$subplot_id
+      .data$subplot_id, .data$plotarea_ha
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
-      min_number_of_trees_ha = sum(.data$min_number_of_trees / .data$plotarea_ha),
-      max_number_of_trees_ha = sum(.data$max_number_of_trees / .data$plotarea_ha),
-      rubbing_damage_perc = sum(.data$rubbing_damage_number) * 100 / sum(.data$reg_number)
+      rubbing_damage_perc =
+        sum(.data$rubbing_damage_number) * 100 /
+            sum(.data$nr_of_regeneration, na.rm = TRUE),
+      nr_of_regeneration_ha =
+        sum(.data$nr_of_regeneration, na.rm = TRUE) / unique(.data$plotarea_ha),
+      not_na_regeneration = sum(!is.na(.data$nr_of_regeneration)),
+      interval =
+        sum_intervals(
+          var_min = .data$min_number_of_regeneration,
+          var_max = .data$max_number_of_regeneration,
+          transformation = "log", na_rm = TRUE
+        )
     ) %>%
-    ungroup()
+    ungroup() %>%
+    mutate(
+      nr_of_regeneration_ha =
+        ifelse(
+          .data$not_na_regeneration > 0 & .data$nr_of_regeneration_ha > 0,
+          .data$nr_of_regeneration_ha,
+          NA
+        ),
+      mean_number_of_regeneration_ha = .data$interval$sum / .data$plotarea_ha,
+      lci_number_of_regeneration_ha = .data$interval$lci / .data$plotarea_ha,
+      uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha
+    ) %>%
+    select(
+      -.data$interval, -.data$plotarea_ha, -.data$not_na_regeneration
+    )
 
   return(by_plot_height)
 }
