@@ -45,7 +45,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_seedlings_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
-               .data$max_number_of_regeneration / .data$plotarea_ha, NA),
+               .data$max_number_of_regeneration / .data$plotarea_ha, NA)
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$subplot_id
