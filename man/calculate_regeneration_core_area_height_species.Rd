@@ -11,10 +11,18 @@ calculate_regeneration_core_area_height_species(data_regeneration)
 \item{data_regeneration}{dataframe on tree regeneration with variables ...}
 }
 \value{
-dataframe with columns plot, species, year, height, min_number_of_trees_ha, max_number_of_trees_ha, number_of_subplots_with_regeneration and perc_subplots_with_regeneration
+dataframe with columns plot, species, year, height,
+number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
+rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
+observed), mean_number_of_regeneration_ha (in case intervals are observed),
+lci_number_of_regeneration_ha and uci_number_of_regeneration_ha.
 }
 \description{
-This function calculates for each plot, height, species and year the number of trees per ha, and the number and percentage of subplots in which the species is regenerating. This calculation is designed for core areas, that consist of different subplots.
+This function calculates for each plot, height, species and year the number
+of regeneration per ha (or interval with mean and confidence interval), and
+the number and percentage of subplots in which the species is regenerating.
+This calculation is designed for core areas, that consist of different
+subplots.
 }
 \examples{
 \dontrun{
