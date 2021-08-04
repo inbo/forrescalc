@@ -7,10 +7,16 @@
 calculate_regeneration_plot(data_regeneration)
 }
 \arguments{
-\item{data_regeneration}{dataframe on tree regeneration with variables ...}
+\item{data_regeneration}{dataframe on tree regeneration with variables
+plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
+rubbing_damage_number, period, year, subcircle, plotarea_ha,
+min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
-dataframe with columns plot, year and number_of_tree_species
+dataframe with columns plot, year, period, number_of_tree_species,
+nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
+lci_number_established_ha, uci_number_established_ha,
+mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha.
 }
 \description{
 This function calculates for each plot and year the number of species, total

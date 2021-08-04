@@ -7,14 +7,17 @@
 calculate_regeneration_core_area_species(data_regeneration)
 }
 \arguments{
-\item{data_regeneration}{dataframe on tree regeneration with variables ...}
+\item{data_regeneration}{dataframe on tree regeneration with variables
+plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
+rubbing_damage_number, period, year, subcircle, plotarea_ha,
+min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
 dataframe with columns plot, species, year,
 number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
 nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
 lci_number_established_ha, uci_number_established_ha,
-mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha
+mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha.
 }
 \description{
 This function calculates for each plot, species and year the number of

@@ -8,7 +8,10 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, year and number_of_tree_species
+#' @return dataframe with columns plot, year, period, number_of_tree_species,
+#' nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
+#' lci_number_established_ha, uci_number_established_ha,
+#' mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha.
 #'
 #' @examples
 #' \dontrun{

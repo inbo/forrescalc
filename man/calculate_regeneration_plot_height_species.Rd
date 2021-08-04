@@ -7,10 +7,16 @@
 calculate_regeneration_plot_height_species(data_regeneration)
 }
 \arguments{
-\item{data_regeneration}{dataframe on tree regeneration with variables ...}
+\item{data_regeneration}{dataframe on tree regeneration with variables
+plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
+rubbing_damage_number, period, year, subcircle, plotarea_ha,
+min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
-dataframe with columns plot, year, height_class, species and number_of_trees_ha
+dataframe with columns plot, year, height_class, species,
+rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
+observed), mean_number_of_regeneration_ha (in case intervals are observed),
+lci_number_of_regeneration_ha and uci_number_of_regeneration_ha.
 }
 \description{
 This function calculates for each plot, tree height class, species and year

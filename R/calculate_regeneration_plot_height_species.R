@@ -7,7 +7,10 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, year, height_class, species and number_of_trees_ha
+#' @return dataframe with columns plot, year, height_class, species,
+#' rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
+#' observed), mean_number_of_regeneration_ha (in case intervals are observed),
+#' lci_number_of_regeneration_ha and uci_number_of_regeneration_ha.
 #'
 #' @examples
 #' \dontrun{
