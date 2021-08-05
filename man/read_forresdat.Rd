@@ -31,6 +31,10 @@ A dataframe with the specified table, default columns plottype and forest_reserv
 \description{
 This function reads a table in git2rdata format from git repository forresdat
 (or another git repository dependent on the given repo path).
+Data available in forresdat only contain observations, so no records with
+zero values are added for for instance species that were not observed and
+hence absent.
+These zero value records can easily be added by using function `add_zeros()`.
 }
 \examples{
 \dontrun{
