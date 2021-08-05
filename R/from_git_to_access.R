@@ -5,6 +5,7 @@
 #' @inheritParams from_access_to_git
 #' @inheritParams load_data_dendrometry
 #' @inheritParams save_results_git
+#' @inheritParams save_results_access
 #'
 #' @return No value is returned, the tables are saved in the access database.
 #'
@@ -24,12 +25,19 @@
 #' )
 #' }
 #'
-from_git_to_access <- function(tables, repo_path, database) {
+from_git_to_access <-
+  function(tables, repo_path, database, remove_tables = FALSE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   con <- odbcConnectAccess2007(database)
   for (tablename in tables) {
     dataset <- read_vc(file = paste0("data/", tablename), root = repo)
+    if (remove_tables) {
+      dbtables <- sqlTables(con)
+      if (tablename %in% dbtables$TABLE_NAME) {
+        sqlDrop(con, tablename)
+      }
+    }
     sqlSave(con, dataset, tablename = tablename)
   }
   odbcClose(con)
