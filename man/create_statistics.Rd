@@ -9,6 +9,7 @@ create_statistics(
   level = c("period", "forest_reserve"),
   variables,
   include_year_range = FALSE,
+  na_rm = FALSE,
  
     interval_information = suppressMessages(read_csv2(system.file("extdata/class_data.csv",
     package = "forrescalc")))
@@ -22,6 +23,9 @@ create_statistics(
 \item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
 
 \item{include_year_range}{Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.}
+
+\item{na_rm}{Should NA values in the dataset be ignored?  Defaults to FALSE.
+If TRUE, levels without any non NA data are kept (resulting in NA values).}
 
 \item{interval_information}{overview of names for interval data,
 including columns `var_name` (= name for output), `var_min` and `var_max`

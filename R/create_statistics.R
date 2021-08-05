@@ -27,6 +27,8 @@
 #' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.
 #' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
 #' @param include_year_range Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.
+#' @param na_rm Should NA values in the dataset be ignored?  Defaults to FALSE.
+#' If TRUE, levels without any non NA data are kept (resulting in NA values).
 #' @param interval_information overview of names for interval data,
 #' including columns `var_name` (= name for output), `var_min` and `var_max`
 #' (= names for minimum and maximum value in input dataset), and
@@ -69,7 +71,7 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup vars
+#' @importFrom dplyr %>% distinct filter group_by_at left_join mutate select summarise right_join ungroup vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr nest pivot_longer pivot_wider unnest
 #' @importFrom readr read_csv2
@@ -79,7 +81,7 @@
 create_statistics <-
   function(
     dataset, level = c("period", "forest_reserve"), variables,
-    include_year_range = FALSE,
+    include_year_range = FALSE, na_rm = FALSE,
     interval_information =
       suppressMessages(
         read_csv2(system.file("extdata/class_data.csv", package = "forrescalc"))
@@ -151,11 +153,22 @@ create_statistics <-
     }
   }
 
-  statistics <- dataset %>%
-    #select(all_of(c(level, variables))) %>%
+  dataset <- dataset %>%
     select(all_of(level), all_of(variables)) %>%
     pivot_longer(cols = all_of(variables), names_to = "variable") %>%
-    unnest(cols = .data$value) %>%
+    unnest(cols = .data$value)
+  if (na_rm) {
+    dataset <- dataset %>%
+      filter(!is.na(.data$value)) %>%
+      right_join(
+        dataset %>%
+          select(all_of(level), .data$variable, .data$logaritmic) %>%
+          distinct(),
+        by = c(level, "variable", "logaritmic")
+      )
+  }
+
+  statistics <- dataset %>%
     group_by_at(vars(c(level, "variable"))) %>%
     summarise(
       n_obs = n(),
