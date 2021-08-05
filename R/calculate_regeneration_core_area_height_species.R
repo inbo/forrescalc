@@ -44,8 +44,10 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
         .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
-      rubbing_damage_perc = sum(.data$rubbing_damage_number) * 100 /
-        sum(.data$nr_of_regeneration, na.rm = TRUE),
+      rubbing_damage_perc =
+        sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
+        sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
+      not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc)),
       nr_of_regeneration_ha =
         sum(.data$nr_of_regeneration, na.rm = TRUE) / unique(.data$plotarea_ha),
       not_na_regeneration = sum(!is.na(.data$nr_of_regeneration)),
@@ -66,10 +68,17 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
         ),
       mean_number_of_regeneration_ha = .data$interval$sum / .data$plotarea_ha,
       lci_number_of_regeneration_ha = .data$interval$lci / .data$plotarea_ha,
-      uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha
+      uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha,
+      rubbing_damage_perc =
+        ifelse(
+          .data$not_na_rubbing > 0 & .data$rubbing_damage_perc > 0,
+          .data$rubbing_damage_perc,
+          NA
+        )
     ) %>%
     select(
-      -.data$interval, -.data$plotarea_ha, -.data$not_na_regeneration
+      -.data$interval, -.data$plotarea_ha, -.data$not_na_regeneration,
+      -.data$not_na_rubbing
     )
 
   return(by_plot_species)

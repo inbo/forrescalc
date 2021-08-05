@@ -70,7 +70,11 @@ calculate_regeneration_plot <- function(data_regeneration) {
           var_min = .data$min_number_seedlings_ha,
           var_max = .data$max_number_seedlings_ha,
           transformation = "log", na_rm = TRUE
-        )
+        ),
+      rubbing_damage_perc =
+        sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
+        sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
+      not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc))
     ) %>%
     ungroup() %>%
     mutate(
@@ -91,11 +95,17 @@ calculate_regeneration_plot <- function(data_regeneration) {
         ),
       mean_number_seedlings_ha = .data$seedlings_interval$sum,
       lci_number_seedlings_ha = .data$seedlings_interval$lci,
-      uci_number_seedlings_ha = .data$seedlings_interval$uci
+      uci_number_seedlings_ha = .data$seedlings_interval$uci,
+      rubbing_damage_perc =
+        ifelse(
+          .data$not_na_rubbing > 0 & .data$rubbing_damage_perc > 0,
+          .data$rubbing_damage_perc,
+          NA
+        )
     ) %>%
     select(
       -.data$established_interval, -.data$not_na_established,
-      -.data$seedlings_interval, -.data$not_na_seedlings
+      -.data$seedlings_interval, -.data$not_na_seedlings, -.data$not_na_rubbing
     )
 
   return(by_plot)
