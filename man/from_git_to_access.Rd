@@ -22,7 +22,8 @@ is explicitly put on TRUE.}
 No value is returned, the tables are saved in the access database.
 }
 \description{
-This function loads one or more tables from  a git repository and saves them in an access database.
+This function loads one or more tables from  a git repository and saves them
+in an access database.
 }
 \examples{
 \dontrun{

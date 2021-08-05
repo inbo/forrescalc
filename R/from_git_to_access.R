@@ -1,6 +1,7 @@
 #' copy table(s) from git repository to access db
 #'
-#' This function loads one or more tables from  a git repository and saves them in an access database.
+#' This function loads one or more tables from  a git repository and saves them
+#' in an access database.
 #'
 #' @inheritParams from_access_to_git
 #' @inheritParams load_data_dendrometry
@@ -12,7 +13,7 @@
 #' @export
 #'
 #' @importFrom git2rdata pull repository read_vc
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlSave
+#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlDrop sqlSave sqlTables
 #'
 #' @examples
 #' \dontrun{
