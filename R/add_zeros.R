@@ -52,7 +52,7 @@ add_zeros <-
   )
   if (!all(sapply(dataset %>%
                   select(-all_of(c(comb_vars, grouping_vars))), is.numeric))) {
-    stop("All dataset columns whose names are not ")  #nolint
+    stop("All dataset columns whose names are not added to comb_vars or grouping_vars, should be numeric")  #nolint
   }
 
   if (length(comb_vars) >= 1) {
