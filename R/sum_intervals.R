@@ -23,6 +23,8 @@
 #' @importFrom rlang .data := sym
 #' @importFrom stats var
 #'
+#' @noRd
+#'
 sum_intervals <-
   function(var_min, var_max, transformation = NA, na_rm = FALSE) {
 
