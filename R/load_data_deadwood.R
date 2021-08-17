@@ -24,9 +24,14 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_deadwood <-
-  function(database, plottype = NA, forest_reserve = NA, extra_variables = FALSE) {
+  function(database, plottype = NA, forest_reserve = NA,
+           extra_variables = FALSE, processed = TRUE) {
     selection <-
-      translate_input_to_selectionquery(database, plottype, forest_reserve)
+      translate_input_to_selectionquery(
+        database = database, plottype = plottype,
+        forest_reserve = forest_reserve, processed = processed,
+        survey_name = "Survey_Deadwood_YN"
+      )
     selection <-
       ifelse(
         selection == "", selection,

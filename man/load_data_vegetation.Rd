@@ -4,7 +4,12 @@
 \alias{load_data_vegetation}
 \title{retrieve vegetation data from fieldmap database}
 \usage{
-load_data_vegetation(database, plottype = NA, forest_reserve = NA)
+load_data_vegetation(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  processed = TRUE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -17,6 +22,9 @@ structure) including path}
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_main_survey (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_main_survey), ....

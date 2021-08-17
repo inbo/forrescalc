@@ -6,12 +6,15 @@
 #' final part of a query.  This query can contain a join!
 #'
 #' @inheritParams load_data_dendrometry
+#' @param survey_name column name in table PlotDetails_xeSet that indicates if
+#' survey is done
+#'
+#' @importFrom assertthat assert_that
 #'
 #' @noRd
 #'
-#'
 translate_input_to_selectionquery <-
-  function(database, plottype, forest_reserve) {
+  function(database, plottype, forest_reserve, processed, survey_name) {
     if (!is.na(plottype)) {
       check_input(plottype, database, "qPlotType", "Value3")
       selection <-
@@ -27,6 +30,13 @@ translate_input_to_selectionquery <-
       selection <- ifelse(selection == "", "WHERE", paste(selection, "AND"))
       selection <-
         paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
+    }
+    assert_that(is.logical(processed))
+    if (processed) {
+      selection <- ifelse(selection == "", "WHERE", paste(selection, "AND"))
+      selection <-
+        paste0(selection, " pd.DataProcessed_YN = 10 AND pd.", survey_name,
+               " = 10")
     }
     return(selection)
 }

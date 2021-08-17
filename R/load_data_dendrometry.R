@@ -15,6 +15,8 @@
 #' x_m, y_m,
 #' coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 #' Default is FALSE (no).
+#' @param processed Should only processed and surveyed data be added?
+#' Defaults to TRUE (yes).
 #'
 #' @return Dataframe with dendrometry data
 #'
@@ -32,9 +34,13 @@
 #' @importFrom lubridate round_date year
 #'
 load_data_dendrometry <-
-  function(database, plottype = NA, forest_reserve = NA, extra_variables = FALSE) {
+  function(database, plottype = NA, forest_reserve = NA,
+           extra_variables = FALSE, processed = TRUE) {
   selection <-
-    translate_input_to_selectionquery(database, plottype, forest_reserve)
+    translate_input_to_selectionquery(
+      database = database, plottype = plottype, forest_reserve = forest_reserve,
+      processed = processed, survey_name = "Survey_Trees_YN"
+    )
   add_fields <-
     ifelse(
       extra_variables,

@@ -8,7 +8,8 @@ load_data_deadwood(
   database,
   plottype = NA,
   forest_reserve = NA,
-  extra_variables = FALSE
+  extra_variables = FALSE,
+  processed = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ from all plots are retrieved)}
 \item{extra_variables}{Should additional variables such as
 remark and common_remark be added?
 Default is FALSE (no).}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with data on logs

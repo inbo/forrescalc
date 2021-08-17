@@ -8,7 +8,8 @@ load_data_dendrometry(
   database,
   plottype = NA,
   forest_reserve = NA,
-  extra_variables = FALSE
+  extra_variables = FALSE,
+  processed = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ from all plots are retrieved)}
 x_m, y_m,
 coppice_id, iufro_hght, iufro_vital, iufro_socia, remark and common_remark be added?
 Default is FALSE (no).}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with dendrometry data

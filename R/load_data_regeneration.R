@@ -24,9 +24,13 @@
 #' @importFrom lubridate year
 #'
 load_data_regeneration <-
-  function(database, plottype = NA, forest_reserve = NA) {
+  function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
     selection <-
-      translate_input_to_selectionquery(database, plottype, forest_reserve)
+      translate_input_to_selectionquery(
+        database = database, plottype = plottype,
+        forest_reserve = forest_reserve, processed = processed,
+        survey_name = "Survey_Regeneration_YN"
+      )
     conjunction <-
       ifelse(grepl("WHERE", selection), "AND", "WHERE")
     query_regeneration <-

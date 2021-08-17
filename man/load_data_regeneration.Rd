@@ -4,7 +4,12 @@
 \alias{load_data_regeneration}
 \title{retrieve regeneration data from fieldmap database}
 \usage{
-load_data_regeneration(database, plottype = NA, forest_reserve = NA)
+load_data_regeneration(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  processed = TRUE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -17,6 +22,9 @@ structure) including path}
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with regeneration data
