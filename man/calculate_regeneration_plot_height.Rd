@@ -10,7 +10,7 @@ calculate_regeneration_plot_height(data_regeneration)
 \item{data_regeneration}{dataframe on tree regeneration with variables ...}
 }
 \value{
-dataframe with columns plot/subplot, year, height_class and number_of_tree_species
+dataframe with columns plot, subplot, year, height_class and number_of_tree_species
 }
 \description{
 This function calculates for each plot, tree height class and year the number of species, total number of trees and rubbing damage percentage for regeneration.  For core area plots, these variables are calculated for each subplot.
