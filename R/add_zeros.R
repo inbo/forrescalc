@@ -43,11 +43,11 @@ add_zeros <-
   ) {
 
   assert_that(
-    has_name(dataset, comb_vars),
+    all(has_name(dataset, comb_vars)),
     msg =  "dataset should contain all variables from comb_vars as column names"
   )
   assert_that(
-    has_name(dataset, grouping_vars),
+    all(has_name(dataset, grouping_vars)),
     msg =  "dataset should contain all variables from grouping_vars as column names"
   )
   if (!all(sapply(dataset %>%
