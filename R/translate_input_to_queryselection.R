@@ -24,11 +24,7 @@ translate_input_to_selectionquery <-
         forest_reserve, database, "PlotDetails_1eSet", "ForestReserve",
         "PlotDetails_2eSet"
       )
-      if (selection == "") {
-        selection <- "WHERE"
-      } else {
-        selection <- paste(selection, "AND")
-      }
+      selection <- ifelse(selection == "", "WHERE", paste(selection, "AND"))
       selection <-
         paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
     }
