@@ -11,6 +11,11 @@
 #' @param dataset data.frame in which records should be added
 #' @param comb_vars variables (given as a vector of strings) of which all combinations of their values should have a record in the dataset.
 #' @param grouping_vars one or more variables for which the combination of values of the variables given in `comb_vars` should be made for each value, e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"), all combinations of the values in "plot" and "species" are made within each value of "forest_reserve".
+#' @param add_zero_no_na variable indicating which records of the grouping_vars
+#' should get a zero value (variable should be TRUE) or a NA value (variable
+#' should be FALSE).
+#' E.g. a variable indicating whether or not observations are done.
+#' If no variable name is given (default NA), all added records get zero values.
 #'
 #' @return dataframe based on `dataset` to which records are added with value 0 (zero) for each measurement.
 #'
@@ -35,11 +40,11 @@
 #' @importFrom assertthat assert_that has_name
 #' @importFrom dplyr %>% distinct inner_join mutate mutate_at right_join select vars
 #' @importFrom tidyselect all_of matches
-#' @importFrom rlang .data
+#' @importFrom rlang .data ensyms
 #'
 add_zeros <-
   function(
-    dataset, comb_vars, grouping_vars
+    dataset, comb_vars, grouping_vars, add_zero_no_na = NA
   ) {
 
   assert_that(
@@ -50,15 +55,54 @@ add_zeros <-
     all(has_name(dataset, grouping_vars)),
     msg =  "dataset should contain all variables from grouping_vars as column names"
   )
+  if (!is.na(add_zero_no_na)) {
+    assert_that(
+      length(add_zero_no_na) == 1,
+      msg = "variable add_zero_no_na should only contain one string, no vector."
+    )
+    assert_that(
+      has_name(dataset, add_zero_no_na),
+      msg =
+        "dataset should contain the variable from add_zero_no_na as column name"
+    )
+    assert_that(
+      is.logical(dataset[, add_zero_no_na]),
+      msg = "variable add_zero_no_na should have a logical value (in dataset)"
+    )
+    grouping_with_zeros <-
+      dataset %>%
+        select(all_of(c(grouping_vars, add_zero_no_na))) %>%
+        distinct()
+    assert_that(
+      nrow(grouping_with_zeros) ==
+        nrow(
+          dataset %>%
+            select(all_of(grouping_vars)) %>%
+            distinct()
+        ),
+      msg = "variable add_zero_no_na must have one unique value for each combination of grouping_vars" #nolint
+    )
+  }
   if (!all(sapply(dataset %>%
-                  select(-all_of(c(comb_vars, grouping_vars))), is.numeric))) {
-    stop("All dataset columns whose names are not added to comb_vars or grouping_vars, should be numeric")  #nolint
+                  select(-all_of(na.omit(c(comb_vars, grouping_vars,
+                                           add_zero_no_na)))), is.numeric))) {
+    stop("All dataset columns whose names are not added to comb_vars, grouping_vars or add_zero_no_na, should be numeric")  #nolint
   }
 
   if (length(comb_vars) >= 1) {
     complete_table <- dataset %>%
       select(all_of(c(grouping_vars, comb_vars[1]))) %>%
       distinct()
+  }
+  if (!is.na(add_zero_no_na)) {
+    complete_table <- complete_table %>%
+      left_join(grouping_with_zeros, by = grouping_vars)
+    dataset <- dataset %>%
+      select(-all_of(add_zero_no_na))
+  } else {
+    add_zero_no_na <- "to_be_removed"
+    complete_table <- complete_table %>%
+      mutate(to_be_removed = NA)
   }
   if (length(comb_vars) > 1) {
     for (i in 2:length(comb_vars)) {
@@ -70,8 +114,12 @@ add_zeros <-
   }
 
   #helper function to replace NA by 0 for non dataset records
-  replace_na_zero <- function(x, ds_record) {
-    ifelse(is.na(x) & is.na(ds_record), 0, x)
+  replace_na_zero <- function(x, ds_record, add_zero_no_na) {
+    ifelse(
+      is.na(add_zero_no_na),
+      ifelse(is.na(x) & is.na(ds_record), 0, x),
+      ifelse(is.na(x) & is.na(ds_record) & add_zero_no_na, 0, x)
+    )
   }
 
   complete_table <- dataset %>%
@@ -81,10 +129,16 @@ add_zeros <-
       by = c(grouping_vars, comb_vars)
     ) %>%
     mutate_at(
-      vars(!matches(c(grouping_vars, comb_vars, "ds_record"))),
-      ~replace_na_zero(., .data$ds_record)
+      vars(!matches(na.omit(c(grouping_vars, comb_vars, "ds_record",
+                              add_zero_no_na)))),
+      ~replace_na_zero(., .data$ds_record, !!!ensyms(add_zero_no_na))
     ) %>%
     select(-.data$ds_record)
+
+  if (add_zero_no_na == "to_be_removed") {
+    complete_table <- complete_table %>%
+      select(-.data$to_be_removed)
+  }
 
   return(complete_table)
 }

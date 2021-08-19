@@ -4,7 +4,7 @@
 \alias{add_zeros}
 \title{Add records with value zero for missing variable combinations in a given dataset}
 \usage{
-add_zeros(dataset, comb_vars, grouping_vars)
+add_zeros(dataset, comb_vars, grouping_vars, add_zero_no_na = NA)
 }
 \arguments{
 \item{dataset}{data.frame in which records should be added}
@@ -12,6 +12,12 @@ add_zeros(dataset, comb_vars, grouping_vars)
 \item{comb_vars}{variables (given as a vector of strings) of which all combinations of their values should have a record in the dataset.}
 
 \item{grouping_vars}{one or more variables for which the combination of values of the variables given in `comb_vars` should be made for each value, e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"), all combinations of the values in "plot" and "species" are made within each value of "forest_reserve".}
+
+\item{add_zero_no_na}{variable indicating which records of the grouping_vars
+should get a zero value (variable should be TRUE) or a NA value (variable
+should be FALSE).
+E.g. a variable indicating whether or not observations are done.
+If no variable name is given (default NA), all added records get zero values.}
 }
 \value{
 dataframe based on `dataset` to which records are added with value 0 (zero) for each measurement.
