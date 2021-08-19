@@ -55,6 +55,7 @@ load_data_dendrometry <-
         qPlotType.Value3 AS plottype,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
+        Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
         pd.Date_Dendro_%1$deSet AS date_dendro,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
