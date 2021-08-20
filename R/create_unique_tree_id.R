@@ -23,13 +23,6 @@
 #' @importFrom rlang .data
 #'
 create_unique_tree_id <- function(data_dendro) {
-  # deze blok code moet verwijderd worden zodra issue #95 opgelost is
-  data_dendro <- data_dendro %>%
-    mutate(
-      old_id = ifelse(.data$period == 1, NA, .data$old_id)
-    )
-  ###################################################################
-
   status_tree <- data_dendro %>%
     mutate(
       tree_id =
