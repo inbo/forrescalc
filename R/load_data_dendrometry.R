@@ -78,7 +78,7 @@ load_data_dendrometry <-
         cvr.Value3 AS crown_volume_reduction,
         blr.Value3 AS branch_length_reduction,
         Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS tree_number %4$s
+        Trees.TreeNumber AS nr_of_stems %4$s
       FROM (((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
