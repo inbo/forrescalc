@@ -26,7 +26,31 @@ load_data_shoots <- function(database) {
       Shoots.DecayStage_Shoots AS decaystage
     FROM Shoots%2$s Shoots;"
 
-  data_shoots <- query_database(database, query_shoots) %>%
+  query_shoots_1986 <-
+    "SELECT Shoots.IDPlots AS plot_id,
+      Shoots.IDTrees_1986 AS tree_measure_id,
+      Shoots.ID AS shoot_measure_id,
+      Shoots.DBH_mm AS dbh_mm,
+      Shoots.Height_m AS height_m,
+      Shoots.IntactSnag AS intact_snag,
+      Shoots.DecayStage_Shoots AS decaystage
+    FROM Shoots_1986 Shoots;"
+
+  con <- odbcConnectAccess2007(database)
+  shoots_1986 <- sqlQuery(con, query_shoots_1986, stringsAsFactors = FALSE) %>%
+    mutate(period = 0)
+  odbcClose(con)
+
+  data_shoots <- query_database(database, query_shoots)
+
+  if (nrow(shoots_1986) > 0) {
+    data_shoots <- data_shoots %>%
+      bind_rows(
+        shoots_1986
+      )
+  }
+
+  data_shoots <- data_shoots %>%
     mutate(intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag))
 
   return(data_shoots)
