@@ -34,11 +34,20 @@ query_database <-
   function(database, query, selection = "", add_fields = "", conjunction = "",
            n_periods = 3) {
 
+  #code to avoid warning in sprintf due to absence of %x in string
+  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2,]
+  absent <- as.character(1:5)[!as.character(1:5) %in% present]
+  to_insert <- paste0("%", absent, "$s")
+  query <- paste0(query, to_insert)
+  no_neset <- !"2" %in% present
+  no_n <- !"1" %in% present
+
   con <- odbcConnectAccess2007(database)
+  n_corr <- ifelse(no_n, "", 1)
   dataset <-
     sqlQuery(
       con,
-      sprintf(query, 1, "", selection, add_fields, conjunction),
+      sprintf(query, n_corr, "", selection, add_fields, conjunction),
       stringsAsFactors = FALSE
     ) %>%
     mutate(
@@ -47,17 +56,23 @@ query_database <-
 
   if (n_periods >= 2) {
     for (n in 2:n_periods) {
-      dataset <- dataset %>%
-        bind_rows(
-          sqlQuery(
-            con,
-            sprintf(query, n, paste0("_", n, "eSet"), selection, add_fields, conjunction),
-            stringsAsFactors = FALSE
-          ) %>%
-            mutate(
-              period = n
-            )
-        )
+      n_eset <- ifelse(no_neset, "", paste0("_", n, "eSet"))
+      n_corr <- ifelse(no_n, "", n)
+      data_period_n <-
+        sqlQuery(
+          con,
+          sprintf(
+            query, n_corr, n_eset, selection, add_fields, conjunction
+          ),
+          stringsAsFactors = FALSE
+        ) %>%
+          mutate(
+            period = n
+          )
+      if (nrow(data_period_n) > 0) {
+        dataset <- dataset %>%
+          bind_rows(data_period_n)
+      }
     }
   }
 
