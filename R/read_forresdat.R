@@ -2,10 +2,10 @@
 #'
 #' This function reads a table in git2rdata format from git repository forresdat
 #' (or another git repository dependent on the given repo path).
-#' Data available in forresdat only contain observations, so no records with
+#' Data available in forresdat only contains observations, so no records with
 #' zero values are added for for instance species that were not observed and
 #' hence absent.
-#' These zero value records can easily be added by using function `add_zeros()`.
+#' These zero value records can easily be added by using the function `add_zeros()`.
 #'
 #' @param tablename name of the table that should be read
 #' @param repo_path name and path of local git repository from which data should be retrieved
