@@ -32,14 +32,40 @@ load_plotinfo <- function(database) {
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
-
       pd.DataProcessed_YN AS data_processed
     FROM (Plots
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
+  query_plot_1986 <-
+    "SELECT Plots.ID AS plot_id,
+      qPlotType.Value3 AS plottype,
+      pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Vegetation_YN AS survey_veg,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.GameImpactVegObserved AS game_impact_veg,
+      pd.GameImpactRegObserved AS game_impact_reg,
+      pd.DataProcessed_YN AS data_processed
+    FROM (Plots
+      INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+
+  con <- odbcConnectAccess2007(database)
+  plotinfo_1986 <- sqlQuery(con, query_plot_1986, stringsAsFactors = FALSE) %>%
+    mutate(period = 0)
+  odbcClose(con)
+
   plotinfo <-
-    query_database(database, query_plot) %>%
+    query_database(database, query_plot)
+  if (nrow(plotinfo_1986) > 0) {
+    plotinfo <- plotinfo %>%
+      bind_rows(
+        plotinfo_1986
+      )
+  }
+  plotinfo <- plotinfo %>%
     distinct() %>%
     mutate(
       survey_trees = (.data$survey_trees == 10 & !is.na(.data$survey_trees)),
