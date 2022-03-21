@@ -30,6 +30,9 @@ load_plotinfo <- function(database) {
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
+      pd.GameImpactVegObserved AS game_impact_veg,
+      pd.GameImpactRegObserved AS game_impact_reg,
+
       pd.DataProcessed_YN AS data_processed
     FROM (Plots
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
@@ -43,6 +46,9 @@ load_plotinfo <- function(database) {
       survey_deadw = (.data$survey_deadw == 10 & !is.na(.data$survey_deadw)),
       survey_veg = (.data$survey_veg == 10 & !is.na(.data$survey_veg)),
       survey_reg = (.data$survey_reg == 10 & !is.na(.data$survey_reg)),
+      game_impact_veg = (.data$game_impact_veg == 10 & !is.na(.data$game_impact_veg)),
+      game_impact_reg = (.data$game_impact_reg == 10 & !is.na(.data$game_impact_reg)),
+
       data_processed =
         (.data$data_processed == 10 & !is.na(.data$data_processed))
     )
