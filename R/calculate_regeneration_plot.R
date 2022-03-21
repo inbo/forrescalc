@@ -32,13 +32,13 @@ calculate_regeneration_plot <- function(data_regeneration) {
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       nr_established_ha =
-        ifelse(.data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) |.data$subcircle == "A2",
                .data$nr_of_regeneration / .data$plotarea_ha, NA),
       min_number_established_ha =
-        ifelse(.data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_established_ha =
-        ifelse(.data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
       nr_seedlings_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",

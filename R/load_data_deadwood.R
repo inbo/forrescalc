@@ -66,7 +66,7 @@ load_data_deadwood <-
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
       LEFT JOIN
         (SELECT IDDeadwood%2$s, IDPlots,
-          SUM(Distance_m) AS total_length_m,
+          MAX(Distance_m) AS total_length_m,
           MIN(Diameter_mm) AS min_diam_mm,
           MAX(Diameter_mm) AS max_diam_mm
         FROM Deadwood%2$s_Diameters
