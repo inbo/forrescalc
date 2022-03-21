@@ -20,6 +20,8 @@
 #'
 #' @export
 #'
+#' @importFrom DBI dbDisconnect dbGetQuery
+#'
 load_data_shoots <- function(database, extra_variables = FALSE) {
   add_fields <-
     ifelse(
@@ -51,12 +53,10 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
       Shoots.DecayStage_Shoots AS decaystage
     FROM Shoots_1986 Shoots;"
 
-  con <- odbcConnectAccess2007(database)
-  shoots_1986 <- sqlQuery(con, query_shoots_1986
-                          , stringsAsFactors = FALSE
-                          ) %>%
+  con <- connect_to_database(database)
+  shoots_1986 <- dbGetQuery(con, query_shoots_1986) %>%
     mutate(period = 0)
-  odbcClose(con)
+  dbDisconnect(con)
 
   data_shoots <- query_database(database, query_shoots, add_fields = add_fields)
 

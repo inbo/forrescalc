@@ -2,7 +2,7 @@
 # for use during calculations in calc_variables_tree_level()
 # !!! rebuild the package to use the newly generated tables in your calculations
 
-library(RODBC)
+library(DBI)
 library(readr)
 
 db_externe_data <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
@@ -54,16 +54,16 @@ query_coef_convert_perimeter <-
   "SELECT IDTreeSp AS species, A, B
   FROM tblCoefOmzetOmtrek"
 
-con <- odbcConnectAccess2007(db_externe_data)
+con <- forrescalc:::connect_to_database(db_externe_data)
 
-tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
-tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
+tariffs2entr <- dbGetQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
+tariffs1entr <- dbGetQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
 tariffs1entr_crown <-
-  sqlQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
+  dbGetQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
 convert_perimeter <-
-  sqlQuery(con, query_coef_convert_perimeter, stringsAsFactors = TRUE)
+  dbGetQuery(con, query_coef_convert_perimeter, stringsAsFactors = TRUE)
 
-odbcClose(con)
+dbDisconnect(con)
 
 colnames(convert_perimeter) <- tolower(colnames(convert_perimeter))
 

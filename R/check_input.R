@@ -13,21 +13,21 @@
 #'
 #' @noRd
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #'
 #'
 check_input <- function(input, database, table, column, table2 = NA) {
   query <- paste("SELECT DISTINCT", column, "FROM", table)
-  con <- odbcConnectAccess2007(database)
-  values <- sqlQuery(con, query, stringsAsFactors = FALSE)[, column]
+  con <- connect_to_database(database)
+  values <- dbGetQuery(con, query, stringsAsFactors = FALSE)[, column]
   if (!is.na(table2)) {
     query2 <- paste("SELECT DISTINCT", column, "FROM", table)
     values <-
       unique(
-        c(values, sqlQuery(con, query2, stringsAsFactors = FALSE)[, column])
+        c(values, dbGetQuery(con, query2, stringsAsFactors = FALSE)[, column])
       )
   }
-  odbcClose(con)
+  dbDisconnect(con)
   if (!input %in% values) {
     stop(
       paste0(

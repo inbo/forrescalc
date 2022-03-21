@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate rename
 #' @importFrom lubridate year
@@ -61,8 +61,8 @@ load_data_vegetation <-
               tc.Value1 AS cover_interval
         FROM qtotalCover tc"
 
-  con <- odbcConnectAccess2007(database)
-  total_cover <- sqlQuery(con, query_total_cover, stringsAsFactors = FALSE) %>%
+  con <- connect_to_database(database)
+  total_cover <- dbGetQuery(con, query_total_cover) %>%
     mutate(
       min_cover = gsub("^(\\d+) - (\\d+) %", "\\1", .data$cover_interval),
       max_cover = gsub("^(\\d+) - (\\d+) %", "\\2", .data$cover_interval),
@@ -75,7 +75,7 @@ load_data_vegetation <-
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
-  odbcClose(con)
+  dbDisconnect(con)
 
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%

@@ -19,7 +19,7 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% anti_join bind_rows filter full_join left_join mutate select
 #'
@@ -79,28 +79,28 @@ check_data_trees <- function(database) {
       ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots_2eSET"
 
-  con <- odbcConnectAccess2007(database)
-  data_trees <- sqlQuery(con, query_trees, stringsAsFactors = FALSE) %>%
+  con <- connect_to_database(database)
+  data_trees <- dbGetQuery(con, query_trees) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, query_trees2, stringsAsFactors = FALSE) %>%
+      dbGetQuery(con, query_trees2) %>%
         mutate(
           period = 2
         )
     )
-  data_shoots <- sqlQuery(con, query_shoots, stringsAsFactors = FALSE) %>%
+  data_shoots <- dbGetQuery(con, query_shoots) %>%
     mutate(
       period = 1
     ) %>%
     bind_rows(
-      sqlQuery(con, query_shoots2, stringsAsFactors = FALSE) %>%
+      dbGetQuery(con, query_shoots2) %>%
         mutate(
           period = 2
         )
     )
-  odbcClose(con)
+  dbDisconnect(con)
 
   incorrect_trees <- data_trees %>%
     # niet in A3 of A4
