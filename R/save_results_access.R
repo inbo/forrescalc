@@ -14,11 +14,13 @@
 #' \dontrun{
 #' #change path before running
 #' library(forrescalc)
-#' data_dendro <-
-#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' data_deadwood <-
-#'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' result_dendro <- calculate_dendrometry(data_dendro, data_deadwood)
+#' database <- system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_dendro <- load_data_dendrometry(database)
+#' data_deadwood <- load_data_deadwood(database)
+#' data_shoots <- load_data_shoots(database)
+#' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
+#' result_dendro <-
+#'   calculate_dendrometry(data_dendro, data_deadwood, data_shoots, height_model)
 #' save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")
 #' #Repeating the previous line of code will give an error, because you try to
 #' #overwrite a table that was already saved in the database on the first run.
@@ -28,18 +30,48 @@
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlDrop sqlSave sqlTables
+#' @importFrom DBI dbDisconnect dbListTables dbRemoveTable dbWriteTable
 #'
 save_results_access <- function(results, database, remove_tables = FALSE) {
-  con <- odbcConnectAccess2007(database)
+  con <- connect_to_database(database)
   for (tablename in names(results)) {
     if (remove_tables) {
-      dbtables <- sqlTables(con)
-      if (tablename %in% dbtables$TABLE_NAME) {
-        sqlDrop(con, tablename)
+      dbtables <- dbListTables(con)
+      if (tablename %in% dbtables) {
+        dbRemoveTable(con, tablename)
       }
     }
-    sqlSave(con, results[[tablename]], tablename = tablename)
+    tryCatch(
+      dbWriteTable(conn = con, name = tablename, value = results[[tablename]]),
+      error = function(e) {
+        val <- withCallingHandlers(e)
+        if (
+          endsWith(
+            val[["message"]],
+            "exists in database, and both overwrite and append are FALSE"
+          )
+        ) {
+          tablename <-
+            sub(
+              "Error\\: Table","", val[["message"]]
+            )
+          tablename <-
+            sub(
+              "exists in database, and both overwrite and append are FALSE",
+              "", tablename
+            )
+          stop(
+            paste0(
+              tablename,
+              "exists in database, add 'remove_tables = TRUE' to overwrite it"
+            ),
+            call. = FALSE
+          )
+        }
+        stop(e)
+      }
+    )
+
   }
-  odbcClose(con)
+  dbDisconnect(con)
 }

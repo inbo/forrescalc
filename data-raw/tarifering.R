@@ -2,7 +2,7 @@
 # for use during calculations in calc_variables_tree_level()
 # !!! rebuild the package to use the newly generated tables in your calculations
 
-library(RODBC)
+library(DBI)
 library(readr)
 
 dbExterneData <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
@@ -50,14 +50,14 @@ query_tariffs1entry_crown <-
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ingKroon t1k ON tgbs.TariefID = t1k.groepID;"
 
-con <- odbcConnectAccess2007(dbExterneData)
+con <- forrescalc:::connect_to_database(dbExterneData)
 
-tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
-tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
+tariffs2entr <- dbGetQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
+tariffs1entr <- dbGetQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
 tariffs1entr_crown <-
-  sqlQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
+  dbGetQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
 
-odbcClose(con)
+dbDisconnect(con)
 
 write_csv2(tariffs2entr, "inst/extdata/tariffs2entries.csv")
 write_csv2(tariffs1entr, "inst/extdata/tariffs1entry.csv")

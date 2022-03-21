@@ -14,22 +14,25 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   assertthat,
+  DBI,
   dplyr,
   git2r,
   git2rdata,
   lubridate,
   magrittr,
+  methods,
+  odbc,
   plyr,
   purrr,
   readr,
   readxl,
   rlang,
-  RODBC,
+  RSQLite,
   stats,
   stringr,
   tidyr (>= 1.0.0),
   tidyselect (>= 1.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown

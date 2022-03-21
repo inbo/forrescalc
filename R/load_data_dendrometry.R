@@ -32,7 +32,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% mutate
 #' @importFrom lubridate round_date year
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #'
 load_data_dendrometry <-
   function(database, plottype = NA, forest_reserve = NA,
@@ -124,10 +124,16 @@ load_data_dendrometry <-
       selection, add_fields
     )
 
-  con <- odbcConnectAccess2007(database)
-  dendro_1986 <- sqlQuery(con, query_dendro_1986, stringsAsFactors = FALSE) %>%
+  con <- connect_to_database(database)
+  dendro_1986 <- dbGetQuery(con, query_dendro_1986) %>%
     mutate(period = 0)
-  odbcClose(con)
+  if (class(con) == "SQLiteConnection") {
+    dendro_1986 <- dendro_1986 %>%
+      mutate(
+        date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")
+      )
+  }
+  dbDisconnect(con)
 
   data_dendro <-
     query_database(database, query_dendro,
