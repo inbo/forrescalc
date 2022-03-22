@@ -50,7 +50,7 @@ Records with value zero for certain variables (e.g. coverage of a certain specie
 
 In case of intervals, the variance and confidence interval are calculated
 based on the minimum and maximum values of the intervals of the individual
-records.
+records (which is considered a CI, so lci and uci can serve as min and max).
 For this, `dataset` must contain columns with minimum and maximum values,
 `variables` must contain a name for the output of this variable, and
 `interval_information` must contain the variable names for minimum, maximum
