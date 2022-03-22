@@ -137,7 +137,7 @@ load_data_regeneration <-
           0,
           .data$nr_of_regeneration
         ),
-    min_number_of_trees =
+      min_number_of_trees =
         ifelse(
           is.na(.data$min_number_of_trees),
           .data$nr_of_regeneration,
