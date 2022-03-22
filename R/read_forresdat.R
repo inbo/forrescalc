@@ -63,7 +63,7 @@ read_forresdat <-
   } else {
     warning(
       paste(
-        "Data include all plottypes, use 'join_plotinfo = TRUE' if you only want data of plottype", #nolint
+        "Data include all plottypes, use 'join_plotinfo = TRUE' if you only want data of a specific plottype (defaults to 'CP' so add 'plottype = CA' if needed).", #nolint
         plottype
       )
     )
