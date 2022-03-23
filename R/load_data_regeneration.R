@@ -139,17 +139,17 @@ load_data_regeneration <-
           0,
           .data$nr_of_regeneration
         ),
-      min_number_of_trees =
+      min_number_of_regeneration =
         ifelse(
-          is.na(.data$min_number_of_trees),
+          is.na(.data$min_number_of_regeneration),
           .data$nr_of_regeneration,
-          .data$min_number_of_trees
+          .data$min_number_of_regeneration
         ),
-      max_number_of_trees =
+      max_number_of_regeneration =
         ifelse(
-          is.na(.data$max_number_of_trees),
+          is.na(.data$max_number_of_regeneration),
           .data$nr_of_regeneration,
-          .data$max_number_of_trees
+          .data$max_number_of_regeneration
         ),
       mid_number_of_regeneration =
         (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2
