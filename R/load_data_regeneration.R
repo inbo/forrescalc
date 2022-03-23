@@ -48,7 +48,9 @@ load_data_regeneration <-
           Subquery.species,
           Subquery.number_class,
           Subquery.nr_of_regeneration,
-          Subquery.rubbing_damage_number
+          IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
+              Subquery.species IS NULL,
+              0, Subquery.rdn) AS rubbing_damage_number
         FROM ((((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
@@ -57,7 +59,7 @@ load_data_regeneration <-
               rs.Species AS species,
               rs.NumberClass AS number_class,
               rs.Number AS nr_of_regeneration,
-              rs.GameDamage_number AS rubbing_damage_number,
+              rs.GameDamage_number AS rdn,
               hc.IDRegeneration%2$s, hc.IDPlots
             FROM HeightClass%2$s hc INNER JOIN RegSpecies%2$s rs
                 ON hc.IDRegeneration%2$s = rs.IDRegeneration%2$s
