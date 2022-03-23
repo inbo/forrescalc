@@ -13,7 +13,8 @@
 #' number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
 #' nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
 #' lci_number_established_ha, uci_number_established_ha,
-#' mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha.
+#' mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha,
+#' approx_nr_established_ha, approx_nr_seedlings_ha.
 #'
 #' @examples
 #' \dontrun{

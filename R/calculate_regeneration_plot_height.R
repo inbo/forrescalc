@@ -11,7 +11,8 @@
 #' number_of_tree_species, rubbing_damage_perc,
 #' nr_of_regeneration_ha (in case exact numbers are observed),
 #' mean_number_of_regeneration_ha (in case intervals are observed),
-#' lci_number_of_regeneration_ha and uci_number_of_regeneration_ha.
+#' lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
+#' approx_nr_regeneration_ha.
 #'
 #' @examples
 #' \dontrun{
