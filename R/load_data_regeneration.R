@@ -151,6 +151,12 @@ load_data_regeneration <-
           .data$nr_of_regeneration,
           .data$max_number_of_regeneration
         ),
+      approx_nr_regeneration =
+        ifelse(
+          .data$min_number_of_regeneration < 100,
+          (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2,
+          .data$min_number_of_regeneration + 1
+        ),
       mid_number_of_regeneration =
         (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2
     )

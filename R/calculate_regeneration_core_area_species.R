@@ -53,7 +53,13 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_seedlings_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
-               .data$max_number_of_regeneration / .data$plotarea_ha, NA)
+               .data$max_number_of_regeneration / .data$plotarea_ha, NA),
+      approx_nr_established_ha =
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
+               .data$approx_nr_regeneration / .data$plotarea_ha, NA),
+      approx_nr_seedlings_ha =
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
+               .data$approx_nr_regeneration / .data$plotarea_ha, NA)
     ) %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species
@@ -81,7 +87,10 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       rubbing_damage_perc =
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
         sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
-      not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc))
+      not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc)),
+      approx_nr_established_ha =
+        mean(.data$approx_nr_established_ha, na.rm = TRUE),
+      approx_nr_seedlings_ha = mean(.data$approx_nr_seedlings_ha, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     mutate(

@@ -50,7 +50,9 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
           var_min = .data$min_number_of_regeneration,
           var_max = .data$max_number_of_regeneration,
           transformation = "log", na_rm = TRUE
-        )
+        ),
+      approx_nr_regeneration_ha =
+        sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha)
     ) %>%
     ungroup() %>%
     mutate(
