@@ -156,9 +156,7 @@ load_data_regeneration <-
           .data$min_number_of_regeneration < 100,
           (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2,
           .data$min_number_of_regeneration + 1
-        ),
-      mid_number_of_regeneration =
-        (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2
+        )
     )
 
   return(data_regeneration)
