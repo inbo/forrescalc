@@ -24,7 +24,6 @@
 #'
 create_unique_tree_id <- function(data_dendro) {
   status_tree <- data_dendro %>%
-    mutate(old_id = ifelse(.data$period == 1, NA, .data$old_id)) %>%
     mutate(
       tree_id =
         ifelse(

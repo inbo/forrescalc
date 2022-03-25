@@ -23,7 +23,6 @@
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% bind_rows filter inner_join mutate select
-#' @importFrom assertthat has_name
 #'
 compose_stem_data <- function(data_dendro, data_shoots) {
   #omit data that could be misinterpreted if data on shoot level are added
@@ -44,30 +43,6 @@ compose_stem_data <- function(data_dendro, data_shoots) {
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm),
       basal_area_m2 = pi * (.data$dbh_mm / 2000) ^ 2
     )
-
-  if (
-    has_name(
-      stem_data,
-      c("iufro_hght", "iufro_vital", "iufro_socia", "iufro_hght_shoots",
-        "iufro_vital_shoots", "iufro_socia_shoots")
-    )
-  ) {
-    stem_data <- stem_data %>%
-      mutate(
-        iufro_hght =
-          ifelse(is.na(.data$iufro_hght_shoots),
-                 .data$iufro_hght, .data$iufro_hght_shoots),
-        iufro_hght_shoots = NULL,
-        iufro_vital =
-          ifelse(is.na(.data$iufro_vital_shoots),
-                 .data$iufro_vital, .data$iufro_vital_shoots),
-        iufro_vital_shoots = NULL,
-        iufro_socia =
-          ifelse(is.na(.data$iufro_socia_shoots),
-                 .data$iufro_socia, .data$iufro_socia_shoots),
-        iufro_socia_shoots = NULL
-      )
-  }
 
   return(stem_data)
 }

@@ -12,10 +12,10 @@ calculate_vegetation_plot(data_vegetation, data_herblayer)
 \item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
 }
 \value{
-dataframe with columns plot, subplot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
+dataframe with columns plot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
 }
 \description{
-This function calculates for each plot (subplot in case of core area) and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
+This function calculates for each plot and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
 }
 \examples{
 \dontrun{
