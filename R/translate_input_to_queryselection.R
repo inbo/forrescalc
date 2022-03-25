@@ -6,18 +6,19 @@
 #' final part of a query.  This query can contain a join!
 #'
 #' @inheritParams load_data_dendrometry
+#' @param survey_name column name in table PlotDetails_xeSet that indicates if
+#' survey is done
+#'
+#' @importFrom assertthat assert_that
 #'
 #' @noRd
 #'
-#'
 translate_input_to_selectionquery <-
-  function(database, plottype, forest_reserve) {
+  function(database, plottype, forest_reserve, processed, survey_name) {
     if (!is.na(plottype)) {
-      check_input(plottype, database, "qPlotType", "Value2")
+      check_input(plottype, database, "qPlotType", "Value3")
       selection <-
-        paste0(
-          " INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID",
-          " WHERE qPlotType.Value2 in ('", plottype, "')")
+        paste0(" WHERE qPlotType.Value3 in ('", plottype, "')")
     } else {
       selection <- ""
     }
@@ -26,15 +27,16 @@ translate_input_to_selectionquery <-
         forest_reserve, database, "PlotDetails_1eSet", "ForestReserve",
         "PlotDetails_2eSet"
       )
-      if (selection == "") {
-        selection <- "WHERE"
-      } else {
-        selection <- paste(selection, "AND")
-      }
+      selection <- ifelse(selection == "", "WHERE", paste(selection, "AND"))
       selection <-
         paste0(selection, " pd.ForestReserve in ('", forest_reserve, "')")
-    } else {
-      selection <- selection
+    }
+    assert_that(is.logical(processed))
+    if (processed) {
+      selection <- ifelse(selection == "", "WHERE", paste(selection, "AND"))
+      selection <-
+        paste0(selection, " pd.DataProcessed_YN = 10 AND pd.", survey_name,
+               " = 10")
     }
     return(selection)
 }

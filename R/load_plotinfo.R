@@ -26,25 +26,61 @@
 load_plotinfo <- function(database) {
   query_plot <-
     "SELECT Plots.ID AS plot_id,
-      Plots.Plottype AS plottype,
+      qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
       pd.Survey_Trees_YN AS survey_trees,
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
-      pd.DataProcessed_YN AS data_processed,
-      pd.Date_Dendro_%1$deSet AS date_dendro
-    FROM Plots INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
+      pd.Date_Dendro_%1$deSet AS date_dendro,
+      pd.GameImpactVegObserved AS game_impact_veg,
+      pd.GameImpactRegObserved AS game_impact_reg,
+      pd.DataProcessed_YN AS data_processed
+    FROM (Plots
+      INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+
+  query_plot_1986 <-
+    "SELECT Plots.ID AS plot_id,
+      qPlotType.Value3 AS plottype,
+      pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Vegetation_YN AS survey_veg,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.GameImpactVegObserved AS game_impact_veg,
+      pd.GameImpactRegObserved AS game_impact_reg,
+      pd.DataProcessed_YN AS data_processed
+    FROM (Plots
+      INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+
+  con <- odbcConnectAccess2007(database)
+  plotinfo_1986 <- sqlQuery(con, query_plot_1986, stringsAsFactors = FALSE) %>%
+    mutate(period = 0)
+  odbcClose(con)
 
   plotinfo <-
-    query_database(database, query_plot) %>%
+    query_database(database, query_plot)
+  if (nrow(plotinfo_1986) > 0) {
+    plotinfo <- plotinfo %>%
+      bind_rows(
+        plotinfo_1986
+      )
+  }
+  plotinfo <- plotinfo %>%
     distinct() %>%
-    mutate(survey_trees = ifelse(.data$survey_trees == 10 & !is.na(.data$survey_trees), TRUE, FALSE),
-           survey_deadw = ifelse(.data$survey_deadw == 10 & !is.na(.data$survey_deadw), TRUE, FALSE),
-           survey_veg = ifelse(.data$survey_veg == 10 & !is.na(.data$survey_veg), TRUE, FALSE),
-           survey_reg = ifelse(.data$survey_reg == 10 & !is.na(.data$survey_reg), TRUE, FALSE),
-           data_processed = ifelse(.data$data_processed == 10 & !is.na(.data$data_processed), TRUE, FALSE)
-           )
+    mutate(
+      survey_trees = (.data$survey_trees == 10 & !is.na(.data$survey_trees)),
+      survey_deadw = (.data$survey_deadw == 10 & !is.na(.data$survey_deadw)),
+      survey_veg = (.data$survey_veg == 10 & !is.na(.data$survey_veg)),
+      survey_reg = (.data$survey_reg == 10 & !is.na(.data$survey_reg)),
+      game_impact_veg = (.data$game_impact_veg == 10 & !is.na(.data$game_impact_veg)),
+      game_impact_reg = (.data$game_impact_reg == 10 & !is.na(.data$game_impact_reg)),
+
+      data_processed =
+        (.data$data_processed == 10 & !is.na(.data$data_processed))
+    )
 
   plotinfo <- plotinfo %>%
     left_join(plotinfo %>%

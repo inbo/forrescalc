@@ -29,7 +29,7 @@ compose_stem_data <- function(data_dendro, data_shoots) {
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
     select(
-      -.data$tree_number, -.data$dbh_class_5cm
+      -.data$nr_of_stems, -.data$dbh_class_5cm
     )
   stem_data <- data_dendro_relevant %>%
     filter(.data$ind_sht_cop != 12) %>%

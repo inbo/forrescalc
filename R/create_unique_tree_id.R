@@ -23,10 +23,6 @@
 #' @importFrom rlang .data
 #'
 create_unique_tree_id <- function(data_dendro) {
-  assert_that(
-    max(data_dendro$period) <= 3,
-    msg = "The code of create_unique_tree_id is only adapted to 3 measure periods"
-  )
   status_tree <- data_dendro %>%
     mutate(old_id = ifelse(.data$period == 1, NA, .data$old_id)) %>%
     mutate(
@@ -34,32 +30,37 @@ create_unique_tree_id <- function(data_dendro) {
         ifelse(
           is.na(.data$old_id),
           paste(.data$period, .data$plot_id, .data$tree_measure_id, sep = "_"),
-          ifelse(
-            .data$period == 2,
-            paste(1, .data$plot_id, .data$old_id, sep = "_"),
-            NA
-          )
+          NA
         )
     )
-  status_tree <- status_tree %>%
-    left_join(
-      status_tree %>%
-        select(
-          .data$plot_id, .data$tree_measure_id, .data$period, .data$tree_id
+  lookup_tree_id <- function(dataset) {
+    if (any(is.na(dataset$tree_id))) {
+      dataset <- dataset %>%
+        left_join(
+          dataset %>%
+            transmute(
+              .data$plot_id, .data$tree_measure_id, .data$tree_id, .data$old_id,
+              period = .data$period + 1
+            ) %>%
+            filter(!is.na(.data$tree_id)) %>%
+            distinct(),
+          by = c("plot_id", "old_id" = "tree_measure_id", "period"),
+          suffix = c("", "_oldid")
         ) %>%
-        filter(.data$period == 2),
-      by = c("plot_id", "old_id" = "tree_measure_id"),
-      suffix = c("", "_oldid")
-    ) %>%
-    mutate(
-      tree_id =
-        ifelse(
-          is.na(.data$tree_id) & .data$period == .data$period_oldid + 1,
-          .data$tree_id_oldid,
-          .data$tree_id
-        )
-    ) %>%
-    select(-.data$period_oldid, -.data$tree_id_oldid)
+        mutate(
+          tree_id =
+            ifelse(
+              is.na(.data$tree_id),
+              .data$tree_id_oldid,
+              .data$tree_id
+            )
+        ) %>%
+        select(-.data$tree_id_oldid, -.data$old_id_oldid)
+      dataset <- lookup_tree_id(dataset)
+    }
+    return(dataset)
+  }
+  status_tree <- lookup_tree_id(status_tree)
 
   return(status_tree)
 }

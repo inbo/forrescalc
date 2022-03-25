@@ -31,10 +31,8 @@
 calculate_vegetation <- function(data_vegetation, data_herblayer) {
   by_plot <- calculate_vegetation_plot(data_vegetation, data_herblayer)
   data_herblayer_CA <- data_herblayer %>%
-    filter(.data$plottype == 30)
-  data_vegetation_CA <- data_vegetation %>%
-    filter(.data$plottype == 30)
-  by_core_area_species <- calculate_vegetation_core_area_species(data_herblayer_CA, data_vegetation_CA)
+    filter(.data$plottype == "CA")
+  by_core_area_species <- calculate_vegetation_core_area_species(data_herblayer_CA)
 
   return(
     list(

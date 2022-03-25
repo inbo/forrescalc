@@ -4,7 +4,7 @@
 \alias{from_git_to_access}
 \title{copy table(s) from git repository to access db}
 \usage{
-from_git_to_access(tables, repo_path, database)
+from_git_to_access(tables, repo_path, database, remove_tables = FALSE)
 }
 \arguments{
 \item{tables}{vector with table names of tables that should be moved}
@@ -13,12 +13,17 @@ from_git_to_access(tables, repo_path, database)
 
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
+
+\item{remove_tables}{overwrite existing tables in database?  Default is
+FALSE, which means tables are not overwritten/deleted unless this parameter
+is explicitly put on TRUE.}
 }
 \value{
 No value is returned, the tables are saved in the access database.
 }
 \description{
-This function loads one or more tables from  a git repository and saves them in an access database.
+This function loads one or more tables from  a git repository and saves them
+in an access database.
 }
 \examples{
 \dontrun{
