@@ -13,7 +13,7 @@
 #' data_herblayer_CA <-
 #'   load_data_herblayer(
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'     plottype = "Core area"
+#'     plottype = "CA"
 #'   )
 #' calculate_vegetation_core_area_species(data_herblayer_CA)
 #' }

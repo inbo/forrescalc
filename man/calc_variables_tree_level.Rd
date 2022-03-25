@@ -17,7 +17,7 @@ Dataframe with ...
 \description{
 This function calculates additional variables based on measurements, such as
 \itemize{
- \item tree_number: the number of shoots in the tree (= 1 for an individual tree; >= 1 when coppice)
+ \item nr_of_stems: the number of shoots in the tree (= 1 for an individual tree; >= 1 when coppice)
  \item individual: true for individual tree or coppice, false if record is a secondary shoot
  \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
  \item basal_area_m2

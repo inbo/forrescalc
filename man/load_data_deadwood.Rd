@@ -8,15 +8,17 @@ load_data_deadwood(
   database,
   plottype = NA,
   forest_reserve = NA,
-  extra_variables = FALSE
+  extra_variables = FALSE,
+  processed = TRUE
 )
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
 
-\item{plottype}{possibility to select only data for a certain plot type, e.g. 'Circular plot'
-or 'Core area' (the default NA means that data from all plots are retrieved)}
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
 
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
@@ -25,6 +27,9 @@ from all plots are retrieved)}
 \item{extra_variables}{Should additional variables such as
 remark and common_remark be added?
 Default is FALSE (no).}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with data on logs

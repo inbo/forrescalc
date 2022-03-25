@@ -4,7 +4,12 @@
 \alias{read_forresdat}
 \title{load tables from git repository forresdat}
 \usage{
-read_forresdat(tablename, repo_path, join_plotinfo = TRUE)
+read_forresdat(
+  tablename,
+  repo_path,
+  join_plotinfo = TRUE,
+  plottype = c("CP", "CA")
+)
 }
 \arguments{
 \item{tablename}{name of the table that should be read}
@@ -15,6 +20,10 @@ read_forresdat(tablename, repo_path, join_plotinfo = TRUE)
 add columns plottype, forest_reserve, survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)?  Default is TRUE.  (This is only
 possible if the given table contains a column plot_id, so this parameter
 should be put FALSE if this column is absent.)}
+
+\item{plottype}{Data of which 'plottype' (used method) should be retrieved?
+Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area' could be
+chosen.}
 }
 \value{
 A dataframe with the specified table, default columns plottype, forest_reserve,
@@ -23,6 +32,10 @@ survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)
 \description{
 This function reads a table in git2rdata format from git repository forresdat
 (or another git repository dependent on the given repo path).
+Data available in forresdat only contains observations, so no records with
+zero values are added for for instance species that were not observed and
+hence absent.
+These zero value records can easily be added by using the function `add_zeros()`.
 }
 \examples{
 \dontrun{

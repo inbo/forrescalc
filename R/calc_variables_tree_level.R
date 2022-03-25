@@ -2,7 +2,7 @@
 #'
 #' This function calculates additional variables based on measurements, such as
 #' \itemize{
-#'  \item tree_number: the number of shoots in the tree (= 1 for an individual tree; >= 1 when coppice)
+#'  \item nr_of_stems: the number of shoots in the tree (= 1 for an individual tree; >= 1 when coppice)
 #'  \item individual: true for individual tree or coppice, false if record is a secondary shoot
 #'  \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
 #'  \item basal_area_m2
@@ -49,14 +49,14 @@ calc_variables_tree_level <-
 
   data_dendro1 <- data_dendro %>%
     select(
-      -.data$dbh_mm, -.data$tree_number, -.data$calc_height_fm,
+      -.data$dbh_mm, -.data$nr_of_stems, -.data$calc_height_fm,
       -.data$intact_snag, -.data$decaystage
     ) %>%
     left_join(
       data_stems_calc %>%
         group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
         summarise(
-          tree_number = n(),
+          nr_of_stems = n(),
           decaystage =
             round(
               sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /

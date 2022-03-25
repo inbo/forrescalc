@@ -19,7 +19,7 @@
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
+#' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' calculate_dendro_plot(data_dendro_calc, data_deadwood)
 #' }
@@ -41,7 +41,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
       number_of_tree_species = n_distinct(.data$species_alive, na.rm = TRUE),
       number_of_trees_ha = sum(.data$number_of_trees_alive_ha),
       stem_number_ha =
-          sum((.data$alive_dead == 11) * .data$tree_number / .data$plotarea_ha),
+          sum((.data$alive_dead == 11) * .data$nr_of_stems / .data$plotarea_ha),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
       basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
       vol_alive_m3_ha = sum(.data$vol_alive_m3_ha),
@@ -62,7 +62,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
     mutate(
       vol_log_m3_ha =
         ifelse(
-          is.na(.data$vol_log_m3_ha) & .data$plottype %in% c(20, 30) &
+          is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
             !is.na(.data$vol_alive_m3_ha),
           0, .data$vol_log_m3_ha
         ),

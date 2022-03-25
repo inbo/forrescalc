@@ -4,24 +4,33 @@
 \alias{load_data_herblayer}
 \title{retrieve species specific vegetation data from fieldmap database}
 \usage{
-load_data_herblayer(database, plottype = NA, forest_reserve = NA)
+load_data_herblayer(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  processed = TRUE
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
 
-\item{plottype}{possibility to select only data for a certain plot type, e.g. 'Circular plot'
-or 'Core area' (the default NA means that data from all plots are retrieved)}
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
 
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of main vegetation survey), deviating_date (= for spring flora only, date of spring survey), year_record (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
+Dataframe with vegetation data on the species level ('herb layer'), containing columns as species, coverage_id, browse_index_id, date_vegetation (= date of survey of specific species, different for spring flora and other flora in the same plot), year_main_survey (= year of main vegetation survey), year (= year of survey of specific species, possibly different for spring flora and other flora), ....
 }
 \description{
-This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_record refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")
+This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function). Year_main_survey refers to year of the main vegetation survey (source is table "vegetation"), while year refers to year of recording of that specific species (possibly different for spring flora; source is table "herblayer")
 }
 \examples{
 \dontrun{
