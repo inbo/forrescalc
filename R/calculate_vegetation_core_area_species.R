@@ -23,11 +23,13 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_core_area_species <- function(data_herblayer) {
+calculate_vegetation_core_area_species <- function(data_herblayer, data_vegetation) {
   by_core_area_species <- data_herblayer %>%
+    group_by(.data$plot_id, .data$period) %>%
     mutate(
       n_subplots = n_distinct(.data$subplot_id)
     ) %>%
+    ungroup() %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
@@ -39,13 +41,13 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
           all(is.na(.data$browse_index_id)),
           NA,
           sum(!is.na(.data$browse_index_id) &
-                .data$browse_index_id %in% c(10, 20))
+                .data$browse_index_id %in% c(110, 120))
         ),
       number_of_subplots_seriously_browsed =
         ifelse(
           all(is.na(.data$browse_index_id)),
           NA,
-          sum(!is.na(.data$browse_index_id) & .data$browse_index_id == 20)
+          sum(!is.na(.data$browse_index_id) & .data$browse_index_id == 120)
         ),
       perc_of_subplots_browsed =
         .data$number_of_subplots_browsed * 100 / .data$number_of_subplots_with_vegetation,

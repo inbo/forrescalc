@@ -35,6 +35,7 @@
 #'
 calculate_regeneration_core_area_species <- function(data_regeneration) {
   by_plot_species <- data_regeneration %>%
+    group_by(.data$plot_id, .data$period) %>%
     mutate(
       n_subplots = n_distinct(.data$subplot_id),
       nr_established_ha =
@@ -62,6 +63,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
                .data$approx_nr_regeneration / .data$plotarea_ha, NA)
     ) %>%
+    ungroup() %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species
     ) %>%

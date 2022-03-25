@@ -7,9 +7,9 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, year, height_class, species,
+#' @return dataframe with columns plot, subplot, year, height_class, species,
 #' rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
-#' observed), mean_number_of_regeneration_ha (in case intervals are observed),
+#' observed), mean_number_of_regeneration_ha,
 #' lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
 #' approx_nr_regeneration_ha.
 #'

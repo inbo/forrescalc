@@ -1,10 +1,10 @@
 #' aggregate vegetation parameters by plot and year
 #'
-#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
+#' This function calculates for each plot (subplot in case of core area) and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
+#' @return dataframe with columns plot, subplot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
 #'
 #' @examples
 #' \dontrun{
@@ -53,6 +53,10 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       by = c("plot_id", "period", "subplot_id")
     ) %>%
     mutate(
+      # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
+      # where TL is the percentage cover of the tree layer and SL is the percentage cover of the shrub layer.
+      cumulated_canopy_cover_mean =
+        100 * (1 - (1 - .data$shrub_cover_mean / 100) * (1 - .data$tree_cover_mean / 100)),
       cumulated_canopy_cover_min =
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
       cumulated_canopy_cover_max =
