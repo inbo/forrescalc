@@ -84,7 +84,6 @@ load_data_regeneration <-
     query_database(database, query_regeneration,
                    selection = selection, conjunction = conjunction) %>%
     mutate(
-      nr_subplots = ifelse(.data$plottype == 30, .data$length_core_area_m * .data$width_core_area_m / 100, 1),
       year = year(.data$date_regeneration),
       year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       subcircle =

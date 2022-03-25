@@ -6,7 +6,7 @@
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
 #'
-#' @return Dataframe with columns plot_id, plottype, forest_reserve, period, year of survey
+#' @return Dataframe with columns plot_id, plottype, forest_reserve, period, year of dendrometric survey
 #' and information on (1) whether there has been a dendro, deadwood, regeneration and/or vegetation survey
 #' and (2) whether the data have been processed or not.
 #'
@@ -90,7 +90,7 @@ load_plotinfo <- function(database) {
 
                 ungroup()) %>%
     mutate(survey_number = .data$period - .data$min_period + 1,
-           year = year(round_date(.data$date_dendro, "year")) - 1
+           year_dendro = year(round_date(.data$date_dendro, "year")) - 1
            ) %>%
     select(-.data$min_period, -.data$date_dendro)
 
