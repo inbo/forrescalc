@@ -49,7 +49,8 @@ compose_stem_data <- function(data_dendro, data_shoots) {
     has_name(
       stem_data,
       c("iufro_hght", "iufro_vital", "iufro_socia", "iufro_hght_shoots",
-        "iufro_vital_shoots", "iufro_socia_shoots")
+        "iufro_vital_shoots", "iufro_socia_shoots",
+        "remark_shoots", "common_remark_shoots")
     )
   ) {
     stem_data <- stem_data %>%
@@ -65,7 +66,15 @@ compose_stem_data <- function(data_dendro, data_shoots) {
         iufro_socia =
           ifelse(is.na(.data$iufro_socia_shoots),
                  .data$iufro_socia, .data$iufro_socia_shoots),
-        iufro_socia_shoots = NULL
+        iufro_socia_shoots = NULL,
+        remark =
+          ifelse(is.na(.data$remark_shoots),
+                 .data$remark, .data$remark_shoots),
+        remark_shoots = NULL,
+        common_remark =
+          ifelse(is.na(.data$common_remark_shoots),
+                 .data$common_remark, .data$common_remark_shoots),
+        common_remark_shoots = NULL,
       )
   }
 
