@@ -3,6 +3,7 @@ library(forrescalc)
 
 path_to_fieldmap <- "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
 path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
+path_to_height_models <- "C:/Hoogtemodellen"
 
 #only when q-tables in Fieldmap have changed (and only mention the changed table)
 from_access_to_git(
@@ -30,8 +31,9 @@ data_shoots <-
     database = path_to_fieldmap
   )
 data_stems  <- compose_stem_data(data_dendro, data_shoots)
+height_model <- load_height_models(path_to_height_models)
 
-dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems)
+dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems, height_model)
 
 # in KV Kersselaerspleyn (plot 11000) no lying deadwood is meausured
 # if plotid 11000 in data, replace (lying) deadwood results for plot_id = 11000 by "NA"
