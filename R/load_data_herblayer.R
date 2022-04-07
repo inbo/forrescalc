@@ -95,7 +95,8 @@ load_data_herblayer <-
       coverage_class_average_perc =
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
-    )
+    ) %>%
+    select(-year_main_survey)
 
   return(data_herblayer)
 }

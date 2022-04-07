@@ -48,7 +48,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     left_join(
       data_vegetation %>%
         select(
-          .data$plot_id, .data$subplot_id, .data$period, .data$year,
+          .data$plot_id, .data$subplot_id, .data$period, .data$year_main_survey,
           .data$moss_cover_min, .data$moss_cover_max, .data$moss_cover_mid,
           .data$herb_cover_min, .data$herb_cover_max, .data$herb_cover_mid,
           .data$shrub_cover_min, .data$shrub_cover_max, .data$shrub_cover_mid,
