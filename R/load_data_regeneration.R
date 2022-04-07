@@ -159,7 +159,8 @@ load_data_regeneration <-
           .data$nr_of_regeneration,
           .data$approx_nr_regeneration
         )
-    )
+    ) %>%
+    select(-.data$year_main_survey)
 
   return(data_regeneration)
 }
