@@ -1,10 +1,17 @@
 #' aggregate vegetation parameters by plot and year
 #'
-#' This function calculates for each plot (subplot in case of core area) and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
+#' This function calculates for each plot (subplot in case of core area) and
+#' year the total coverage and the number of species in the vegetation layer.
+#' Year refers to year of the main vegetation survey
+#' (source is table "data_vegetation"),
+#' and will in some cases differ from the year of the spring flora survey.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, subplot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account), number_of_tree_species and min/max/mid cover by the different vegetation layers (moss, herb, shrub, tree), the waterlayer and the soildisturbance by game.
+#' @return dataframe with columns plot, subplot, year (year of main vegetation
+#' survey, possible deviating year of spring survey not taken into account),
+#' number_of_tree_species and min/max/mid cover of the different vegetation
+#' layers (moss, herb, shrub, tree), the waterlayer and soildisturbance.
 #'
 #' @examples
 #' \dontrun{
@@ -19,7 +26,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise
+#' ungroup
 #' @importFrom rlang .data
 #'
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {

@@ -1,10 +1,12 @@
 #' aggregate parameters by plot and tree species
 #'
-#' This function calculates for each plot, tree species and year some values per hectare: number of trees, basal area and volume.
+#' This function calculates for each plot, tree species and year some values
+#' per hectare: number of trees, basal area and volume.
 #'
 #' @inheritParams calculate_dendro_plot
 #'
-#' @return dataframe with columns plot, year, tree_species, number_of_trees_ha, basal_area_m2_ha, volume_m3_ha
+#' @return dataframe with columns plot, year, tree_species, number_of_trees_ha,
+#' basal_area_m2_ha, volume_m3_ha
 #'
 #' @examples
 #' \dontrun{
@@ -39,7 +41,7 @@ calculate_dendro_plot_species <- function(data_dendro_calc, data_deadwood) {
           sum((.data$alive_dead == 11) * .data$nr_of_stems / .data$plotarea_ha),
       basal_area_alive_m2_ha = sum(.data$basal_area_alive_m2_ha),
       basal_area_dead_m2_ha = sum(.data$basal_area_dead_m2_ha),
-      vol_alive_m3_ha = sum(.data$vol_alive_m3_ha ),
+      vol_alive_m3_ha = sum(.data$vol_alive_m3_ha),
       vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
       vol_bole_alive_m3_ha = sum(.data$vol_bole_alive_m3_ha),
       vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)

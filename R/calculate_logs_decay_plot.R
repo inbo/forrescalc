@@ -1,6 +1,7 @@
 #' aggregate parameters by decay stage, plot and year
 #'
-#' This function calculates for each plot and year the volume logs per hectare and per decay stage.
+#' This function calculates for each plot and year the volume logs per hectare
+#' and per decay stage.
 #'
 #' @inheritParams calculate_dendrometry
 #'

@@ -1,11 +1,14 @@
 #' Combine dendro data and shoot data to give detailed stem data
 #'
-#' This function replaces in the given dendrometric data (result from function load_data_dendrometry())
-#' the diameters, height, decaystage and info on intact/snag from coppice trees
-#' by their separate stems given in the shoot data (result from function load_data_shoots()).
-#' ATTENTION: some variables as iufro-classes and (common-)remark are - for coppice - collected at shoot level.
-#' To include these extra variables, it is necessary to indicate this in both load-functions
-#' (load_data_dendrometry() and load_data_shoots()): extra_variables = TRUE.
+#' This function replaces in the given dendrometric data (result from function
+#' load_data_dendrometry()) the diameters, height, decaystage and info on
+#' intact/snag from coppice trees by their separate stems given in the shoot
+#' data (result from function load_data_shoots()).
+#' ATTENTION: some variables as iufro-classes and (common-)remark are
+#' - for coppice - collected at shoot level.
+#' To include these extra variables, it is necessary to indicate this in both
+#' load-functions (load_data_dendrometry() and load_data_shoots()):
+#' extra_variables = TRUE.
 #'
 #' @inheritParams calculate_dendrometry
 #' @inheritParams load_data_shoots
@@ -42,22 +45,23 @@
 compose_stem_data <- function(data_dendro, data_shoots, extra_variables = FALSE) {
   extra_vars <- c("iufro_hght", "iufro_vital", "iufro_socia",
                   "remark", "common_remark")
-  extra_vars_shoots <- c("iufro_hght_shoots", "iufro_vital_shoots", "iufro_socia_shoots",
+  extra_vars_shoots <- c("iufro_hght_shoots", "iufro_vital_shoots",
+                         "iufro_socia_shoots",
                          "remark_shoots", "common_remark_shoots")
-  if (extra_variables){
+  if (extra_variables) {
   assert_that(
     has_name(data_dendro, extra_vars),
-    msg =  "data_dendro should contain extra variables as iufroclasses and (common_)remark"
+    msg =  "data_dendro should contain extra variables as iufroclasses and (common_)remark"  #nolint
   )
   assert_that(
     has_name(data_shoots, extra_vars_shoots),
-    msg =  "data_shoots should contain extra variables as iufroclasses and (common_)remark"
+    msg =  "data_shoots should contain extra variables as iufroclasses and (common_)remark" #nolint
   )
   } else {
-    if (has_name(data_dendro, extra_vars)){
+    if (has_name(data_dendro, extra_vars)) {
       data_dendro <- data_dendro %>% select(-all_of(extra_vars))
     }
-    if (has_name(data_shoots, extra_vars_shoots)){
+    if (has_name(data_shoots, extra_vars_shoots)) {
       data_shoots <- data_shoots %>% select(-all_of(extra_vars_shoots))
     }
   }

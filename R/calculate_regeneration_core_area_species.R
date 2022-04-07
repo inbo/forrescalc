@@ -10,7 +10,7 @@
 #' @inheritParams calculate_regeneration
 #'
 #' @return dataframe with columns plot, species, year,
-#' number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
+#' nr_of_subplots_with_regeneration, perc_subplots_with_regeneration,
 #' nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
 #' lci_number_established_ha, uci_number_established_ha,
 #' mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha,
@@ -68,9 +68,9 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
     summarise(
-      number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
+      nr_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
-        .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
+        .data$nr_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
       nr_established_ha = sum(.data$nr_established_ha, na.rm = TRUE),
       not_na_established = sum(!is.na(.data$nr_established_ha)),
       established_interval =

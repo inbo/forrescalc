@@ -1,6 +1,7 @@
 #' copy table(s) from access db to git repository
 #'
-#' This function loads one or more tables from the access database and saves them in a git repository.
+#' This function loads one or more tables from the access database and saves
+#' them in a git repository.
 #'
 #' @param tables vector with table names of tables that should be moved
 #' @inheritParams load_data_dendrometry
@@ -45,7 +46,7 @@ from_access_to_git <-
         )
       ) {
         stop(
-          "Tables in database and git-repository are identical, so no commit added",
+          "Tables in database and git-repository are identical, so no commit added", # nolint
           call. = FALSE
         )
       }

@@ -46,14 +46,18 @@ selection_2steps %>%
   group_by(forest_reserve, period) %>%
   summarise(n_plots = n()) %>%
   ungroup() %>%
-  pivot_wider(names_from = period, names_prefix = "period", values_from = n_plots) %>%
+  pivot_wider(names_from = period,
+              names_prefix = "period", 
+              values_from = n_plots) %>%
   kable() %>%
   kable_styling(full_width = FALSE)
 ```
 
 ```{r results="asis"}
 selection_2steps %>%
-  pivot_wider(names_from = period, names_prefix = "period", values_from = year) %>%
+  pivot_wider(names_from = period, 
+              names_prefix = "period", 
+              values_from = year) %>%
   group_by(forest_reserve) %>%
   summarise(
     n_plots_period1 = sum(!is.na(period1) & is.na(period2)),
@@ -82,14 +86,18 @@ selection_1step %>%
   group_by(forest_reserve, period) %>%
   summarise(n_plots = n()) %>%
   ungroup() %>%
-  pivot_wider(names_from = period, names_prefix = "period", values_from = n_plots) %>%
+  pivot_wider(names_from = period, 
+              names_prefix = "period", 
+              values_from = n_plots) %>%
   kable() %>%
   kable_styling(full_width = FALSE)
 ```
 
 ```{r results="asis"}
 selection_1step %>%
-  pivot_wider(names_from = period, names_prefix = "period", values_from = year) %>%
+  pivot_wider(names_from = period, 
+              names_prefix = "period", 
+              values_from = year) %>%
   group_by(forest_reserve) %>%
   summarise(
     n_plots_period1 = sum(!is.na(period1) & is.na(period2)),
@@ -112,7 +120,8 @@ data_dendro %>%
   ungroup() %>%
   left_join(data_dendro, by = c("forest_reserve", "year", "period")) %>%
   left_join(
-    read_csv2(system.file("./extdata/DAS_tree_groups.csv", package = "forrescalc")),
+    read_csv2(system.file("./extdata/DAS_tree_groups.csv", 
+                          package = "forrescalc")),
     by = "species"
   ) %>%
   group_by(forest_reserve, year, period, dbh_mm_average, group) %>%
@@ -149,5 +158,6 @@ Yearly proportional change of the basal area for each species group.
 
 ```{r}
 calculate_DAS_indicator(data_dendro) %>%
-  ggplot(aes(x = forest_reserve, y = d_group, fill = group)) + geom_bar(stat = "identity", position = "dodge")
+  ggplot(aes(x = forest_reserve, y = d_group, fill = group)) + 
+  geom_bar(stat = "identity", position = "dodge")
 ```

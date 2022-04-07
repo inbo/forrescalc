@@ -9,7 +9,7 @@
 #' @inheritParams calculate_regeneration
 #'
 #' @return dataframe with columns plot, species, year, height,
-#' number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
+#' nr_of_subplots_with_regeneration, perc_subplots_with_regeneration,
 #' rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
 #' observed), mean_number_of_regeneration_ha,
 #' lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
@@ -44,9 +44,9 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       .data$species, .data$plotarea_ha
     ) %>%
     summarise(
-      number_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
+      nr_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
       perc_subplots_with_regeneration =
-        .data$number_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
+        .data$nr_of_subplots_with_regeneration * 100 / unique(.data$n_subplots),
       rubbing_damage_perc =
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
         sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),

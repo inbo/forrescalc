@@ -5,7 +5,7 @@
 library(RODBC)
 library(readr)
 
-dbExterneData <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
+db_externe_data <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
 
 query_tariffs2entries <-
   "SELECT tgbs.ID AS species
@@ -50,7 +50,7 @@ query_tariffs1entry_crown <-
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ingKroon t1k ON tgbs.TariefID = t1k.groepID;"
 
-con <- odbcConnectAccess2007(dbExterneData)
+con <- odbcConnectAccess2007(db_externe_data)
 
 tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
 tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)

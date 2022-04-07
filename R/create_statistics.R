@@ -1,11 +1,22 @@
 #' Calculate statistics for the given dataset
 #'
 #' @description
-#' This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
+#' This function calculates statistics for the given data
+#' (e.g. from the git-repository forresdat) on the specified level
+#' (e.g. forest_reserve, period and species) and for the specified variables
+#' (e.g. basal_area and volume).
+#' Calculated statistics include number of observations, mean, variance
+#' and confidence interval (lci and uci).
 #'
-#' These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with value zero.
-#' E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics (e.g. mean coverage) are calculated on 3 plots.
-#' Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros().
+#' These summary statistics are calculated on the given data, not taking into
+#' account absence of observations unless explicitly added as a record with
+#' value zero.
+#' E.g. if a certain species only occurs in 3 plots out of 10 and no records are
+#' added for the 7 remaining plots, the summary statistics (e.g. mean coverage)
+#' are calculated on 3 plots.
+#' Records with value zero for certain variables (e.g. coverage of a certain
+#' species or number of trees for a certain diameter class) can automatically
+#' be added using the function add_zeros().
 #'
 #' In case of intervals, the variance and confidence interval are calculated
 #' based on the minimum and maximum values of the intervals of the individual
@@ -23,10 +34,15 @@
 #' be named after the values in forresdat, omitting `min_`, `_min`, `max_` or
 #' `_max` (see example on interval data).
 #'
-#' @param dataset dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat
-#' @param level grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.
-#' @param variables variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)
-#' @param include_year_range Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.
+#' @param dataset dataset with data to be summarised with at least columns year
+#' and period, e.g. table from git repository forresdat
+#' @param level grouping variables that determine on which level the values
+#' should be calculated (e.g. forest_reserve, year and species), given as a
+#' string or a vector of strings. Defaults to forest_reserve & period.
+#' @param variables variable(s) of which summary statistics should be
+#' calculated (given as a string or a vector of strings)
+#' @param include_year_range Should min_year and max_year be calculated based
+#' on a given column year in dataset?  Defaults to FALSE.
 #' @param na_rm Should NA values in the dataset be ignored?  Defaults to FALSE.
 #' If TRUE, levels without any non NA data are kept (resulting in NA values).
 #' @param interval_information overview of names for interval data,
@@ -40,7 +56,10 @@
 #' in congruence with the fact that class widths only differ in the lower part
 #' of the Longo scale.)
 #'
-#' @return dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+#' @return dataframe with the columns chosen for level, a column variable with
+#' the chosen variables, and the columns n_obs, mean, variance,
+#' lci (lower limit of confidence interval) and
+#' uci (upper limit of confidence interval)
 #'
 #' @examples
 #' \dontrun{
@@ -79,7 +98,8 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% distinct filter group_by_at left_join mutate select summarise right_join ungroup vars
+#' @importFrom dplyr %>% distinct filter group_by_at left_join mutate select
+#' @importFrom dplyr summarise right_join ungroup vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr nest pivot_longer pivot_wider unnest
 #' @importFrom readr read_csv2
@@ -210,10 +230,10 @@ create_statistics <-
             by = level
           )
       } else {
-        warning("No year range is calculated as 'year' is given as a level (so each year has separate records).")
+        warning("No year range is calculated as 'year' is given as a level (so each year has separate records).") #nolint
       }
     } else {
-      warning("Add column 'year' to dataset if you want the year range to be calculated.")
+      warning("Add column 'year' to dataset if you want the year range to be calculated.") #nolint
     }
   }
 

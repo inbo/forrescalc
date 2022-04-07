@@ -1,9 +1,13 @@
 #' save results of calculations in Access database
 #'
-#' This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in an Access database.  List item names will be used to name each of the tables, which contain as a content the different dataframes.
+#' This function saves the results from calculations in the forrescalc package
+#' (or any other named list with dataframes) in an Access database.
+#' List item names will be used to name each of the tables,
+#' which contain as a content the different dataframes.
 #'
 #' @param results results from calculations in package forrescalc as a named list
-#' @param database name of (empty) Access database including path in which results should be saved
+#' @param database name of (empty) Access database including path in which
+#' results should be saved
 #' @param remove_tables overwrite existing tables in database?  Default is
 #' FALSE, which means tables are not overwritten/deleted unless this parameter
 #' is explicitly put on TRUE.

@@ -1,11 +1,14 @@
 #' check table trees from fieldmap database for inconsistencies
 #'
 #' STILL UNDER CONSTRUCTION!!!
-#' This function retrieves the important fields of table Trees (and Trees_2eSET) from the given database and checks for lacking data or wrong input.
+#' This function retrieves the important fields of table Trees (and Trees_2eSET)
+#' from the given database and checks for lacking data or wrong input.
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap structure) including path
+#' @param database name of fieldmap/access database (with specific fieldmap
+#' structure) including path
 #'
-#' @return Dataframe with inconsistent data (FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
+#' @return Dataframe with inconsistent data
+#' (FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
 #'
 #' @examples
 #' \dontrun{
@@ -43,7 +46,9 @@ check_data_trees <- function(database) {
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots <-
-    "SELECT IDPlots, XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
+    "SELECT IDPlots,
+    XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm,
+    Height_m AS height_m, IntactSnag
     FROM Shoots"
 
   query_trees2 <-
@@ -70,8 +75,8 @@ check_data_trees <- function(database) {
 
   query_shoots2 <-
     "SELECT IDPlots,
-      XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees, ID AS shoot_id,
-      DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
+      XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees,
+      ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
     FROM Shoots_2eSET"
 
   con <- odbcConnectAccess2007(database)

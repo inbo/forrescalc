@@ -2,10 +2,13 @@
 #'
 #' This function calculates additional variables based on measurements, such as
 #' \itemize{
-#'  \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
+#'  \item calc_height_m: calculated height based on `dbh_mm` and a species
+#'  specific diameter-height model
 #'  \item basal_area_m2
-#'  \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
-#'  \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs
+#'  \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and
+#'  species specific tariffs
+#'  \item vol_crown_m3: calculated based on `dbh_mm` and
+#'  species specific tariffs
 #'  \item vol_tot_m3: sum of `vol_bole_m3` and `vol_crowwn_m3`
 #'  \item basal_area_alive_m2_ha
 #'  \item basal_area_dead_m2_ha
@@ -16,7 +19,8 @@
 #' }
 #'
 #' @inheritParams calculate_dendrometry
-#' @param data_stems dataframe on stems (shoots and trees) as given from the function compose_stem_data()
+#' @param data_stems dataframe on stems (shoots and trees) as given from the
+#' function compose_stem_data()
 #'
 #' @return Dataframe with ...
 #'
@@ -37,7 +41,8 @@
 #'
 #' @importFrom readr read_csv2
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select summarise ungroup
+#' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select
+#' summarise ungroup
 #'
 calc_variables_stem_level <-
   function(data_stems, height_model) {
@@ -70,9 +75,12 @@ calc_variables_stem_level <-
           1.3 + .data$P1 + .data$P2 * log(.data$dbh_mm / 10)
         ),
       dh_model = ifelse(!is.na(.data$P1), TRUE, FALSE),
-      # if no height_model is available, calc_height_fm on tree level (< FM-IA) is used
+      # if no height_model is available, calc_height_fm on tree level (< FM-IA)
+      # is used
       calc_height_m =
-        ifelse(is.na(.data$calc_height_r), .data$calc_height_fm, .data$calc_height_r)
+        ifelse(is.na(.data$calc_height_r)
+               , .data$calc_height_fm
+               , .data$calc_height_r)
     ) %>%
     select(
       -.data$model, -.data$P1, -.data$P2
@@ -85,7 +93,8 @@ calc_variables_stem_level <-
           system.file("extdata/tariffs1entry.csv", package = "forrescalc")
         )
       ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
+        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
+               -.data$source),
       by = "species"
     ) %>%
     mutate(
@@ -105,7 +114,8 @@ calc_variables_stem_level <-
           system.file("extdata/tariffs1entry_crown.csv", package = "forrescalc")
         )
       ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
+        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
+               -.data$source),
       by = "species"
     ) %>%
     mutate(
@@ -125,7 +135,8 @@ calc_variables_stem_level <-
           system.file("extdata/tariffs2entries.csv", package = "forrescalc")
         )
       ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group, -.data$source),
+        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
+               -.data$source),
       by = "species"
     ) %>%
       mutate(
@@ -134,18 +145,23 @@ calc_variables_stem_level <-
           ifelse(
             .data$formula == 1,
             yes =
-              .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
-              .data$d * .data$perimeter ^ 3 + .data$e * .data$calc_height_m +
+              .data$a + .data$b * .data$perimeter +
+              .data$c * .data$perimeter ^ 2 +
+              .data$d * .data$perimeter ^ 3 +
+              .data$e * .data$calc_height_m +
               .data$f * .data$calc_height_m * .data$perimeter +
               .data$g * .data$calc_height_m * .data$perimeter ^ 2,
             no =
               1 / 1000 *
               #spil
-              (exp(1.10597 * log(.data$calc_height_m) + 1.78865 * log(.data$d_cm) - 3.07192) -
+              (exp(1.10597 * log(.data$calc_height_m) +
+                     1.78865 * log(.data$d_cm) - 3.07192) -
                  #Verlies
-                 exp(-4.608923 * log(.data$d_cm) + 3.005989 * log(.data$calc_height_m) -
+                 exp(-4.608923 * log(.data$d_cm) +
+                       3.005989 * log(.data$calc_height_m) -
                        1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
-                       1.605266 * log(.data$d_cm) * log(.data$calc_height_m) + 5.410272))
+                       1.605266 * log(.data$d_cm) * log(.data$calc_height_m)
+                     + 5.410272))
           )
         , vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3)
         , vol_bole_m3 =
@@ -171,7 +187,7 @@ calc_variables_stem_level <-
                               # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
                               # AS CILINDER - GIVES BETTER RESULTS
                               pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
-                              # ! TEMPORARY SOLUTION: goal is to incormporate taper functuions cfr FM-IA
+                              # ! TEMPORARY SOLUTION: goal is to incorporate taper functions cfr FM-IA
                                 NA),
       # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
       # nee, want dan ook geen volumes van de andere bomen ...)
@@ -182,10 +198,12 @@ calc_variables_stem_level <-
     mutate(
       # volume correction for broken crown or branches
       reduction_crown =
-        ifelse(is.na(.data$crown_volume_reduction), 0, .data$crown_volume_reduction),
+        ifelse(is.na(.data$crown_volume_reduction), 0,
+               .data$crown_volume_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
       reduction_branch =
-        ifelse(is.na(.data$branch_length_reduction), 0, .data$branch_length_reduction),
+        ifelse(is.na(.data$branch_length_reduction), 0,
+               .data$branch_length_reduction),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3

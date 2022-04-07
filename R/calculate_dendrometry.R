@@ -1,6 +1,7 @@
 #' Calcualtes and aggregates parameters on dendrometry of trees
 #'
-#' This function calculates additional variables and makes aggregations of individual tree measures on the levels of
+#' This function calculates additional variables and makes aggregations of
+#' individual tree measures on the levels of
 #' \itemize{
 #'  \item plot and year
 #'  \item plot, tree species and year
@@ -13,9 +14,15 @@
 #'  \item decay stage, plot, tree species and year
 #' }
 #'
-#' @param data_dendro dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())
-#' @param data_shoots dataframe on shoots as given from the function load_data_shoots()
-#' @param data_deadwood dataframe on logs with variables plot_id, plottype, date_dendro, species, decaystage, calc_volume_m3, period and year (output of function load_data_deadwood())
+#' @param data_dendro dataframe on tree measures with variables plot_id,
+#' plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
+#' alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,...
+#' (output of function load_data_dendrometry())
+#' @param data_shoots dataframe on shoots as given from the function
+#' load_data_shoots()
+#' @param data_deadwood dataframe on logs with variables plot_id, plottype,
+#' date_dendro, species, decaystage, calc_volume_m3, period and year
+#' (output of function load_data_deadwood())
 #' @param height_model dataframe with `model` containing 'exp' or 'ln',
 #' coeficients `P1` and `P2` to calculate height model for each combination of
 #' `species`, `forest_reserve`, `period` and `plottype`. Height models in .xlsx
@@ -40,7 +47,8 @@
 #'
 #' @export
 #'
-calculate_dendrometry <- function(data_dendro, data_deadwood, data_shoots, height_model) {
+calculate_dendrometry <- function(data_dendro, data_deadwood, data_shoots,
+                                  height_model) {
   data_stems <- compose_stem_data(data_dendro, data_shoots)
   data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
   data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)

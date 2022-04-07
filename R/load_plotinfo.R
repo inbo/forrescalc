@@ -6,9 +6,10 @@
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
 #'
-#' @return Dataframe with columns plot_id, plottype, forest_reserve, period, year of dendrometric survey
-#' and information on (1) whether there has been a dendro, deadwood, regeneration and/or vegetation survey
-#' and (2) whether the data have been processed or not.
+#' @return Dataframe with columns plot_id, plottype, forest_reserve, period,
+#' year of dendrometric survey and information on
+#' (1) whether there has been a dendro, deadwood, regeneration and/or
+#' vegetation survey and (2) whether the data have been processed or not.
 #'
 #' @examples
 #' \dontrun{
@@ -19,7 +20,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% distinct filter group_by mutate left_join select summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by mutate left_join select
+#' @importFrom dplyr summarise ungroup
 #' @importFrom rlang .data
 #'
 
@@ -75,8 +77,10 @@ load_plotinfo <- function(database) {
       survey_deadw = (.data$survey_deadw == 10 & !is.na(.data$survey_deadw)),
       survey_veg = (.data$survey_veg == 10 & !is.na(.data$survey_veg)),
       survey_reg = (.data$survey_reg == 10 & !is.na(.data$survey_reg)),
-      game_impact_veg = (.data$game_impact_veg == 10 & !is.na(.data$game_impact_veg)),
-      game_impact_reg = (.data$game_impact_reg == 10 & !is.na(.data$game_impact_reg)),
+      game_impact_veg = (.data$game_impact_veg == 10
+                         & !is.na(.data$game_impact_veg)),
+      game_impact_reg = (.data$game_impact_reg == 10
+                         & !is.na(.data$game_impact_reg)),
 
       data_processed =
         (.data$data_processed == 10 & !is.na(.data$data_processed))
@@ -85,7 +89,8 @@ load_plotinfo <- function(database) {
   plotinfo <- plotinfo %>%
     left_join(plotinfo %>%
                 filter(.data$survey_trees == TRUE) %>%
-                group_by(.data$plot_id, .data$plottype, .data$forest_reserve, .data$survey_trees) %>%
+                group_by(.data$plot_id, .data$plottype,
+                         .data$forest_reserve, .data$survey_trees) %>%
                 summarise(min_period = min(.data$period)) %>%
 
                 ungroup()) %>%

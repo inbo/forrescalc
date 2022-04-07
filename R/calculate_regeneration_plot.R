@@ -8,10 +8,12 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, subplot, year, period, number_of_tree_species,
-#' nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
-#' lci_number_established_ha, uci_number_established_ha,
-#' mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha,
+#' @return dataframe with columns plot, subplot, year, period,
+#' number_of_tree_species, nr_established_ha, nr_seedlings_ha,
+#' mean_number_established_ha, lci_number_established_ha,
+#' uci_number_established_ha,
+#' mean_number_seedlings_ha, lci_number_seedlings_ha,
+#' uci_number_seedlings_ha,
 #' approx_nr_established_ha, approx_nr_seedlings_ha.
 #'
 #' @examples
@@ -33,7 +35,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       nr_established_ha =
-        ifelse(is.na(.data$subcircle) |.data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$nr_of_regeneration / .data$plotarea_ha, NA),
       min_number_established_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
