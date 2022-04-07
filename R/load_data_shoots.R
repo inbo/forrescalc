@@ -50,11 +50,13 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
     FROM Shoots_1986 Shoots;"
 
   con <- odbcConnectAccess2007(database)
-  shoots_1986 <- sqlQuery(con, query_shoots_1986, stringsAsFactors = FALSE) %>%
+  shoots_1986 <- sqlQuery(con, query_shoots_1986
+                          , stringsAsFactors = FALSE
+                          ) %>%
     mutate(period = 0)
   odbcClose(con)
 
-  data_shoots <- query_database(database, query_shoots)
+  data_shoots <- query_database(database, query_shoots, add_fields = add_fields)
 
   if (nrow(shoots_1986) > 0) {
     data_shoots <- data_shoots %>%
