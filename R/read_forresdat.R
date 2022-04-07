@@ -18,7 +18,7 @@
 #' chosen.
 #'
 #' @return A dataframe with the specified table, default columns plottype, forest_reserve,
-#' survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)
+#' survey_dendro/deadw/reg/veg (TRUE or FALSE) and data_processed (TRUE or FALSE)
 #'
 #' @examples
 #' \dontrun{
