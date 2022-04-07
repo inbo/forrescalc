@@ -50,6 +50,7 @@ load_plotinfo <- function(database) {
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
+      pd.Date_Dendro_1986 AS date_dendro,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
       pd.DataProcessed_YN AS data_processed
