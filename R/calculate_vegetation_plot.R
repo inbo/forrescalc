@@ -8,10 +8,11 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, subplot, year (year of main vegetation
-#' survey, possible deviating year of spring survey not taken into account),
-#' number_of_tree_species and min/max/mid cover of the different vegetation
-#' layers (moss, herb, shrub, tree), the waterlayer and soildisturbance.
+#' @return dataframe with columns plot, subplot, date, year (year of main
+#' vegetation survey, possible deviating year of spring survey not taken into
+#' account), number_of_tree_species and min/max/mid cover of the different
+#' vegetation layers (moss, herb, shrub, tree), the waterlayer and since 2015
+#' also of the soildisturbance by game.
 #'
 #' @examples
 #' \dontrun{
@@ -48,7 +49,8 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     left_join(
       data_vegetation %>%
         select(
-          .data$plot_id, .data$subplot_id, .data$period, .data$year_main_survey,
+          .data$plot_id, .data$subplot_id, .data$period,
+          .data$year_main_survey, .data$date_vegetation,
           .data$moss_cover_min, .data$moss_cover_max, .data$moss_cover_mid,
           .data$herb_cover_min, .data$herb_cover_max, .data$herb_cover_mid,
           .data$shrub_cover_min, .data$shrub_cover_max, .data$shrub_cover_mid,
