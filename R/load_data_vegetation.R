@@ -79,7 +79,7 @@ load_data_vegetation <-
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
     mutate(
-      year_main_survey = ifelse(is.na(.data$year_main_survey)
+      year_main_survey = ifelse(!is.na(.data$date_vegetation)
                                 , year(.data$date_vegetation)
                                 , .data$year_main_survey),
       plotarea_ha =
