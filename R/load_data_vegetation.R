@@ -55,7 +55,7 @@ load_data_vegetation <-
     query_total_cover <-
       "SELECT tc.ID AS id,
               tc.Value1 AS cover_interval,
-              tc.Value2 AS mean_cover
+              tc.Value2 AS mid_cover
         FROM qtotalCover tc"
 
   con <- odbcConnectAccess2007(database)
@@ -67,8 +67,8 @@ load_data_vegetation <-
       max_cover = ifelse(.data$max_cover == "< 1%", 1, .data$max_cover),
       min_cover = ifelse(.data$min_cover == "nvt", NA, .data$min_cover),
       max_cover = ifelse(.data$max_cover == "nvt", NA, .data$max_cover),
-      mean_cover = str_replace(string = .data$mean_cover, pattern = ",", replacement = "."),
-      mean_cover = as.numeric(.data$mean_cover) * 100,
+      mid_cover = str_replace(string = .data$mid_cover, pattern = ",", replacement = "."),
+      mid_cover = as.numeric(.data$mid_cover) * 100,
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
@@ -107,42 +107,42 @@ load_data_vegetation <-
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(
       moss_cover_interval = .data$cover_interval,
-      moss_cover_mean = .data$mean_cover,
+      moss_cover_mid = .data$mid_cover,
       moss_cover_min = .data$min_cover,
       moss_cover_max = .data$max_cover
     ) %>%
     left_join(total_cover, by = c("total_herb_cover_id" = "id")) %>%
     rename(
       herb_cover_interval = .data$cover_interval,
-      herb_cover_mean = .data$mean_cover,
+      herb_cover_mid = .data$mid_cover,
       herb_cover_min = .data$min_cover,
       herb_cover_max = .data$max_cover
     ) %>%
     left_join(total_cover, by = c("total_shrub_cover_id" = "id")) %>%
     rename(
       shrub_cover_interval = .data$cover_interval,
-      shrub_cover_mean = .data$mean_cover,
+      shrub_cover_mid = .data$mid_cover,
       shrub_cover_min = .data$min_cover,
       shrub_cover_max = .data$max_cover
     ) %>%
     left_join(total_cover, by = c("total_tree_cover_id" = "id")) %>%
     rename(
       tree_cover_interval = .data$cover_interval,
-      tree_cover_mean = .data$mean_cover,
+      tree_cover_mid = .data$mid_cover,
       tree_cover_min = .data$min_cover,
       tree_cover_max = .data$max_cover
     ) %>%
     left_join(total_cover, by = c("total_waterlayer_cover_id" = "id")) %>%
     rename(
       waterlayer_cover_interval = .data$cover_interval,
-      waterlayer_cover_mean = .data$mean_cover,
+      waterlayer_cover_mid = .data$mid_cover,
       waterlayer_cover_min = .data$min_cover,
       waterlayer_cover_max = .data$max_cover
     ) %>%
     left_join(total_cover, by = c("total_soildisturbance_game_id" = "id")) %>%
     rename(
       soildisturbance_game_cover_interval = .data$cover_interval,
-      soildisturbance_game_cover_mean = .data$mean_cover,
+      soildisturbance_game_cover_mid = .data$mid_cover,
       soildisturbance_game_cover_min = .data$min_cover,
       soildisturbance_game_cover_max = .data$max_cover
     ) %>%

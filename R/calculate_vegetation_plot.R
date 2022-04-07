@@ -4,7 +4,7 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, subplot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
+#' @return dataframe with columns plot, subplot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account), number_of_tree_species and min/max/mid cover by the different vegetation layers (moss, herb, shrub, tree), the waterlayer and the soildisturbance by game.
 #'
 #' @examples
 #' \dontrun{
@@ -55,14 +55,12 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     mutate(
       # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
       # where TL is the percentage cover of the tree layer and SL is the percentage cover of the shrub layer.
-      cumulated_canopy_cover_mean =
-        100 * (1 - (1 - .data$shrub_cover_mean / 100) * (1 - .data$tree_cover_mean / 100)),
       cumulated_canopy_cover_min =
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
       cumulated_canopy_cover_max =
         100 * (1 - (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100)),
       cumulated_canopy_cover_mid =
-        (.data$cumulated_canopy_cover_min + .data$cumulated_canopy_cover_max) / 2
+        100 * (1 - (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100))
     )
 
   return(by_plot)
