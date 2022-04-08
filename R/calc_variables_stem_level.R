@@ -79,8 +79,8 @@ calc_variables_stem_level <-
       # is used
       calc_height_m =
         ifelse(is.na(.data$calc_height_r)
-               , .data$calc_height_fm
-               , .data$calc_height_r)
+               , pmax(1.3, .data$calc_height_fm)
+               , pmax(1.3, .data$calc_height_r))
     ) %>%
     select(
       -.data$model, -.data$P1, -.data$P2
