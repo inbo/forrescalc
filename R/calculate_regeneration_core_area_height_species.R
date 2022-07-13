@@ -1,8 +1,9 @@
 #' aggregate regeneration parameters by plot, height, species and year
 #'
 #' This function calculates for each plot, height, species and year the number
-#' of regeneration per ha (or interval with mean and confidence interval), and
-#' the number and percentage of subplots in which the species is regenerating.
+#' of regeneration per ha (or interval with mean and confidence interval
+#' using a log transformation), and the number and percentage of
+#' subplots in which the species is regenerating.
 #' This calculation is designed for core areas, that consist of different
 #' subplots.
 #'

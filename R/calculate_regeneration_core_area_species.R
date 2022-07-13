@@ -2,8 +2,8 @@
 #'
 #' This function calculates for each plot, species and year the number of
 #' seedlings and established regeneration per ha (or interval with mean
-#' and confidence interval), and the number and percentage of subplots in which
-#' the species is regenerating.
+#' and confidence interval using a log transformation), and the number and
+#' percentage of subplots in which the species is regenerating.
 #' This calculation is designed for core areas,that consist of different
 #' subplots.
 #'
