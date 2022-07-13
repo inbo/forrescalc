@@ -34,18 +34,12 @@ calculate_regeneration_plot <- function(data_regeneration) {
   by_plot <- data_regeneration %>%
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
-      nr_established_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
-               .data$nr_of_regeneration / .data$plotarea_ha, NA),
       min_number_established_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_established_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
-      nr_seedlings_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
-               .data$nr_of_regeneration / .data$plotarea_ha, NA),
       min_number_seedlings_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
@@ -64,16 +58,12 @@ calculate_regeneration_plot <- function(data_regeneration) {
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
-      nr_established_ha = sum(.data$nr_established_ha, na.rm = TRUE),
-      not_na_established = sum(!is.na(.data$nr_established_ha)),
       established_interval =
         sum_intervals(
           var_min = .data$min_number_established_ha,
           var_max = .data$max_number_established_ha,
           transformation = "log", na_rm = TRUE
         ),
-      nr_seedlings_ha = sum(.data$nr_seedlings_ha, na.rm = TRUE),
-      not_na_seedlings = sum(!is.na(.data$nr_seedlings_ha)),
       seedlings_interval =
         sum_intervals(
           var_min = .data$min_number_seedlings_ha,
@@ -90,21 +80,9 @@ calculate_regeneration_plot <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     mutate(
-      nr_established_ha =
-        ifelse(
-          .data$not_na_established > 0 & .data$nr_established_ha > 0,
-          .data$nr_established_ha,
-          NA
-        ),
       mean_number_established_ha = .data$established_interval$sum,
       lci_number_established_ha = .data$established_interval$lci,
       uci_number_established_ha = .data$established_interval$uci,
-      nr_seedlings_ha =
-        ifelse(
-          .data$not_na_seedlings > 0 & .data$nr_seedlings_ha > 0,
-          .data$nr_seedlings_ha,
-          NA
-        ),
       mean_number_seedlings_ha = .data$seedlings_interval$sum,
       lci_number_seedlings_ha = .data$seedlings_interval$lci,
       uci_number_seedlings_ha = .data$seedlings_interval$uci,
@@ -116,8 +94,8 @@ calculate_regeneration_plot <- function(data_regeneration) {
         )
     ) %>%
     select(
-      -.data$established_interval, -.data$not_na_established,
-      -.data$seedlings_interval, -.data$not_na_seedlings, -.data$not_na_rubbing
+      -.data$established_interval, -.data$seedlings_interval,
+      -.data$not_na_rubbing
     )
 
   return(by_plot)
