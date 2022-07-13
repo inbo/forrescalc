@@ -9,7 +9,7 @@
 #' @inheritParams calculate_regeneration
 #'
 #' @return dataframe with columns plot, subplot, year, period,
-#' number_of_tree_species, nr_established_ha, nr_seedlings_ha,
+#' number_of_tree_species,
 #' mean_number_established_ha, lci_number_established_ha,
 #' uci_number_established_ha,
 #' mean_number_seedlings_ha, lci_number_seedlings_ha,
