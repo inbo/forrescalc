@@ -61,5 +61,10 @@ sum_intervals <-
     result$uci <- exp(result$uci)
   }
 
+
+  if (is.na(result$uci) & result$sum == 0 & result$lci == 0) {
+    result$uci <- 0
+  }
+
   return(result)
 }
