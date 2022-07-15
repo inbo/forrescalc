@@ -101,6 +101,47 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
           NA
         )
     ) %>%
+    mutate(mean_number_established_ha =
+             ifelse(is.na(.data$mean_number_established_ha)
+                    & .data$mean_number_seedlings_ha > 0
+                    , 0
+                    , .data$mean_number_established_ha),
+           lci_number_established_ha =
+             ifelse(is.na(.data$lci_number_established_ha)
+                    & .data$mean_number_seedlings_ha > 0
+                    , 0
+                    , .data$lci_number_established_ha),
+           uci_number_established_ha =
+             ifelse(is.na(.data$uci_number_established_ha)
+                    & .data$mean_number_seedlings_ha > 0
+                    , 0
+                    , .data$uci_number_established_ha),
+           mean_number_seedlings_ha =
+             ifelse(is.na(.data$mean_number_seedlings_ha)
+                    & .data$mean_number_established_ha > 0
+                    , 0
+                    , .data$mean_number_seedlings_ha),
+           lci_number_seedlings_ha =
+             ifelse(is.na(.data$lci_number_seedlings_ha)
+                    & .data$mean_number_established_ha > 0
+                    , 0
+                    , .data$lci_number_seedlings_ha),
+           uci_number_seedlings_ha =
+             ifelse(is.na(.data$uci_number_seedlings_ha)
+                    & .data$mean_number_established_ha > 0
+                    , 0
+                    , .data$uci_number_seedlings_ha),
+           approx_nr_established_ha =
+             ifelse(is.na(.data$approx_nr_established_ha)
+                    & .data$approx_nr_seedlings_ha > 0
+                    , 0
+                    , .data$approx_nr_established_ha),
+           approx_nr_seedlings_ha =
+             ifelse(is.na(.data$approx_nr_seedlings_ha)
+                    & .data$approx_nr_established_ha > 0
+                    , 0
+                    , .data$approx_nr_seedlings_ha)
+    ) %>%
     select(
       -.data$established_interval, -.data$seedlings_interval,
       -.data$not_na_rubbing
