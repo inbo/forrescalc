@@ -83,8 +83,8 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
         sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc)),
       approx_nr_established_ha =
-        mean(.data$approx_nr_established_ha, na.rm = TRUE),
-      approx_nr_seedlings_ha = mean(.data$approx_nr_seedlings_ha, na.rm = TRUE)
+        sum(.data$approx_nr_established_ha, na.rm = TRUE),
+      approx_nr_seedlings_ha = sum(.data$approx_nr_seedlings_ha, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     mutate(
