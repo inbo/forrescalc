@@ -81,6 +81,10 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood) {
         log_number_ha = 0,
         vol_log_m3_ha = 0
       )
+      # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
+      # dan zou NA, nA moeten blijven
+      # DUS: !is.na(.data$vol_alive_m3_ha) zou moeten vervangen worden door
+      # info uit plotdetails (Survey_Deadwood_YN == 10)
     )
 
   return(by_diam_plot)

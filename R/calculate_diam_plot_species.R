@@ -83,6 +83,10 @@ calculate_diam_plot_species <-
         vol_bole_dead_m3_ha = 0,
         log_number_ha = 0,
         vol_log_m3_ha = 0
+        # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
+        # dan zou NA, nA moeten blijven
+        # DUS: !is.na(.data$vol_alive_m3_ha) zou moeten vervangen worden door
+        # info uit plotdetails (Survey_Deadwood_YN == 10)
       )
     )
 
