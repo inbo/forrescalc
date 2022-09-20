@@ -69,6 +69,10 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
         ifelse(
           is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
             !is.na(.data$vol_alive_m3_ha),
+          # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
+          # dan zou NA, nA moeten blijven
+          # DUS: !is.na(.data$vol_alive_m3_ha) zou moeten vervangen worden door
+          # info uit plotdetails (Survey_Deadwood_YN == 10)
           0, .data$vol_log_m3_ha
         ),
       plottype = NULL,
