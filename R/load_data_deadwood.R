@@ -90,7 +90,7 @@ load_data_deadwood <-
       plotarea_ha =
         ifelse(
           .data$plottype == "CA",
-          .data$length_core_area_m * .data$width_core_area_m,
+          .data$length_core_area_m * .data$width_core_area_m/10000,
           .data$plotarea_ha
         ),
       plotarea_ha =
