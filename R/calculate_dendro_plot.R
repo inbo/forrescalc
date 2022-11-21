@@ -65,6 +65,13 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
       by = c("plot_id", "year", "period")
     ) %>%
     mutate(
+      # hier alle variabelen obv staande bomen op '0' zetten, wannner ze
+      # NA zijn en survey_trees uit plotdetails = TRUE, naar analogie met vol_logs
+      # dat zijn: number_of_tree_species, number_of_trees_ha, stem_number_ha,
+      # basal_area_alive_m2_ha, basal_area_dead_m2_ha,
+      # vol_alive_m3_ha,vol_dead_standing_m3_ha, vol_bole_alive_m3_ha
+      # @ els: ik denk dat jij dat beter kan programmeren,
+      # ik zou per variabele een ifelse maken
       vol_log_m3_ha =
         ifelse(
           is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
