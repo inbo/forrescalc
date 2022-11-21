@@ -55,7 +55,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
       vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)
     ) %>%
     ungroup() %>%
-    left_join(
+    full_join(
       data_deadwood %>%
         group_by(.data$plot_id, .data$year, .data$period) %>%
         summarise(
