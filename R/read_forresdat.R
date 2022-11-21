@@ -52,7 +52,7 @@ read_forresdat <-
       dataset <- dataset %>%
         left_join(
           read_vc(file = "data/plotinfo", root = repo) %>%
-            select(-.data$year),
+            select(-.data$year_dendro),
           by = c("plot_id", "period")
         ) %>%
         filter(.data$plottype == plottype)
@@ -60,7 +60,7 @@ read_forresdat <-
       dataset <- dataset %>%
         left_join(
           read_vc(file = "data/plotinfo", root = repo) %>%
-            select(-.data$year),
+            select(-.data$year_dendro),
           by = "plot_id"
         ) %>%
         filter(.data$plottype == plottype)
