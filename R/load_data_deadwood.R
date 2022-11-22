@@ -57,6 +57,7 @@ load_data_deadwood <-
       Deadwood.ID AS lying_deadw_id,
       Deadwood.Species AS species,
       Deadwood.DecayStage AS decaystage,
+      Deadwood.IntactFragment AS intact_fragm,
       Deadwood.CalcVolume_m3 AS calc_volume_m3,
       Deadwood.CalcLength_m AS calc_length_m,
       Deadw_Diam.total_length_m,
