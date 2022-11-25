@@ -78,7 +78,7 @@ calculate_diam_plot_species <-
         basal_area_alive_m2_ha = 0,
         basal_area_dead_m2_ha = 0,
         vol_alive_m3_ha = 0,
-        vol_dead_m3_ha = 0,
+        vol_dead_standing_m3_ha = 0,
         vol_bole_alive_m3_ha = 0,
         vol_bole_dead_m3_ha = 0,
         log_number_ha = 0,
