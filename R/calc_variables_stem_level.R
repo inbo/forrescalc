@@ -160,8 +160,8 @@ calc_variables_stem_level <-
                  exp(-4.608923 * log(.data$d_cm) +
                        3.005989 * log(.data$calc_height_m) -
                        1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
-                       1.605266 * log(.data$d_cm) * log(.data$calc_height_m)
-                     + 5.410272))
+                       1.605266 * log(.data$d_cm) * log(.data$calc_height_m) +
+                       5.410272))
           )
         , vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3)
         , vol_bole_m3 =
