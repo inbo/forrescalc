@@ -6,7 +6,7 @@
 #' data (result from function load_data_shoots()).
 #' ATTENTION: some variables as iufro-classes and (common-)remark are
 #' - for coppice - collected at shoot level.
-#' To include these extra variables, it is necessary to indicate this in both
+#' To include these extra variables, it is necessary to indicate this argument in both
 #' load-functions (load_data_dendrometry() and load_data_shoots()):
 #' extra_variables = TRUE.
 #'
