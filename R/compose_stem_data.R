@@ -25,8 +25,7 @@
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' compose_stem_data(data_dendro, data_shoots)
 #'
-#' #change path before running
-#' library(forrescalc)
+#' #to include iufro-classes and other additional variables:
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
 #'   extra_variables = TRUE)
