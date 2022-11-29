@@ -10,7 +10,7 @@
 #' Default is FALSE (no).
 #' ATTENTION: some variables as iufro-classes and (common-)remark are
 #' - for coppice - collected at shoot level.
-#' To include these extra variables, it is necessary to indicate this in both
+#' To include these extra variables, it is necessary to indicate this argument in both
 #' load-functions (load_data_dendrometry() and load_data_shoots()):
 #' extra_variables = TRUE.
 #' @inheritParams calculate_dendrometry
@@ -28,8 +28,7 @@
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' compose_stem_data(data_dendro, data_shoots)
 #'
-#' #change path before running
-#' library(forrescalc)
+#' #to include iufro-classes and other additional variables:
 #' data_dendro <-
 #'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
 #'   extra_variables = TRUE)
