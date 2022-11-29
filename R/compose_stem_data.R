@@ -4,12 +4,15 @@
 #' load_data_dendrometry()) the diameters, height, decaystage and info on
 #' intact/snag from coppice trees by their separate stems given in the shoot
 #' data (result from function load_data_shoots()).
+#'
+#' @param extra_variables Should additional variables such as iufro_hght,
+#' iufro_vital, iufro_socia, remark and common_remark be added?
+#' Default is FALSE (no).
 #' ATTENTION: some variables as iufro-classes and (common-)remark are
 #' - for coppice - collected at shoot level.
 #' To include these extra variables, it is necessary to indicate this in both
 #' load-functions (load_data_dendrometry() and load_data_shoots()):
 #' extra_variables = TRUE.
-#'
 #' @inheritParams calculate_dendrometry
 #' @inheritParams load_data_shoots
 #'
