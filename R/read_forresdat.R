@@ -39,7 +39,7 @@
 read_forresdat <-
   function(tablename, repo_path, join_plotinfo = TRUE, plottype = c("CP", "CA")) {
   assert_that(is.logical(join_plotinfo))
-  plottype <- match.arg(plottype)
+  var_plottype <- match.arg(plottype)
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   dataset <- read_vc(file = paste0("data/", tablename), root = repo)
@@ -54,14 +54,14 @@ read_forresdat <-
           read_vc(file = "data/plotinfo", root = repo),
           by = c("plot_id", "period")
         ) %>%
-        filter(.data$plottype == plottype)
+        filter(.data$plottype == var_plottype)
     } else {
       dataset <- dataset %>%
         left_join(
           read_vc(file = "data/plotinfo", root = repo),
           by = "plot_id"
         ) %>%
-        filter(.data$plottype == plottype)
+        filter(.data$plottype == var_plottype)
     }
   } else {
     warning(
