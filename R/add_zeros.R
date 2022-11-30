@@ -10,7 +10,7 @@
 #' (e.g. mean coverage per species in a certain forest reserve; mean stem number
 #' per diameter class in a forest reserve).
 #' This function automatically adds missing combinations with value zero to
-#' the dataset #' for each combination of values of the variables given
+#' the dataset for each combination of values of the variables given
 #' in `comb_vars` (within each value of `grouping_vars`).
 #' All variables that are not mentioned in `comb_vars` or `grouping_vars`,
 #' are considered to be numerical variables and will get value 0 (zero).
