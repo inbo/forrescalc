@@ -58,8 +58,7 @@ load_data_vegetation <-
 
     query_total_cover <-
       "SELECT tc.ID AS id,
-              tc.Value1 AS cover_interval,
-              tc.Value2 AS mid_cover
+              tc.Value1 AS cover_interval
         FROM qtotalCover tc"
 
   con <- odbcConnectAccess2007(database)
