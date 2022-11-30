@@ -1,11 +1,15 @@
 #' @title create_unique_tree_id for each individual tree over different years
 #'
 #' @description
-#' This function creates a unique ID for each tree, that allows to group (f.e. by use of `make_table_wide()`) all given information on the life stages of an individual tree during different measures.
+#' This function creates a unique ID for each tree, that allows to group
+#' (f.e. by use of `make_table_wide()`) all given information on the life stages
+#' of an individual tree during different measures.
 #'
 #' @inheritParams calc_variables_tree_level
 #'
-#' @return a dataset with 1 record per tree measurement, containing the given data of each tree in different years (= data_dendro) and a link to a unique tree_id.
+#' @return a dataset with 1 record per tree measurement, containing the given
+#' data of each tree in different years (= data_dendro) and a link
+#' to a unique tree_id.
 #'
 #' @examples
 #' \dontrun{

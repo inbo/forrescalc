@@ -1,11 +1,21 @@
 #' compare parameters between periods (years that parameters are measured)
 #'
-#' This function compares for each plot (and other provided variables) the differences between periods/years for the column names given in parameter measure_vars. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure. All column names of the dataset that are not added to parameter measure_vars, are considered as grouping variables, except for period. If the result is not as expected, please verify that the dataset only consists of grouping variables, variables added to measure_vars and period.
+#' This function compares for each plot (and other provided variables) the
+#' differences between periods/years for the column names given in parameter
+#' measure_vars. It gives results for differences between subsequent measures
+#' (based on 'period') and between the last and the first measure.
+#' All column names of the dataset that are not added to parameter measure_vars,
+#' are considered as grouping variables, except for period. If the result is not
+#' as expected, please verify that the dataset only consists of grouping
+#' variables, variables added to measure_vars and period.
 #'
-#' @param dataset dataframe with values for each period, plot and year, in addition to grouping variables and measure_vars
-#' @param measure_vars column names of variables that should be compared between periods (including year)
+#' @param dataset dataframe with values for each period, plot and year,
+#' in addition to grouping variables and measure_vars
+#' @param measure_vars column names of variables that should be compared
+#' between periods (including year)
 #'
-#' @return dataframe with columns plot, year_diff, n_years, grouping variables and differences between periods for each column of measure_vars
+#' @return dataframe with columns plot, year_diff, n_years, grouping variables
+#' and differences between periods for each column of measure_vars
 #'
 #' @examples
 #' \dontrun{
@@ -21,7 +31,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% all_vars any_vars filter_at group_by group_by_at mutate mutate_at select ungroup vars
+#' @importFrom dplyr %>% all_vars any_vars filter_at group_by group_by_at
+#' @importFrom dplyr mutate mutate_at select ungroup vars
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
@@ -58,7 +69,8 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
     ungroup()
   result_diff <- dataset_wide %>%
     filter_at(vars(all_of(grouping_vars)), any_vars(is.na(.))) %>%
-    filter_at(vars(!matches(c(grouping_vars, "year"))), all_vars(is.na(.) | . == 0)) %>%
+    filter_at(vars(!matches(c(grouping_vars, "year")))
+              , all_vars(is.na(.) | . == 0)) %>%
     anti_join(x = dataset_wide, by = grouping_vars) %>%
     pivot_longer(
       cols = matches(measure_vars),
@@ -66,7 +78,8 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
     ) %>%
     mutate(
       measure_var =
-        substr(.data$measure_var_period, 1, nchar(.data$measure_var_period) - 2),
+        substr(.data$measure_var_period, 1
+               , nchar(.data$measure_var_period) - 2),
       measure_var =
         ifelse(
           .data$measure_var == "year",

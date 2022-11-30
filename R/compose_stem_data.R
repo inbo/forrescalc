@@ -1,10 +1,20 @@
 #' Combine dendro data and shoot data to give detailed stem data
 #'
-#' This function replaces in the given dendrometric data (result from function load_data_dendrometry())
-#' the diameters, height, decaystage and info on intact/snag from coppice trees
-#' by their separate stems given in the shoot data (result from function load_data_shoots()).
+#' This function replaces in the given dendrometric data (result from function
+#' load_data_dendrometry()) the diameters, height, decaystage and info on
+#' intact/snag from coppice trees by their separate stems given in the shoot
+#' data (result from function load_data_shoots()).
 #'
+#' @param extra_variables Should additional variables such as iufro_hght,
+#' iufro_vital, iufro_socia, remark and common_remark be added?
+#' Default is FALSE (no).
+#' ATTENTION: some variables as iufro-classes and (common-)remark are
+#' - for coppice - collected at shoot level.
+#' To include these extra variables, it is necessary to indicate this argument in both
+#' load-functions (load_data_dendrometry() and load_data_shoots()):
+#' extra_variables = TRUE.
 #' @inheritParams calculate_dendrometry
+#' @inheritParams load_data_shoots
 #'
 #' @return Dataframe with shoot data
 #'
@@ -17,14 +27,46 @@
 #' data_shoots <-
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' compose_stem_data(data_dendro, data_shoots)
+#'
+#' #to include iufro-classes and other additional variables:
+#' data_dendro <-
+#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+#'   extra_variables = TRUE)
+#' data_shoots <-
+#'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+#'   extra_variables = TRUE)
+#' compose_stem_data(data_dendro, data_shoots, extra_variables = TRUE)
 #' }
 #'
 #' @export
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% bind_rows filter inner_join mutate select
+#' @importFrom assertthat has_name
 #'
-compose_stem_data <- function(data_dendro, data_shoots) {
+compose_stem_data <- function(data_dendro, data_shoots, extra_variables = FALSE) {
+  extra_vars <- c("iufro_hght", "iufro_vital", "iufro_socia",
+                  "remark", "common_remark")
+  extra_vars_shoots <- c("iufro_hght_shoots", "iufro_vital_shoots",
+                         "iufro_socia_shoots",
+                         "remark_shoots", "common_remark_shoots")
+  if (extra_variables) {
+  assert_that(
+    has_name(data_dendro, extra_vars),
+    msg =  "data_dendro should contain extra variables as iufroclasses and (common_)remark"  #nolint
+  )
+  assert_that(
+    has_name(data_shoots, extra_vars_shoots),
+    msg =  "data_shoots should contain extra variables as iufroclasses and (common_)remark" #nolint
+  )
+  } else {
+    if (has_name(data_dendro, extra_vars)) {
+      data_dendro <- data_dendro %>% select(-all_of(extra_vars))
+    }
+    if (has_name(data_shoots, extra_vars_shoots)) {
+      data_shoots <- data_shoots %>% select(-all_of(extra_vars_shoots))
+    }
+  }
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
     select(
@@ -43,6 +85,39 @@ compose_stem_data <- function(data_dendro, data_shoots) {
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm),
       basal_area_m2 = pi * (.data$dbh_mm / 2000) ^ 2
     )
+
+  if (
+    has_name(
+      stem_data,
+      c("iufro_hght", "iufro_vital", "iufro_socia", "iufro_hght_shoots",
+        "iufro_vital_shoots", "iufro_socia_shoots",
+        "remark_shoots", "common_remark_shoots")
+    )
+  ) {
+    stem_data <- stem_data %>%
+      mutate(
+        iufro_hght =
+          ifelse(is.na(.data$iufro_hght_shoots),
+                 .data$iufro_hght, .data$iufro_hght_shoots),
+        iufro_hght_shoots = NULL,
+        iufro_vital =
+          ifelse(is.na(.data$iufro_vital_shoots),
+                 .data$iufro_vital, .data$iufro_vital_shoots),
+        iufro_vital_shoots = NULL,
+        iufro_socia =
+          ifelse(is.na(.data$iufro_socia_shoots),
+                 .data$iufro_socia, .data$iufro_socia_shoots),
+        iufro_socia_shoots = NULL,
+        remark =
+          ifelse(is.na(.data$remark_shoots),
+                 .data$remark, .data$remark_shoots),
+        remark_shoots = NULL,
+        common_remark =
+          ifelse(is.na(.data$common_remark_shoots),
+                 .data$common_remark, .data$common_remark_shoots),
+        common_remark_shoots = NULL,
+      )
+  }
 
   return(stem_data)
 }

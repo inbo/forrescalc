@@ -1,10 +1,12 @@
 #' aggregate parameters by decay stage, plot, tree species and year
 #'
-#' This function calculates for each plot, tree species and year the volume logs per hectare and per decay stage.
+#' This function calculates for each plot, tree species and year the volume
+#' logs per hectare and per decay stage.
 #'
 #' @inheritParams calculate_dendrometry
 #'
-#' @return dataframe with columns plot, year, tree_species, decaystage, vol_log_m3_ha
+#' @return dataframe with columns plot, year, tree_species, decaystage,
+#' vol_log_m3_ha
 #'
 #' @examples
 #' \dontrun{

@@ -19,7 +19,8 @@
 #' }
 #'
 #' @param data_vegetation dataframe on vegetation with variables ...
-#' @param data_herblayer dataframe on vegetation in the species level ('herb layer') with variables ...
+#' @param data_herblayer dataframe on vegetation in the species level
+#' ('herb layer') with variables ...
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'

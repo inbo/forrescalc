@@ -1,14 +1,21 @@
 #' @title select relevant plots/reserves to calculate DAS indicator
 #'
 #' @description
-#' This function does the first step(s) of the calculation of the DAS indicator, namely selecting the relevant forest reserves or plots based on the following criteria:
+#' This function does the first step(s) of the calculation of the DAS indicator,
+#' namely selecting the relevant forest reserves or plots based on
+#' the following criteria:
 #'
 #' @template selection_criteria_for_DAS
 #'
-#' @param data_to_select dataframe with at least all grouping_vars and the variables dbh_mm, species, basal_area_alive_m2_ha, and as records preferably only living trees (they are not filtered out here but they should not be in here to meet the requirements of the DAS indicator)
-#' @param grouping_vars vector with variables that should be grouped on during the selection steps.
+#' @param data_to_select dataframe with at least all grouping_vars and the
+#' variables dbh_mm, species, basal_area_alive_m2_ha, and as records preferably
+#' only living trees (they are not filtered out here but they should not be
+#' in here to meet the requirements of the DAS indicator)
+#' @param grouping_vars vector with variables that should be grouped on during
+#' the selection steps.
 #'
-#' @return dataframe with the grouping vars in which records are removed that do not meet the above described criteria
+#' @return dataframe with the grouping vars in which records are removed that
+#' do not meet the above described criteria
 #'
 #' @examples
 #' \dontrun{
@@ -20,7 +27,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join mutate select_at summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join
+#' @importFrom dplyr mutate select_at summarise ungroup
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #'

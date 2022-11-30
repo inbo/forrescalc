@@ -1,10 +1,18 @@
 #' aggregate vegetation parameters by plot and year
 #'
-#' This function calculates for each plot and year the total coverage and the number of species in the vegetation layer. Year refers to year of the main vegetation survey (source is table "data_vegetation"), and will in some cases differ from the year of the spring flora survey.
+#' This function calculates for each plot (subplot in case of core area) and
+#' year the total coverage and the number of species in the vegetation layer.
+#' Year refers to year of the main vegetation survey
+#' (source is table "data_vegetation"),
+#' and will in some cases differ from the year of the spring flora survey.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, year (year of main vegetation survey, possible deviating year of spring survey not taken into account) and number_of_tree_species
+#' @return dataframe with columns plot, subplot, date, year (year of main
+#' vegetation survey, possible deviating year of spring survey not taken into
+#' account), number_of_tree_species and min/max/mid cover of the different
+#' vegetation layers (moss, herb, shrub, tree), the waterlayer and since 2015
+#' also of the soildisturbance by game.
 #'
 #' @examples
 #' \dontrun{
@@ -19,7 +27,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise
+#' ungroup
 #' @importFrom rlang .data
 #'
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
@@ -40,7 +49,8 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     left_join(
       data_vegetation %>%
         select(
-          .data$plot_id, .data$subplot_id, .data$period, .data$year,
+          .data$plot_id, .data$subplot_id, .data$period,
+          .data$year_main_survey, .data$date_vegetation,
           .data$moss_cover_min, .data$moss_cover_max, .data$moss_cover_mid,
           .data$herb_cover_min, .data$herb_cover_max, .data$herb_cover_mid,
           .data$shrub_cover_min, .data$shrub_cover_max, .data$shrub_cover_mid,
@@ -53,12 +63,14 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       by = c("plot_id", "period", "subplot_id")
     ) %>%
     mutate(
+      # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
+      # where TL is the percentage cover of the tree layer and SL is the percentage cover of the shrub layer.
       cumulated_canopy_cover_min =
         100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
       cumulated_canopy_cover_max =
         100 * (1 - (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100)),
       cumulated_canopy_cover_mid =
-        (.data$cumulated_canopy_cover_min + .data$cumulated_canopy_cover_max) / 2
+        100 * (1 - (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100))
     )
 
   return(by_plot)

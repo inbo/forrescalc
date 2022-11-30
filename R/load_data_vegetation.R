@@ -1,10 +1,14 @@
 #' retrieve vegetation data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
+#' This function queries the given database to retrieve data on vegetation
+#' (ready for use in calculate_vegetation function).
 #'
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_main_survey (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_main_survey), ....
+#' @return Dataframe with vegetation data, containing columns as
+#' total_herb_cover, total_shrub_cover, total_tree_cover,
+#' total_soildisturbance_game, date_vegetation (= date of vegetation survey),
+#' year_main_survey (= year of vegetation survey), ....
 #'
 #'
 #' @examples
@@ -53,7 +57,9 @@ load_data_vegetation <-
         %3$s;"
 
     query_total_cover <-
-      "SELECT tc.ID AS id, tc.Value1 AS cover_interval FROM qtotalCover tc"
+      "SELECT tc.ID AS id,
+              tc.Value1 AS cover_interval
+        FROM qtotalCover tc"
 
   con <- odbcConnectAccess2007(database)
   total_cover <- sqlQuery(con, query_total_cover, stringsAsFactors = FALSE) %>%
@@ -72,8 +78,9 @@ load_data_vegetation <-
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
     mutate(
-      year = year(.data$date_vegetation),
-      year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
+      year_main_survey = ifelse(!is.na(.data$date_vegetation)
+                                , year(.data$date_vegetation)
+                                , .data$year_main_survey),
       plotarea_ha =
         ifelse(
           .data$plottype == "CP",

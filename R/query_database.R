@@ -8,7 +8,8 @@
 #' @param query query that is adapted to be used in different periods,
 #' in which the following parameters can be used: \itemize{
 #'   \item `\%1$d` : replaced by the period number,
-#'   \item `\%2$s` : replaced by an empty string in period 1 and by '_?eSet' in all other periods (with ? the period)
+#'   \item `\%2$s` : replaced by an empty string in period 1 and by '_?eSet'
+#'   in all other periods (with ? the period)
 #'   \item `\%3$s` : replaced by the string given in argument selection
 #'   \item `\%4$s` : replaced by the string given in argument add_fields
 #'   \item `\%5$s` : replaced by the string given in argument conjunction

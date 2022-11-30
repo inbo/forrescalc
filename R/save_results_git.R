@@ -1,11 +1,18 @@
 #' save results of calculations in git repository
 #'
-#' This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in a git repository.  List item names will be used to name each of the tables, which contain as a content the different dataframes.
+#' This function saves the results from calculations in the forrescalc package
+#' (or any other named list with dataframes) in a git repository.
+#' List item names will be used to name each of the tables, which contain
+#' as a content the different dataframes.
 #'
 #' @param results results from calculations in package forrescalc as a named list
-#' @param repo_path name and path of local git repository in which results should be saved
-#' @param push push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)
-#' @param strict keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)
+#' @param repo_path name and path of local git repository in which results
+#' should be saved
+#' @param push push commits directly to the remote on github?
+#' Default is FALSE (no). (This option can only be used with SSH.)
+#' @param strict keep default TRUE to update data without structural changes,
+#' change to FALSE only if tables are structurally changed
+#' (e.g. additional column, change in sorting order,...)
 #'
 #' @return No value is returned, data are saved in the specified git repository
 #'

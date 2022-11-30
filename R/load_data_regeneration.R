@@ -1,6 +1,7 @@
 #' retrieve regeneration data from fieldmap database
 #'
-#' This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
+#' This function queries the given database to retrieve data on regeneration
+#' (ready for use in calculate_regeneration function).
 #'
 #' @inheritParams load_data_dendrometry
 #'
@@ -74,6 +75,7 @@ load_data_regeneration <-
       id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       number_class =
         c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
+      approx_nr_regeneration = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
       min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
       max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000),
       stringsAsFactors = FALSE
@@ -153,11 +155,12 @@ load_data_regeneration <-
         ),
       approx_nr_regeneration =
         ifelse(
-          .data$min_number_of_regeneration < 100,
-          (.data$min_number_of_regeneration + .data$max_number_of_regeneration) / 2,
-          .data$min_number_of_regeneration + 1
+          is.na(.data$approx_nr_regeneration),
+          .data$nr_of_regeneration,
+          .data$approx_nr_regeneration
         )
-    )
+    ) %>%
+    select(-.data$year_main_survey)
 
   return(data_regeneration)
 }

@@ -1,23 +1,43 @@
-#' Add records with value zero for missing variable combinations in a given dataset
+#' Add records with value zero for missing variable combinations in a
+#' given dataset
 #'
 #' @description
-#' Datasets for which this package has been developed, typically contain measurements of observations.
-#' Absence is often not reported explicitly (e.g. there exists no record of a species that is not observed in a plot), while it can be important to include these zero values in an analysis (e.g. mean coverage per species in a certain forest reserve; mean stem number per diameter class in a forest reserve).
-#' This function automatically adds missing combinations with value zero to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
-#' All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
-#' Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value (e.g. a plot or diameterclass that doesn't exist in the given dataset, but has to be included in the output).
+#' Datasets for which this package has been developed, typically contain
+#' measurements of observations.
+#' Absence is often not reported explicitly (e.g. there exists no record of
+#' a species that is not observed in a plot),
+#' while it can be important to include these zero values in an analysis
+#' (e.g. mean coverage per species in a certain forest reserve; mean stem number
+#' per diameter class in a forest reserve).
+#' This function automatically adds missing combinations with value zero to
+#' the dataset #' for each combination of values of the variables given
+#' in `comb_vars` (within each value of `grouping_vars`).
+#' All variables that are not mentioned in `comb_vars` or `grouping_vars`,
+#' are considered to be numerical variables and will get value 0 (zero).
+#' Note that if a certain value is not present in the dataset
+#' (or in one of the subsets defined by `grouping_vars`), it will not be
+#' added automatically;
+#' at least one record should be added manually for this value
+#' (e.g. a plot or diameterclass that doesn't exist in the given dataset,
+#' but has to be included in the output).
 #'
 #'
 #' @param dataset data.frame in which records should be added
-#' @param comb_vars variables (given as a vector of strings) of which all combinations of their values should have a record in the dataset.
-#' @param grouping_vars one or more variables for which the combination of values of the variables given in `comb_vars` should be made for each value, e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"), all combinations of the values in "plot" and "species" are made within each value of "forest_reserve".
+#' @param comb_vars variables (given as a vector of strings) of which all
+#' combinations of their values should have a record in the dataset.
+#' @param grouping_vars one or more variables for which the combination of
+#' values of the variables given in `comb_vars` should be made for each value,
+#' e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"),
+#' all combinations of the values in "plot" and "species" are made
+#' within each value of "forest_reserve".
 #' @param add_zero_no_na variable indicating which records of the grouping_vars
 #' should get a zero value (variable should be TRUE) or a NA value (variable
 #' should be FALSE).
 #' E.g. a variable indicating whether or not observations are done.
 #' If no variable name is given (default NA), all added records get zero values.
 #'
-#' @return dataframe based on `dataset` to which records are added with value 0 (zero) for each measurement.
+#' @return dataframe based on `dataset` to which records are added with
+#' value 0 (zero) for each measurement.
 #'
 #' @examples
 #' \dontrun{
@@ -38,7 +58,8 @@
 #'
 #' @importFrom plyr .
 #' @importFrom assertthat assert_that has_name
-#' @importFrom dplyr %>% distinct inner_join mutate mutate_at right_join select vars
+#' @importFrom dplyr %>% distinct inner_join mutate mutate_at right_join select
+#' vars
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data ensyms
 #'
@@ -53,7 +74,7 @@ add_zeros <-
   )
   assert_that(
     all(has_name(dataset, grouping_vars)),
-    msg =  "dataset should contain all variables from grouping_vars as column names"
+    msg =  "dataset should contain all variables from grouping_vars as column names" # nolint
   )
   if (!is.na(add_zero_no_na)) {
     assert_that(

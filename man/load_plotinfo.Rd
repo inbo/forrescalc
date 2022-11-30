@@ -11,7 +11,9 @@ load_plotinfo(database)
 structure) including path}
 }
 \value{
-Dataframe with columns plot_id, plottype and forest_reserve
+Dataframe with columns plot_id, plottype, forest_reserve, period, year of survey
+and information on (1) whether there has been a dendro, deadwood, regeneration and/or vegetation survey
+and (2) whether the data have been processed or not.
 }
 \description{
 This function queries the given database to retrieve additional data on plots

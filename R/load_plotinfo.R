@@ -6,7 +6,10 @@
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
 #'
-#' @return Dataframe with columns plot_id, plottype and forest_reserve
+#' @return Dataframe with columns plot_id, plottype, forest_reserve, period,
+#' year of dendrometric survey and information on
+#' (1) whether there has been a dendro, deadwood, regeneration and/or
+#' vegetation survey and (2) whether the data have been processed or not.
 #'
 #' @examples
 #' \dontrun{
@@ -17,7 +20,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% distinct filter group_by mutate left_join select summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by mutate left_join select
+#' @importFrom dplyr summarise ungroup
 #' @importFrom rlang .data
 #'
 
@@ -30,6 +34,7 @@ load_plotinfo <- function(database) {
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
+      pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
       pd.DataProcessed_YN AS data_processed
@@ -45,6 +50,7 @@ load_plotinfo <- function(database) {
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
+      pd.Date_Dendro_1986 AS date_dendro,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
       pd.DataProcessed_YN AS data_processed
@@ -72,8 +78,10 @@ load_plotinfo <- function(database) {
       survey_deadw = (.data$survey_deadw == 10 & !is.na(.data$survey_deadw)),
       survey_veg = (.data$survey_veg == 10 & !is.na(.data$survey_veg)),
       survey_reg = (.data$survey_reg == 10 & !is.na(.data$survey_reg)),
-      game_impact_veg = (.data$game_impact_veg == 10 & !is.na(.data$game_impact_veg)),
-      game_impact_reg = (.data$game_impact_reg == 10 & !is.na(.data$game_impact_reg)),
+      game_impact_veg = (.data$game_impact_veg == 10
+                         & !is.na(.data$game_impact_veg)),
+      game_impact_reg = (.data$game_impact_reg == 10
+                         & !is.na(.data$game_impact_reg)),
 
       data_processed =
         (.data$data_processed == 10 & !is.na(.data$data_processed))
@@ -82,12 +90,15 @@ load_plotinfo <- function(database) {
   plotinfo <- plotinfo %>%
     left_join(plotinfo %>%
                 filter(.data$survey_trees == TRUE) %>%
-                group_by(.data$plot_id, .data$plottype, .data$forest_reserve, .data$survey_trees) %>%
+                group_by(.data$plot_id, .data$plottype,
+                         .data$forest_reserve, .data$survey_trees) %>%
                 summarise(min_period = min(.data$period)) %>%
 
                 ungroup()) %>%
-    mutate(survey_number = .data$period - .data$min_period + 1) %>%
-    select(-.data$min_period)
+    mutate(survey_number = .data$period - .data$min_period + 1,
+           year_dendro = year(round_date(.data$date_dendro, "year")) - 1
+           ) %>%
+    select(-.data$min_period, -.data$date_dendro)
 
   return(plotinfo)
 }

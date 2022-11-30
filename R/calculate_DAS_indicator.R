@@ -1,16 +1,19 @@
 #' @title calculate DAS indicator
 #'
 #' @description
-#' This function does all preparing steps (selection of relevant plots and reserves) and calculations to obtain the DAS-indicator.
+#' This function does all preparing steps (selection of relevant plots and
+#' reserves) and calculations to obtain the DAS-indicator.
 #'
-#' First the relevant forest reserves are selected based on the following criteria:
+#' First the relevant forest reserves are selected based on the following
+#' criteria:
 #'
 #' @template selection_criteria_for_DAS
 #'
 #' @template calculate_das_indicator_explanation_part2
 #'
 #' @inheritParams calculate_dendro_plot
-#' @param na.rm Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
+#' @param na.rm Ignore records with no value? Default is FALSE, so no records
+#' will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
 #'
@@ -32,7 +35,8 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n select summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n
+#' select summarise ungroup
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
@@ -61,9 +65,12 @@ calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
 
   #select relevant plots
   DAS_reserve <- data_dendro_calc %>%
-    select_for_DAS_indicator(grouping_vars = c("forest_reserve", "year", "period")) %>%
-    inner_join(data_dendro_calc, by = c("forest_reserve", "year", "period")) %>%
-    select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
+    select_for_DAS_indicator(grouping_vars = c("forest_reserve", "year",
+                                               "period")) %>%
+    inner_join(data_dendro_calc, by = c("forest_reserve", "year"
+                                        , "period")) %>%
+    select_for_DAS_indicator(grouping_vars = c("plot_id", "year"
+                                               , "period")) %>%
     inner_join(
       data_dendro_calc %>%
         select(.data$plot_id, .data$forest_reserve) %>%
@@ -76,8 +83,10 @@ calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
     ) %>%
     ungroup() %>%
     filter(.data$n_plots >= 12) %>%
-    #add data again to selected plots and calculate difference in basal area proportion
-    inner_join(data_dendro_calc, by = c("forest_reserve", "plot_id", "year", "period")) %>%
+    #add data again to selected plots and calculate difference in basal area
+    # proportion
+    inner_join(data_dendro_calc, by = c("forest_reserve", "plot_id", "year"
+                                        , "period")) %>%
     left_join(
       read_delim(
         system.file("extdata/DAS_tree_groups.csv", package = "forrescalc"),
@@ -85,7 +94,8 @@ calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
       ),
       by = "species"
     ) %>%
-    group_by(.data$forest_reserve, .data$period, .data$year, .data$group, .data$plot_id) %>%
+    group_by(.data$forest_reserve, .data$period, .data$year, .data$group,
+             .data$plot_id) %>%
     summarise(
       basal_area_m2_ha = sum(.data$basal_area_alive_m2_ha)
     ) %>%
