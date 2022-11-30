@@ -51,16 +51,14 @@ read_forresdat <-
     if (has_name(dataset, "period")) {
       dataset <- dataset %>%
         left_join(
-          read_vc(file = "data/plotinfo", root = repo) %>%
-            select(-.data$year),
+          read_vc(file = "data/plotinfo", root = repo),
           by = c("plot_id", "period")
         ) %>%
         filter(.data$plottype == plottype)
     } else {
       dataset <- dataset %>%
         left_join(
-          read_vc(file = "data/plotinfo", root = repo) %>%
-            select(-.data$year),
+          read_vc(file = "data/plotinfo", root = repo),
           by = "plot_id"
         ) %>%
         filter(.data$plottype == plottype)
