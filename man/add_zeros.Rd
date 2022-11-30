@@ -36,7 +36,7 @@ library(forrescalc)
 library(tidyverse)
 dendro_by_plot_species <-
   read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat") \%>\%
-  select(-year, -plottype)
+  select(-year, -plottype, -starts_with("survey_"), -data_processed, -starts_with("game_"))
 add_zeros(
   dataset = dendro_by_plot_species,
   comb_vars = c("plot_id", "species"),
