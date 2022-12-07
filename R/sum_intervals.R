@@ -13,7 +13,7 @@
 #' of confidence interval) and uci (upper limit of confidence interval)
 #'
 #' @examples
-#' #see calculate_regeneration_plot_height()
+#' #see code of calculate_regeneration_plot_height()
 #'
 #' @importFrom assertthat has_name
 #' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup vars
