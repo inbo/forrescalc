@@ -17,7 +17,7 @@
 #' library(forrescalc)
 #' from_access_to_git(
 #'   database = "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'   tables = c("qAliveDead", "qdecaystage"),
+#'   tables = c("qLayer", "qMossLondo"),
 #'   repo_path = "C:/gitrepo/forresdat"
 #' )
 #' remove_last_commit_git(repo_path = "C:/gitrepo/forresdat")
