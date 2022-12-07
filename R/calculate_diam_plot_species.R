@@ -21,7 +21,7 @@
 #'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
 #' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
+#' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 #' calculate_diam_plot_species(data_stems_calc, data_deadwood)
