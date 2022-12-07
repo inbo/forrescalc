@@ -9,7 +9,8 @@ save_results_access(results, database, remove_tables = FALSE)
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
 
-\item{database}{name of (empty) Access database including path in which results should be saved}
+\item{database}{name of (empty) Access database including path in which
+results should be saved}
 
 \item{remove_tables}{overwrite existing tables in database?  Default is
 FALSE, which means tables are not overwritten/deleted unless this parameter
@@ -19,7 +20,10 @@ is explicitly put on TRUE.}
 No value is returned, data are saved in the specified database
 }
 \description{
-This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in an Access database.  List item names will be used to name each of the tables, which contain as a content the different dataframes.
+This function saves the results from calculations in the forrescalc package
+(or any other named list with dataframes) in an Access database.
+List item names will be used to name each of the tables,
+which contain as a content the different dataframes.
 }
 \examples{
 \dontrun{

@@ -12,17 +12,22 @@ structure) including path}
 
 \item{tables}{vector with table names of tables that should be moved}
 
-\item{repo_path}{name and path of local git repository in which results should be saved}
+\item{repo_path}{name and path of local git repository in which results
+should be saved}
 
-\item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
+\item{push}{push commits directly to the remote on github?
+Default is FALSE (no). (This option can only be used with SSH.)}
 
-\item{strict}{keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)}
+\item{strict}{keep default TRUE to update data without structural changes,
+change to FALSE only if tables are structurally changed
+(e.g. additional column, change in sorting order,...)}
 }
 \value{
 No value is returned, the tables are saved in the git repository.
 }
 \description{
-This function loads one or more tables from the access database and saves them in a git repository.
+This function loads one or more tables from the access database and saves
+them in a git repository.
 }
 \examples{
 \dontrun{

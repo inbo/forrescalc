@@ -27,10 +27,14 @@ from all plots are retrieved)}
 Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_main_survey (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_main_survey), ....
+Dataframe with vegetation data, containing columns as
+total_herb_cover, total_shrub_cover, total_tree_cover,
+total_soildisturbance_game, date_vegetation (= date of vegetation survey),
+year_main_survey (= year of vegetation survey), ....
 }
 \description{
-This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
+This function queries the given database to retrieve data on vegetation
+(ready for use in calculate_vegetation function).
 }
 \examples{
 \dontrun{

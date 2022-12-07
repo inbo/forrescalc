@@ -7,15 +7,25 @@
 compare_periods_per_plot(dataset, measure_vars)
 }
 \arguments{
-\item{dataset}{dataframe with values for each period, plot and year, in addition to grouping variables and measure_vars}
+\item{dataset}{dataframe with values for each period, plot and year,
+in addition to grouping variables and measure_vars}
 
-\item{measure_vars}{column names of variables that should be compared between periods (including year)}
+\item{measure_vars}{column names of variables that should be compared
+between periods (including year)}
 }
 \value{
-dataframe with columns plot, year_diff, n_years, grouping variables and differences between periods for each column of measure_vars
+dataframe with columns plot, year_diff, n_years, grouping variables
+and differences between periods for each column of measure_vars
 }
 \description{
-This function compares for each plot (and other provided variables) the differences between periods/years for the column names given in parameter measure_vars. It gives results for differences between subsequent measures (based on 'period') and between the last and the first measure. All column names of the dataset that are not added to parameter measure_vars, are considered as grouping variables, except for period. If the result is not as expected, please verify that the dataset only consists of grouping variables, variables added to measure_vars and period.
+This function compares for each plot (and other provided variables) the
+differences between periods/years for the column names given in parameter
+measure_vars. It gives results for differences between subsequent measures
+(based on 'period') and between the last and the first measure.
+All column names of the dataset that are not added to parameter measure_vars,
+are considered as grouping variables, except for period. If the result is not
+as expected, please verify that the dataset only consists of grouping
+variables, variables added to measure_vars and period.
 }
 \examples{
 \dontrun{

@@ -13,17 +13,17 @@ rubbing_damage_number, period, year, subcircle, plotarea_ha,
 min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
-dataframe with columns plot_id, year, period, height_class,
+dataframe with columns plot, subplot, year, period, height_class,
 number_of_tree_species, rubbing_damage_perc,
-nr_of_regeneration_ha (in case exact numbers are observed),
-mean_number_of_regeneration_ha (in case intervals are observed),
+mean_number_of_regeneration_ha,
 lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
 approx_nr_regeneration_ha.
 }
 \description{
 This function calculates for each plot, tree height class and year
 the number of species, total number of regeneration (or interval with mean
-and confidence interval) and rubbing damage percentage for regeneration.
+and confidence interval using a log transformation) and
+rubbing damage percentage for regeneration.
 For core area plots, these variables are calculated for each subplot.
 }
 \examples{

@@ -30,7 +30,8 @@ Defaults to TRUE (yes).}
 Dataframe with regeneration data
 }
 \description{
-This function queries the given database to retrieve data on regeneration (ready for use in calculate_regeneration function).
+This function queries the given database to retrieve data on regeneration
+(ready for use in calculate_regeneration function).
 }
 \examples{
 \dontrun{

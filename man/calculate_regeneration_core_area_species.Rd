@@ -14,17 +14,18 @@ min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
 dataframe with columns plot, species, year,
-number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
-nr_established_ha, nr_seedlings_ha, mean_number_established_ha,
+nr_of_subplots_with_regeneration, perc_subplots_with_regeneration,
+mean_number_established_ha,
 lci_number_established_ha, uci_number_established_ha,
-mean_number_seedlings_ha, lci_number_seedlings_ha, uci_number_seedlings_ha,
+mean_number_seedlings_ha,
+lci_number_seedlings_ha, uci_number_seedlings_ha,
 approx_nr_established_ha, approx_nr_seedlings_ha.
 }
 \description{
 This function calculates for each plot, species and year the number of
 seedlings and established regeneration per ha (or interval with mean
-and confidence interval), and the number and percentage of subplots in which
-the species is regenerating.
+and confidence interval using a log transformation), and the number and
+percentage of subplots in which the species is regenerating.
 This calculation is designed for core areas,that consist of different
 subplots.
 }

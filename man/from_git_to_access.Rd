@@ -9,7 +9,8 @@ from_git_to_access(tables, repo_path, database, remove_tables = FALSE)
 \arguments{
 \item{tables}{vector with table names of tables that should be moved}
 
-\item{repo_path}{name and path of local git repository in which results should be saved}
+\item{repo_path}{name and path of local git repository in which results
+should be saved}
 
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}

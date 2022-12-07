@@ -14,10 +14,12 @@ read_forresdat(
 \arguments{
 \item{tablename}{name of the table that should be read}
 
-\item{repo_path}{name and path of local git repository from which data should be retrieved}
+\item{repo_path}{name and path of local git repository from which data
+should be retrieved}
 
 \item{join_plotinfo}{should table plotinfo be joined to the chosen table to
-add columns plottype, forest_reserve, survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)?  Default is TRUE.  (This is only
+add columns plottype, forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
+FALSE) and data_processed (TRUE or FALSE)?  Default is TRUE.  (This is only
 possible if the given table contains a column plot_id, so this parameter
 should be put FALSE if this column is absent.)}
 
@@ -26,8 +28,9 @@ Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area' could be
 chosen.}
 }
 \value{
-A dataframe with the specified table, default columns plottype, forest_reserve,
-survey_dendro/deadw/reg/veg (T or F) and data_processed (T or F)
+A dataframe with the specified table, default columns plottype,
+forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
+data_processed (TRUE or FALSE)
 }
 \description{
 This function reads a table in git2rdata format from git repository forresdat
@@ -41,7 +44,8 @@ These zero value records can easily be added by using the function `add_zeros()`
 \dontrun{
 #change path before running
 library(forrescalc)
-read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+read_forresdat(tablename = "dendro_by_plot",
+repo_path = "C:/gitrepo/forresdat")
 }
 
 }

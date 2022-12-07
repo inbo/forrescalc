@@ -7,13 +7,17 @@
 access_to_sqlite(source_db, new_db)
 }
 \arguments{
-\item{source_db}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{source_db}{name of fieldmap/access database (with specific
+fieldmap structure), including path}
 
 \item{new_db}{name and path of SQLite database to be made}
 }
 \value{
-A SQLite database with the specified name is saved at the specified path
+A SQLite database with the specified name is saved at the
+specified path
 }
 \description{
-This function moves all relevant tables from an unindexed Access database to a SQLite database with indexes, for performance reasons. (Not finished yet and not exported!)
+This function moves all relevant tables from an unindexed Access database to
+a SQLite database with indexes, for performance reasons.
+(Not finished yet and not exported!)
 }

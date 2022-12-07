@@ -7,13 +7,18 @@
 remove_last_commit_git(repo_path)
 }
 \arguments{
-\item{repo_path}{name and path of local git repository in which last commits should be removed}
+\item{repo_path}{name and path of local git repository in which last
+commits should be removed}
 }
 \value{
 A dataframe with the specified table
 }
 \description{
-This function removes the last commit from the active branch of the specified git repository. ONLY USE THIS FUNCTION IF YOUR COMMIT IS NOT YET PUSHED TO THE REMOTE!!! This function is meant for users that are not familiar with Git to easily remove an automatically generated commit in forresdat after they discoved mistakes in it.
+This function removes the last commit from the active branch of the
+specified git repository. ONLY USE THIS FUNCTION IF YOUR COMMIT IS
+NOT YET PUSHED TO THE REMOTE!!! This function is meant for users that
+are not familiar with Git to easily remove an automatically generated
+commit in forresdat after they discoved mistakes in it.
 }
 \examples{
 \dontrun{

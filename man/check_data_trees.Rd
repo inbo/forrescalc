@@ -7,14 +7,17 @@
 check_data_trees(database)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of fieldmap/access database (with specific fieldmap
+structure) including path}
 }
 \value{
-Dataframe with inconsistent data (FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
+Dataframe with inconsistent data
+(FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
 }
 \description{
 STILL UNDER CONSTRUCTION!!!
-This function retrieves the important fields of table Trees (and Trees_2eSET) from the given database and checks for lacking data or wrong input.
+This function retrieves the important fields of table Trees (and Trees_2eSET)
+from the given database and checks for lacking data or wrong input.
 }
 \examples{
 \dontrun{

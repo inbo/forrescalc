@@ -9,17 +9,24 @@ save_results_git(results, repo_path, push = FALSE, strict = TRUE)
 \arguments{
 \item{results}{results from calculations in package forrescalc as a named list}
 
-\item{repo_path}{name and path of local git repository in which results should be saved}
+\item{repo_path}{name and path of local git repository in which results
+should be saved}
 
-\item{push}{push commits directly to the remote on github? Default is FALSE (no). (This option can only be used with SSH.)}
+\item{push}{push commits directly to the remote on github?
+Default is FALSE (no). (This option can only be used with SSH.)}
 
-\item{strict}{keep default TRUE to update data without structural changes, change to FALSE only if tables are structurally changed (e.g. additional column, change in sorting order,...)}
+\item{strict}{keep default TRUE to update data without structural changes,
+change to FALSE only if tables are structurally changed
+(e.g. additional column, change in sorting order,...)}
 }
 \value{
 No value is returned, data are saved in the specified git repository
 }
 \description{
-This function saves the results from calculations in the forrescalc package (or any other named list with dataframes) in a git repository.  List item names will be used to name each of the tables, which contain as a content the different dataframes.
+This function saves the results from calculations in the forrescalc package
+(or any other named list with dataframes) in a git repository.
+List item names will be used to name each of the tables, which contain
+as a content the different dataframes.
 }
 \examples{
 \dontrun{

@@ -15,16 +15,16 @@ min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
 dataframe with columns plot, species, year, height,
-number_of_subplots_with_regeneration, perc_subplots_with_regeneration,
-rubbing_damage_perc, nr_of_regeneration_ha (in case exact numbers are
-observed), mean_number_of_regeneration_ha (in case intervals are observed),
+nr_of_subplots_with_regeneration, perc_subplots_with_regeneration,
+rubbing_damage_perc, mean_number_of_regeneration_ha,
 lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
 approx_nr_regeneration_ha.
 }
 \description{
 This function calculates for each plot, height, species and year the number
-of regeneration per ha (or interval with mean and confidence interval), and
-the number and percentage of subplots in which the species is regenerating.
+of regeneration per ha (or interval with mean and confidence interval
+using a log transformation), and the number and percentage of
+subplots in which the species is regenerating.
 This calculation is designed for core areas, that consist of different
 subplots.
 }

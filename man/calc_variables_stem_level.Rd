@@ -7,7 +7,8 @@
 calc_variables_stem_level(data_stems, height_model)
 }
 \arguments{
-\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
+\item{data_stems}{dataframe on stems (shoots and trees) as given from the
+function compose_stem_data()}
 
 \item{height_model}{dataframe with `model` containing 'exp' or 'ln',
 coeficients `P1` and `P2` to calculate height model for each combination of
@@ -21,10 +22,13 @@ Dataframe with ...
 \description{
 This function calculates additional variables based on measurements, such as
 \itemize{
- \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
+ \item calc_height_m: calculated height based on `dbh_mm` and a species
+ specific diameter-height model
  \item basal_area_m2
- \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
- \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs
+ \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and
+ species specific tariffs
+ \item vol_crown_m3: calculated based on `dbh_mm` and
+ species specific tariffs
  \item vol_tot_m3: sum of `vol_bole_m3` and `vol_crowwn_m3`
  \item basal_area_alive_m2_ha
  \item basal_area_dead_m2_ha

@@ -7,17 +7,23 @@
 calculate_DAS_indicator(data_dendro_calc, na.rm = FALSE)
 }
 \arguments{
-\item{data_dendro_calc}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year, subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
+\item{data_dendro_calc}{dataframe on tree measures with variables plot_id,
+plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
+alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year,
+subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
 
-\item{na.rm}{Ignore records with no value? Default is FALSE, so no records will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'}
+\item{na.rm}{Ignore records with no value? Default is FALSE, so no records
+will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'}
 }
 \value{
 dataframe with results for DAS indicator on forest level (?)
 }
 \description{
-This function does all preparing steps (selection of relevant plots and reserves) and calculations to obtain the DAS-indicator.
+This function does all preparing steps (selection of relevant plots and
+reserves) and calculations to obtain the DAS-indicator.
 
-First the relevant forest reserves are selected based on the following criteria:
+First the relevant forest reserves are selected based on the following
+criteria:
 
 \itemize{
  \item test for development stages: average diameter (DBH) between 200 and 700 mm

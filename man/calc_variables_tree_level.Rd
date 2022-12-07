@@ -7,9 +7,15 @@
 calc_variables_tree_level(data_dendro, data_stems_calc)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables plot_id,
+plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
+alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,...
+(output of function load_data_dendrometry())}
 
-\item{data_stems_calc}{dataframe on stem level measurements with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, year, subcircle, plotarea_ha,... (output of function calc_variables_stem_level())}
+\item{data_stems_calc}{dataframe on stem level measurements with variables
+plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
+alive_dead, decaystage, period, year, subcircle, plotarea_ha,...
+(output of function calc_variables_stem_level())}
 }
 \value{
 Dataframe with ...
@@ -17,12 +23,17 @@ Dataframe with ...
 \description{
 This function calculates additional variables based on measurements, such as
 \itemize{
- \item nr_of_stems: the number of shoots in the tree (= 1 for an individual tree; >= 1 when coppice)
- \item individual: true for individual tree or coppice, false if record is a secondary shoot
- \item calc_height_m: calculated height based on `dbh_mm` and a species specific diameter-height model
+ \item nr_of_stems: the number of shoots in the tree
+ (= 1 for an individual tree; >= 1 when coppice)
+ \item individual: true for individual tree or coppice,
+ false if record is a secondary shoot
+ \item calc_height_m: calculated height based on `dbh_mm` and
+ a species specific diameter-height model
  \item basal_area_m2
- \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and species specific tariffs
- \item vol_crown_m3: calculated based on `dbh_mm` and species specific tariffs
+ \item vol_bole_m3: calculated based on `dbh_mm`, `calc_height_m` and
+ species specific tariffs
+ \item vol_crown_m3: calculated based on `dbh_mm` and
+ species specific tariffs
  \item vol_tot_m3: sum of `vol_bole_m3` and `vol_crowwn_m3`
  \item dbh_mm (based on average for coppice trees)
  \item decaystage (based on average for coppice trees)

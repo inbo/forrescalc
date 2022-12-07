@@ -10,19 +10,23 @@ create_statistics(
   variables,
   include_year_range = FALSE,
   na_rm = FALSE,
- 
-    interval_information = suppressMessages(read_csv2(system.file("extdata/class_data.csv",
+  interval_information = suppressMessages(read_csv2(system.file("extdata/class_data.csv",
     package = "forrescalc")))
 )
 }
 \arguments{
-\item{dataset}{dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat}
+\item{dataset}{dataset with data to be summarised with at least columns year
+and period, e.g. table from git repository forresdat}
 
-\item{level}{grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.}
+\item{level}{grouping variables that determine on which level the values
+should be calculated (e.g. forest_reserve, year and species), given as a
+string or a vector of strings. Defaults to forest_reserve & period.}
 
-\item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
+\item{variables}{variable(s) of which summary statistics should be
+calculated (given as a string or a vector of strings)}
 
-\item{include_year_range}{Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.}
+\item{include_year_range}{Should min_year and max_year be calculated based
+on a given column year in dataset?  Defaults to FALSE.}
 
 \item{na_rm}{Should NA values in the dataset be ignored?  Defaults to FALSE.
 If TRUE, levels without any non NA data are kept (resulting in NA values).}
@@ -39,14 +43,28 @@ in congruence with the fact that class widths only differ in the lower part
 of the Longo scale.)}
 }
 \value{
-dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+dataframe with the columns chosen for level, a column variable with
+the chosen variables, and the columns n_obs, mean, variance,
+lci (lower limit of confidence interval) and
+uci (upper limit of confidence interval)
 }
 \description{
-This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
+This function calculates statistics for the given data
+(e.g. from the git-repository forresdat) on the specified level
+(e.g. forest_reserve, period and species) and for the specified variables
+(e.g. basal_area and volume).
+Calculated statistics include number of observations, mean, variance
+and confidence interval (lci and uci).
 
-These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with value zero.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics (e.g. mean coverage) are calculated on 3 plots.
-Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros().
+These summary statistics are calculated on the given data, not taking into
+account absence of observations unless explicitly added as a record with
+value zero.
+E.g. if a certain species only occurs in 3 plots out of 10 and no records are
+added for the 7 remaining plots, the summary statistics (e.g. mean coverage)
+are calculated on 3 plots.
+Records with value zero for certain variables (e.g. coverage of a certain
+species or number of trees for a certain diameter class) can automatically
+be added using the function add_zeros().
 
 In case of intervals, the variance and confidence interval are calculated
 based on the minimum and maximum values of the intervals of the individual

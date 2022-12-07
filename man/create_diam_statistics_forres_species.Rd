@@ -7,13 +7,16 @@
 create_diam_statistics_forres_species(data_stems)
 }
 \arguments{
-\item{data_stems}{dataframe on stems (shoots and trees) as given from the function compose_stem_data()}
+\item{data_stems}{dataframe on stems (shoots and trees) as given from the
+function compose_stem_data()}
 }
 \value{
-dataframe with columns forest_reserve, species, year and measures on diameter distribution (min, max, mean, median, Q1, Q3)
+dataframe with columns forest_reserve, species, year and measures on
+diameter distribution (min, max, mean, median, Q1, Q3)
 }
 \description{
-This function calculates the diameter distribution on the level of forest reserve, species and year
+This function calculates the diameter distribution on the level of
+forest reserve, species and year
 }
 \examples{
 \dontrun{
