@@ -67,6 +67,9 @@ create_unique_tree_id <- function(data_dendro) {
     return(dataset)
   }
   status_tree <- lookup_tree_id(status_tree)
+  if (any(is.na(status_tree$tree_id))) {
+    warning("Some records did not get a tree_id (NA) because the old_id was unknown in the previous period")
+  }
 
   return(status_tree)
 }
