@@ -38,6 +38,7 @@ create_unique_tree_id <- function(data_dendro) {
     )
   lookup_tree_id <- function(dataset) {
     if (any(is.na(dataset$tree_id))) {
+      n_na_dataset <- sum(is.na(dataset$tree_id))
       dataset <- dataset %>%
         left_join(
           dataset %>%
@@ -59,7 +60,9 @@ create_unique_tree_id <- function(data_dendro) {
             )
         ) %>%
         select(-.data$tree_id_oldid, -.data$old_id_oldid)
-      dataset <- lookup_tree_id(dataset)
+      if (sum(is.na(dataset$tree_id)) < n_na_dataset) {
+        dataset <- lookup_tree_id(dataset)
+      }
     }
     return(dataset)
   }
