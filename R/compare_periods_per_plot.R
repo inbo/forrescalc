@@ -31,7 +31,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% all_vars any_vars filter_at group_by group_by_at
+#' @importFrom dplyr %>% all_vars any_vars bind_rows filter filter_at
+#' @importFrom dplyr group_by group_by_at inner_join
 #' @importFrom dplyr mutate mutate_at select ungroup vars
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom tidyselect all_of matches
@@ -67,7 +68,7 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
     mutate_at(vars(matches("year")), replace_na_year) %>%
     mutate_at(vars(!matches(grouping_vars)), replace_na_var) %>%
     ungroup()
-  result_diff <- dataset_wide %>%
+  dataset_long <- dataset_wide %>%
     filter_at(vars(all_of(grouping_vars)), any_vars(is.na(.))) %>%
     filter_at(vars(!matches(c(grouping_vars, "year")))
               , all_vars(is.na(.) | . == 0)) %>%
@@ -93,26 +94,63 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
         ),
       measure_var_period = NULL
     ) %>%
-    pivot_wider(
-      names_from = "period",
-      values_from = "value",
-      names_prefix = "p"
-    ) %>%
+    filter(!is.na(.data$value))
+
+  dataset_grouped <- dataset_long %>%
+    filter(.data$period == 1) %>%
+    inner_join(
+      dataset_long %>%
+        filter(.data$period == 2),
+      by = c(grouping_vars, "measure_var"),
+      suffix = c("_1", "_2")
+    )
+  if (max(dataset_long$period) > 2) {
+    for (i in 3:max(dataset_long$period)) {
+      dataset_grouped <- dataset_grouped %>%
+        bind_rows(
+          dataset_long %>%
+            filter(.data$period == i - 1) %>%
+            inner_join(
+              dataset_long %>%
+                filter(.data$period == i),
+              by = c(grouping_vars, "measure_var"),
+              suffix = c("_1", "_2")
+            )
+        )
+    }
+  }
+
+  if (0 %in% dataset_long$period) {
+    dataset_grouped <- dataset_grouped %>%
+      bind_rows(
+        dataset_long %>%
+          filter(.data$period == 0) %>%
+          inner_join(
+            dataset_long %>%
+              filter(.data$period == 1),
+            by = c(grouping_vars, "measure_var"),
+            suffix = c("_1", "_2")
+          )
+      )
+  }
+
+  result_diff <- dataset_grouped %>%
     mutate(
-      diff_2_1 = .data$p2 - .data$p1,
+      diff_2_1 = .data$value_2 - .data$value_1,
       year_diff =
         ifelse(
           .data$measure_var == "n_year",
-          paste(.data$p2, .data$p1, sep = " - "),
+          paste(.data$value_2, .data$value_1, sep = " - "),
           ""
         ),
-      p1 = NULL, p2 = NULL
+      value_1 = NULL, value_2 = NULL
     ) %>%
-    group_by_at(vars(all_of(grouping_vars))) %>%
+    group_by_at(vars(all_of(grouping_vars), "period_1")) %>%
     mutate(
       year_diff = paste(.data$year_diff, collapse = "")
     ) %>%
     ungroup() %>%
+    select(-"period_1", -"period_2") %>%
     pivot_wider(
       names_from = "measure_var",
       values_from = "diff_2_1"
