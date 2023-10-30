@@ -55,7 +55,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
       vol_bole_dead_m3_ha = sum(.data$vol_bole_dead_m3_ha)
     ) %>%
     ungroup() %>%
-    left_join(
+    full_join(
       data_deadwood %>%
         group_by(.data$plot_id, .data$year, .data$period) %>%
         summarise(
@@ -65,10 +65,21 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood) {
       by = c("plot_id", "year", "period")
     ) %>%
     mutate(
+      # hier alle variabelen obv staande bomen op '0' zetten, wannner ze
+      # NA zijn en survey_trees uit plotdetails = TRUE, naar analogie met vol_logs
+      # dat zijn: number_of_tree_species, number_of_trees_ha, stem_number_ha,
+      # basal_area_alive_m2_ha, basal_area_dead_m2_ha,
+      # vol_alive_m3_ha,vol_dead_standing_m3_ha, vol_bole_alive_m3_ha
+      # @ els: ik denk dat jij dat beter kan programmeren,
+      # ik zou per variabele een ifelse maken
       vol_log_m3_ha =
         ifelse(
           is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
             !is.na(.data$vol_alive_m3_ha),
+          # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
+          # dan zou NA, nA moeten blijven
+          # DUS: !is.na(.data$vol_alive_m3_ha) zou moeten vervangen worden door
+          # info uit plotdetails (Survey_Deadwood_YN == 10)
           0, .data$vol_log_m3_ha
         ),
       plottype = NULL,

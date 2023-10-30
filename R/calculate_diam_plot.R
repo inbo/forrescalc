@@ -75,12 +75,19 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood) {
         basal_area_alive_m2_ha = 0,
         basal_area_dead_m2_ha = 0,
         vol_alive_m3_ha = 0,
-        vol_dead_m3_ha = 0,
+        vol_dead_standing_m3_ha = 0,
         vol_bole_alive_m3_ha = 0,
         vol_bole_dead_m3_ha = 0,
         log_number_ha = 0,
         vol_log_m3_ha = 0
       )
+      # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
+      # dan zou NA, NA moeten blijven
+      # DUS niet alle NA's zomaar door 0 vervangen, info uit plotdetails halen
+      # (Survey_Deadwood_YN == 10 voor vol_log_m3_ha)
+      # in theorie ook Survey_trees_YN betrekken voor de andere variabelen,
+      #  maar omgekeerd komt de situatie niet voor (wél liggend dood hout
+      # opgemeten, maar geen staande bomen)
     )
 
   return(by_diam_plot)

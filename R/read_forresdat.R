@@ -51,14 +51,24 @@ read_forresdat <-
     if (has_name(dataset, "period")) {
       dataset <- dataset %>%
         left_join(
+<<<<<<< HEAD
           read_vc(file = "data/plotinfo", root = repo),
+=======
+          read_vc(file = "data/plotinfo", root = repo) %>%
+            select(-.data$year_dendro),
+>>>>>>> deadwood_AL
           by = c("plot_id", "period")
         ) %>%
         filter(.data$plottype == var_plottype)
     } else {
       dataset <- dataset %>%
         left_join(
+<<<<<<< HEAD
           read_vc(file = "data/plotinfo", root = repo),
+=======
+          read_vc(file = "data/plotinfo", root = repo) %>%
+            select(-.data$year_dendro),
+>>>>>>> deadwood_AL
           by = "plot_id"
         ) %>%
         filter(.data$plottype == var_plottype)
