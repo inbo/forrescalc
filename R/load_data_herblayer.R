@@ -50,16 +50,25 @@ load_data_herblayer <-
           IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date)
             AS date_vegetation,
           Veg.Year AS year_main_survey,
-          Herb.Species as species,
-          Herb.Coverage AS coverage_id,
-          qCoverHerbs.Value2 AS coverage_class_average,
-          Herb.BrowseIndex AS browse_index_id
-        FROM (((((Plots
+          Herb.species,
+          Herb.coverage_id,
+          Herb.coverage_class_average,
+          Herb.browse_index_id
+        FROM ((((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
-          INNER JOIN Herblayer%2$s Herb
+          LEFT JOIN (
+            SELECT Herblayer.IDPlots,
+              Herblayer.IDVegetation%2$s,
+              Herblayer.Deviating_date,
+              Herblayer.Species as species,
+              Herblayer.Coverage AS coverage_id,
+              qCoverHerbs.Value2 AS coverage_class_average,
+              Herblayer.BrowseIndex AS browse_index_id
+            FROM Herblayer%2$s Herblayer
+              INNER JOIN qCoverHerbs ON Herblayer.Coverage = qCoverHerbs.ID
+            ) Herb
             ON Veg.IDPlots = Herb.IDPlots AND Veg.Id = Herb.IDVegetation%2$s)
-          INNER JOIN qCoverHerbs ON Herb.Coverage = qCoverHerbs.ID)
           INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         %3$s;"
 
