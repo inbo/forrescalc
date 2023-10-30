@@ -58,12 +58,12 @@ sum_intervals <-
   if (!is.na(transformation) & transformation == "log") {
     result$sum <- exp(result$sum)
     result$lci <- exp(result$lci)
-    result$uci <- exp(result$uci)
-  }
-
-
-  if (is.na(result$uci) & result$sum == 0 & result$lci == 0) {
-    result$uci <- 0
+    result$uci <-
+      ifelse(
+        variance == Inf,
+        result$sum,
+        exp(result$uci)
+      )
   }
 
   return(result)
