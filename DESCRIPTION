@@ -15,10 +15,10 @@ LazyData: true
 Imports:
   assertthat,
   dplyr,
+  fs,
   git2r,
   git2rdata,
   lubridate,
-  magrittr,
   plyr,
   purrr,
   readr,

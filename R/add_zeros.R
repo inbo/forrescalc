@@ -62,6 +62,7 @@
 #' vars
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data ensyms
+#' @importFrom stats na.omit
 #'
 add_zeros <-
   function(
