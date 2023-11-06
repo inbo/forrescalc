@@ -22,15 +22,19 @@
 #' height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
-#' calculate_dendro_plot_species(data_dendro_calc, data_deadwood)
+#' plotinfo <-
+#'   load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_dendro_plot_species(data_dendro_calc, data_deadwood, plotinfo)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
+#' @importFrom dplyr %>% across filter full_join group_by mutate select
+#'   summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_species <- function(data_dendro_calc, data_deadwood) {
+calculate_dendro_plot_species <-
+  function(data_dendro_calc, data_deadwood, plotinfo) {
   by_plot_species <- data_dendro_calc %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species, .data$plottype
@@ -56,25 +60,27 @@ calculate_dendro_plot_species <- function(data_dendro_calc, data_deadwood) {
         ungroup(),
       by = c("plot_id", "year", "period", "species")
     ) %>%
+    full_join(
+      plotinfo %>%
+        select(
+          "plot_id", year = "year_dendro", "period", "survey_trees", "survey_deadw"
+        ) %>%
+        filter(.data$survey_trees | .data$survey_deadw),
+      by = c("plot_id", "year", "period")
+    ) %>%
     mutate(
-      # hier alle variabelen obv staande bomen op '0' zetten, wannner ze
-      # NA zijn en survey_trees uit plotdetails = TRUE, naar analogie met vol_logs
-      # dat zijn: number_of_tree_species, number_of_trees_ha, stem_number_ha,
-      # basal_area_alive_m2_ha, basal_area_dead_m2_ha,
-      # vol_alive_m3_ha,vol_dead_standing_m3_ha, vol_bole_alive_m3_ha
-      # @ els: ik denk dat jij dat beter kan programmeren,
-      # ik zou per variabele een ifelse maken
+      across(
+        .data$number_of_trees_ha:.data$vol_bole_dead_m3_ha,
+        ~ ifelse(is.na(.x) & survey_trees, 0, .x)
+      ),
       vol_log_m3_ha =
         ifelse(
-          is.na(.data$vol_log_m3_ha) & .data$plottype %in% c("CP", "CA") &
-            !is.na(.data$vol_alive_m3_ha),
+          is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
           0, .data$vol_log_m3_ha
         ),
-      # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
-      # dan zou NA, nA moeten blijven
-      # DUS: !is.na(.data$vol_alive_m3_ha) zou moeten vervangen worden door
-      # info uit plotdetails (Survey_Deadwood_YN == 10)
       plottype = NULL,
+      survey_trees = NULL,
+      survey_deadw = NULL,
       vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )

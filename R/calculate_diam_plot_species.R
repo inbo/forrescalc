@@ -24,17 +24,19 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_diam_plot_species(data_stems_calc, data_deadwood)
+#' plotinfo <-
+#'   load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n summarise ungroup
+#' @importFrom dplyr %>% across filter full_join group_by mutate select
+#'   summarise ungroup
 #' @importFrom rlang .data
-#' @importFrom tidyr pivot_wider replace_na
 #'
 calculate_diam_plot_species <-
-  function(data_stems_calc, data_deadwood) {
+  function(data_stems_calc, data_deadwood, plotinfo) {
   by_diam_plot_species <- data_stems_calc %>%
     group_by(
       .data$plot_id, .data$year, .data$period, .data$species,
@@ -71,26 +73,26 @@ calculate_diam_plot_species <-
         ungroup(),
       by = c("plot_id", "year", "period", "species", "dbh_class_5cm")
     ) %>%
-    replace_na(
-      list(
-        stem_number_alive_ha = 0,
-        stem_number_dead_ha = 0,
-        basal_area_alive_m2_ha = 0,
-        basal_area_dead_m2_ha = 0,
-        vol_alive_m3_ha = 0,
-        vol_dead_standing_m3_ha = 0,
-        vol_bole_alive_m3_ha = 0,
-        vol_bole_dead_m3_ha = 0,
-        log_number_ha = 0,
-        vol_log_m3_ha = 0
-        # !! soms wel staande bomen opgemeten, maar geen deadwood (liggend dood)
-        # dan zou NA, NA moeten blijven
-        # DUS niet alle NA's zomaar door 0 vervangen, info uit plotdetails halen
-        # (Survey_Deadwood_YN == 10 voor vol_log_m3_ha)
-        # in theorie ook Survey_trees_YN betrekken voor de andere variabelen,
-        #  maar omgekeerd komt de situatie niet voor (wél liggend dood hout
-        # opgemeten, maar geen staande bomen)
-      )
+    full_join(
+      plotinfo %>%
+        select(
+          "plot_id", year = "year_dendro", "period", "survey_trees", "survey_deadw"
+        ) %>%
+        filter(.data$survey_trees | .data$survey_deadw),
+      by = c("plot_id", "year", "period")
+    ) %>%
+    mutate(
+      across(
+        .data$stem_number_alive_ha:.data$vol_bole_dead_m3_ha,
+        ~ ifelse(is.na(.x) & survey_trees, 0, .x)
+      ),
+      vol_log_m3_ha =
+        ifelse(
+          is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
+          0, .data$vol_log_m3_ha
+        ),
+      survey_trees = NULL,
+      survey_deadw = NULL
     )
 
   return(by_diam_plot_species)

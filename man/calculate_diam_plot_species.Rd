@@ -4,7 +4,7 @@
 \alias{calculate_diam_plot_species}
 \title{aggregate parameters by diameter class, plot, tree species and year}
 \usage{
-calculate_diam_plot_species(data_stems_calc, data_deadwood)
+calculate_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
 }
 \arguments{
 \item{data_stems_calc}{dataframe on stem level measurements with variables
@@ -15,6 +15,10 @@ alive_dead, decaystage, period, year, subcircle, plotarea_ha,...
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
 date_dendro, species, decaystage, calc_volume_m3, period and year
 (output of function load_data_deadwood())}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 dataframe with columns plot, year, tree_species, dbh_class_5cm,
@@ -39,7 +43,9 @@ height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
 data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_diam_plot_species(data_stems_calc, data_deadwood)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
 }
 
 }

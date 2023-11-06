@@ -4,7 +4,7 @@
 \alias{calculate_dendro_plot_species}
 \title{aggregate parameters by plot and tree species}
 \usage{
-calculate_dendro_plot_species(data_dendro_calc, data_deadwood)
+calculate_dendro_plot_species(data_dendro_calc, data_deadwood, plotinfo)
 }
 \arguments{
 \item{data_dendro_calc}{dataframe on tree measures with variables plot_id,
@@ -15,6 +15,10 @@ subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
 date_dendro, species, decaystage, calc_volume_m3, period and year
 (output of function load_data_deadwood())}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 dataframe with columns plot, year, tree_species, number_of_trees_ha,
@@ -38,7 +42,9 @@ data_stems <- compose_stem_data(data_dendro, data_shoots)
 height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
 data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
-calculate_dendro_plot_species(data_dendro_calc, data_deadwood)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_dendro_plot_species(data_dendro_calc, data_deadwood, plotinfo)
 }
 
 }
