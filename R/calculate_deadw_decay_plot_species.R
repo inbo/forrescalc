@@ -13,7 +13,7 @@
 #' #change path before running
 #' data_deadwood <-
 #'   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_logs_decay_plot_species(data_deadwood)
+#' calculate_deadw_decay_plot_species(data_deadwood)
 #' }
 #'
 #' @export
@@ -21,7 +21,7 @@
 #' @importFrom dplyr %>% group_by summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_logs_decay_plot_species <- function(data_deadwood) {
+calculate_deadw_decay_plot_species <- function(data_deadwood) {
   by_decay_plot_species <-
     data_deadwood %>%
       group_by(
