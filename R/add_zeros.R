@@ -20,6 +20,9 @@
 #' at least one record should be added manually for this value
 #' (e.g. a plot or diameterclass that doesn't exist in the given dataset,
 #' but has to be included in the output).
+#' The data in forresdat already contain one record with zeros per plot
+#' (with NA value for species and/or diameterclass), resulting in records to
+#' be added automatically if 'plot_id' is added to `comb_vars`.
 #'
 #'
 #' @param dataset data.frame in which records should be added
@@ -35,6 +38,18 @@
 #' should be FALSE).
 #' E.g. a variable indicating whether or not observations are done.
 #' If no variable name is given (default NA), all added records get zero values.
+#' @param remove_na_records_in_comb_vars In which of the given comb_vars should
+#' records with NA values be removed after adding the records with zero values
+#' for all combinations?
+#' In some cases, e.g. if no species are observed in a plot, the dataset in
+#' forresdat has records with species NA and zeros for measured variables
+#' to make sure zero values for all species are added for each plot when using
+#' this function.
+#' But after adding zero records for all missing species, the records with
+#' species NA have become superfluous.
+#' They can be removed by adding argument
+#' `remove_na_records_in_comb_vars = "species"`.
+#' This argument defaults to NA (= no NA records are removed).
 #'
 #' @return dataframe based on `dataset` to which records are added with
 #' value 0 (zero) for each measurement.
@@ -49,8 +64,14 @@
 #'   select(-year, -plottype, -starts_with("survey_"), -data_processed, -starts_with("game_"))
 #' add_zeros(
 #'   dataset = dendro_by_plot_species,
-#'   comb_vars = c("plot_id", "species"),
-#'   grouping_vars = c("forest_reserve", "period")
+#'   comb_vars = c("plot_id", "period", "species"),
+#'   grouping_vars = c("forest_reserve")
+#' )
+#' add_zeros(
+#'   dataset = dendro_by_plot_species,
+#'   comb_vars = c("plot_id", "period", "species"),
+#'   grouping_vars = c("forest_reserve"),
+#'   remove_na_records_in_comb_vars = "species"
 #' )
 #' }
 #'
@@ -66,7 +87,8 @@
 #'
 add_zeros <-
   function(
-    dataset, comb_vars, grouping_vars, add_zero_no_na = NA
+    dataset, comb_vars, grouping_vars, add_zero_no_na = NA,
+    remove_na_records_in_comb_vars = NA
   ) {
 
   assert_that(
@@ -132,6 +154,12 @@ add_zeros <-
         select(all_of(c(grouping_vars, comb_vars[i]))) %>%
         distinct() %>%
         inner_join(complete_table, by = grouping_vars)
+    }
+  }
+  if (!is.na(remove_na_records_in_comb_vars)) {
+    for (var in remove_na_records_in_comb_vars) {
+      complete_table <- complete_table %>%
+        filter(!is.na(!!as.symbol(var)))
     }
   }
 
