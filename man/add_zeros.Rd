@@ -10,7 +10,8 @@ add_zeros(
   comb_vars,
   grouping_vars,
   add_zero_no_na = NA,
-  remove_na_records_in_comb_vars = NA
+  remove_na_records_in_comb_vars = NA,
+  defaults_to_na = NA
 )
 }
 \arguments{
@@ -43,6 +44,9 @@ species NA have become superfluous.
 They can be removed by adding argument
 `remove_na_records_in_comb_vars = "species"`.
 This argument defaults to NA (= no NA records are removed).}
+
+\item{defaults_to_na}{Columns in which the function should add NA instead of
+zero in the records that are added to complete the dataset.}
 }
 \value{
 dataframe based on `dataset` to which records are added with
@@ -89,6 +93,12 @@ add_zeros(
   comb_vars = c("plot_id", "period", "species"),
   grouping_vars = c("forest_reserve"),
   remove_na_records_in_comb_vars = "species"
+)
+add_zeros(
+  dataset = dendro_by_plot_species,
+  comb_vars = c("plot_id", "period", "species"),
+  grouping_vars = c("forest_reserve"),
+  defaults_to_na = "stems_per_tree"
 )
 }
 
