@@ -135,6 +135,10 @@ add_zeros <-
       msg = "variable add_zero_no_na must have one unique value for each combination of grouping_vars" #nolint
     )
     assert_that(
+      all(remove_na_records_in_comb_vars %in% comb_vars),
+      msg = "variables of remove_na_records_in_comb_vars should be mentioned in comb_vars"
+    )
+    assert_that(
       all(has_name(dataset, defaults_to_na)),
       msg =  "dataset should contain all variables from defaults_to_na as column names"
     )
