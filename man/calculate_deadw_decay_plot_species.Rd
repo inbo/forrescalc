@@ -4,9 +4,17 @@
 \alias{calculate_deadw_decay_plot_species}
 \title{aggregate parameters by decay stage, plot, tree species and year}
 \usage{
-calculate_deadw_decay_plot_species(data_deadwood)
+calculate_deadw_decay_plot_species(
+  plotinfo,
+  data_deadwood = NA,
+  data_dendro_calc = NA
+)
 }
 \arguments{
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
+
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
 date_dendro, species, decaystage, calc_volume_m3, period and year
 (output of function load_data_deadwood())}
@@ -17,14 +25,24 @@ vol_log_m3_ha
 }
 \description{
 This function calculates for each plot, tree species and year the volume
-logs per hectare and per decay stage.
+logs and standing dead wood per hectare and per decay stage.
 }
 \examples{
 \dontrun{
 #change path before running
 data_deadwood <-
   load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_deadw_decay_plot_species(data_deadwood)
+data_dendro <-
+  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_shoots <-
+  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_stems <- compose_stem_data(data_dendro, data_shoots)
+height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
+data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
+data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_deadw_decay_plot_species(plotinfo, data_deadwood, data_dendro_calc)
 }
 
 }
