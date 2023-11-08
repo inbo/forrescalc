@@ -35,7 +35,7 @@ data_stems  <- compose_stem_data(data_dendro, data_shoots)
 height_model <- load_height_models(path_to_height_models)
 
 dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_stems,
-                                height_model)
+                                height_model, plotinfo)
 
 save_results_git(
   results = dendro,
