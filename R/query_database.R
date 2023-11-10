@@ -71,8 +71,12 @@ query_database <-
             period = n
           )
       if (nrow(data_period_n) > 0) {
-        dataset <- dataset %>%
-          bind_rows(data_period_n)
+        if (nrow(dataset) > 0) {
+          dataset <- dataset %>%
+            bind_rows(data_period_n)
+        } else {
+          dataset <- data_period_n
+        }
       }
     }
   }
