@@ -73,7 +73,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
       rubbing_damage_perc =
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
         sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
-      not_na_rubbing = sum(!is.na(.data$rubbing_damage_perc)),
+      not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
       approx_nr_established_ha =
         sum(.data$approx_nr_established_ha, na.rm = TRUE),
       approx_nr_seedlings_ha = sum(.data$approx_nr_seedlings_ha, na.rm = TRUE)
