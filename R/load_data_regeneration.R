@@ -143,6 +143,24 @@ load_data_regeneration <-
         ),
       min_number_of_regeneration =
         ifelse(
+          .data$subcircle == "A2" & !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$min_number_of_regeneration
+        ),
+      max_number_of_regeneration =
+        ifelse(
+          .data$subcircle == "A2" & !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$max_number_of_regeneration
+        ),
+      approx_nr_regeneration =
+        ifelse(
+          .data$subcircle == "A2" & !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$approx_nr_regeneration
+        ),
+      min_number_of_regeneration =
+        ifelse(
           is.na(.data$min_number_of_regeneration),
           .data$nr_of_regeneration,
           .data$min_number_of_regeneration
