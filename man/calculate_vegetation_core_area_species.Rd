@@ -4,11 +4,15 @@
 \alias{calculate_vegetation_core_area_species}
 \title{aggregate vegetation parameters by core area, species and year}
 \usage{
-calculate_vegetation_core_area_species(data_herblayer)
+calculate_vegetation_core_area_species(data_herblayer, plotinfo)
 }
 \arguments{
 \item{data_herblayer}{dataframe on vegetation in the species level
 ('herb layer') with variables ...}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 dataframe with columns plot, species, year (year of recording of
@@ -40,7 +44,9 @@ data_herblayer_CA <-
     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
     plottype = "CA"
   )
-calculate_vegetation_core_area_species(data_herblayer_CA)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_vegetation_core_area_species(data_herblayer_CA, plotinfo)
 }
 
 }

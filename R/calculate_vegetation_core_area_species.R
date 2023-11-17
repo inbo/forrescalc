@@ -30,15 +30,18 @@
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
 #'     plottype = "CA"
 #'   )
-#' calculate_vegetation_core_area_species(data_herblayer_CA)
+#' plotinfo <-
+#'   load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_vegetation_core_area_species(data_herblayer_CA, plotinfo)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% filter group_by mutate n_distinct right_join select
+#'   summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_core_area_species <- function(data_herblayer) {
+calculate_vegetation_core_area_species <- function(data_herblayer, plotinfo) {
   by_core_area_species <- data_herblayer %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
@@ -70,7 +73,40 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
         .data$number_of_subplots_seriously_browsed * 100 / .data$number_of_subplots_with_vegetation,
       mean_coverage_class_average_perc = mean(.data$coverage_class_average_perc)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    right_join(
+      plotinfo %>%
+        filter(.data$plottype == "CA") %>%
+        select("plot_id", "period", "game_impact_veg"),
+      by = c("plot_id", "period")
+    ) %>%
+    mutate(
+      number_of_subplots_browsed =
+        ifelse(
+          is.na(.data$number_of_subplots_browsed) & .data$game_impact_veg,
+          0,
+          .data$number_of_subplots_browsed
+        ),
+      number_of_subplots_seriously_browsed =
+        ifelse(
+          is.na(.data$number_of_subplots_seriously_browsed) & .data$game_impact_veg,
+          0,
+          .data$number_of_subplots_seriously_browsed
+        ),
+      perc_of_subplots_browsed =
+        ifelse(
+          is.na(.data$perc_of_subplots_browsed) & .data$game_impact_veg,
+          0,
+          .data$perc_of_subplots_browsed
+        ),
+      perc_of_subplots_seriously_browsed =
+        ifelse(
+          is.na(.data$perc_of_subplots_seriously_browsed) & .data$game_impact_veg,
+          0,
+          .data$perc_of_subplots_seriously_browsed
+        ),
+      game_impact_veg = NULL
+    )
 
   return(by_core_area_species)
 }

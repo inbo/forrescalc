@@ -4,13 +4,17 @@
 \alias{calculate_vegetation}
 \title{aggregates parameters on vegetation of forests}
 \usage{
-calculate_vegetation(data_vegetation, data_herblayer)
+calculate_vegetation(data_vegetation, data_herblayer, plotinfo)
 }
 \arguments{
 \item{data_vegetation}{dataframe on vegetation with variables ...}
 
 \item{data_herblayer}{dataframe on vegetation in the species level
 ('herb layer') with variables ...}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -31,7 +35,9 @@ data_vegetation <-
   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
 data_herblayer <-
   load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_vegetation(data_vegetation, data_herblayer)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_vegetation(data_vegetation, data_herblayer, plotinfo)
 }
 
 }
