@@ -4,6 +4,7 @@
 #' logs and standing dead wood per hectare and per decay stage.
 #'
 #' @inheritParams calculate_dendrometry
+#' @inheritParams calculate_deadw_decay_plot
 #'
 #' @return dataframe with columns plot, year, tree_species, decaystage,
 #' vol_log_m3_ha

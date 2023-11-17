@@ -14,6 +14,9 @@ forest_reserve, survey_trees, survey_deadw, period and year_dendro
 \item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
 date_dendro, species, decaystage, calc_volume_m3, period and year
 (output of function load_data_deadwood())}
+
+\item{data_dendro_calc}{dataframe on stems (shoots and trees) as given from the
+function calc_variables_stem_level()}
 }
 \value{
 dataframe with columns plot, year, decaystage, vol_log_m3_ha

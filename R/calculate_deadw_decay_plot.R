@@ -4,6 +4,8 @@
 #' dead wood per hectare and per decay stage.
 #'
 #' @inheritParams calculate_dendrometry
+#' @param data_dendro_calc dataframe on stems (shoots and trees) as given from the
+#' function calc_variables_stem_level()
 #'
 #' @return dataframe with columns plot, year, decaystage, vol_log_m3_ha
 #'
