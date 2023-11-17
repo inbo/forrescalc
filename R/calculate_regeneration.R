@@ -18,13 +18,17 @@
 #' library(forrescalc)
 #' data_regeneration <-
 #'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' calculate_regeneration(data_regeneration)
+#' plotinfo <-
+#'   load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_regeneration(data_regeneration, plotinfo)
 #' }
 #'
 #' @param data_regeneration dataframe on tree regeneration with variables
 #' plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
 #' rubbing_damage_number, period, year, subcircle, plotarea_ha,
 #' min_number_of_regeneration and max_number_of_regeneration.
+#'
+#' @inheritParams calculate_dendrometry
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
@@ -33,16 +37,18 @@
 #'
 #' @export
 #'
-calculate_regeneration <- function(data_regeneration) {
+calculate_regeneration <- function(data_regeneration, plotinfo) {
   by_plot_height <- calculate_regeneration_plot_height(data_regeneration)
-  by_plot <- calculate_regeneration_plot(data_regeneration)
+  by_plot <- calculate_regeneration_plot(data_regeneration, plotinfo)
   by_plot_height_species <-
-    calculate_regeneration_plot_height_species(data_regeneration)
+    calculate_regeneration_plot_height_species(data_regeneration, plotinfo)
   data_regeneration_CA <- data_regeneration %>%
     filter(.data$plottype == "CA")
-  by_ca_species <- calculate_regeneration_core_area_species(data_regeneration_CA)
+  by_ca_species <-
+    calculate_regeneration_core_area_species(data_regeneration_CA, plotinfo)
   by_ca_height_species <-
-    calculate_regeneration_core_area_height_species(data_regeneration_CA)
+    calculate_regeneration_core_area_height_species(data_regeneration_CA,
+                                                    plotinfo)
 
   return(
     list(

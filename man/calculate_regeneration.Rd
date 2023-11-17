@@ -4,13 +4,17 @@
 \alias{calculate_regeneration}
 \title{aggregates parameters on regeneration of trees}
 \usage{
-calculate_regeneration(data_regeneration)
+calculate_regeneration(data_regeneration, plotinfo)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
 plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
 rubbing_damage_number, period, year, subcircle, plotarea_ha,
 min_number_of_regeneration and max_number_of_regeneration.}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -34,7 +38,9 @@ For core area plots it makes additional aggregations on the levels of
 library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_regeneration(data_regeneration)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_regeneration(data_regeneration, plotinfo)
 }
 
 }

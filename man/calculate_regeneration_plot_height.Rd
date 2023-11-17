@@ -4,13 +4,17 @@
 \alias{calculate_regeneration_plot_height}
 \title{calculate species number by plot, tree height class and year}
 \usage{
-calculate_regeneration_plot_height(data_regeneration)
+calculate_regeneration_plot_height(data_regeneration, plotinfo)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
 plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
 rubbing_damage_number, period, year, subcircle, plotarea_ha,
 min_number_of_regeneration and max_number_of_regeneration.}
+
+\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
+forest_reserve, survey_trees, survey_deadw, period and year_dendro
+(output of function load_plotinfo())}
 }
 \value{
 dataframe with columns plot, subplot, year, period, height_class,
@@ -32,7 +36,9 @@ For core area plots, these variables are calculated for each subplot.
 library(forrescalc)
 data_regeneration <-
   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_regeneration_plot_height(data_regeneration)
+plotinfo <-
+  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+calculate_regeneration_plot_height(data_regeneration, plotinfo)
 }
 
 }

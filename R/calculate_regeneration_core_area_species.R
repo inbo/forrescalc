@@ -26,15 +26,17 @@
 #'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
 #'     plottype = "CA"
 #'   )
-#' calculate_regeneration_core_area_species(data_regeneration_CA)
+#' plotinfo <-
+#'   load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' calculate_regeneration_core_area_species(data_regeneration_CA, plotinfo)
 #' }
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by n_distinct right_join select summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_regeneration_core_area_species <- function(data_regeneration) {
+calculate_regeneration_core_area_species <- function(data_regeneration, plotinfo) {
   by_plot_species <- data_regeneration %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
@@ -87,6 +89,13 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       approx_nr_seedlings_ha = sum(.data$approx_nr_seedlings_ha, na.rm = TRUE)
     ) %>%
     ungroup() %>%
+    right_join(
+      plotinfo %>%
+        select(
+          "plot_id", "period", "game_impact_reg"
+        ),
+      by = c("plot_id", "period")
+    ) %>%
     mutate(
       mean_number_established_ha = .data$established_interval$sum,
       lci_number_established_ha = .data$established_interval$lci,
@@ -99,6 +108,12 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
           .data$not_na_rubbing > 0 & .data$rubbing_damage_perc > 0,
           .data$rubbing_damage_perc,
           NA
+        ),
+      rubbing_damage_perc =
+        ifelse(
+          is.na(.data$rubbing_damage_perc) & .data$game_impact_reg,
+          0,
+          .data$rubbing_damage_perc
         )
     ) %>%
     mutate(mean_number_established_ha =
@@ -144,7 +159,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
     ) %>%
     select(
       -.data$established_interval, -.data$seedlings_interval,
-      -.data$not_na_rubbing
+      -.data$not_na_rubbing, -.data$game_impact_reg
     )
 
   return(by_plot_species)
