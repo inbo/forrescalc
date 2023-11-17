@@ -4,13 +4,11 @@
 \alias{calculate_vegetation_core_area_species}
 \title{aggregate vegetation parameters by core area, species and year}
 \usage{
-calculate_vegetation_core_area_species(data_herblayer, data_vegetation)
+calculate_vegetation_core_area_species(data_herblayer)
 }
 \arguments{
 \item{data_herblayer}{dataframe on vegetation in the species level
 ('herb layer') with variables ...}
-
-\item{data_vegetation}{dataframe on vegetation with variables ...}
 }
 \value{
 dataframe with columns plot, species, year (year of recording of

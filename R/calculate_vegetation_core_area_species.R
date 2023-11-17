@@ -38,7 +38,7 @@
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_core_area_species <- function(data_herblayer, data_vegetation) {
+calculate_vegetation_core_area_species <- function(data_herblayer) {
   by_core_area_species <- data_herblayer %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
