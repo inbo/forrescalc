@@ -31,18 +31,20 @@ from 2 different periods in different columns.
 library(forrescalc)
 library(dplyr)
 table_long <-
-  read_forresdat(tablename = "dendro_status_tree", repo_path = "C:/gitrepo/forresdat") \%>\%
+  read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/Users/els_lommelen/Documents/gitrepos/forresdat") \%>\%
   filter(plot_id < 110) \%>\%
-  select(plot_id, species, tree_id, period, dbh_mm, alive_dead)
+  select(plot_id, species, period, number_of_trees_ha, vol_alive_m3_ha)
 table_wide <-
-  make_table_wide(table_long, column_to_repeat = "period",
-                  columns_for_comparison = c("dbh_mm", "alive_dead"))
-#if dbh_mm is not mentioned in columns_for_comparison, it is considered as a
-#grouping variable while it has different values for each period.
+  make_table_wide(
+    table_long, column_to_repeat = "period",
+    columns_for_comparison = c("number_of_trees_ha", "vol_alive_m3_ha"))
+#if number_of_trees_ha is not mentioned in columns_for_comparison, it is
+#considered as a grouping variable while it has different values for each
+#period.
 #This gives an unwanted result with still many rows and a lot of NA values:
 table_wide <-
   make_table_wide(table_long, column_to_repeat = "period",
-                  columns_for_comparison = c("alive_dead"))
+                  columns_for_comparison = c("vol_alive_m3_ha"))
 }
 
 }
