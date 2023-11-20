@@ -37,27 +37,41 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_core_area_species <- function(data_regeneration, plotinfo) {
+  no_subcircle <- data_regeneration %>%
+    filter(
+      is.na(.data$subcircle),
+      .data$nr_of_regeneration != 0
+    ) %>%
+    distinct(.data$plot_id)
+  if (nrow(no_subcircle) > 0) {
+    warning(
+      sprintf(
+        "Records of dataset data_regeneration with subcircle NA are ignored for this calculation. Such record(s) with nr_of_regeneration different from 0 occur in plot_id %s",
+        paste(no_subcircle$plot_id, collapse = ", ")
+      )
+    )
+  }
   by_plot_species <- data_regeneration %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
       n_subplots = n_distinct(.data$subplot_id),
       min_number_established_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_established_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
       min_number_seedlings_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_seedlings_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
       approx_nr_established_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
                .data$approx_nr_regeneration / .data$plotarea_ha, NA),
       approx_nr_seedlings_ha =
-        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
                .data$approx_nr_regeneration / .data$plotarea_ha, NA)
     ) %>%
     ungroup() %>%
