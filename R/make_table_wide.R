@@ -24,7 +24,10 @@
 #' library(forrescalc)
 #' library(dplyr)
 #' table_long <-
-#'   read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/Users/els_lommelen/Documents/gitrepos/forresdat") %>%
+#'   read_forresdat(
+#'     tablename = "dendro_by_plot_species",
+#'     repo_path = "C:/Users/els_lommelen/Documents/gitrepos/forresdat"
+#'   ) %>%
 #'   filter(plot_id < 110) %>%
 #'   select(plot_id, species, period, number_of_trees_ha, vol_alive_m3_ha)
 #' table_wide <-
@@ -40,9 +43,13 @@
 #'                   columns_for_comparison = c("vol_alive_m3_ha"))
 #' }
 #'
-make_table_wide <- function(table_long, column_to_repeat, columns_for_comparison) {
+make_table_wide <-
+  function(table_long, column_to_repeat, columns_for_comparison) {
   table_wide <- table_long %>%
-    pivot_wider(names_from = column_to_repeat, values_from = columns_for_comparison)
+    pivot_wider(
+      names_from = column_to_repeat,
+      values_from = columns_for_comparison
+    )
 
   return(table_wide)
 }
