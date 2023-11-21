@@ -5,17 +5,13 @@
 \alias{calculate_regeneration_core_area_height_species}
 \title{aggregate regeneration parameters by plot, height, species and year}
 \usage{
-calculate_regeneration_core_area_height_species(data_regeneration, plotinfo)
+calculate_regeneration_core_area_height_species(data_regeneration)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
 plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
 rubbing_damage_number, period, year, subcircle, plotarea_ha,
 min_number_of_regeneration and max_number_of_regeneration.}
-
-\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
-forest_reserve, survey_trees, survey_deadw, period and year_dendro
-(output of function load_plotinfo())}
 }
 \value{
 dataframe with columns plot, species, year, height,
@@ -41,9 +37,7 @@ data_regeneration_CA <-
     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
     plottype = "CA"
   )
-plotinfo <-
-  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_regeneration_core_area_height_species(data_regeneration_CA, plotinfo)
+calculate_regeneration_core_area_height_species(data_regeneration_CA)
 }
 
 }
