@@ -48,6 +48,9 @@ calculate_regeneration_plot <- function(data_regeneration) {
   }
   by_plot <- data_regeneration %>%
     mutate(
+      species_a2 =
+        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
+               .data$species, NA),
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       min_number_established_ha =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
@@ -73,6 +76,8 @@ calculate_regeneration_plot <- function(data_regeneration) {
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
+      nr_of_tree_species_established =
+        n_distinct(.data$species_a2, na.rm = TRUE),
       established_interval =
         sum_intervals(
           var_min = .data$min_number_established_ha,
