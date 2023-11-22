@@ -152,7 +152,17 @@ calculate_regeneration_plot <- function(data_regeneration) {
              ifelse(.data$approx_nr_seedlings_ha == 0 &
                       is.na(.data$mean_number_seedlings_ha),
                     NA,
-                    .data$approx_nr_seedlings_ha)
+                    .data$approx_nr_seedlings_ha),
+           number_of_tree_species =
+             ifelse(.data$number_of_tree_species == 0 &
+                      is.na(.data$mean_number_seedlings_ha),
+                    NA,
+                    .data$number_of_tree_species),
+           nr_of_tree_species_established =
+             ifelse(.data$nr_of_tree_species_established == 0 &
+                      is.na(.data$mean_number_seedlings_ha),
+                    NA,
+                    .data$nr_of_tree_species_established)
     ) %>%
     select(
       -.data$established_interval, -.data$seedlings_interval,
