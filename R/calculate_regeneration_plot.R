@@ -50,22 +50,22 @@ calculate_regeneration_plot <- function(data_regeneration) {
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       min_number_established_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_established_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
       min_number_seedlings_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
                .data$min_number_of_regeneration / .data$plotarea_ha, NA),
       max_number_seedlings_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
                .data$max_number_of_regeneration / .data$plotarea_ha, NA),
       approx_nr_established_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A2",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$approx_nr_regeneration / .data$plotarea_ha, NA),
       approx_nr_seedlings_ha =
-        ifelse(!is.na(.data$subcircle) & .data$subcircle == "A1",
+        ifelse(is.na(.data$subcircle) | .data$subcircle == "A1",
                .data$approx_nr_regeneration / .data$plotarea_ha, NA)
     ) %>%
     group_by(
