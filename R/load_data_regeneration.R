@@ -47,8 +47,12 @@ load_data_regeneration <-
           Reg.Year AS year_main_survey,
           Subquery.height_class,
           Subquery.species,
-          Subquery.number_class,
-          Subquery.nr_of_regeneration,
+          IIf(Subquery.number_class IS NULL AND
+              pd.Survey_Regeneration_YN = 10 AND Subquery.species IS NULL,
+              0, Subquery.number_class) AS number_class,
+          IIf(Subquery.nr_of_regeneration IS NULL AND
+              pd.Survey_Regeneration_YN = 10 AND Subquery.species IS NULL,
+              0, Subquery.nr_of_regeneration) AS nr_of_regeneration,
           IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
               Subquery.species IS NULL,
               0, Subquery.rdn) AS rubbing_damage_number
@@ -72,12 +76,12 @@ load_data_regeneration <-
 
   number_classes <-
     data.frame(
-      id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
+      id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
       number_class =
-        c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000"),
-      approx_nr_regeneration = c(1, 3, 8, 15, 30, 50, 80, 101, 1001),
-      min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001),
-      max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000),
+        c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000", "0"),
+      approx_nr_regeneration = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
+      min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001, 0),
+      max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000, 0),
       stringsAsFactors = FALSE
     )
 
@@ -135,12 +139,6 @@ load_data_regeneration <-
       by = c("number_class" = "id")
     ) %>%
     mutate(
-      nr_of_regeneration =
-        ifelse(
-          is.na(.data$nr_of_regeneration) & is.na(.data$species),
-          0,
-          .data$nr_of_regeneration
-        ),
       min_number_of_regeneration =
         ifelse(
           .data$subcircle == "A2" & !is.na(.data$nr_of_regeneration),
@@ -176,6 +174,12 @@ load_data_regeneration <-
           is.na(.data$approx_nr_regeneration),
           .data$nr_of_regeneration,
           .data$approx_nr_regeneration
+        ),
+      rubbing_damage_perc =
+        ifelse(
+          is.na(.data$rubbing_damage_perc),
+          .data$rubbing_damage_number * 100 / .data$approx_nr_regeneration,
+          .data$rubbing_damage_perc
         )
     ) %>%
     select(-.data$year_main_survey)
