@@ -14,12 +14,17 @@ min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
 dataframe with columns plot, subplot, year, period,
-number_of_tree_species,
+number_of_tree_species, nr_of_tree_species_established,
 mean_number_established_ha, lci_number_established_ha,
 uci_number_established_ha,
 mean_number_seedlings_ha, lci_number_seedlings_ha,
 uci_number_seedlings_ha,
-approx_nr_established_ha, approx_nr_seedlings_ha.
+mean_rubbing_damage_perc_established, lci_rubbing_damage_perc_established,
+uci_rubbing_damage_perc_established,
+mean_rubbing_damage_perc_seedlings, lci_rubbing_damage_perc_seedlings,
+uci_rubbing_damage_perc_seedlings,
+approx_nr_established_ha, approx_nr_seedlings_ha,
+approx_rubbing_damage_perc_established, approx_rubbing_damage_perc_seedlings.
 }
 \description{
 This function calculates for each plot and year the number of species, total
