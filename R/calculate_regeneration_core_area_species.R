@@ -74,6 +74,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
     group_by(.data$plot_id, .data$period) %>%
     mutate(
       n_subplots = n_distinct(.data$subplot_id),
+      plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       min_number_established =
         ifelse(is.na(.data$subcircle) | .data$subcircle == "A2",
                .data$min_number_of_regeneration, NA),
