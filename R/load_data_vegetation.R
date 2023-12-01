@@ -68,8 +68,10 @@ load_data_vegetation <-
       max_cover = gsub("^(\\d+) - (\\d+) %", "\\2", .data$cover_interval),
       min_cover = ifelse(.data$min_cover == "< 1%", 0, .data$min_cover),
       max_cover = ifelse(.data$max_cover == "< 1%", 1, .data$max_cover),
-      min_cover = ifelse(.data$min_cover == "nvt", NA, .data$min_cover),
-      max_cover = ifelse(.data$max_cover == "nvt", NA, .data$max_cover),
+      min_cover =
+        ifelse(.data$min_cover == "Niet beschikbaar", NA, .data$min_cover),
+      max_cover =
+        ifelse(.data$max_cover == "Niet beschikbaar", NA, .data$max_cover),
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
