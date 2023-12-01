@@ -22,6 +22,7 @@
 #'
 #' @importFrom dplyr %>% distinct filter group_by mutate left_join select
 #' @importFrom dplyr summarise ungroup
+#' @importFrom lubridate month year
 #' @importFrom rlang .data
 #'
 
@@ -95,9 +96,10 @@ load_plotinfo <- function(database) {
                 summarise(min_period = min(.data$period)) %>%
 
                 ungroup()) %>%
-    mutate(survey_number = .data$period - .data$min_period + 1,
-           year_dendro = year(round_date(.data$date_dendro, "year")) - 1
-           ) %>%
+    mutate(
+      survey_number = .data$period - .data$min_period + 1,
+      year_dendro = year(.data$date_dendro) - (month(.data$date_dendro) < 5 )
+    ) %>%
     select(-.data$min_period, -.data$date_dendro)
 
   return(plotinfo)

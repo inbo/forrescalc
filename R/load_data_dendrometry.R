@@ -31,7 +31,7 @@
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% mutate
-#' @importFrom lubridate round_date year
+#' @importFrom lubridate month year
 #' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
 #'
 load_data_dendrometry <-
@@ -140,7 +140,7 @@ load_data_dendrometry <-
   }
   data_dendro <- data_dendro %>%
     mutate(
-      year = year(round_date(.data$date_dendro, "year")) - 1,
+      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5 ),
       subcircle =
         ifelse(
           .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,
