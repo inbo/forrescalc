@@ -121,6 +121,11 @@ create_statistics <-
     warning("Are you sure you don't want to include period in level? Your dataset has measurements in different periods.")  #nolint
   }
 
+  assert_that(
+    all(has_name(dataset, level)),
+    msg = "Dataset should contain all columns that are mentioned as level."
+  )
+
   for (var in variables) {
     if (!has_name(dataset, var)) {
       assert_that(is.data.frame(interval_information))
