@@ -19,9 +19,10 @@ should be retrieved}
 
 \item{join_plotinfo}{should table plotinfo be joined to the chosen table to
 add columns plottype, forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
-FALSE) and data_processed (TRUE or FALSE)?  Default is TRUE.  (This is only
-possible if the given table contains a column plot_id, so this parameter
-should be put FALSE if this column is absent.)}
+FALSE) and data_processed (TRUE or FALSE)?
+Default is TRUE.
+(This is only possible if the given table contains a column plot_id,
+so this parameter should be put FALSE if this column is absent.)}
 
 \item{plottype}{Data of which 'plottype' (used method) should be retrieved?
 Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area' could be
