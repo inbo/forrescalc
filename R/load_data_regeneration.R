@@ -131,7 +131,8 @@ load_data_regeneration <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      rubbing_damage_perc = .data$rubbing_damage_number * 100 / .data$nr_of_regeneration
+      rubbing_damage_perc =
+        .data$rubbing_damage_number * 100 / .data$nr_of_regeneration
     ) %>%
     left_join(
       number_classes %>%
