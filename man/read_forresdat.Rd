@@ -40,6 +40,7 @@ Data available in forresdat only contains observations, so no records with
 zero values are added for for instance species that were not observed and
 hence absent.
 These zero value records can easily be added by using the function `add_zeros()`.
+To load table plotinfo, set argument `join_plotinfo = FALSE`.
 }
 \examples{
 \dontrun{

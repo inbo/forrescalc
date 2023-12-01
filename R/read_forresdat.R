@@ -6,6 +6,7 @@
 #' zero values are added for for instance species that were not observed and
 #' hence absent.
 #' These zero value records can easily be added by using the function `add_zeros()`.
+#' To load table plotinfo, set argument `join_plotinfo = FALSE`.
 #'
 #' @param tablename name of the table that should be read
 #' @param repo_path name and path of local git repository from which data
