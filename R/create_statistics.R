@@ -182,7 +182,10 @@ create_statistics <-
   }
 
   dataset <- dataset %>%
-    select(all_of(level), all_of(variables)) %>%
+    select(
+      all_of(level), all_of(variables),
+      "year"[include_year_range & has_name(dataset, "year")]
+    ) %>%
     pivot_longer(cols = all_of(variables), names_to = "variable") %>%
     unnest(cols = .data$value)
   if (na_rm) {
