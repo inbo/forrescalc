@@ -52,8 +52,8 @@ load_data_vegetation <-
           Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
         FROM (((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
+          INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
           INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
-          LEFT JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
         %3$s;"
 
     query_total_cover <-
@@ -63,16 +63,11 @@ load_data_vegetation <-
 
   con <- odbcConnectAccess2007(database)
   total_cover <- sqlQuery(con, query_total_cover, stringsAsFactors = FALSE) %>%
-    bind_rows(
-      data.frame(id = NA, cover_interval = "0 %")
-    ) %>%
     mutate(
       min_cover = gsub("^(\\d+) - (\\d+) %", "\\1", .data$cover_interval),
       max_cover = gsub("^(\\d+) - (\\d+) %", "\\2", .data$cover_interval),
       min_cover = ifelse(.data$min_cover == "< 1%", 0, .data$min_cover),
       max_cover = ifelse(.data$max_cover == "< 1%", 1, .data$max_cover),
-      min_cover = ifelse(.data$min_cover == "0 %", 0, .data$min_cover),
-      max_cover = ifelse(.data$max_cover == "0 %", 0, .data$max_cover),
       min_cover =
         ifelse(.data$min_cover == "Niet beschikbaar", NA, .data$min_cover),
       max_cover =
