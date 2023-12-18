@@ -22,7 +22,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% mutate
 #' @importFrom stringr str_replace
-#' @importFrom lubridate round_date year
+#' @importFrom lubridate month year
 #'
 load_data_deadwood <-
   function(database, plottype = NA, forest_reserve = NA,
@@ -80,7 +80,7 @@ load_data_deadwood <-
     query_database(database, query_deadwood,
                    selection = selection, add_fields = add_fields) %>%
     mutate(
-      year = year(round_date(.data$date_dendro, "year")) - 1,
+      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5),
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(
