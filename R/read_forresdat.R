@@ -17,6 +17,7 @@
 #' Default is TRUE.
 #' (This is only possible if the given table contains a column plot_id,
 #' so this parameter should be put FALSE if this column is absent.)
+#' Must be FALSE if you want to load the table "plotinfo" itself.
 #' @param plottype Data of which 'plottype' (used method) should be retrieved?
 #' Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area' could be
 #' chosen.
