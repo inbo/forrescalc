@@ -107,6 +107,20 @@ calc_variables_stem_level <-
     select(
       -.data$a, -.data$b, -.data$c, -.data$d
     ) %>%
+    left_join(
+      suppressMessages(
+        read_csv2(
+          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
+        )
+      ),
+      by = "species"
+    ) %>%
+    mutate(
+      perimeter_150 = (.data$perimeter - .data$a) / .data$b
+    ) %>%
+    select(
+      -"a", -"b"
+    ) %>%
     # crown volume 1 entry
     left_join(
       suppressMessages(
@@ -140,10 +154,12 @@ calc_variables_stem_level <-
       by = "species"
     ) %>%
       mutate(
+        perimeter =
+          ifelse(.data$formula == 3, .data$perimeter_150, .data$perimeter),
         d_cm = .data$dbh_mm / 10
         , vol_bole_t2_m3 =
           ifelse(
-            .data$formula == 1,
+            .data$formula %in% c(1, 3),
             yes =
               .data$a + .data$b * .data$perimeter +
               .data$c * .data$perimeter ^ 2 +
@@ -173,7 +189,7 @@ calc_variables_stem_level <-
       ) %>%
     select(
       -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
-      -.data$formula, -.data$d_cm, -.data$perimeter
+      -.data$formula, -.data$d_cm, -.data$perimeter, -.data$perimeter_150
     ) %>%
     mutate(
       # volume correction for snags

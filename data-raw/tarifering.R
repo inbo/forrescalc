@@ -50,15 +50,24 @@ query_tariffs1entry_crown <-
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ingKroon t1k ON tgbs.TariefID = t1k.groepID;"
 
+query_coef_convert_perimeter <-
+  "SELECT IDTreeSp AS species, A, B
+  FROM tblCoefOmzetOmtrek"
+
 con <- odbcConnectAccess2007(db_externe_data)
 
 tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
 tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
 tariffs1entr_crown <-
   sqlQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
+convert_perimeter <-
+  sqlQuery(con, query_coef_convert_perimeter, stringsAsFactors = TRUE)
 
 odbcClose(con)
+
+colnames(convert_perimeter) <- tolower(colnames(convert_perimeter))
 
 write_csv2(tariffs2entr, "inst/extdata/tariffs2entries.csv")
 write_csv2(tariffs1entr, "inst/extdata/tariffs1entry.csv")
 write_csv2(tariffs1entr_crown, "inst/extdata/tariffs1entry_crown.csv")
+write_csv2(convert_perimeter, "inst/extdata/convert_perimeter.csv")
