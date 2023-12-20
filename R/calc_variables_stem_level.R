@@ -39,10 +39,8 @@
 #'
 #' @export
 #'
-#' @importFrom readr read_csv2
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select
-#' summarise ungroup
+#' @importFrom dplyr %>% bind_rows filter left_join mutate select
 #'
 calc_variables_stem_level <-
   function(data_stems, height_model) {
@@ -84,133 +82,8 @@ calc_variables_stem_level <-
     ) %>%
     select(
       -.data$model, -.data$P1, -.data$P2
-    ) %>%
-  # (2) calculate volume (bole and crown; 1 entry and 2 entries)
-    # bole volume 1 entry
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/tariffs1entry.csv", package = "forrescalc")
-        )
-      ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
-               -.data$source),
-      by = "species"
-    ) %>%
-    mutate(
-      perimeter = pi * .data$dbh_mm / 10
-      , vol_bole_t1_m3 =
-        .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
-        .data$d * .data$perimeter ^ 3
-      , vol_bole_t1_m3 = pmax(0, .data$vol_bole_t1_m3)
-    ) %>%
-    select(
-      -.data$a, -.data$b, -.data$c, -.data$d
-    ) %>%
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
-        )
-      ),
-      by = "species"
-    ) %>%
-    mutate(
-      perimeter_150 = (.data$perimeter - .data$a) / .data$b
-    ) %>%
-    select(
-      -"a", -"b"
-    ) %>%
-    # crown volume 1 entry
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/tariffs1entry_crown.csv", package = "forrescalc")
-        )
-      ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
-               -.data$source),
-      by = "species"
-    ) %>%
-    mutate(
-      vol_crown_m3 =
-        .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
-        .data$d * .data$perimeter ^ 3,
-      vol_crown_m3 = pmax(0, .data$vol_crown_m3)
-    ) %>%
-    select(
-      -.data$a, -.data$b, -.data$c, -.data$d
-    ) %>%
-    # bole volume 2 entries
-    # !! (when DH-model or calc_height_fm is available)
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/tariffs2entries.csv", package = "forrescalc")
-        )
-      ) %>%
-        select(-.data$name_nl, -.data$tariff_id, -.data$tariff_group,
-               -.data$source),
-      by = "species"
-    ) %>%
-      mutate(
-        perimeter =
-          ifelse(.data$formula == 3, .data$perimeter_150, .data$perimeter),
-        d_cm = .data$dbh_mm / 10
-        , vol_bole_t2_m3 =
-          ifelse(
-            .data$formula %in% c(1, 3),
-            yes =
-              .data$a + .data$b * .data$perimeter +
-              .data$c * .data$perimeter ^ 2 +
-              .data$d * .data$perimeter ^ 3 +
-              .data$e * .data$calc_height_m +
-              .data$f * .data$calc_height_m * .data$perimeter +
-              .data$g * .data$calc_height_m * .data$perimeter ^ 2,
-            no =
-              1 / 1000 *
-              #spil
-              (exp(1.10597 * log(.data$calc_height_m) +
-                     1.78865 * log(.data$d_cm) - 3.07192) -
-                 #Verlies
-                 exp(-4.608923 * log(.data$d_cm) +
-                       3.005989 * log(.data$calc_height_m) -
-                       1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
-                       1.605266 * log(.data$d_cm) * log(.data$calc_height_m) +
-                       5.410272))
-          )
-        , vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3)
-        , vol_bole_m3 =
-          ifelse(
-            .data$ind_sht_cop == 12 & is.na(.data$vol_bole_t2_m3),
-            .data$vol_bole_t1_m3,
-            .data$vol_bole_t2_m3
-          )
-      ) %>%
-    select(
-      -.data$a, -.data$b, -.data$c, -.data$d, -.data$e, -.data$f, -.data$g,
-      -.data$formula, -.data$d_cm, -.data$perimeter, -.data$perimeter_150
-    ) %>%
-    mutate(
-      # volume correction for snags
-      vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3),
-      upper_diam_snag_mm = ifelse(.data$intact_snag == 10,
-                                    .data$dbh_mm * (.data$calc_height_m - .data$height_m) / .data$calc_height_m,
-                                    NA),
-      volume_snag_m3 = ifelse(.data$intact_snag == 10,
-                              # as truncated cone - appears to be less accurate!!!!
-                              # pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
-                              # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
-                              # AS CILINDER - GIVES BETTER RESULTS
-                              pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
-                              # ! TEMPORARY SOLUTION: goal is to incorporate taper functions cfr FM-IA
-                                NA),
-      # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
-      # nee, want dan ook geen volumes van de andere bomen ...)
-      vol_bole_m3 = ifelse(.data$intact_snag == 10,
-                             .data$volume_snag_m3,
-                             .data$vol_bole_m3)
-    ) %>%
+    )
+  data_stems2 <- calc_stem_volume(data_stems2) %>%
     mutate(
       # volume correction for broken crown or branches
       reduction_crown =
@@ -223,9 +96,6 @@ calc_variables_stem_level <-
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
-    ) %>%
-    select(
-      -.data$upper_diam_snag_mm, -.data$volume_snag_m3
     ) %>%
   # (3) results per hectare
     mutate(stem_number_alive_ha =
@@ -279,7 +149,6 @@ calc_variables_stem_level <-
     ) %>%
     select(
       -.data$calc_height_fm, -.data$calc_height_r, -.data$dh_model,
-      -.data$vol_bole_t1_m3, -.data$vol_bole_t2_m3,
       -.data$reduction_crown, -.data$reduction_branch)
 
   return(data_stems2)
