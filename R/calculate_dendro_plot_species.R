@@ -37,7 +37,7 @@ calculate_dendro_plot_species <-
   function(data_dendro_calc, data_deadwood, plotinfo) {
   by_plot_species <- data_dendro_calc %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$species, .data$plottype
+      .data$plottype, .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
     summarise(
       number_of_trees_ha = sum(.data$number_of_trees_alive_ha),
@@ -53,17 +53,20 @@ calculate_dendro_plot_species <-
     ungroup() %>%
     full_join(
       data_deadwood %>%
-        group_by(.data$plot_id, .data$year, .data$period, .data$species) %>%
+        group_by(
+          .data$plottype, .data$plot_id, .data$year, .data$period, .data$species
+        ) %>%
         summarise(
           vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "species")
+      by = c("plottype", "plot_id", "year", "period", "species")
     ) %>%
     full_join(
       plotinfo %>%
         select(
-          "plot_id", year = "year_dendro", "period", "survey_trees", "survey_deadw"
+          "plottype", "plot_id", year = "year_dendro", "period", "survey_trees",
+          "survey_deadw"
         ) %>%
         filter(.data$survey_trees | .data$survey_deadw),
       by = c("plot_id", "year", "period")
@@ -78,7 +81,6 @@ calculate_dendro_plot_species <-
           is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
           0, .data$vol_log_m3_ha
         ),
-      plottype = NULL,
       survey_trees = NULL,
       survey_deadw = NULL,
       vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,

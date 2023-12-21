@@ -34,8 +34,8 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha)
     ) %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$height_class,
-      .data$subplot_id, .data$plotarea_ha
+      .data$plottype, .data$plot_id, .data$year, .data$period,
+      .data$height_class, .data$subplot_id, .data$plotarea_ha
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),

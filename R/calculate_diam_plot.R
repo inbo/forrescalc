@@ -38,7 +38,8 @@
 calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
   by_diam_plot <- data_stems_calc %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$dbh_class_5cm
+      .data$plottype, .data$plot_id, .data$year, .data$period,
+      .data$dbh_class_5cm
     ) %>%
     summarise(
       stem_number_alive_ha =
@@ -62,21 +63,23 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
     full_join(
       data_deadwood %>%
         group_by(
-          .data$plot_id, .data$year, .data$period, .data$dbh_class_5cm
+          .data$plottype, .data$plot_id, .data$year, .data$period,
+          .data$dbh_class_5cm
         ) %>%
         summarise(
           vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
         ) %>%
         ungroup(),
-      by = c("plot_id", "year", "period", "dbh_class_5cm")
+      by = c("plottype", "plot_id", "year", "period", "dbh_class_5cm")
     ) %>%
     full_join(
       plotinfo %>%
         select(
-          "plot_id", year = "year_dendro", "period", "survey_trees", "survey_deadw"
+          "plottype", "plot_id", year = "year_dendro", "period", "survey_trees",
+          "survey_deadw"
         ) %>%
         filter(.data$survey_trees | .data$survey_deadw),
-      by = c("plot_id", "year", "period")
+      by = c("plottype", "plot_id", "year", "period")
     ) %>%
     mutate(
       across(

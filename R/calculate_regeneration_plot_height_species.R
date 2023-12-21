@@ -33,8 +33,8 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha)
     ) %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$height_class,
-      .data$species, .data$subplot_id, .data$plotarea_ha
+      .data$plottype, .data$plot_id, .data$year, .data$period,
+      .data$height_class, .data$species, .data$subplot_id, .data$plotarea_ha
     ) %>%
     summarise(
       rubbing_damage_perc =

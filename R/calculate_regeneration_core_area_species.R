@@ -101,7 +101,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$species
+      .data$plottype, .data$plot_id, .data$year, .data$period, .data$species
     ) %>%
     summarise(
       nr_of_subplots_with_regeneration = n_distinct(.data$subplot_id),
@@ -249,7 +249,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
                .data$approx_nr_seedlings
     ) %>%
     select(
-      "plot_id", "year", "period", "species",
+      "plottype", "plot_id", "year", "period", "species",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha", "mean_number_seedlings_ha",
       "lci_number_seedlings_ha", "uci_number_seedlings_ha",

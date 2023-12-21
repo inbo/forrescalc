@@ -95,7 +95,8 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
                .data$rubbing_damage_number, NA)
     ) %>%
     group_by(
-      .data$plot_id, .data$year, .data$period, .data$subplot_id, .data$species
+      .data$plottype, .data$plot_id, .data$year, .data$period, .data$subplot_id,
+      .data$species
     ) %>%
     summarise(
       plotarea_ha = mean(.data$plotarea_ha, na.rm = TRUE),
@@ -240,7 +241,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
              .data$approx_nr_seedlings
     ) %>%
     select(
-      "plot_id", "year", "period", "subplot_id", "species",
+      "plottype", "plot_id", "year", "period", "subplot_id", "species",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha",
       "mean_number_seedlings_ha", "lci_number_seedlings_ha",

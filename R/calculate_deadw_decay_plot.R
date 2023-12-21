@@ -39,7 +39,8 @@ calculate_deadw_decay_plot <-
     if (is.data.frame(data_deadwood)) {
       by_decay_plot_log <- data_deadwood %>%
         group_by(
-          .data$plot_id, .data$year, .data$period, .data$decaystage
+          .data$plottype, .data$plot_id, .data$year, .data$period,
+          .data$decaystage
         ) %>%
         summarise(
           vol_log_m3_ha = sum(.data$calc_volume_m3 / .data$plotarea_ha)
@@ -50,7 +51,8 @@ calculate_deadw_decay_plot <-
     if (is.data.frame(data_dendro_calc)) {
       by_decay_plot_standing <- data_dendro_calc %>%
         group_by(
-          .data$plot_id, .data$year, .data$period, .data$decaystage
+          .data$plottype, .data$plot_id, .data$year, .data$period,
+          .data$decaystage
         ) %>%
         summarise(
           vol_dead_standing_m3_ha = sum(.data$vol_dead_standing_m3_ha),
@@ -64,7 +66,7 @@ calculate_deadw_decay_plot <-
         by_decay_plot <- by_decay_plot_standing %>%
           full_join(
             by_decay_plot_log,
-            by = c("plot_id", "year", "period", "decaystage")
+            by = c("plottype", "plot_id", "year", "period", "decaystage")
           )
       } else {
         by_decay_plot <- by_decay_plot_log %>%

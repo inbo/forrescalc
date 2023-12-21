@@ -38,7 +38,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       .data$coverage_class_average_perc
     ) %>%
     group_by(
-      .data$plot_id, .data$period, .data$subplot_id
+      .data$plottype, .data$plot_id, .data$period, .data$subplot_id
     ) %>%
     summarise(
       number_of_species = n_distinct(.data$species, na.rm = TRUE),
@@ -49,7 +49,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     left_join(
       data_vegetation %>%
         select(
-          .data$plot_id, .data$subplot_id, .data$period,
+          .data$plottype, .data$plot_id, .data$subplot_id, .data$period,
           .data$year_main_survey, .data$date_vegetation,
           .data$moss_cover_min, .data$moss_cover_max, .data$moss_cover_mid,
           .data$herb_cover_min, .data$herb_cover_max, .data$herb_cover_mid,
@@ -60,7 +60,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
           .data$soildisturbance_game_cover_max,
           .data$soildisturbance_game_cover_mid
         ),
-      by = c("plot_id", "period", "subplot_id")
+      by = c("plottype", "plot_id", "period", "subplot_id")
     ) %>%
     mutate(
       # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
