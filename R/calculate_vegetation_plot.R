@@ -33,10 +33,6 @@
 #'
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
   by_plot <- data_herblayer %>%
-    select(
-      .data$plot_id, .data$period, .data$subplot_id, .data$species,
-      .data$coverage_class_average_perc
-    ) %>%
     group_by(
       .data$plottype, .data$plot_id, .data$period, .data$subplot_id
     ) %>%
