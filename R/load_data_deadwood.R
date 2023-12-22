@@ -11,11 +11,11 @@
 #' @return Dataframe with data on logs
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_data_deadwood(path_to_fieldmapdb)
 #'
 #' @export
 #'

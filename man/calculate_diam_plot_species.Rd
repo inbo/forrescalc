@@ -31,21 +31,17 @@ and volume of standing trees (for coppice based on data on shoot level),
 and volume of logs (= lying deadwood).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 data_stems <- compose_stem_data(data_dendro, data_shoots)
 height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
 data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
-data_deadwood <-
-  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-plotinfo <-
-  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
+plotinfo <- load_plotinfo(path_to_fieldmapdb)
 calculate_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
-}
 
 }

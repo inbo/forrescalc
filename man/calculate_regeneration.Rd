@@ -29,12 +29,11 @@ For core area plots it makes additional aggregations on the levels of
 }
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_regeneration <-
-  load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
 calculate_regeneration(data_regeneration)
-}
 
 }

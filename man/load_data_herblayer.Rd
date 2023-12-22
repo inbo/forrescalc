@@ -42,10 +42,10 @@ while year refers to year of recording of that specific species
 (possibly different for spring flora; source is table "herblayer")
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+load_data_herblayer(path_to_fieldmapdb)
 
 }

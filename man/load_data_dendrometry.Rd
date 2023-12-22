@@ -40,10 +40,10 @@ This function queries the given database to retrieve data on dendrometry
 (ready for use in calculate_dendrometry function).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+load_data_dendrometry(path_to_fieldmapdb)
 
 }

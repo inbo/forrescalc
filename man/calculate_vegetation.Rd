@@ -24,14 +24,12 @@ This function makes aggregations of vegetation data on the levels of
 }
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_vegetation <-
-  load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_herblayer <-
-  load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
+data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
 calculate_vegetation(data_vegetation, data_herblayer)
-}
 
 }

@@ -23,12 +23,11 @@ This function creates a unique ID for each tree, that allows to group
 of an individual tree during different measures.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 create_unique_tree_id(data_dendro)
-}
 
 }

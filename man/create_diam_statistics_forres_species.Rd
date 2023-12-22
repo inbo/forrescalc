@@ -19,15 +19,13 @@ This function calculates the diameter distribution on the level of
 forest reserve, species and year
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 data_stems <- compose_stem_data(data_dendro, data_shoots)
 create_diam_statistics_forres_species(data_stems)
-}
 
 }

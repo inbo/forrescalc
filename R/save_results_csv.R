@@ -13,16 +13,13 @@
 #' @return No value is returned, data are saved in the specified folder
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' path_to_fieldmap <- "c:/xxx"
+#' path_to_fieldmapdb <-
+#'   system.file("database/mdb_bosres.sqlite", package = "forrescalc")
 #' path_to_plotlevel_csv <- getwd()
-#' data_regeneration <-
-#'   load_data_regeneration(database = path_to_fieldmap)
+#' data_regeneration <- load_data_regeneration(database = path_to_fieldmapdb)
 #' regeneration <- calculate_regeneration(data_regeneration)
 #' save_results_csv(results = regeneration, output_dir = path_to_plotlevel_csv)
-#' }
 #'
 #' @export
 #'

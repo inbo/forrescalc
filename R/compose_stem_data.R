@@ -19,24 +19,20 @@
 #' @return Dataframe with shoot data
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' data_dendro <-
-#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' data_shoots <-
-#'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+#' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' compose_stem_data(data_dendro, data_shoots)
 #'
 #' #to include iufro-classes and other additional variables:
 #' data_dendro <-
-#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'   extra_variables = TRUE)
+#'   load_data_dendrometry(path_to_fieldmapdb, extra_variables = TRUE)
 #' data_shoots <-
-#'   load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'   extra_variables = TRUE)
+#'   load_data_shoots(path_to_fieldmapdb, extra_variables = TRUE)
 #' compose_stem_data(data_dendro, data_shoots, extra_variables = TRUE)
-#' }
 #'
 #' @export
 #'

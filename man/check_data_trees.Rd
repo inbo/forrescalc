@@ -20,10 +20,10 @@ This function retrieves the important fields of table Trees (and Trees_2eSET)
 from the given database and checks for missing data or wrong input.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-check_data_trees("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+check_data_trees(path_to_fieldmapdb)
 
 }

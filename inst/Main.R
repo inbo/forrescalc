@@ -1,7 +1,8 @@
 library(tidyverse)
 library(forrescalc)
 
-path_to_fieldmap <- "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+path_to_fieldmap <-
+  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
 path_to_height_models <- "C:/Hoogtemodellen"
 
