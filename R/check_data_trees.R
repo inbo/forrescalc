@@ -2,7 +2,7 @@
 #'
 #' STILL UNDER CONSTRUCTION!!!
 #' This function retrieves the important fields of table Trees (and Trees_2eSET)
-#' from the given database and checks for lacking data or wrong input.
+#' from the given database and checks for missing data or wrong input.
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
