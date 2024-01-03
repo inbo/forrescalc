@@ -1,7 +1,7 @@
 #' copy table(s) from access db to git repository
 #'
-#' This function loads one or more tables from the access database and saves
-#' them in a git repository.
+#' This function loads one or more tables from the access database
+#' (or an SQLite database) and saves them in a git repository.
 #'
 #' @param tables vector with table names of tables that should be moved
 #' @inheritParams load_data_dendrometry
@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @importFrom git2rdata commit pull push repository write_vc
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlFetch
+#' @importFrom DBI dbDisconnect dbReadTable
 #'
 #' @examples
 #' library(forrescalc)
@@ -21,7 +21,7 @@
 #'   system.file("database/mdb_bosres.sqlite", package = "forrescalc")
 #' from_access_to_git(
 #'   database = path_to_fieldmapdb,
-#'   tables = c("qLayer", "qMossLondo"),
+#'   tables = c("qCoverHerbs", "qtotalCover"),
 #'   repo_path = "C:/gitrepo/forresdat"
 #' )
 #'
@@ -29,13 +29,13 @@ from_access_to_git <-
   function(database, tables, repo_path, push = FALSE, strict = TRUE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
-  con <- odbcConnectAccess2007(database)
+  con <- connect_to_database(database)
   for (tablename in tables) {
-    table <- sqlFetch(con, tablename, stringsAsFactors = FALSE)
+    table <- dbReadTable(con, tablename)
     write_vc(table, file = paste0("data/", tablename), root = repo,
              sorting = "ID", stage = TRUE, strict = strict)
   }
-  odbcClose(con)
+  dbDisconnect(con)
   tryCatch(
     commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE),
     error = function(e) {

@@ -26,8 +26,8 @@ change to FALSE only if tables are structurally changed
 No value is returned, the tables are saved in the git repository.
 }
 \description{
-This function loads one or more tables from the access database and saves
-them in a git repository.
+This function loads one or more tables from the access database
+(or an SQLite database) and saves them in a git repository.
 }
 \examples{
 library(forrescalc)
