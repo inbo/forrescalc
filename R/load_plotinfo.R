@@ -20,6 +20,7 @@
 #'
 #' @export
 #'
+#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom dplyr %>% distinct filter group_by mutate left_join select
 #' @importFrom dplyr summarise ungroup
 #' @importFrom lubridate month year
@@ -59,14 +60,20 @@ load_plotinfo <- function(database) {
       INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
-  con <- odbcConnectAccess2007(database)
-  plotinfo_1986 <- sqlQuery(con, query_plot_1986, stringsAsFactors = FALSE) %>%
+  con <- connect_to_database(database)
+  plotinfo_1986 <- dbGetQuery(con, query_plot_1986) %>%
     mutate(period = 0)
-  odbcClose(con)
+  dbDisconnect(con)
 
   plotinfo <-
     query_database(database, query_plot)
   if (nrow(plotinfo_1986) > 0) {
+    if (class(con) == "SQLiteConnection") {
+      plotinfo_1986 <- plotinfo_1986 %>%
+        mutate(
+          date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")
+        )
+    }
     plotinfo <- plotinfo %>%
       bind_rows(
         plotinfo_1986
