@@ -20,8 +20,6 @@ Imports:
   git2r,
   git2rdata,
   lubridate,
-  magrittr,
-  methods,
   odbc,
   plyr,
   purrr,
