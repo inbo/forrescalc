@@ -2,7 +2,7 @@ library(tidyverse)
 library(forrescalc)
 
 path_to_fieldmap <-
-  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
 path_to_height_models <- "C:/Hoogtemodellen"
 

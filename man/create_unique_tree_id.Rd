@@ -26,7 +26,7 @@ of an individual tree during different measures.
 library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
-  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 create_unique_tree_id(data_dendro)
 

@@ -27,13 +27,14 @@ which contain as a content the different dataframes.
 }
 \examples{
 \dontrun{
-#change path before running
 library(forrescalc)
-database <- system.file("database/mdb_bosres.sqlite", package = "forrescalc")
-data_dendro <- load_data_dendrometry(database)
-data_deadwood <- load_data_deadwood(database)
-data_shoots <- load_data_shoots(database)
 height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 result_dendro <-
   calculate_dendrometry(data_dendro, data_deadwood, data_shoots, height_model)
 save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")

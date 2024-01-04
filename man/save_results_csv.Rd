@@ -25,7 +25,7 @@ a content the different dataframes.
 \examples{
 library(forrescalc)
 path_to_fieldmapdb <-
-  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_plotlevel_csv <- getwd()
 data_regeneration <- load_data_regeneration(database = path_to_fieldmapdb)
 regeneration <- calculate_regeneration(data_regeneration)

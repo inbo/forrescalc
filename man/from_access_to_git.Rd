@@ -33,7 +33,7 @@ This function loads one or more tables from the access database
 library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
-  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 from_access_to_git(
   database = path_to_fieldmapdb,
   tables = c("qLayer", "qMossLondo"),

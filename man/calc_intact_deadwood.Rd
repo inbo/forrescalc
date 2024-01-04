@@ -29,7 +29,7 @@ this intact deadwood and keeps the initial volume in case of fragments.
 library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
-  system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 calc_intact_deadwood(data_deadwood)
 

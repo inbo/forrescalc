@@ -190,9 +190,9 @@ dbDisconnect(con_FM)
 
 library(RSQLite)
 
-unlink("inst/database/mdb_bosres.sqlite")
+unlink("inst/example/database/mdb_bosres.sqlite")
 
-packagedb <- dbConnect(SQLite(), "inst/database/mdb_bosres.sqlite")
+packagedb <- dbConnect(SQLite(), "inst/example/database/mdb_bosres.sqlite")
 dbWriteTable(packagedb, "Deadwood", Deadwood)
 dbWriteTable(packagedb, "Deadwood_2eSET", Deadwood_2eSET)
 dbWriteTable(packagedb, "Deadwood_2eSET_Diameters", Deadwood_2eSET_Diameters)

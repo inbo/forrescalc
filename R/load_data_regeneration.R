@@ -11,7 +11,7 @@
 #' library(forrescalc)
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
-#'   system.file("database/mdb_bosres.sqlite", package = "forrescalc")
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' load_data_regeneration(path_to_fieldmapdb)
 #' load_data_regeneration(path_to_fieldmapdb, plottype = "CP")
 #'
