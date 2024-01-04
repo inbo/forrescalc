@@ -45,14 +45,9 @@
 save_results_access <- function(results, database, remove_tables = FALSE) {
   con <- connect_to_database(database)
   for (tablename in names(results)) {
-    if (remove_tables) {
-      dbtables <- dbListTables(con)
-      if (tablename %in% dbtables) {
-        dbRemoveTable(con, tablename)
-      }
-    }
     tryCatch(
-      dbWriteTable(conn = con, name = tablename, value = results[[tablename]]),
+      dbWriteTable(conn = con, name = tablename, value = results[[tablename]],
+                   overwrite = remove_tables),
       error = function(e) {
         val <- withCallingHandlers(e)
         if (
