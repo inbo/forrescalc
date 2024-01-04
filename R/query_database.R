@@ -80,7 +80,7 @@ query_database <-
     }
   }
 
-  if (class(con) == "SQLiteConnection") {
+  if (inherits(con, "SQLiteConnection")) {
     dataset <- dataset %>%
       mutate(across(starts_with("date_"), ~ as.POSIXct(.x, origin = "1970-01-01")))
   }

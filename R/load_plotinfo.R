@@ -68,7 +68,7 @@ load_plotinfo <- function(database) {
   plotinfo <-
     query_database(database, query_plot)
   if (nrow(plotinfo_1986) > 0) {
-    if (class(con) == "SQLiteConnection") {
+    if (inherits(con, "SQLiteConnection")) {
       plotinfo_1986 <- plotinfo_1986 %>%
         mutate(
           date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")

@@ -127,7 +127,7 @@ load_data_dendrometry <-
   con <- connect_to_database(database)
   dendro_1986 <- dbGetQuery(con, query_dendro_1986) %>%
     mutate(period = 0)
-  if (class(con) == "SQLiteConnection") {
+  if (inherits(con, "SQLiteConnection")) {
     dendro_1986 <- dendro_1986 %>%
       mutate(
         date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")
