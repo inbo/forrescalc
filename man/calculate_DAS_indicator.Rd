@@ -47,11 +47,15 @@ library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+# (add path to your height models here)
+path_to_height_models <-
+  system.file("example/height_models", package = "forrescalc")
+
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 data_shoots <- load_data_shoots(path_to_fieldmapdb)
 data_stems <- compose_stem_data(data_dendro, data_shoots)
-height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-data_stems_calc <- calc_variables_stem_level(data_stems, heightmodel)
+height_model <- load_height_models(path_to_height_models)
+data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 calculate_DAS_indicator(data_dendro_calc)
 

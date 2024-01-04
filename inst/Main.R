@@ -4,7 +4,8 @@ library(forrescalc)
 path_to_fieldmap <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
-path_to_height_models <- "C:/Hoogtemodellen"
+path_to_height_models <-
+  system.file("example/height_models", package = "forrescalc")
 
 #only when q-tables in Fieldmap have changed (and only mention the changed table)
 from_access_to_git(

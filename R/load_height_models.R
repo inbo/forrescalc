@@ -15,11 +15,12 @@
 #' @importFrom readxl read_xlsx
 #'
 #' @examples
-#' \dontrun{
 #' #change path before running
 #' library(forrescalc)
-#' load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' }
+#' # (add path to your height models here)
+#' path_to_height_models <-
+#'   system.file("example/height_models", package = "forrescalc")
+#' load_height_models(path_to_height_models)
 #'
 #' @export
 #'
