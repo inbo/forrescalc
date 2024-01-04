@@ -18,6 +18,7 @@
 #' @return dataframe with results for DAS indicator on forest level (?)
 #'
 #' @examples
+#' \dontrun{
 #' library(forrescalc)
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
@@ -33,6 +34,7 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' calculate_DAS_indicator(data_dendro_calc)
+#' }
 #'
 #' @export
 #'

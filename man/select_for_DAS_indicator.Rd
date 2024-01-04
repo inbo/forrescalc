@@ -31,11 +31,13 @@ the following criteria:
 }
 }
 \examples{
+\dontrun{
 library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 select_for_DAS_indicator(data_dendro)
+}
 
 }
