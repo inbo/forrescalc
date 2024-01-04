@@ -30,10 +30,14 @@ in an access database.
 \dontrun{
 #change paths before running
 library(forrescalc)
+# (add path to your own database here)
+path_to_database <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 from_git_to_access(
   tables = c("qAliveDead", "qdecaystage"),
   repo_path = "C:/gitrepo/forresdat",
-  database = "C:/db/testdb.accdb"
+  database = path_to_database,
+  remove_tables = TRUE
 )
 }
 
