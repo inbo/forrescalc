@@ -90,11 +90,11 @@ calc_variables_stem_level <-
       # volume correction for broken crown or branches
       reduction_crown =
         ifelse(is.na(.data$crown_volume_reduction), 0,
-               .data$crown_volume_reduction),
+               as.numeric(.data$crown_volume_reduction)),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_crown),
       reduction_branch =
         ifelse(is.na(.data$branch_length_reduction), 0,
-               .data$branch_length_reduction),
+               as.numeric(.data$branch_length_reduction)),
       vol_crown_m3 = .data$vol_crown_m3 * (1 - .data$reduction_branch),
       # total volume
       vol_tot_m3 = .data$vol_bole_m3 + .data$vol_crown_m3
