@@ -15,6 +15,7 @@
 #' @importFrom DBI dbDisconnect dbReadTable
 #'
 #' @examples
+#' \dontrun{
 #' library(forrescalc)
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
@@ -24,6 +25,7 @@
 #'   tables = c("qCoverHerbs", "qtotalCover"),
 #'   repo_path = "C:/gitrepo/forresdat"
 #' )
+#' }
 #'
 from_access_to_git <-
   function(database, tables, repo_path, push = FALSE, strict = TRUE) {
