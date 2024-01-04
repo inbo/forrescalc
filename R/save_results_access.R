@@ -27,9 +27,11 @@
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' height_model <- load_height_models(path_to_height_models)
+#' plotinfo <- load_plotinfo(path_to_fieldmapdb)
 #' result_dendro <-
-#'   calculate_dendrometry(data_dendro, data_deadwood, data_shoots, height_model)
 #' save_results_access(result = result_dendro, database = "C:/db/testdb.accdb")
+#'   calculate_dendrometry(
+#'     data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
 #' #Repeating the previous line of code will give an error, because you try to
 #' #overwrite a table that was already saved in the database on the first run.
 #' #To overwrite previously saved tables, use this command:
