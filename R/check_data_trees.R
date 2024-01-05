@@ -41,17 +41,23 @@ check_data_trees <- function(database) {
       Trees.Remark,
       Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
-      Trees.BasalArea_m2 AS basal_area_m2
-    FROM (Plots INNER JOIN Trees ON Plots.ID = Trees.IDPlots)
+      Trees.BasalArea_m2 AS basal_area_m2,
+      Trees.OldID
+    FROM (Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots <-
     "SELECT IDPlots,
-    XTrees, YTrees, IDTrees, ID AS shoot_id, DBH_mm AS dbh_mm,
-    Height_m AS height_m, IntactSnag
-    FROM Shoots"
+      XTrees%2$s AS XTrees,
+      YTrees%2$s AS YTrees,
+      IDTrees%2$s AS IDTrees,
+      ID AS shoot_id,
+      DBH_mm AS dbh_mm,
+      Height_m AS height_m,
+      IntactSnag
+    FROM Shoots%2$s"
 
-  query_trees2 <-
+  query_trees_1986 <-
     "SELECT Trees.IDPlots,
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
@@ -70,36 +76,40 @@ check_data_trees <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
-    FROM (Plots INNER JOIN Trees_2eSET Trees ON Plots.ID = Trees.IDPlots)
+    FROM (Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
-  query_shoots2 <-
+  query_shoots_1986 <-
     "SELECT IDPlots,
-      XTrees_2eSET AS XTrees, YTrees_2eSET AS YTrees, IDTrees_2eSET AS IDTrees,
-      ID AS shoot_id, DBH_mm AS dbh_mm, Height_m AS height_m, IntactSnag
-    FROM Shoots_2eSET"
+      XTrees_1986 AS XTrees,
+      YTrees_1986 AS YTrees,
+      IDTrees_1986 AS IDTrees,
+      ID AS shoot_id,
+      DBH_mm AS dbh_mm,
+      Height_m AS height_m,
+      IntactSnag
+    FROM Shoots_1986"
+
+  data_trees <- query_database(database, query_trees)
+  data_shoots <- query_database(database, query_shoots)
 
   con <- connect_to_database(database)
-  data_trees <- dbGetQuery(con, query_trees) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      dbGetQuery(con, query_trees2) %>%
-        mutate(
-          period = 2
-        )
-    )
-  data_shoots <- dbGetQuery(con, query_shoots) %>%
-    mutate(
-      period = 1
-    ) %>%
-    bind_rows(
-      dbGetQuery(con, query_shoots2) %>%
-        mutate(
-          period = 2
-        )
-    )
+  data_trees_1986 <- dbGetQuery(con, query_trees_1986) %>%
+    mutate(period = 0)
+  if (nrow(data_trees_1986) > 0) {
+    data_trees <- data_trees %>%
+      bind_rows(
+        data_trees_1986
+      )
+  }
+  data_shoots_1986 <- dbGetQuery(con, query_shoots_1986) %>%
+    mutate(period = 0)
+  if (nrow(data_shoots_1986) > 0) {
+    data_shoots <- data_shoots %>%
+      bind_rows(
+        data_shoots_1986
+      )
+  }
   dbDisconnect(con)
 
   incorrect_trees <- data_trees %>%
