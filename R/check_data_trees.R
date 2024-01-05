@@ -114,14 +114,14 @@ check_data_trees <- function(database) {
       problem =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$problem),
           "tree not in A3",
           .data$problem
         ),
       problem =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9,
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$problem),
           "tree not in A3",
           .data$problem
         )
