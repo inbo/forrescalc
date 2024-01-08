@@ -21,7 +21,9 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows filter full_join left_join mutate select
+#' @importFrom dplyr %>% anti_join bind_rows filter group_by left_join mutate
+#'   select summarise ungroup
+#' @importFrom tidyr pivot_longer
 #'
 check_data_trees <- function(database) {
   query_trees <-
@@ -113,30 +115,30 @@ check_data_trees <- function(database) {
   dbDisconnect(con)
 
   incorrect_trees <- data_trees %>%
-    # niet in A3 of A4
+    # not in A3 or A4
     mutate(
-      problem =
+      location =
         ifelse(
           .data$plottype == "CP" & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
           "tree not in A4",
           NA
         ),
-      problem =
+      location =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$problem),
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$location),
           "tree not in A3",
-          .data$problem
+          .data$location
         ),
-      problem =
+      location =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$problem),
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$location),
           "tree not in A3",
-          .data$problem
+          .data$location
         )
     ) %>%
-    # shoots niet correct gelinkt met trees
+    # shoots not correctly linked with trees
     left_join(
       data_trees %>%
         filter(.data$ind_sht_cop == 12) %>%
@@ -146,58 +148,25 @@ check_data_trees <- function(database) {
                  "tree_measure_id" = "IDTrees", "period")
         ) %>%
         select(
-          .data$IDPlots, .data$X_m, .data$Y_m, .data$tree_measure_id,
-          .data$period
+          "IDPlots", "X_m", "Y_m", "tree_measure_id", "period"
         ) %>%
         mutate(
-          coppiceproblem = "no shoots linked with coppice tree"
+          link_to_layer_shoots = "missing"
         ),
       by = c("IDPlots", "X_m", "Y_m", "tree_measure_id", "period")
     ) %>%
-    mutate(
-      problem =
-        ifelse(
-          !is.na(.data$problem),
-          ifelse(
-            !is.na(.data$coppiceproblem),
-            paste(.data$problem, .data$coppiceproblem, sep = " / "),
-            .data$problem
-          ),
-          .data$coppiceproblem
-        ),
-      coppiceproblem = NULL
+    pivot_longer(
+      cols = c("location", "link_to_layer_shoots"),
+      names_to = "aberrant_field",
+      values_to = "anomaly",
+      values_drop_na = TRUE
     ) %>%
-    full_join(
-       data_shoots %>%
-        anti_join(
-          data_trees %>%
-            filter(.data$ind_sht_cop == 12),
-          by = c("IDPlots", "XTrees" = "X_m", "YTrees" = "Y_m",
-                 "IDTrees" = "tree_measure_id", "period")
-        ) %>%
-        select(
-          .data$IDPlots, X_m = .data$XTrees, Y_m = .data$YTrees,
-          tree_measure_id = .data$IDTrees, .data$period
-        ) %>%
-        mutate(
-          coppiceproblem = "no coppice tree linked with shoots"
-        ),
-      by = c("IDPlots", "X_m", "Y_m", "tree_measure_id", "period")
+    group_by(.data$IDPlots, .data$tree_measure_id, .data$period) %>%
+    summarise(
+      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
+      anomaly = paste0(.data$anomaly, collapse = " / ")
     ) %>%
-    mutate(
-      problem =
-        ifelse(
-          !is.na(.data$problem),
-          ifelse(
-            !is.na(.data$coppiceproblem),
-            paste(.data$problem, .data$coppiceproblem, sep = " / "),
-            .data$problem
-          ),
-          .data$coppiceproblem
-        ),
-      coppiceproblem = NULL
-    ) %>%
-    filter(!is.na(.data$problem))
+    ungroup()
 
   return(incorrect_trees)
 }
