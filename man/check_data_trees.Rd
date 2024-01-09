@@ -11,12 +11,12 @@ check_data_trees(database)
 structure) including path}
 }
 \value{
-Dataframe with inconsistent data
-(FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
+Dataframe with inconsistent data with ID's and additional columns
+`aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
+the input)
 }
 \description{
-STILL UNDER CONSTRUCTION!!!
-This function retrieves the important fields of table Trees (and Trees_2eSET)
+This function retrieves the important fields of table Trees (of all periods)
 from the given database and checks for missing data or wrong input.
 }
 \examples{
