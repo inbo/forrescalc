@@ -205,16 +205,20 @@ check_data_trees <- function(database) {
       field_ind_sht_cop =
         ifelse(.data$ind_sht_cop == 12 & .data$nr_of_stems == 1, "incorrect",
                .data$field_ind_sht_cop),
-      field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA),
       field_decaystage =
         ifelse(
-          !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16),
+          is.na(.data$decay_stage) & .data$alive_dead == 12, "missing", NA
+        ),
+      field_decaystage =
+        ifelse(
+          !is.na(.data$decay_stage) &
+            !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16),
           "not in lookuplist",
           .data$field_decaystage),
       field_decaystage =
         ifelse(
           .data$decay_stage %in% c(10, 11, 12, 13, 14, 15) &
-            .data$alive_dead == 11,
+            .data$alive_dead == 11 & !is.na(.data$decay_stage),
           "tree not dead",
           .data$field_decaystage),
       field_decaystage =
