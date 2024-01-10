@@ -212,19 +212,26 @@ check_data_trees <- function(database) {
       field_decaystage =
         ifelse(
           !is.na(.data$decay_stage) &
-            !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16),
+            !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16, 17),
           "not in lookuplist",
           .data$field_decaystage),
       field_decaystage =
         ifelse(
-          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15) &
+          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 17) &
             .data$alive_dead == 11 & !is.na(.data$decay_stage),
-          "tree not dead",
+          "tree alive",
           .data$field_decaystage),
       field_decaystage =
         ifelse(
-          .data$decay_stage == 16 & .data$alive_dead == 12,
+          .data$decay_stage == 16 & !is.na(.data$decay_stage) &
+            .data$alive_dead == 12,
           "tree not alive",
+          .data$field_decaystage),
+      field_decaystage =
+        ifelse(
+          .data$decay_stage == 17 & !is.na(.data$decay_stage) &
+            .data$ind_sht_cop == 10,
+          "tree no coppice",
           .data$field_decaystage),
       field_iufro_hght = ifelse(is.na(.data$IUFROHght), "missing", NA),
       field_iufro_hght =
