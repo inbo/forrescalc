@@ -37,7 +37,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$year, .data$period,
+      .data$plot_id, .data$year, .data$period,
       .data$height_class, .data$species, .data$plotarea_ha
     ) %>%
     summarise(
