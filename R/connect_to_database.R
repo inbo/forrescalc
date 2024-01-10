@@ -26,9 +26,19 @@ connect_to_database <-
       )
   } else if (grepl(".sqlite$", database)) {
     con <- dbConnect(SQLite(), database)
+  } else if (grepl(".fdb$", database) | grepl(".gdb", database)) {
+    con <-
+      dbConnect(
+        odbc(),
+        .connection_string =
+          paste0(
+            "Driver={Firebird/InterBase(r) driver};UID=SYSDBA;PWD=masterkey; DBNAME=",
+            database
+          )
+      )
   } else {
     stop(
-      "This database type is not supported, please use .mdb, .accdb or .sqlite"
+      "This database type is not supported, please use .mdb, .accdb, .fdb, .gdb or .sqlite"
     )
   }
 
