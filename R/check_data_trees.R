@@ -183,9 +183,15 @@ check_data_trees <- function(database) {
       field_height_m =
         ifelse(is.na(.data$height_m) & .data$intact_snag == 10, "missing", NA),
       field_height_m =
-        ifelse(.data$height_m > 50, "too high", .data$field_height_m),
+        ifelse(
+          !is.na(.data$height_m) & .data$height_m > 50, "too high",
+          .data$field_height_m
+        ),
       field_height_m =
-        ifelse(.data$height_m < 1.3, "too low", .data$field_height_m),
+        ifelse(
+          !is.na(.data$height_m) & .data$height_m < 1.3, "too low",
+          .data$field_height_m
+        ),
       field_species = ifelse(is.na(.data$species), "missing", NA),
       field_intact_snag = ifelse(is.na(.data$intact_snag), "missing", NA),
       field_intact_snag =
