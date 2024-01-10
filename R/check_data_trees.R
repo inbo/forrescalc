@@ -21,8 +21,8 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows filter group_by left_join mutate
-#'   select summarise ungroup
+#' @importFrom dplyr %>% anti_join bind_rows count filter group_by left_join
+#'   mutate select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_trees <- function(database) {
@@ -155,7 +155,24 @@ check_data_trees <- function(database) {
         ),
       by = c("IDPlots", "X_m", "Y_m", "tree_measure_id", "period")
     ) %>%
+    #nr_of_stems (TreeNumber) not correct
+    left_join(
+      data_trees %>%
+        select("IDPlots", "tree_measure_id", "nr_of_stems", "period") %>%
+        inner_join(
+          data_shoots %>%
+            count(.data$IDPlots, .data$IDTrees, .data$period),
+          by = c("IDPlots", "tree_measure_id" = "IDTrees", "period")
+        ) %>%
+        filter(.data$nr_of_stems != .data$n) %>%
+        transmute(
+          .data$IDPlots, .data$tree_measure_id, .data$period,
+          field_tree_number = "incorrect"
+        ),
+      by = c("IDPlots", "tree_measure_id", "period")
+    ) %>%
     mutate(
+      # ratio D/H
       d_h = .data$dbh_mm * pi / (.data$height_m * 10),
       ratio_dbh_height = ifelse(.data$d_h < 1.5, "too low", NA),
       ratio_dbh_height =
@@ -181,6 +198,12 @@ check_data_trees <- function(database) {
       field_ind_sht_cop = ifelse(is.na(.data$ind_sht_cop), "missing", NA),
       field_ind_sht_cop =
         ifelse(!.data$ind_sht_cop %in% c(10, 11, 12), "not in lookuplist",
+               .data$field_ind_sht_cop),
+      field_ind_sht_cop =
+        ifelse(.data$ind_sht_cop == 10 & .data$nr_of_stems > 1, "incorrect",
+               .data$field_ind_sht_cop),
+      field_ind_sht_cop =
+        ifelse(.data$ind_sht_cop == 12 & .data$nr_of_stems == 1, "incorrect",
                .data$field_ind_sht_cop),
       field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA),
       field_decaystage =
