@@ -149,6 +149,11 @@ check_data_shoots <- function(database) {
           "too low", .data$field_height_m
         ),
       field_intact_snag = ifelse(is.na(.data$intact_snag), "missing", NA),
+      field_intact_snag =
+        ifelse(
+          !is.na(.data$intact_snag) & !.data$intact_snag %in% c(10, 11),
+          "not in lookuplist", .data$field_intact_snag
+        ),
       field_decaystage_shoots =
         ifelse(is.na(.data$decay_stage_shoots), "missing", NA),
       field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
