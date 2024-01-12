@@ -178,8 +178,62 @@ check_data_shoots <- function(database) {
           .data$field_decaystage_shoots
         ),
       field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
+      field_iufro_hght =
+        ifelse(
+          !.data$iufro_hght %in% c(10, 20, 30, 40) & !is.na(.data$iufro_hght),
+          "not in lookuplist", .data$field_iufro_hght
+        ),
+      field_iufro_hght =
+        ifelse(
+          .data$iufro_hght %in% c(10, 20, 30) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_hght),
+          "tree not alive",
+          .data$field_iufro_hght
+        ),
+      field_iufro_hght =
+        ifelse(
+          .data$iufro_hght == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_hght),
+          "tree alive", .data$field_iufro_hght
+        ),
       field_iufro_vital = ifelse(is.na(.data$iufro_vital), "missing", NA),
-      field_iufro_socia = ifelse(is.na(.data$iufro_socia), "missing", NA)
+      field_iufro_vital =
+        ifelse(
+          !.data$iufro_vital %in% c(10, 20, 30, 40) & !is.na(.data$iufro_vital),
+          "not in lookuplist", .data$field_iufro_vital
+        ),
+      field_iufro_vital =
+        ifelse(
+          .data$iufro_vital %in% c(10, 20, 30) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_vital),
+          "tree not alive",
+          .data$field_iufro_vital
+        ),
+      field_iufro_vital =
+        ifelse(
+          .data$iufro_vital == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_vital),
+          "tree alive", .data$field_iufro_vital
+        ),
+      field_iufro_socia = ifelse(is.na(.data$iufro_socia), "missing", NA),
+      field_iufro_socia =
+        ifelse(
+          !.data$iufro_socia %in% c(10, 20, 30, 40) & !is.na(.data$iufro_socia),
+          "not in lookuplist", .data$field_iufro_socia
+        ),
+      field_iufro_socia =
+        ifelse(
+          .data$iufro_socia %in% c(10, 20, 30) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_socia),
+          "tree not alive",
+          .data$field_iufro_socia
+        ),
+      field_iufro_socia =
+        ifelse(
+          .data$iufro_socia == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_socia),
+          "tree alive", .data$field_iufro_socia
+        )
     ) %>%
     pivot_longer(
       cols =
