@@ -181,7 +181,10 @@ check_data_trees <- function(database) {
         ifelse(.data$d_h > 15, "too high", .data$ratio_dbh_height),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
-        ifelse(.data$dbh_mm > 2000, "too high", .data$field_dbh_mm),
+        ifelse(
+          !is.na(.data$dbh_mm) &.data$dbh_mm > 2000,
+          "too high", .data$field_dbh_mm
+        ),
       field_height_m =
         ifelse(is.na(.data$height_m) & .data$intact_snag == 10, "missing", NA),
       field_height_m =
@@ -197,22 +200,34 @@ check_data_trees <- function(database) {
       field_species = ifelse(is.na(.data$species), "missing", NA),
       field_intact_snag = ifelse(is.na(.data$intact_snag), "missing", NA),
       field_intact_snag =
-        ifelse(!.data$intact_snag %in% c(10, 11), "not in lookuplist",
-               .data$field_intact_snag),
+        ifelse(
+          !.data$intact_snag %in% c(10, 11) & !is.na(.data$intact_snag),
+          "not in lookuplist", .data$field_intact_snag
+        ),
       field_alive_dead = ifelse(is.na(.data$alive_dead), "missing", NA),
       field_alive_dead =
-        ifelse(!.data$alive_dead %in% c(11, 12), "not in lookuplist",
-               .data$field_alive_dead),
+        ifelse(
+          !.data$alive_dead %in% c(11, 12) & !is.na(.data$alive_dead),
+          "not in lookuplist", .data$field_alive_dead
+        ),
       field_ind_sht_cop = ifelse(is.na(.data$ind_sht_cop), "missing", NA),
       field_ind_sht_cop =
-        ifelse(!.data$ind_sht_cop %in% c(10, 11, 12), "not in lookuplist",
-               .data$field_ind_sht_cop),
+        ifelse(
+          !.data$ind_sht_cop %in% c(10, 11, 12) & !is.na(.data$ind_sht_cop),
+          "not in lookuplist", .data$field_ind_sht_cop
+        ),
       field_ind_sht_cop =
-        ifelse(.data$ind_sht_cop == 10 & .data$nr_of_stems > 1, "incorrect",
-               .data$field_ind_sht_cop),
+        ifelse(
+          .data$ind_sht_cop == 10 & .data$nr_of_stems > 1 &
+            !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
+          "incorrect", .data$field_ind_sht_cop
+        ),
       field_ind_sht_cop =
-        ifelse(.data$ind_sht_cop == 12 & .data$nr_of_stems == 1, "incorrect",
-               .data$field_ind_sht_cop),
+        ifelse(
+          .data$ind_sht_cop == 12 & .data$nr_of_stems == 1 &
+            !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
+          "incorrect", .data$field_ind_sht_cop
+        ),
       field_decaystage =
         ifelse(
           is.na(.data$decay_stage) & .data$alive_dead == 12, "missing", NA
@@ -243,53 +258,81 @@ check_data_trees <- function(database) {
           .data$field_decaystage),
       field_iufro_hght = ifelse(is.na(.data$IUFROHght), "missing", NA),
       field_iufro_hght =
-        ifelse(!.data$IUFROHght %in% c(10, 20, 30, 40, 50), "not in lookuplist",
-               .data$field_iufro_hght),
+        ifelse(
+          !is.na(.data$IUFROHght) & !.data$IUFROHght %in% c(10, 20, 30, 40, 50),
+          "not in lookuplist", .data$field_iufro_hght
+        ),
       field_iufro_hght =
         ifelse(
-          .data$IUFROHght %in% c(10, 20, 30, 50) & .data$alive_dead == 12,
+          .data$IUFROHght %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$IUFROHght),
           "tree not alive",
           .data$field_iufro_hght),
       field_iufro_hght =
-        ifelse(.data$IUFROHght == 40 & .data$alive_dead == 11, "tree alive",
-               .data$field_iufro_hght),
+        ifelse(
+          .data$IUFROHght == 40 & .data$alive_dead == 11 &
+            !is.na(.data$IUFROHght),
+          "tree alive", .data$field_iufro_hght
+        ),
       field_iufro_hght =
         ifelse(
-          .data$IUFROHght == 50 & .data$ind_sht_cop == 10, "tree no coppice",
-          .data$field_iufro_hght),
+          .data$IUFROHght == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$IUFROHght),
+          "tree no coppice", .data$field_iufro_hght
+        ),
       field_iufro_vital = ifelse(is.na(.data$IUFROVital), "missing", NA),
       field_iufro_vital =
         ifelse(
-          !.data$IUFROVital %in% c(10, 20, 30, 40, 50), "not in lookuplist",
-          .data$field_iufro_vital),
+          !.data$IUFROVital %in% c(10, 20, 30, 40, 50) &
+            !is.na(.data$IUFROVital),
+          "not in lookuplist", .data$field_iufro_vital
+        ),
       field_iufro_vital =
         ifelse(
-          .data$IUFROVital %in% c(10, 20, 30, 50) & .data$alive_dead == 12,
+          .data$IUFROVital %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$IUFROVital),
           "tree not alive",
-          .data$field_iufro_vital),
-      field_iufro_vital =
-        ifelse(.data$IUFROVital == 40 & .data$alive_dead == 11, "tree alive",
-               .data$field_iufro_vital),
+          .data$field_iufro_vital
+        ),
       field_iufro_vital =
         ifelse(
-          .data$IUFROVital == 50 & .data$ind_sht_cop == 10, "tree no coppice",
-          .data$field_iufro_vital),
+          .data$IUFROVital == 40 & .data$alive_dead == 11 &
+            !is.na(.data$IUFROVital),
+          "tree alive",
+          .data$field_iufro_vital
+        ),
+      field_iufro_vital =
+        ifelse(
+          .data$IUFROVital == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$IUFROVital),
+          "tree no coppice",
+          .data$field_iufro_vital
+        ),
       field_iufro_socia = ifelse(is.na(.data$IUFROSocia), "missing", NA),
       field_iufro_socia =
         ifelse(
-          !.data$IUFROSocia %in% c(10, 20, 30, 40, 50), "not in lookuplist",
+          !.data$IUFROSocia %in% c(10, 20, 30, 40, 50) &
+            !is.na(.data$IUFROSocia),
+          "not in lookuplist",
           .data$field_iufro_socia),
       field_iufro_socia =
         ifelse(
-          .data$IUFROSocia %in% c(10, 20, 30, 50) & .data$alive_dead == 12,
+          .data$IUFROSocia %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$IUFROSocia),
           "tree not alive",
           .data$field_iufro_socia),
       field_iufro_socia =
-        ifelse(.data$IUFROSocia == 40 & .data$alive_dead == 11, "tree alive",
-               .data$field_iufro_socia),
+        ifelse(
+          .data$IUFROSocia == 40 & .data$alive_dead == 11 &
+            !is.na(.data$IUFROSocia),
+          "tree alive",
+          .data$field_iufro_socia
+        ),
       field_iufro_socia =
         ifelse(
-          .data$IUFROSocia == 50 & .data$ind_sht_cop == 10, "tree no coppice",
+          .data$IUFROSocia == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$IUFROSocia),
+          "tree no coppice",
           .data$field_iufro_socia),
       field_treenumber =
         ifelse(!is.na(.data$nr_of_stems) & .data$nr_of_stems <= 0, "too low",
