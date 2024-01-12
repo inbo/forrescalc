@@ -30,6 +30,7 @@ check_data_shoots <- function(database) {
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
+      Trees.Height_m AS tree_height_m,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop
     FROM (Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
@@ -55,6 +56,7 @@ check_data_shoots <- function(database) {
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
+      Trees.Height_m AS tree_height_m,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop
     FROM (Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
@@ -113,10 +115,39 @@ check_data_shoots <- function(database) {
         ),
       by = c("plot_id", "XTrees", "YTrees", "tree_measure_id", "period")
     ) %>%
+    left_join(
+      data_trees %>%
+        select(
+          "plot_id", "X_m", "Y_m", "tree_measure_id", "period", "tree_height_m"
+        ),
+      by = c("plot_id", "XTrees" = "X_m", "YTrees" = "Y_m", "tree_measure_id",
+             "period")
+    ) %>%
+    # ratio D/H (don't add item if height_m = NA)
     mutate(
+      d_h = .data$dbh_mm * pi / (.data$height_m * 10),
+      ratio_dbh_height = ifelse(.data$d_h < 1.5, "too low", NA),
+      ratio_dbh_height =
+        ifelse(.data$d_h > 15, "too high", .data$ratio_dbh_height),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
+      field_dbh_mm =
+        ifelse(.data$dbh_mm > 2000, "too high", .data$field_dbh_mm),
       field_height_m =
-        ifelse(is.na(.data$height_m) & .data$intact_snag == 10, "missing", NA),
+        ifelse(
+          is.na(.data$height_m) & .data$intact_snag == 10 &
+            !is.na(.data$tree_height_m),
+          "missing", NA
+        ),
+      field_height_m =
+        ifelse(
+          !is.na(.data$height_m) & .data$height_m > 50,
+          "too high", .data$field_height_m
+        ),
+      field_height_m =
+        ifelse(
+          !is.na(.data$height_m) & .data$height_m < 1.3,
+          "too low", .data$field_height_m
+        ),
       field_intact_snag = ifelse(is.na(.data$intact_snag), "missing", NA),
       field_decaystage_shoots =
         ifelse(is.na(.data$decay_stage_shoots), "missing", NA),
