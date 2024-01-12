@@ -118,7 +118,8 @@ check_data_shoots <- function(database) {
     left_join(
       data_trees %>%
         select(
-          "plot_id", "X_m", "Y_m", "tree_measure_id", "period", "tree_height_m"
+          "plot_id", "X_m", "Y_m", "tree_measure_id", "period", "tree_height_m",
+          "alive_dead"
         ),
       by = c("plot_id", "XTrees" = "X_m", "YTrees" = "Y_m", "tree_measure_id",
              "period")
@@ -156,6 +157,26 @@ check_data_shoots <- function(database) {
         ),
       field_decaystage_shoots =
         ifelse(is.na(.data$decay_stage_shoots), "missing", NA),
+      field_decaystage_shoots =
+        ifelse(
+          !is.na(.data$decay_stage_shoots) &
+            !.data$decay_stage_shoots %in% c(10, 11, 12, 13, 14, 15, 16),
+          "not in lookuplist",
+          .data$field_decaystage_shoots
+        ),
+      field_decaystage_shoots =
+        ifelse(
+          .data$decay_stage_shoots %in% c(10, 11, 12, 13, 14, 15) &
+            .data$alive_dead == 11 & !is.na(.data$decay_stage_shoots),
+          "tree alive",
+          .data$field_decaystage_shoots),
+      field_decaystage_shoots =
+        ifelse(
+          .data$decay_stage_shoots == 16 & .data$alive_dead == 12 &
+            is.na(.data$decay_stage_shoots),
+          "tree not alive",
+          .data$field_decaystage_shoots
+        ),
       field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
       field_iufro_vital = ifelse(is.na(.data$iufro_vital), "missing", NA),
       field_iufro_socia = ifelse(is.na(.data$iufro_socia), "missing", NA)
