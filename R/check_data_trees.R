@@ -41,6 +41,7 @@ check_data_trees <- function(database) {
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
+      Trees.CommonRemark AS commonremark,
       Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
@@ -74,6 +75,7 @@ check_data_trees <- function(database) {
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
+      Trees.CommonRemark AS commonremark,
       Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
@@ -303,6 +305,11 @@ check_data_trees <- function(database) {
           is.na(.data$coppice_id) & .data$ind_sht_cop != 10,
           "missing",
           .data$field_coppice_id
+        ),
+      field_common_remark =
+        ifelse(
+          .data$commonremark == 150 & .data$alive_dead != 11,
+          "tree not alive", NA
         )
     ) %>%
     pivot_longer(
