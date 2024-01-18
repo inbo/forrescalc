@@ -62,7 +62,7 @@ check_data_deadwood <- function(database) {
       field_intact_fragment =
         ifelse(is.na(.data$intact_fragment), "missing", NA),
       field_intact_fragment =
-        ifelse(!.data$intact_fragment %in% c(10, 20, 20), "not in lookuplist",
+        ifelse(!.data$intact_fragment %in% c(10, 20, 30), "not in lookuplist",
                .data$field_intact_fragment),
       field_intact_fragment =
         ifelse(
