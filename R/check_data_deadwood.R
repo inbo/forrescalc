@@ -30,6 +30,7 @@ check_data_deadwood <- function(database) {
       qPlotType.Value3 AS plottype,
       Deadwood.ID AS lying_deadw_id,
       Deadwood.IntactFragment AS intact_fragment,
+      Deadwood.AliveDead AS alive_dead,
       Deadwood.DecayStage AS decay_stage
     FROM (Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
@@ -75,6 +76,7 @@ check_data_deadwood <- function(database) {
           "invalid for plottype",
           .data$field_intact_fragment
         ),
+      field_alive_dead = ifelse(.data$alive_dead == 11, "tree alive", NA),
       field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA)
     ) %>%
     pivot_longer(
