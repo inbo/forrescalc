@@ -29,6 +29,10 @@ check_data_deadwood <- function(database) {
     "SELECT Deadwood.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Deadwood.ID AS lying_deadw_id,
+      --Deadwood.Xbase_m, Deadwood.Ybase_m,
+      --Deadwood.DBHClass_5cm AS dbhclass_5cm,
+      --Deadwood.Length_m AS length_m,
+      --Deadwood.Species AS species,
       Deadwood.IntactFragment AS intact_fragment,
       Deadwood.AliveDead AS alive_dead,
       Deadwood.DecayStage AS decay_stage
@@ -77,7 +81,19 @@ check_data_deadwood <- function(database) {
           .data$field_intact_fragment
         ),
       field_alive_dead = ifelse(.data$alive_dead == 11, "tree alive", NA),
-      field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA)
+      field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA),
+      field_decaystage =
+        ifelse(
+          !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16) &
+            !is.na(.data$decay_stage),
+          "not in lookuplist",
+          .data$field_decaystage),
+      field_decaystage =
+        ifelse(
+          .data$decay_stage == 16 & .data$alive_dead == 12 &
+            !is.na(.data$decay_stage & !is.na(.data$alive_dead)),
+          "tree not alive",
+          .data$field_decaystage)
     ) %>%
     pivot_longer(
       cols = c(starts_with("field_")),
