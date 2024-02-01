@@ -246,7 +246,7 @@ check_data_trees <- function(database) {
           .data$field_decaystage),
       field_decaystage =
         ifelse(
-          .data$decay_stage == 16 & !is.na(.data$decay_stage) &
+          (.data$decay_stage == 16 | is.na(.data$decay_stage)) &
             .data$alive_dead == 12,
           "tree not alive",
           .data$field_decaystage),
