@@ -172,8 +172,8 @@ check_data_shoots <- function(database) {
           .data$field_decaystage_shoots),
       field_decaystage_shoots =
         ifelse(
-          .data$decay_stage_shoots == 16 & .data$alive_dead == 12 &
-            is.na(.data$decay_stage_shoots),
+          (.data$decay_stage_shoots == 16 | is.na(.data$decay_stage_shoots)) &
+            .data$alive_dead == 12,
           "tree not alive",
           .data$field_decaystage_shoots
         ),
