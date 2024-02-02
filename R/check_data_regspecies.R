@@ -19,10 +19,8 @@
 #'
 #' @export
 #'
-#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows filter group_by left_join mutate select
-#'   summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_regspecies <- function(database) {

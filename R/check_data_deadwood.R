@@ -18,7 +18,6 @@
 #'
 #' @export
 #'
-#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% filter group_by left_join mutate summarise transmute
 #'   ungroup
