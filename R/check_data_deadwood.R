@@ -92,7 +92,7 @@ check_data_deadwood <- function(database) {
       field_decaystage =
         ifelse(
           .data$decay_stage == 16 & .data$alive_dead == 12 &
-            !is.na(.data$decay_stage & !is.na(.data$alive_dead)),
+            !is.na(.data$decay_stage) & !is.na(.data$alive_dead),
           "tree not alive",
           .data$field_decaystage)
     ) %>%
