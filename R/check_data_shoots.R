@@ -132,7 +132,10 @@ check_data_shoots <- function(database) {
         ifelse(.data$d_h > 15, "too high", .data$ratio_dbh_height),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
-        ifelse(.data$dbh_mm > 2000, "too high", .data$field_dbh_mm),
+        ifelse(
+          !is.na(.data$dbh_mm) & .data$dbh_mm > 2000, "too high",
+          .data$field_dbh_mm
+        ),
       field_height_m =
         ifelse(
           is.na(.data$height_m) & .data$intact_snag == 10 &
