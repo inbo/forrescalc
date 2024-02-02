@@ -62,17 +62,22 @@ check_data_deadwood <- function(database) {
       field_intact_fragment =
         ifelse(is.na(.data$intact_fragment), "missing", NA),
       field_intact_fragment =
-        ifelse(!.data$intact_fragment %in% c(10, 20, 30), "not in lookuplist",
-               .data$field_intact_fragment),
+        ifelse(
+          !is.na(.data$intact_fragment) &
+            !.data$intact_fragment %in% c(10, 20, 30), "not in lookuplist",
+          .data$field_intact_fragment
+        ),
       field_intact_fragment =
         ifelse(
-          .data$intact_fragment == 30 & .data$plottype %in% c("CP", "CA"),
+          !is.na(.data$intact_fragment) & .data$intact_fragment == 30 &
+            .data$plottype %in% c("CP", "CA"),
           "invalid for plottype",
           .data$field_intact_fragment
         ),
       field_intact_fragment =
         ifelse(
-          .data$intact_fragment == 10 & !.data$plottype %in% c("CA", "BE"),
+          !is.na(.data$intact_fragment) & .data$intact_fragment == 10 &
+            !.data$plottype %in% c("CA", "BE"),
           "invalid for plottype",
           .data$field_intact_fragment
         ),
