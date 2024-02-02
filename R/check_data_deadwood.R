@@ -29,10 +29,6 @@ check_data_deadwood <- function(database) {
     "SELECT Deadwood.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Deadwood.ID AS lying_deadw_id,
-      --Deadwood.Xbase_m, Deadwood.Ybase_m,
-      --Deadwood.DBHClass_5cm AS dbhclass_5cm,
-      --Deadwood.Length_m AS length_m,
-      --Deadwood.Species AS species,
       Deadwood.IntactFragment AS intact_fragment,
       Deadwood.AliveDead AS alive_dead,
       Deadwood.DecayStage AS decay_stage
