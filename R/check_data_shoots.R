@@ -156,7 +156,10 @@ check_data_shoots <- function(database) {
           "not in lookuplist", .data$field_intact_snag
         ),
       field_decaystage_shoots =
-        ifelse(is.na(.data$decay_stage_shoots), "missing", NA),
+        ifelse(
+          is.na(.data$decay_stage_shoots) & .data$alive_dead == 12, "missing",
+          NA
+        ),
       field_decaystage_shoots =
         ifelse(
           !is.na(.data$decay_stage_shoots) &
