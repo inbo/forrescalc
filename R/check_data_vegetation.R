@@ -29,6 +29,8 @@ check_data_vegetation <- function(database) {
     "SELECT v.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       v.ID AS subplot_id,
+      v.Date AS date,
+      v.Fieldteam AS fieldteam,
       v.Total_moss_cover as moss_cover_id,
       v.Total_herb_cover as herb_cover_id,
       v.Total_shrub_cover as shrub_cover_id,
@@ -59,6 +61,8 @@ check_data_vegetation <- function(database) {
     ) %>%
     ungroup() %>%
     mutate(
+      field_date = ifelse(is.na(.data$date), "missing", NA),
+      field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA),
       field_total_moss_cover =
         ifelse(is.na(.data$moss_cover_id), "missing", NA),
       field_total_moss_cover =
