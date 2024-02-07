@@ -182,7 +182,7 @@ check_data_trees <- function(database) {
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
         ifelse(
-          !is.na(.data$dbh_mm) &.data$dbh_mm > 2000,
+          !is.na(.data$dbh_mm) & .data$dbh_mm > 2000,
           "too high", .data$field_dbh_mm
         ),
       field_height_m =
