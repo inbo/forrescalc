@@ -52,6 +52,12 @@ check_data_vegetation <- function(database) {
   dbDisconnect(con)
 
   incorrect_vegetation <- data_vegetation %>%
+    group_by(.data$plot_id, .data$period) %>%
+    mutate(
+      not_na_soildisturbance_game =
+        any(!is.na(.data$total_soildisturbance_game_id))
+    ) %>%
+    ungroup() %>%
     mutate(
       field_total_moss_cover =
         ifelse(is.na(.data$moss_cover_id), "missing", NA),
@@ -99,7 +105,11 @@ check_data_vegetation <- function(database) {
           .data$field_total_waterlayer_cover
         ),
       field_total_soildisturbance_game =
-        ifelse(is.na(.data$total_soildisturbance_game_id), "missing", NA),
+        ifelse(
+          is.na(.data$total_soildisturbance_game_id) &
+            .data$not_na_soildisturbance_game,
+          "missing", NA
+        ),
       field_total_soildisturbance_game =
         ifelse(
           !is.na(.data$total_soildisturbance_game_id) &
