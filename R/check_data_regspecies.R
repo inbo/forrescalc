@@ -27,12 +27,14 @@ check_data_regspecies <- function(database) {
   query_heightclass <-
     "SELECT hc.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
+      pd.GameImpactRegObserved AS game_impact_reg,
       hc.IDRegeneration%2$s AS subplot_id,
       hc.ID AS heightclass_id,
       hc.HeightClass as heightclass
-    FROM (Plots
+    FROM ((Plots
         INNER JOIN HeightClass%2$s hc ON Plots.ID = hc.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
 
   query_regspecies <-
     "SELECT RegSpecies.IDPlots AS plot_id,
@@ -66,7 +68,12 @@ check_data_regspecies <- function(database) {
       n_height_class = NULL
     ) %>%
     left_join(
-      data_regspecies,
+      data_regspecies %>%
+        group_by(.data$plot_id, .data$period) %>%
+        mutate(
+          not_na_game_damage_number = any(!is.na(.data$game_damage_number))
+        ) %>%
+        ungroup(),
       by = c("plot_id", "subplot_id", "heightclass_id", "period")
     ) %>%
     mutate(
@@ -80,6 +87,12 @@ check_data_regspecies <- function(database) {
         ifelse(
           is.na(.data$number) &
             .data$heightclass %in% c(3000, 4000, 7000, 8000),
+          "missing", NA
+        ),
+      field_game_damage_number =
+        ifelse(
+          is.na(.data$game_damage_number) & .data$game_impact_reg == 10 &
+            .data$not_na_game_damage_number,
           "missing", NA
         )
     ) %>%
