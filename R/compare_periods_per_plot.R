@@ -158,7 +158,7 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
     )
   if (!"year" %in% measure_vars) {
     result_diff <- result_diff %>%
-      select(-.data$year_diff)
+      select(-"year_diff")
   }
 
   return(result_diff)
