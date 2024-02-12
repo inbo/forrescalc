@@ -66,7 +66,7 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
     ) %>%
     group_by(.data$plot_id) %>%
     mutate_at(vars(matches("year")), replace_na_year) %>%
-    mutate_at(vars(!matches(grouping_vars)), replace_na_var) %>%
+    mutate_at(vars(matches(grouping_vars)), replace_na_var) %>%
     ungroup()
   dataset_long <- dataset_wide %>%
     filter_at(vars(all_of(grouping_vars)), any_vars(is.na(.))) %>%
