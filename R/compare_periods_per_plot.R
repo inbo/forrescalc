@@ -143,7 +143,8 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
           paste(.data$value_2, .data$value_1, sep = " - "),
           ""
         ),
-      value_1 = NULL, value_2 = NULL
+      value_1 = NULL, value_2 = NULL,
+      period_diff = paste(.data$period_2, .data$period_1, sep = "_")
     ) %>%
     group_by_at(vars(all_of(grouping_vars), "period_1")) %>%
     mutate(
