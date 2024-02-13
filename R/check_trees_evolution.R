@@ -22,7 +22,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter group_by left_join
+#' @importFrom dplyr %>% arrange bind_rows desc filter group_by left_join
 #'   mutate n reframe select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #'
@@ -140,6 +140,7 @@ check_trees_evolution <- function(database) {
     ) %>%
     left_join(
       data_trees %>%
+        arrange(desc(.data$period)) %>%
         group_by(.data$tree_id) %>%
         summarise(species = .data$species[1]) %>%
         ungroup(),
