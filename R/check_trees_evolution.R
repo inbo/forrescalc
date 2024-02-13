@@ -25,6 +25,7 @@
 #' @importFrom dplyr %>% arrange bind_rows desc filter group_by left_join
 #'   mutate n reframe select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
+#' @importFrom graphics boxplot
 #'
 check_trees_evolution <- function(database) {
   query_trees <-
@@ -87,7 +88,7 @@ check_trees_evolution <- function(database) {
   dbDisconnect(con)
 
   incorrect_trees <- data_trees %>%
-    filter(!is.na(old_id)) %>%
+    filter(!is.na(.data$old_id)) %>%
     group_by(.data$plot_id, .data$period, .data$old_id) %>%
     mutate(n_records = n()) %>%
     ungroup() %>%
