@@ -27,7 +27,7 @@
 #'
 check_data_trees <- function(database) {
   query_trees <-
-    "SELECT Trees.IDPlots,
+    "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
@@ -50,7 +50,7 @@ check_data_trees <- function(database) {
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots <-
-    "SELECT IDPlots,
+    "SELECT IDPlots AS plot_id,
       XTrees%2$s AS XTrees,
       YTrees%2$s AS YTrees,
       IDTrees%2$s AS IDTrees,
@@ -61,7 +61,7 @@ check_data_trees <- function(database) {
     FROM Shoots%2$s"
 
   query_trees_1986 <-
-    "SELECT Trees.IDPlots,
+    "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
@@ -84,7 +84,7 @@ check_data_trees <- function(database) {
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots_1986 <-
-    "SELECT IDPlots,
+    "SELECT IDPlots AS plot_id,
       XTrees_1986 AS XTrees,
       YTrees_1986 AS YTrees,
       IDTrees_1986 AS IDTrees,
@@ -146,32 +146,32 @@ check_data_trees <- function(database) {
         filter(.data$ind_sht_cop == 12) %>%
         anti_join(
           data_shoots,
-          by = c("IDPlots", "X_m" = "XTrees", "Y_m" = "YTrees",
+          by = c("plot_id", "X_m" = "XTrees", "Y_m" = "YTrees",
                  "tree_measure_id" = "IDTrees", "period")
         ) %>%
         select(
-          "IDPlots", "X_m", "Y_m", "tree_measure_id", "period"
+          "plot_id", "X_m", "Y_m", "tree_measure_id", "period"
         ) %>%
         mutate(
           link_to_layer_shoots = "missing"
         ),
-      by = c("IDPlots", "X_m", "Y_m", "tree_measure_id", "period")
+      by = c("plot_id", "X_m", "Y_m", "tree_measure_id", "period")
     ) %>%
     #nr_of_stems (TreeNumber) not correct
     left_join(
       data_trees %>%
-        select("IDPlots", "tree_measure_id", "nr_of_stems", "period") %>%
+        select("plot_id", "tree_measure_id", "nr_of_stems", "period") %>%
         inner_join(
           data_shoots %>%
-            count(.data$IDPlots, .data$IDTrees, .data$period),
-          by = c("IDPlots", "tree_measure_id" = "IDTrees", "period")
+            count(.data$plot_id, .data$IDTrees, .data$period),
+          by = c("plot_id", "tree_measure_id" = "IDTrees", "period")
         ) %>%
         filter(.data$nr_of_stems != .data$n) %>%
         transmute(
-          .data$IDPlots, .data$tree_measure_id, .data$period,
+          .data$plot_id, .data$tree_measure_id, .data$period,
           field_tree_number = "incorrect"
         ),
-      by = c("IDPlots", "tree_measure_id", "period")
+      by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
       # ratio D/H
@@ -366,7 +366,7 @@ check_data_trees <- function(database) {
     mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field)
     ) %>%
-    group_by(.data$IDPlots, .data$tree_measure_id, .data$period) %>%
+    group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
     summarise(
       aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
       anomaly = paste0(.data$anomaly, collapse = " / ")
