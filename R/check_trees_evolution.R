@@ -145,7 +145,8 @@ check_trees_evolution <- function(database) {
         group_by(.data$tree_id) %>%
         summarise(
           species = .data$species[1],
-          alive_dead = .data$alive_dead[1]
+          alive_dead = .data$alive_dead[1],
+          ind_sht_cop = .data$ind_sht_cop[1]
         ) %>%
         ungroup(),
       by = "tree_id"
@@ -183,7 +184,8 @@ check_trees_evolution <- function(database) {
           trees_diff %>%
             filter(
               .data$species != 51,
-              .data$alive_dead == 11
+              .data$alive_dead == 11,
+              .data$ind_sht_cop == 10
             ) %>%
             reframe(
               dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
@@ -194,7 +196,10 @@ check_trees_evolution <- function(database) {
         ) %>%
         left_join(
           trees_diff %>%
-            filter(.data$alive_dead == 11) %>%
+            filter(
+              .data$alive_dead == 11,
+              .data$ind_sht_cop == 10
+            ) %>%
             group_by(.data$species) %>%
             reframe(
               dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
@@ -220,7 +225,8 @@ check_trees_evolution <- function(database) {
           trees_diff %>%
             filter(
               .data$species != 51,
-              .data$alive_dead == 11
+              .data$alive_dead == 11,
+              .data$ind_sht_cop == 10
             ) %>%
             reframe(
               height_m_diff = (boxplot(.data$height_m_diff))$out
@@ -231,7 +237,10 @@ check_trees_evolution <- function(database) {
         ) %>%
         left_join(
           trees_diff %>%
-            filter(.data$alive_dead == 11) %>%
+            filter(
+              .data$alive_dead == 11,
+              .data$ind_sht_cop == 10
+            ) %>%
             group_by(.data$species) %>%
             reframe(
               height_m_diff = (boxplot(.data$height_m_diff))$out
