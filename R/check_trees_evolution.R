@@ -105,7 +105,7 @@ check_trees_evolution <- function(database) {
     if (
       startsWith(
         conditionMessage(w),
-        "Some records did not get a tree_id (NA) because the old_id was unknown in the previous period"
+        "Some records did not get a tree_id (NA) because the old_id was unknown in the previous period" #nolint: line_length_linter
       )
     ) invokeRestart("muffleWarning")
   })
@@ -335,7 +335,9 @@ check_trees_evolution <- function(database) {
           suffix = c("_end", "_start")
         ) %>%
         mutate(
-          tree_measure_id = paste(.data$tree_measure_id_end, .data$tree_measure_id_start, sep = "_"),
+          tree_measure_id =
+            paste(.data$tree_measure_id_end, .data$tree_measure_id_start,
+                  sep = "_"),
           period_end = NULL, period_start = NULL,
           tree_measure_id_end = NULL, tree_measure_id_start = NULL
         )
