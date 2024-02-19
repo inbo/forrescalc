@@ -7,7 +7,7 @@
 #'
 #' @inheritParams check_data_trees
 #'
-#' @return Dataframe with inconsistent data with table name, ID's and
+#' @return Dataframe with inconsistent data with layer, ID's and
 #' additional columns
 #' `aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
 #' the input)
@@ -26,49 +26,49 @@
 #'
 check_data_fmdb <- function(database) {
   incorrect_data <- check_data_trees(database) %>%
-    mutate(table_name = "Trees") %>%
+    mutate(layer = "Trees") %>%
     bind_rows(
       check_data_shoots(database) %>%
-        mutate(table_name = "Shoots")
+        mutate(layer = "Shoots")
     ) %>%
     bind_rows(
       check_data_shoots(database) %>%
-        mutate(table_name = "Shoots")
+        mutate(layer = "Shoots")
     ) %>%
     bind_rows(
       check_data_deadwood(database) %>%
-        mutate(table_name = "Deadwood")
+        mutate(layer = "Deadwood")
     ) %>%
     bind_rows(
       check_data_regeneration(database) %>%
-        mutate(table_name = "Regeneration")
+        mutate(layer = "Regeneration")
     ) %>%
     bind_rows(
       check_data_regspecies(database) %>%
-        mutate(table_name = "Regspecies")
+        mutate(layer = "Regspecies")
     ) %>%
     bind_rows(
       check_data_vegetation(database) %>%
-        mutate(table_name = "Vegetation")
+        mutate(layer = "Vegetation")
     ) %>%
     bind_rows(
       check_data_herblayer(database) %>%
-        mutate(table_name = "Herblayer")
+        mutate(layer = "Herblayer")
     ) %>%
     bind_rows(
       check_data_plots(database) %>%
-        mutate(table_name = "Plots")
+        mutate(layer = "Plots")
     ) %>%
     bind_rows(
       check_data_plotdetails(database) %>%
-        mutate(table_name = "Plotdetails")
+        mutate(layer = "Plotdetails")
     ) %>%
     mutate(
       tree_measure_id = as.character(.data$tree_measure_id)
     )
     bind_rows(
       check_trees_evolution(database) %>%
-        mutate(table_name = "Trees diff periods")
+        mutate(layer = "Trees diff periods")
     )
 
   return(incorrect_data)

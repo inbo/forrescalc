@@ -11,7 +11,7 @@ check_data_fmdb(database)
 structure) including path}
 }
 \value{
-Dataframe with inconsistent data with table name, ID's and
+Dataframe with inconsistent data with layer, ID's and
 additional columns
 `aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
 the input)
