@@ -22,8 +22,8 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% arrange bind_rows desc filter group_by left_join
-#'   mutate n reframe select summarise transmute ungroup
+#' @importFrom dplyr %>% arrange bind_rows desc filter group_by inner_join
+#'   left_join mutate n reframe select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
 #'
@@ -110,6 +110,45 @@ check_trees_evolution <- function(database) {
     ) invokeRestart("muffleWarning")
   })
 
+  # same XY but not the same tree_id?
+  for (i in min(data_trees$period):(max(data_trees$period) - 1)) {
+    incorrect_trees <- incorrect_trees %>%
+      mutate(
+        period = as.character(.data$period),
+        tree_measure_id = as.character(.data$tree_measure_id),
+        old_id = as.character(.data$old_id)
+      ) %>%
+      bind_rows(
+        data_trees %>%
+          filter(.data$period == i) %>%
+          mutate(
+            x_dm = as.integer(10 * round(.data$x_m, 1)),
+            y_dm = as.integer(10 * round(.data$y_m, 1))
+          ) %>%
+          inner_join(
+            data_trees %>%
+              filter(.data$period == i + 1) %>%
+              mutate(
+                x_dm = as.integer(10 * round(.data$x_m, 1)),
+                y_dm = as.integer(10 * round(.data$y_m, 1))
+              ),
+            by = c("plot_id", "x_dm", "y_dm")
+          ) %>%
+          filter(.data$tree_id.x != .data$tree_id.y | is.na(.data$tree_id.x) |
+                   is.na(.data$tree_id.y)) %>%
+          transmute(
+            .data$plot_id,
+            period = paste(.data$period.y, .data$period.x, sep = "_"),
+            tree_measure_id =
+              paste(.data$tree_measure_id.y, .data$tree_measure_id.x,
+                    sep = "_"),
+            old_id = paste(.data$old_id.y, .data$old_id.x, sep = "_"),
+            aberrant_field = "old_id",
+            anomaly = "on same place but not coupled"
+          )
+      )
+  }
+
   # is.na(tree_id) -> old_id unknown in the previous period
   incorrect_trees <- incorrect_trees %>%
     bind_rows(
@@ -118,7 +157,10 @@ check_trees_evolution <- function(database) {
         select("plot_id", "period", "tree_measure_id", "old_id") %>%
         mutate(
           aberrant_field = "old_id",
-          anomaly = "unknown id"
+          anomaly = "unknown id",
+          period = as.character(.data$period),
+          tree_measure_id = as.character(.data$tree_measure_id),
+          old_id = as.character(.data$old_id)
         )
     )
   data_trees <- data_trees %>%
@@ -152,10 +194,6 @@ check_trees_evolution <- function(database) {
       by = "tree_id"
     )
   incorrect_trees <- incorrect_trees %>%
-    mutate(
-      period = as.character(.data$period),
-      tree_measure_id = as.character(.data$tree_measure_id)
-    ) %>%
     bind_rows(
       trees_diff %>%
         mutate(
