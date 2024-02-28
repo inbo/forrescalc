@@ -328,15 +328,11 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    mutate(
-      aberrant_field = gsub("^field_", "", .data$aberrant_field)
+    transmute(
+      .data$plot_id, .data$tree_id, .data$period,
+      aberrant_field = gsub("^field_", "", .data$aberrant_field),
+      .data$anomaly
     ) %>%
-    group_by(.data$plot_id, .data$tree_id, .data$period) %>%
-    summarise(
-      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
-      anomaly = paste0(.data$anomaly, collapse = " / ")
-    ) %>%
-    ungroup() %>%
     mutate(
       period_end = as.numeric(substring(.data$period, 1, 1)),
       period_start = as.numeric(substring(.data$period, 3, 3))

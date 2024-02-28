@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
+#' @importFrom dplyr %>% group_by left_join mutate summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_regspecies <- function(database, forest_reserve = "all") {
@@ -126,18 +126,12 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    mutate(
-      aberrant_field = gsub("^field_", "", .data$aberrant_field)
-    ) %>%
-    group_by(
+    transmute(
       .data$plot_id, .data$subplot_id, .data$regspecies_id,
-      .data$heightclass_id, .data$period
-    ) %>%
-    summarise(
-      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
-      anomaly = paste0(.data$anomaly, collapse = " / ")
-    ) %>%
-    ungroup()
+      .data$heightclass_id, .data$period,
+      aberrant_field = gsub("^field_", "", .data$aberrant_field),
+      .data$anomaly
+    )
 
   return(incorrect_regspecies)
 }

@@ -30,46 +30,77 @@ check_data_fmdb <- function(database, forest_reserve = "all") {
     mutate(layer = "Trees") %>%
     bind_rows(
       check_data_shoots(database, forest_reserve) %>%
-        mutate(layer = "Shoots")
+        mutate(
+          layer = "Shoots",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_shoots(database, forest_reserve) %>%
-        mutate(layer = "Shoots")
+        mutate(
+          layer = "Shoots",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_deadwood(database, forest_reserve) %>%
-        mutate(layer = "Deadwood")
+        mutate(
+          layer = "Deadwood",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_regeneration(database, forest_reserve) %>%
-        mutate(layer = "Regeneration")
+        mutate(
+          layer = "Regeneration",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_regspecies(database, forest_reserve) %>%
-        mutate(layer = "Regspecies")
+        mutate(
+          layer = "Regspecies",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_vegetation(database, forest_reserve) %>%
-        mutate(layer = "Vegetation")
+        mutate(
+          layer = "Vegetation",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_herblayer(database, forest_reserve) %>%
-        mutate(layer = "Herblayer")
+        mutate(
+          layer = "Herblayer",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_plots(database, forest_reserve) %>%
-        mutate(layer = "Plots")
+        mutate(
+          layer = "Plots",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     bind_rows(
       check_data_plotdetails(database, forest_reserve) %>%
-        mutate(layer = "Plotdetails")
+        mutate(
+          layer = "Plotdetails",
+          anomaly = as.character(.data$anomaly)
+        )
     ) %>%
     mutate(
-      tree_measure_id = as.character(.data$tree_measure_id)
-    )
+      tree_measure_id = as.character(.data$tree_measure_id),
+      period = as.character(.data$period)
+    ) %>%
     bind_rows(
       check_trees_evolution(database, forest_reserve) %>%
-        mutate(layer = "Trees diff periods")
+        mutate(
+          layer = "Trees diff periods",
+          anomaly = as.character(.data$anomaly)
+        )
     )
 
   return(incorrect_data)

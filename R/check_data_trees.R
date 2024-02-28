@@ -24,8 +24,8 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows count filter group_by left_join
-#'   mutate select summarise transmute ungroup
+#' @importFrom dplyr %>% anti_join bind_rows count filter left_join
+#'   mutate select transmute
 #' @importFrom tidyr pivot_longer
 #'
 check_data_trees <- function(database, forest_reserve = "all") {
@@ -377,15 +377,11 @@ check_data_trees <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    mutate(
-      aberrant_field = gsub("^field_", "", .data$aberrant_field)
-    ) %>%
-    group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
-    summarise(
-      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
-      anomaly = paste0(.data$anomaly, collapse = " / ")
-    ) %>%
-    ungroup()
+    transmute(
+      .data$plot_id, .data$tree_measure_id, .data$period,
+      aberrant_field = gsub("^field_", "", .data$aberrant_field),
+      .data$anomaly
+    )
 
   return(incorrect_trees)
 }

@@ -21,7 +21,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% distinct group_by mutate select summarise ungroup
+#' @importFrom dplyr %>% distinct mutate select transmute
 #' @importFrom tidyr pivot_longer
 #'
 check_data_plots <- function(database, forest_reserve = "all") {
@@ -74,17 +74,11 @@ check_data_plots <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    mutate(
-      aberrant_field = gsub("^field_", "", .data$aberrant_field)
-    ) %>%
-    group_by(
-      .data$plot_id
-    ) %>%
-    summarise(
-      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
-      anomaly = paste0(.data$anomaly, collapse = " / ")
-    ) %>%
-    ungroup()
+    transmute(
+      .data$plot_id,
+      aberrant_field = gsub("^field_", "", .data$aberrant_field),
+      .data$anomaly
+    )
 
   return(incorrect_plots)
 }
