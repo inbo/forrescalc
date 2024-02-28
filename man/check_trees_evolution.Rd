@@ -4,11 +4,14 @@
 \alias{check_trees_evolution}
 \title{check table trees from fieldmap database for inconsistencies between periods}
 \usage{
-check_trees_evolution(database)
+check_trees_evolution(database, forest_reserve = "all")
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
+
+\item{forest_reserve}{name of forest reserve for which the records in the
+database should be checked (defaults to "all")}
 }
 \value{
 Dataframe with inconsistent data with ID's and additional columns
@@ -26,5 +29,6 @@ library(forrescalc)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 check_trees_evolution(path_to_fieldmapdb)
+check_trees_evolution(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 
 }

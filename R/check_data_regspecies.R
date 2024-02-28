@@ -16,6 +16,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_regspecies(path_to_fieldmapdb)
+#' check_data_regspecies(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -23,7 +24,12 @@
 #' @importFrom dplyr %>% group_by left_join mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_regspecies <- function(database) {
+check_data_regspecies <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_heightclass <-
     "SELECT hc.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
@@ -34,7 +40,8 @@ check_data_regspecies <- function(database) {
     FROM ((Plots
         INNER JOIN HeightClass%2$s hc ON Plots.ID = hc.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
-      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots;"
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_regspecies <-
     "SELECT RegSpecies.IDPlots AS plot_id,
@@ -48,7 +55,8 @@ check_data_regspecies <- function(database) {
     FROM RegSpecies%2$s RegSpecies;"
 
   data_regspecies <- query_database(database, query_regspecies)
-  data_heightclass <- query_database(database, query_heightclass)
+  data_heightclass <-
+    query_database(database, query_heightclass, selection = selection)
 
   incorrect_regspecies <- data_heightclass %>%
     group_by(

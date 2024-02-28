@@ -15,6 +15,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_deadwood(path_to_fieldmapdb)
+#' check_data_deadwood(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -23,7 +24,12 @@
 #'   ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_deadwood <- function(database) {
+check_data_deadwood <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_deadwood <-
     "SELECT Deadwood.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
@@ -31,8 +37,11 @@ check_data_deadwood <- function(database) {
       Deadwood.IntactFragment AS intact_fragment,
       Deadwood.AliveDead AS alive_dead,
       Deadwood.DecayStage AS decay_stage
-    FROM (Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    FROM ((Plots
+      INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_deadwood_diameters <-
     "SELECT IDPlots As plot_id,
@@ -41,7 +50,8 @@ check_data_deadwood <- function(database) {
       Diameter_mm AS diameter_mm
     FROM Deadwood%2$s_Diameters"
 
-  data_deadwood <- query_database(database, query_deadwood)
+  data_deadwood <-
+    query_database(database, query_deadwood, selection = selection)
   data_deadwood_diameters <- query_database(database, query_deadwood_diameters)
 
   incorrect_deadwood <- data_deadwood %>%

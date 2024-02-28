@@ -16,6 +16,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_plotdetails(path_to_fieldmapdb)
+#' check_data_plotdetails(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -24,7 +25,12 @@
 #' @importFrom dplyr %>% bind_rows group_by mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_plotdetails <- function(database) {
+check_data_plotdetails <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_plotdetails <-
     "SELECT pd.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
@@ -40,9 +46,10 @@ check_data_plotdetails <- function(database) {
       pd.Area_ha AS area_ha
     FROM (Plots
         INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID
+    %3$s;"
 
-  query_plotdetails_1986 <-
+  query_plotdetails_1986 <- sprintf(
     "SELECT pd.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
@@ -57,9 +64,13 @@ check_data_plotdetails <- function(database) {
       pd.Area_ha AS area_ha
     FROM (Plots
         INNER JOIN Plotdetails_1986 pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID
+    %1$s;",
+    selection
+  )
 
-  data_plotdetails <- query_database(database, query_plotdetails)
+  data_plotdetails <-
+    query_database(database, query_plotdetails, selection = selection)
   con <- connect_to_database(database)
   data_plotdetails_1986 <- dbGetQuery(con, query_plotdetails_1986) %>%
     mutate(period = 0)

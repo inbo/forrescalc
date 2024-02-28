@@ -18,56 +18,57 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_fmdb(path_to_fieldmapdb)
+#' check_data_fmdb(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% bind_rows mutate
 #'
-check_data_fmdb <- function(database) {
-  incorrect_data <- check_data_trees(database) %>%
+check_data_fmdb <- function(database, forest_reserve = "all") {
+  incorrect_data <- check_data_trees(database, forest_reserve) %>%
     mutate(layer = "Trees") %>%
     bind_rows(
-      check_data_shoots(database) %>%
+      check_data_shoots(database, forest_reserve) %>%
         mutate(layer = "Shoots")
     ) %>%
     bind_rows(
-      check_data_shoots(database) %>%
+      check_data_shoots(database, forest_reserve) %>%
         mutate(layer = "Shoots")
     ) %>%
     bind_rows(
-      check_data_deadwood(database) %>%
+      check_data_deadwood(database, forest_reserve) %>%
         mutate(layer = "Deadwood")
     ) %>%
     bind_rows(
-      check_data_regeneration(database) %>%
+      check_data_regeneration(database, forest_reserve) %>%
         mutate(layer = "Regeneration")
     ) %>%
     bind_rows(
-      check_data_regspecies(database) %>%
+      check_data_regspecies(database, forest_reserve) %>%
         mutate(layer = "Regspecies")
     ) %>%
     bind_rows(
-      check_data_vegetation(database) %>%
+      check_data_vegetation(database, forest_reserve) %>%
         mutate(layer = "Vegetation")
     ) %>%
     bind_rows(
-      check_data_herblayer(database) %>%
+      check_data_herblayer(database, forest_reserve) %>%
         mutate(layer = "Herblayer")
     ) %>%
     bind_rows(
-      check_data_plots(database) %>%
+      check_data_plots(database, forest_reserve) %>%
         mutate(layer = "Plots")
     ) %>%
     bind_rows(
-      check_data_plotdetails(database) %>%
+      check_data_plotdetails(database, forest_reserve) %>%
         mutate(layer = "Plotdetails")
     ) %>%
     mutate(
       tree_measure_id = as.character(.data$tree_measure_id)
     )
     bind_rows(
-      check_trees_evolution(database) %>%
+      check_trees_evolution(database, forest_reserve) %>%
         mutate(layer = "Trees diff periods")
     )
 

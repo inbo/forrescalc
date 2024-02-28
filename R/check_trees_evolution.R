@@ -6,6 +6,7 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
+#' @inheritParams check_data_trees
 #'
 #' @return Dataframe with inconsistent data with ID's and additional columns
 #' `aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
@@ -17,6 +18,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_trees_evolution(path_to_fieldmapdb)
+#' check_trees_evolution(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -27,7 +29,12 @@
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
 #'
-check_trees_evolution <- function(database) {
+check_trees_evolution <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_trees <-
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
@@ -48,10 +55,12 @@ check_trees_evolution <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID as old_id
-    FROM (Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
-  query_trees_1986 <-
+  query_trees_1986 <- sprintf(
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Trees.X_m AS x_m, Trees.Y_m AS y_m,
@@ -71,10 +80,14 @@ check_trees_evolution <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID AS old_id
-    FROM (Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    FROM ((Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_1986 pd ON Plots.ID = pd.IDPlots
+    %1$s;",
+    selection
+  )
 
-  data_trees <- query_database(database, query_trees)
+  data_trees <- query_database(database, query_trees, selection = selection)
 
   con <- connect_to_database(database)
   data_trees_1986 <- dbGetQuery(con, query_trees_1986) %>%

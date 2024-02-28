@@ -15,6 +15,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_shoots(path_to_fieldmapdb)
+#' check_data_shoots(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -24,7 +25,12 @@
 #'   select summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_shoots <- function(database) {
+check_data_shoots <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_trees <-
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
@@ -37,19 +43,21 @@ check_data_shoots <- function(database) {
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
   query_shoots <-
-    "SELECT IDPlots As plot_id,
-      XTrees%2$s AS XTrees,
-      YTrees%2$s AS YTrees,
-      IDTrees%2$s AS tree_measure_id,
-      ID AS shoot_id,
-      DBH_mm AS dbh_mm,
-      Height_m AS height_m,
-      IntactSnag AS intact_snag,
-      DecayStage_Shoots AS decay_stage_shoots,
-      IUFROHght AS iufro_hght,
-      IUFROVital AS iufro_vital,
-      IUFROSocia AS iufro_socia
-    FROM Shoots%2$s"
+    "SELECT shoots.IDPlots As plot_id,
+      shoots.XTrees%2$s AS XTrees,
+      shoots.YTrees%2$s AS YTrees,
+      shoots.IDTrees%2$s AS tree_measure_id,
+      shoots.ID AS shoot_id,
+      shoots.DBH_mm AS dbh_mm,
+      shoots.Height_m AS height_m,
+      shoots.IntactSnag AS intact_snag,
+      shoots.DecayStage_Shoots AS decay_stage_shoots,
+      shoots.IUFROHght AS iufro_hght,
+      shoots.IUFROVital AS iufro_vital,
+      shoots.IUFROSocia AS iufro_socia
+    FROM Shoots%2$s shoots
+      INNER JOIN Plotdetails_%1$deSet pd ON shoots.IDPlots = pd.IDPlots
+    %3$s"
 
   query_trees_1986 <-
     "SELECT Trees.IDPlots AS plot_id,
@@ -62,23 +70,27 @@ check_data_shoots <- function(database) {
     FROM (Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
-  query_shoots_1986 <-
-    "SELECT IDPlots AS plot_id,
-      XTrees_1986 AS XTrees,
-      YTrees_1986 AS YTrees,
-      IDTrees_1986 AS tree_measure_id,
-      ID AS shoot_id,
-      DBH_mm AS dbh_mm,
-      Height_m AS height_m,
-      IntactSnag AS intact_snag,
-      DecayStage_Shoots AS decay_stage_shoots,
-      IUFROHght AS iufro_hght,
-      IUFROVital AS iufro_vital,
-      IUFROSocia AS iufro_socia
-    FROM Shoots_1986"
+  query_shoots_1986 <- sprintf(
+    "SELECT shoots.IDPlots AS plot_id,
+      shoots.XTrees_1986 AS XTrees,
+      shoots.YTrees_1986 AS YTrees,
+      shoots.IDTrees_1986 AS tree_measure_id,
+      shoots.ID AS shoot_id,
+      shoots.DBH_mm AS dbh_mm,
+      shoots.Height_m AS height_m,
+      shoots.IntactSnag AS intact_snag,
+      shoots.DecayStage_Shoots AS decay_stage_shoots,
+      shoots.IUFROHght AS iufro_hght,
+      shoots.IUFROVital AS iufro_vital,
+      shoots.IUFROSocia AS iufro_socia
+    FROM Shoots_1986 shoots
+      INNER JOIN Plotdetails_1986 pd ON shoots.IDPlots = pd.IDPlots
+    %1$s;",
+    selection
+  )
 
   data_trees <- query_database(database, query_trees)
-  data_shoots <- query_database(database, query_shoots)
+  data_shoots <- query_database(database, query_shoots, selection)
 
   con <- connect_to_database(database)
   data_trees_1986 <- dbGetQuery(con, query_trees_1986) %>%

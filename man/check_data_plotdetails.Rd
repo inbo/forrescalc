@@ -4,11 +4,14 @@
 \alias{check_data_plotdetails}
 \title{check table plotdetails from fieldmap database for inconsistencies}
 \usage{
-check_data_plotdetails(database)
+check_data_plotdetails(database, forest_reserve = "all")
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
+
+\item{forest_reserve}{name of forest reserve for which the records in the
+database should be checked (defaults to "all")}
 }
 \value{
 Dataframe with inconsistent data with ID's and additional columns
@@ -26,5 +29,6 @@ library(forrescalc)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 check_data_plotdetails(path_to_fieldmapdb)
+check_data_plotdetails(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 
 }

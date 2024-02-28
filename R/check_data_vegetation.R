@@ -16,6 +16,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_vegetation(path_to_fieldmapdb)
+#' check_data_vegetation(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -24,7 +25,12 @@
 #' @importFrom dplyr %>% group_by mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_vegetation <- function(database) {
+check_data_vegetation <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_vegetation <-
     "SELECT v.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
@@ -38,9 +44,11 @@ check_data_vegetation <- function(database) {
       v.Total_waterlayer_cover as waterlayer_cover_id,
       v.Total_SoildisturbanceGame as total_soildisturbance_game_id,
       v.Homogeneous as homogeneous_id
-    FROM (Plots
+    FROM ((Plots
         INNER JOIN Vegetation%2$s v ON Plots.ID = v.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_totalcover <-
     "SELECT ID as cover_id,
@@ -48,7 +56,8 @@ check_data_vegetation <- function(database) {
       Value2 as cover_class_mean
     FROM qtotalCover;"
 
-  data_vegetation <- query_database(database, query_vegetation)
+  data_vegetation <-
+    query_database(database, query_vegetation, selection = selection)
   con <- connect_to_database(database)
   data_totalcover <- dbGetQuery(con, query_totalcover)
   dbDisconnect(con)

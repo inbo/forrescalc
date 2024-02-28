@@ -15,6 +15,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_plots(path_to_fieldmapdb)
+#' check_data_plots(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -23,19 +24,27 @@
 #' @importFrom dplyr %>% group_by mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_plots <- function(database) {
+check_data_plots <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_plots <-
-    "SELECT ID As plot_id,
-      Plottype AS plottype_id,
-      Homogeneous AS homogeneous_id
-    FROM Plots;"
+    "SELECT Plots.ID As plot_id,
+      Plots.Plottype AS plottype_id,
+      Plots.Homogeneous AS homogeneous_id
+    FROM Plots
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_plottype <-
     "SELECT ID as plottype_id
     FROM qPlotType;"
 
+  data_plots <- query_database(database, query_plots, selection = selection)
+
   con <- connect_to_database(database)
-  data_plots <- dbGetQuery(con, query_plots)
   data_plottype <- dbGetQuery(con, query_plottype)
   dbDisconnect(con)
 

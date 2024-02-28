@@ -16,6 +16,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_regeneration(path_to_fieldmapdb)
+#' check_data_regeneration(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -23,18 +24,26 @@
 #' @importFrom dplyr %>% group_by mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_regeneration <- function(database) {
+check_data_regeneration <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_regeneration <-
     "SELECT g.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       g.ID AS subplot_id,
       g.Date AS date,
       g.Fieldteam AS fieldteam
-    FROM (Plots
+    FROM ((Plots
         INNER JOIN Regeneration%2$s g ON Plots.ID = g.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
-  data_regeneration <- query_database(database, query_regeneration)
+  data_regeneration <-
+    query_database(database, query_regeneration, selection = selection)
 
   incorrect_regeneration <- data_regeneration %>%
     mutate(

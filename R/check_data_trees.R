@@ -5,6 +5,8 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
+#' @param forest_reserve name of forest reserve for which the records in the
+#' database should be checked (defaults to "all")
 #'
 #' @return Dataframe with inconsistent data with ID's and additional columns
 #' `aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
@@ -16,6 +18,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_trees(path_to_fieldmapdb)
+#' check_data_trees(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -25,7 +28,12 @@
 #'   mutate select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_trees <- function(database) {
+check_data_trees <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_trees <-
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
@@ -46,8 +54,10 @@ check_data_trees <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
-    FROM (Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    FROM ((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_shoots <-
     "SELECT IDPlots AS plot_id,
@@ -60,7 +70,7 @@ check_data_trees <- function(database) {
       IntactSnag
     FROM Shoots%2$s"
 
-  query_trees_1986 <-
+  query_trees_1986 <- sprintf(
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       Trees.X_m, Trees.Y_m,
@@ -80,8 +90,12 @@ check_data_trees <- function(database) {
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
-    FROM (Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    FROM ((Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_1986 pd ON Plots.ID = pd.IDPlots
+    %1$s;",
+    selection
+  )
 
   query_shoots_1986 <-
     "SELECT IDPlots AS plot_id,
@@ -94,7 +108,7 @@ check_data_trees <- function(database) {
       IntactSnag
     FROM Shoots_1986"
 
-  data_trees <- query_database(database, query_trees)
+  data_trees <- query_database(database, query_trees, selection = selection)
   data_shoots <- query_database(database, query_shoots)
 
   con <- connect_to_database(database)

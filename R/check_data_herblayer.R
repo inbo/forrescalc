@@ -16,6 +16,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' check_data_herblayer(path_to_fieldmapdb)
+#' check_data_herblayer(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 #'
 #' @export
 #'
@@ -24,7 +25,12 @@
 #' @importFrom dplyr %>% group_by mutate summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
-check_data_herblayer <- function(database) {
+check_data_herblayer <- function(database, forest_reserve = "all") {
+  selection <-
+    ifelse(
+      forest_reserve == "all", "",
+      paste0("WHERE pd.ForestReserve = '", forest_reserve, "'")
+    )
   query_herblayer <-
     "SELECT hl.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
@@ -33,9 +39,11 @@ check_data_herblayer <- function(database) {
       hl.Species AS species,
       hl.Coverage AS coverage_id,
       hl.BrowseIndex AS browse_index
-    FROM (Plots
+    FROM ((Plots
         INNER JOIN Herblayer%2$s hl ON Plots.ID = hl.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
+      INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
+    %3$s;"
 
   query_totalcover <-
     "SELECT ID as cover_id,
@@ -47,7 +55,8 @@ check_data_herblayer <- function(database) {
     "SELECT ID as browse_index_id
     FROM qBrowsIndex;"
 
-  data_herblayer <- query_database(database, query_herblayer)
+  data_herblayer <-
+    query_database(database, query_herblayer, selection = selection)
   con <- connect_to_database(database)
   data_totalcover <- dbGetQuery(con, query_totalcover)
   data_browseindex <- dbGetQuery(con, query_browseindex)
