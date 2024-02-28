@@ -23,6 +23,7 @@
 #' @export
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom assertthat has_name
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% arrange bind_rows desc filter group_by inner_join
 #'   left_join mutate n reframe select summarise transmute ungroup
@@ -206,154 +207,162 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ungroup(),
       by = "tree_id"
     )
-  incorrect_trees <- incorrect_trees %>%
-    bind_rows(
+  incorrect_tree_diff <- trees_diff %>%
+    mutate(
+      field_species = ifelse(.data$species_diff != 0, "shifter", NA),
+      field_alive_dead = ifelse(.data$alive_dead_diff == -1, "zombie", NA),
+      field_decay_stage =
+        ifelse(
+          !(.data$decay_stage_diff >= 0 & .data$decay_stage_diff <= 5) &
+              .data$alive_dead_diff == 0 |
+            .data$alive_dead_diff == 1 & !(.data$decay_stage_diff < 0 &
+                .data$decay_stage_diff >= -6),
+          "wrong shift",
+          NA
+        )
+    ) %>%
+    left_join(
       trees_diff %>%
-        mutate(
-          field_species = ifelse(.data$species_diff != 0, "shifter", NA),
-          field_alive_dead = ifelse(.data$alive_dead_diff == -1, "zombie", NA),
-          field_decay_stage =
-            ifelse(
-              !(.data$decay_stage_diff >= 0 & .data$decay_stage_diff <= 5) &
-                  .data$alive_dead_diff == 0 |
-                .data$alive_dead_diff == 1 & !(.data$decay_stage_diff < 0 &
-                    .data$decay_stage_diff >= -6),
-              "wrong shift",
-              NA
-            )
+        reframe(
+          distance_m_diff = (boxplot(.data$distance_m_diff))$out
         ) %>%
-        left_join(
-          trees_diff %>%
-            reframe(
-              distance_m_diff = (boxplot(.data$distance_m_diff))$out
-            ) %>%
-            distinct() %>%
-            mutate(field_coordinates = "walker"),
-          by = "distance_m_diff"
+        distinct() %>%
+        mutate(field_coordinates = "walker"),
+      by = "distance_m_diff"
+    ) %>%
+    left_join(
+      trees_diff %>%
+        filter(
+          .data$species != 51,
+          .data$alive_dead == 11,
+          .data$ind_sht_cop == 10
         ) %>%
-        left_join(
-          trees_diff %>%
-            filter(
-              .data$species != 51,
-              .data$alive_dead == 11,
-              .data$ind_sht_cop == 10
-            ) %>%
-            reframe(
-              dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
-            ) %>%
-            distinct() %>%
-            mutate(field_dbh_mm = "outlier_diameter_total"),
-          by = "dbh_mm_diff"
+        reframe(
+          dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
         ) %>%
-        left_join(
-          trees_diff %>%
-            filter(
-              .data$alive_dead == 11,
-              .data$ind_sht_cop == 10
-            ) %>%
-            group_by(.data$species) %>%
-            reframe(
-              dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
-            ) %>%
-            ungroup() %>%
-            distinct() %>%
-            mutate(field_dbh_mm = "outlier_diameter_species"),
-          by = c("dbh_mm_diff", "species")
+        distinct() %>%
+        mutate(field_dbh_mm = "outlier_diameter_total"),
+      by = "dbh_mm_diff"
+    ) %>%
+    left_join(
+      trees_diff %>%
+        filter(
+          .data$alive_dead == 11,
+          .data$ind_sht_cop == 10
         ) %>%
-        mutate(
-          field_dbh_mm =
-            ifelse(
-              is.na(.data$field_dbh_mm.x),
-              ifelse(is.na(.data$field_dbh_mm.y), NA, .data$field_dbh_mm.y),
-              ifelse(
-                is.na(.data$field_dbh_mm.y), .data$field_dbh_mm.x,
-                "outlier_diameter"
-              )
-            ),
-          field_dbh_mm.x = NULL, field_dbh_mm.y = NULL
-        ) %>%
-        left_join(
-          trees_diff %>%
-            filter(
-              .data$species != 51,
-              .data$alive_dead == 11,
-              .data$ind_sht_cop == 10
-            ) %>%
-            reframe(
-              height_m_diff = (boxplot(.data$height_m_diff))$out
-            ) %>%
-            distinct() %>%
-            mutate(field_height_m = "outlier_height_total"),
-          by = "height_m_diff"
-        ) %>%
-        left_join(
-          trees_diff %>%
-            filter(
-              .data$alive_dead == 11,
-              .data$ind_sht_cop == 10
-            ) %>%
-            group_by(.data$species) %>%
-            reframe(
-              height_m_diff = (boxplot(.data$height_m_diff))$out
-            ) %>%
-            ungroup() %>%
-            distinct() %>%
-            mutate(field_height_m = "outlier_height_species"),
-          by = c("height_m_diff", "species")
-        ) %>%
-        mutate(
-          field_height_m =
-            ifelse(
-              is.na(.data$field_height_m.x),
-              ifelse(is.na(.data$field_height_m.y), NA, .data$field_height_m.y),
-              ifelse(
-                is.na(.data$field_height_m.y), .data$field_height_m.x,
-                "outlier_height"
-              )
-            ),
-          field_height_m.x = NULL, field_height_m.y = NULL
-        ) %>%
-        select(
-          "plot_id", "tree_id", "period" = .data$period_diff, "species",
-          starts_with("field_")
-        ) %>%
-        pivot_longer(
-          cols = starts_with("field_"),
-          names_to = "aberrant_field",
-          values_to = "anomaly",
-          values_drop_na = TRUE
-        ) %>%
-        mutate(
-          aberrant_field = gsub("^field_", "", .data$aberrant_field)
-        ) %>%
-        group_by(.data$plot_id, .data$tree_id, .data$period) %>%
-        summarise(
-          aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
-          anomaly = paste0(.data$anomaly, collapse = " / ")
+        group_by(.data$species) %>%
+        reframe(
+          dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
         ) %>%
         ungroup() %>%
-        mutate(
-          period_end = as.numeric(substring(.data$period, 1, 1)),
-          period_start = as.numeric(substring(.data$period, 3, 3))
-        ) %>%
-        left_join(
-          data_trees %>%
-            select("plot_id", "tree_measure_id", "period", "tree_id"),
-          by = c("plot_id", "tree_id", "period_end" = "period")
-        ) %>%
-        left_join(
-          data_trees %>%
-            select("plot_id", "tree_measure_id", "period", "tree_id"),
-          by = c("plot_id", "tree_id", "period_start" = "period"),
-          suffix = c("_end", "_start")
-        ) %>%
-        mutate(
-          tree_measure_id =
-            paste(.data$tree_measure_id_end, .data$tree_measure_id_start,
-                  sep = "_"),
-          period_end = NULL, period_start = NULL,
-          tree_measure_id_end = NULL, tree_measure_id_start = NULL
-        )
+        distinct() %>%
+        mutate(field_dbh_mm = "outlier_diameter_species"),
+      by = c("dbh_mm_diff", "species")
+    ) %>%
+    mutate(
+      field_dbh_mm =
+        ifelse(
+          is.na(.data$field_dbh_mm.x),
+          ifelse(is.na(.data$field_dbh_mm.y), NA, .data$field_dbh_mm.y),
+          ifelse(
+            is.na(.data$field_dbh_mm.y), .data$field_dbh_mm.x,
+            "outlier_diameter"
+          )
+        ),
+      field_dbh_mm.x = NULL, field_dbh_mm.y = NULL
+    )
+
+  if (has_name(trees_diff, "height_m_diff")) {
+    incorrect_tree_diff <- incorrect_tree_diff %>%
+      left_join(
+        trees_diff %>%
+          filter(
+            .data$species != 51,
+            .data$alive_dead == 11,
+            .data$ind_sht_cop == 10
+          ) %>%
+          reframe(
+            height_m_diff = (boxplot(.data$height_m_diff))$out
+          ) %>%
+          distinct() %>%
+          mutate(field_height_m = "outlier_height_total"),
+        by = "height_m_diff"
+      ) %>%
+      left_join(
+        trees_diff %>%
+          filter(
+            .data$alive_dead == 11,
+            .data$ind_sht_cop == 10
+          ) %>%
+          group_by(.data$species) %>%
+          reframe(
+            height_m_diff = (boxplot(.data$height_m_diff))$out
+          ) %>%
+          ungroup() %>%
+          distinct() %>%
+          mutate(field_height_m = "outlier_height_species"),
+        by = c("height_m_diff", "species")
+      ) %>%
+      mutate(
+        field_height_m =
+          ifelse(
+            is.na(.data$field_height_m.x),
+            ifelse(is.na(.data$field_height_m.y), NA, .data$field_height_m.y),
+            ifelse(
+              is.na(.data$field_height_m.y), .data$field_height_m.x,
+              "outlier_height"
+            )
+          ),
+        field_height_m.x = NULL, field_height_m.y = NULL
+      )
+  }
+
+  incorrect_tree_diff <- incorrect_tree_diff %>%
+    select(
+      "plot_id", "tree_id", "period" = .data$period_diff, "species",
+      starts_with("field_")
+    ) %>%
+    pivot_longer(
+      cols = starts_with("field_"),
+      names_to = "aberrant_field",
+      values_to = "anomaly",
+      values_drop_na = TRUE
+    ) %>%
+    mutate(
+      aberrant_field = gsub("^field_", "", .data$aberrant_field)
+    ) %>%
+    group_by(.data$plot_id, .data$tree_id, .data$period) %>%
+    summarise(
+      aberrant_field = paste0(.data$aberrant_field, collapse = " / "),
+      anomaly = paste0(.data$anomaly, collapse = " / ")
+    ) %>%
+    ungroup() %>%
+    mutate(
+      period_end = as.numeric(substring(.data$period, 1, 1)),
+      period_start = as.numeric(substring(.data$period, 3, 3))
+    ) %>%
+    left_join(
+      data_trees %>%
+        select("plot_id", "tree_measure_id", "period", "tree_id"),
+      by = c("plot_id", "tree_id", "period_end" = "period")
+    ) %>%
+    left_join(
+      data_trees %>%
+        select("plot_id", "tree_measure_id", "period", "tree_id"),
+      by = c("plot_id", "tree_id", "period_start" = "period"),
+      suffix = c("_end", "_start")
+    ) %>%
+    mutate(
+      tree_measure_id =
+        paste(.data$tree_measure_id_end, .data$tree_measure_id_start,
+              sep = "_"),
+      period_end = NULL, period_start = NULL,
+      tree_measure_id_end = NULL, tree_measure_id_start = NULL
+    )
+
+  incorrect_trees <- incorrect_trees %>%
+    bind_rows(
+      incorrect_tree_diff
     )
 
   return(incorrect_trees)
