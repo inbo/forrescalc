@@ -21,7 +21,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% group_by mutate summarise ungroup
+#' @importFrom dplyr %>% distinct group_by mutate select summarise ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_plots <- function(database, forest_reserve = "all") {
@@ -42,7 +42,9 @@ check_data_plots <- function(database, forest_reserve = "all") {
     "SELECT ID as plottype_id
     FROM qPlotType;"
 
-  data_plots <- query_database(database, query_plots, selection = selection)
+  data_plots <- query_database(database, query_plots, selection = selection) %>%
+    select(-"period") %>%
+    distinct()
 
   con <- connect_to_database(database)
   data_plottype <- dbGetQuery(con, query_plottype)
