@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% filter group_by left_join mutate summarise transmute
+#' @importFrom dplyr %>% filter group_by left_join mutate select summarise
 #'   ungroup
 #' @importFrom tidyr pivot_longer
 #'
@@ -61,9 +61,8 @@ check_data_deadwood <- function(database, forest_reserve = "all") {
         summarise(max_diameter_mm = max(.data$diameter_mm)) %>%
         ungroup() %>%
         filter(.data$max_diameter_mm < 100) %>%
-        transmute(
-          .data$plot_id, .data$lying_deadw_id,
-          field_deadwood_diameter_mm = "too low"
+        mutate(
+          field_max_diameter_mm = "too low"
         ),
       by = c("plot_id", "lying_deadw_id")
     ) %>%
@@ -91,19 +90,19 @@ check_data_deadwood <- function(database, forest_reserve = "all") {
           .data$field_intact_fragment
         ),
       field_alive_dead = ifelse(.data$alive_dead == 11, "tree alive", NA),
-      field_decaystage = ifelse(is.na(.data$decay_stage), "missing", NA),
-      field_decaystage =
+      field_decay_stage = ifelse(is.na(.data$decay_stage), "missing", NA),
+      field_decay_stage =
         ifelse(
           !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16) &
             !is.na(.data$decay_stage),
           "not in lookuplist",
-          .data$field_decaystage),
-      field_decaystage =
+          .data$field_decay_stage),
+      field_decay_stage =
         ifelse(
           .data$decay_stage == 16 & .data$alive_dead == 12 &
             !is.na(.data$decay_stage) & !is.na(.data$alive_dead),
           "tree not alive",
-          .data$field_decaystage)
+          .data$field_decay_stage)
     ) %>%
     pivot_longer(
       cols = c(starts_with("field_")),
@@ -111,11 +110,18 @@ check_data_deadwood <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$lying_deadw_id, .data$period,
+    mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+      plottype = NULL
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "lying_deadw_id", "period", "aberrant_field", "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(.data$aberrant_field == .data$varname) %>%
+    select(-"varname")
 
   return(incorrect_deadwood)
 }

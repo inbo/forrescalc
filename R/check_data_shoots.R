@@ -21,8 +21,8 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows filter left_join mutate
-#'   select transmute
+#' @importFrom dplyr %>% anti_join bind_rows distinct filter left_join mutate
+#'   select
 #' @importFrom tidyr pivot_longer
 #'
 check_data_shoots <- function(database, forest_reserve = "all") {
@@ -170,30 +170,30 @@ check_data_shoots <- function(database, forest_reserve = "all") {
           !is.na(.data$intact_snag) & !.data$intact_snag %in% c(10, 11),
           "not in lookuplist", .data$field_intact_snag
         ),
-      field_decaystage_shoots =
+      field_decay_stage_shoots =
         ifelse(
           is.na(.data$decay_stage_shoots) & .data$alive_dead == 12, "missing",
           NA
         ),
-      field_decaystage_shoots =
+      field_decay_stage_shoots =
         ifelse(
           !is.na(.data$decay_stage_shoots) &
             !.data$decay_stage_shoots %in% c(10, 11, 12, 13, 14, 15, 16),
           "not in lookuplist",
-          .data$field_decaystage_shoots
+          .data$field_decay_stage_shoots
         ),
-      field_decaystage_shoots =
+      field_decay_stage_shoots =
         ifelse(
           .data$decay_stage_shoots %in% c(10, 11, 12, 13, 14, 15) &
             .data$alive_dead == 11 & !is.na(.data$decay_stage_shoots),
           "tree alive",
-          .data$field_decaystage_shoots),
-      field_decaystage_shoots =
+          .data$field_decay_stage_shoots),
+      field_decay_stage_shoots =
         ifelse(
           (.data$decay_stage_shoots == 16 | is.na(.data$decay_stage_shoots)) &
             .data$alive_dead == 12,
           "tree not alive",
-          .data$field_decaystage_shoots
+          .data$field_decay_stage_shoots
         ),
       field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
       field_iufro_hght =
@@ -255,17 +255,37 @@ check_data_shoots <- function(database, forest_reserve = "all") {
     ) %>%
     pivot_longer(
       cols =
-        c("link_to_layer_trees", #"ratio_dbh_height",
+        c("link_to_layer_trees", "ratio_dbh_height",
           starts_with("field_")),
       names_to = "aberrant_field",
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$tree_measure_id, .data$shoot_id, .data$period,
-      aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+    mutate(
+      aberrant_field = gsub("^field_", "", .data$aberrant_field)
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "tree_measure_id", "shoot_id", "period", "aberrant_field",
+           "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(
+      .data$aberrant_field == .data$varname |
+        .data$aberrant_field %in% c("link_to_layer_trees", "ratio_dbh_height")
+    ) %>%
+    mutate(
+      aberrant_value =
+        ifelse(
+          .data$aberrant_field %in%
+            c("link_to_layer_trees", "ratio_dbh_height"),
+          NA,
+          .data$aberrant_value
+        )
+    ) %>%
+    select(-"varname") %>%
+    distinct()
 
   return(incorrect_shoots)
 }

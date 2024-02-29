@@ -93,7 +93,8 @@ check_data_fmdb <- function(database, forest_reserve = "all") {
     ) %>%
     mutate(
       tree_measure_id = as.character(.data$tree_measure_id),
-      period = as.character(.data$period)
+      period = as.character(.data$period),
+      aberrant_value = as.character(.data$aberrant_value)
     ) %>%
     bind_rows(
       check_trees_evolution(database, forest_reserve) %>%

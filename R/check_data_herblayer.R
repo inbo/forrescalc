@@ -22,7 +22,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% group_by mutate transmute ungroup
+#' @importFrom dplyr %>% filter group_by mutate select ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_herblayer <- function(database, forest_reserve = "all") {
@@ -74,14 +74,14 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
     ) %>%
     ungroup() %>%
     mutate(
-      field_coverage =
+      field_coverage_id =
         ifelse(is.na(.data$coverage_id), "missing", NA),
-      field_coverage =
+      field_coverage_id =
         ifelse(
           !is.na(.data$coverage_id) &
             !.data$coverage_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_coverage
+          .data$field_coverage_id
         ),
       field_species =
         ifelse(
@@ -108,11 +108,19 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$subplot_id, .data$herblayer_id, .data$period,
+    mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+      plottype = NULL
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "subplot_id", "herblayer_id", "period", "aberrant_field",
+           "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(.data$aberrant_field == .data$varname) %>%
+    select(-"varname")
 
   return(incorrect_herblayer)
 }

@@ -22,7 +22,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% group_by mutate transmute ungroup
+#' @importFrom dplyr %>% filter group_by mutate select ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_vegetation <- function(database, forest_reserve = "all") {
@@ -72,69 +72,69 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
     mutate(
       field_date = ifelse(is.na(.data$date), "missing", NA),
       field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA),
-      field_total_moss_cover =
+      field_moss_cover_id =
         ifelse(is.na(.data$moss_cover_id), "missing", NA),
-      field_total_moss_cover =
+      field_moss_cover_id =
         ifelse(
           !is.na(.data$moss_cover_id) &
             !.data$moss_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_moss_cover
+          .data$field_moss_cover_id
         ),
-      field_total_herb_cover =
+      field_herb_cover_id =
         ifelse(is.na(.data$herb_cover_id), "missing", NA),
-      field_total_herb_cover =
+      field_herb_cover_id =
         ifelse(
           !is.na(.data$herb_cover_id) &
             !.data$herb_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_herb_cover
+          .data$field_herb_cover_id
         ),
-      field_total_shrub_cover =
+      field_shrub_cover_id =
         ifelse(is.na(.data$shrub_cover_id), "missing", NA),
-      field_total_shrub_cover =
+      field_shrub_cover_id =
         ifelse(
           !is.na(.data$shrub_cover_id) &
             !.data$shrub_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_shrub_cover
+          .data$field_shrub_cover_id
         ),
-      field_total_tree_cover =
+      field_tree_cover_id =
         ifelse(is.na(.data$tree_cover_id), "missing", NA),
-      field_total_tree_cover =
+      field_tree_cover_id =
         ifelse(
           !is.na(.data$tree_cover_id) &
             !.data$tree_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_tree_cover
+          .data$field_tree_cover_id
         ),
-      field_total_waterlayer_cover =
+      field_waterlayer_cover_id =
         ifelse(is.na(.data$waterlayer_cover_id), "missing", NA),
-      field_total_waterlayer_cover =
+      field_waterlayer_cover_id =
         ifelse(
           !is.na(.data$waterlayer_cover_id) &
             !.data$waterlayer_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_waterlayer_cover
+          .data$field_waterlayer_cover_id
         ),
-      field_total_soildisturbance_game =
+      field_total_soildisturbance_game_id =
         ifelse(
           is.na(.data$total_soildisturbance_game_id) &
             .data$not_na_soildisturbance_game,
           "missing", NA
         ),
-      field_total_soildisturbance_game =
+      field_total_soildisturbance_game_id =
         ifelse(
           !is.na(.data$total_soildisturbance_game_id) &
             !.data$total_soildisturbance_game_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_soildisturbance_game
+          .data$field_total_soildisturbance_game_id
         ),
-      field_homogeneous = ifelse(is.na(.data$homogeneous_id), "missing", NA),
-      field_homogeneous =
+      field_homogeneous_id = ifelse(is.na(.data$homogeneous_id), "missing", NA),
+      field_homogeneous_id =
         ifelse(
           !is.na(.data$homogeneous_id) & !.data$homogeneous_id %in% c(10, 20),
-          "not in lookuplist", .data$field_homogeneous
+          "not in lookuplist", .data$field_homogeneous_id
         )
     ) %>%
     pivot_longer(
@@ -143,11 +143,18 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$subplot_id, .data$period,
+    mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+      plottype = NULL
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "subplot_id", "period", "aberrant_field", "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(.data$aberrant_field == .data$varname) %>%
+    select(-"varname")
 
   return(incorrect_vegetation)
 }

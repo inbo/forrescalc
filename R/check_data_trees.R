@@ -24,7 +24,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% anti_join bind_rows count filter left_join
+#' @importFrom dplyr %>% anti_join bind_rows count distinct filter left_join
 #'   mutate select transmute
 #' @importFrom tidyr pivot_longer
 #'
@@ -46,7 +46,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID AS coppice_id,
-      Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
+      Trees.IUFROHght AS iufro_hght,
+      Trees.IUFROVital AS iufro_vital,
+      Trees.IUFROSocia AS iufro_socia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
@@ -82,7 +84,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
       Trees.CoppiceID AS coppice_id,
-      Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
+      Trees.IUFROHght AS iufro_hght,
+      Trees.IUFROVital AS iufro_vital,
+      Trees.IUFROSocia AS iufro_socia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
@@ -183,7 +187,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         filter(.data$nr_of_stems != .data$n) %>%
         transmute(
           .data$plot_id, .data$tree_measure_id, .data$period,
-          field_tree_number = "incorrect"
+          field_nr_of_stems = "incorrect"
         ),
       by = c("plot_id", "tree_measure_id", "period")
     ) %>%
@@ -242,113 +246,114 @@ check_data_trees <- function(database, forest_reserve = "all") {
             !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
           "incorrect", .data$field_ind_sht_cop
         ),
-      field_decaystage =
+      field_decay_stage =
         ifelse(
           is.na(.data$decay_stage) & .data$alive_dead == 12, "missing", NA
         ),
-      field_decaystage =
+      field_decay_stage =
         ifelse(
           !is.na(.data$decay_stage) &
             !.data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 16, 17),
           "not in lookuplist",
-          .data$field_decaystage),
-      field_decaystage =
+          .data$field_decay_stage),
+      field_decay_stage =
         ifelse(
           .data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 17) &
             .data$alive_dead == 11 & !is.na(.data$decay_stage),
           "tree alive",
-          .data$field_decaystage),
-      field_decaystage =
+          .data$field_decay_stage),
+      field_decay_stage =
         ifelse(
           (.data$decay_stage == 16 | is.na(.data$decay_stage)) &
             .data$alive_dead == 12,
           "tree not alive",
-          .data$field_decaystage),
-      field_decaystage =
+          .data$field_decay_stage),
+      field_decay_stage =
         ifelse(
           .data$decay_stage == 17 & !is.na(.data$decay_stage) &
             .data$ind_sht_cop == 10,
           "tree no coppice",
-          .data$field_decaystage),
-      field_iufro_hght = ifelse(is.na(.data$IUFROHght), "missing", NA),
+          .data$field_decay_stage),
+      field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
       field_iufro_hght =
         ifelse(
-          !is.na(.data$IUFROHght) & !.data$IUFROHght %in% c(10, 20, 30, 40, 50),
+          !is.na(.data$iufro_hght) &
+            !.data$iufro_hght %in% c(10, 20, 30, 40, 50),
           "not in lookuplist", .data$field_iufro_hght
         ),
       field_iufro_hght =
         ifelse(
-          .data$IUFROHght %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
-            !is.na(.data$IUFROHght),
+          .data$iufro_hght %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_hght),
           "tree not alive",
           .data$field_iufro_hght),
       field_iufro_hght =
         ifelse(
-          .data$IUFROHght == 40 & .data$alive_dead == 11 &
-            !is.na(.data$IUFROHght),
+          .data$iufro_hght == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_hght),
           "tree alive", .data$field_iufro_hght
         ),
       field_iufro_hght =
         ifelse(
-          .data$IUFROHght == 50 & .data$ind_sht_cop == 10 &
-            !is.na(.data$IUFROHght),
+          .data$iufro_hght == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$iufro_hght),
           "tree no coppice", .data$field_iufro_hght
         ),
-      field_iufro_vital = ifelse(is.na(.data$IUFROVital), "missing", NA),
+      field_iufro_vital = ifelse(is.na(.data$iufro_vital), "missing", NA),
       field_iufro_vital =
         ifelse(
-          !.data$IUFROVital %in% c(10, 20, 30, 40, 50) &
-            !is.na(.data$IUFROVital),
+          !.data$iufro_vital %in% c(10, 20, 30, 40, 50) &
+            !is.na(.data$iufro_vital),
           "not in lookuplist", .data$field_iufro_vital
         ),
       field_iufro_vital =
         ifelse(
-          .data$IUFROVital %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
-            !is.na(.data$IUFROVital),
+          .data$iufro_vital %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_vital),
           "tree not alive",
           .data$field_iufro_vital
         ),
       field_iufro_vital =
         ifelse(
-          .data$IUFROVital == 40 & .data$alive_dead == 11 &
-            !is.na(.data$IUFROVital),
+          .data$iufro_vital == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_vital),
           "tree alive",
           .data$field_iufro_vital
         ),
       field_iufro_vital =
         ifelse(
-          .data$IUFROVital == 50 & .data$ind_sht_cop == 10 &
-            !is.na(.data$IUFROVital),
+          .data$iufro_vital == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$iufro_vital),
           "tree no coppice",
           .data$field_iufro_vital
         ),
-      field_iufro_socia = ifelse(is.na(.data$IUFROSocia), "missing", NA),
+      field_iufro_socia = ifelse(is.na(.data$iufro_socia), "missing", NA),
       field_iufro_socia =
         ifelse(
-          !.data$IUFROSocia %in% c(10, 20, 30, 40, 50) &
-            !is.na(.data$IUFROSocia),
+          !.data$iufro_socia %in% c(10, 20, 30, 40, 50) &
+            !is.na(.data$iufro_socia),
           "not in lookuplist",
           .data$field_iufro_socia),
       field_iufro_socia =
         ifelse(
-          .data$IUFROSocia %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
-            !is.na(.data$IUFROSocia),
+          .data$iufro_socia %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+            !is.na(.data$iufro_socia),
           "tree not alive",
           .data$field_iufro_socia),
       field_iufro_socia =
         ifelse(
-          .data$IUFROSocia == 40 & .data$alive_dead == 11 &
-            !is.na(.data$IUFROSocia),
+          .data$iufro_socia == 40 & .data$alive_dead == 11 &
+            !is.na(.data$iufro_socia),
           "tree alive",
           .data$field_iufro_socia
         ),
       field_iufro_socia =
         ifelse(
-          .data$IUFROSocia == 50 & .data$ind_sht_cop == 10 &
-            !is.na(.data$IUFROSocia),
+          .data$iufro_socia == 50 & .data$ind_sht_cop == 10 &
+            !is.na(.data$iufro_socia),
           "tree no coppice",
           .data$field_iufro_socia),
-      field_treenumber =
+      field_nr_of_stems =
         ifelse(!is.na(.data$nr_of_stems) & .data$nr_of_stems <= 0, "too low",
                NA),
       field_coppice_id =
@@ -363,7 +368,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "missing",
           .data$field_coppice_id
         ),
-      field_common_remark =
+      field_commonremark =
         ifelse(
           .data$commonremark == 150 & .data$alive_dead != 11,
           "tree not alive", NA
@@ -377,11 +382,32 @@ check_data_trees <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$tree_measure_id, .data$period,
+    mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+      plottype = NULL, remark = NULL
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "tree_measure_id", "period", "aberrant_field", "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(
+      .data$aberrant_field == .data$varname |
+        .data$aberrant_field %in%
+          c("location", "link_to_layer_shoots", "ratio_dbh_height")
+    ) %>%
+    mutate(
+      aberrant_value =
+        ifelse(
+          .data$aberrant_field %in%
+            c("location", "link_to_layer_shoots", "ratio_dbh_height"),
+          NA,
+          .data$aberrant_value
+        )
+    ) %>%
+    select(-"varname") %>%
+    distinct()
 
   return(incorrect_trees)
 }

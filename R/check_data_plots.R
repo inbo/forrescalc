@@ -21,7 +21,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% distinct mutate select transmute
+#' @importFrom dplyr %>% distinct filter mutate select
 #' @importFrom tidyr pivot_longer
 #'
 check_data_plots <- function(database, forest_reserve = "all") {
@@ -52,20 +52,20 @@ check_data_plots <- function(database, forest_reserve = "all") {
 
   incorrect_plots <- data_plots %>%
     mutate(
-      field_plottype = ifelse(is.na(.data$plottype_id), "missing", NA),
-      field_plottype =
+      field_plottype_id = ifelse(is.na(.data$plottype_id), "missing", NA),
+      field_plottype_id =
         ifelse(
           !is.na(.data$plottype_id) &
             !.data$plottype_id %in% data_plottype$plottype_id,
           "not in lookuplist",
-          .data$field_plottype
+          .data$field_plottype_id
         ),
-      field_homogeneous = ifelse(is.na(.data$homogeneous_id), "missing", NA),
-      field_homogeneous =
+      field_homogeneous_id = ifelse(is.na(.data$homogeneous_id), "missing", NA),
+      field_homogeneous_id =
         ifelse(
           !is.na(.data$homogeneous_id) & !.data$homogeneous_id %in% c(10, 20),
           "not in lookuplist",
-          .data$field_homogeneous
+          .data$field_homogeneous_id
         )
     ) %>%
     pivot_longer(
@@ -74,11 +74,16 @@ check_data_plots <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id,
-      aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+    mutate(
+      aberrant_field = gsub("^field_", "", .data$aberrant_field)
+    ) %>%
+    pivot_longer(
+      cols = !c("plot_id", "aberrant_field", "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(.data$aberrant_field == .data$varname) %>%
+    select(-"varname")
 
   return(incorrect_plots)
 }

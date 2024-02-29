@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% mutate transmute
+#' @importFrom dplyr %>% filter mutate select
 #' @importFrom tidyr pivot_longer
 #'
 check_data_regeneration <- function(database, forest_reserve = "all") {
@@ -56,11 +56,19 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
       values_to = "anomaly",
       values_drop_na = TRUE
     ) %>%
-    transmute(
-      .data$plot_id, .data$subplot_id, .data$period,
+    mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      .data$anomaly
-    )
+      plottype = NULL
+    ) %>%
+    pivot_longer(
+      cols = !c("plot_id", "subplot_id", "period", "aberrant_field", "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(
+      .data$aberrant_field == .data$varname
+    ) %>%
+    select(-"varname")
 
   return(incorrect_regeneration)
 }

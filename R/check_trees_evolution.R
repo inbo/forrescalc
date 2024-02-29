@@ -25,8 +25,8 @@
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom assertthat has_name
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% arrange bind_rows desc filter group_by inner_join
-#'   left_join mutate n reframe select summarise transmute ungroup
+#' @importFrom dplyr %>% arrange bind_rows desc distinct filter group_by
+#'   inner_join left_join mutate n reframe select summarise transmute ungroup
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
 #'
@@ -339,27 +339,73 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     ) %>%
     left_join(
       data_trees %>%
-        select("plot_id", "tree_measure_id", "period", "tree_id"),
+        select(
+          "plot_id", "tree_measure_id", "period", "tree_id",
+          "species", "alive_dead", "decay_stage", "dbh_mm", "height_m"
+        ),
       by = c("plot_id", "tree_id", "period_end" = "period")
     ) %>%
     left_join(
       data_trees %>%
-        select("plot_id", "tree_measure_id", "period", "tree_id"),
+        select(
+          "plot_id", "tree_measure_id", "period", "tree_id",
+          "species", "alive_dead", "decay_stage", "dbh_mm", "height_m"
+        ),
       by = c("plot_id", "tree_id", "period_start" = "period"),
       suffix = c("_end", "_start")
     ) %>%
     mutate(
+      period_end = NULL, period_start = NULL,
       tree_measure_id =
         paste(.data$tree_measure_id_end, .data$tree_measure_id_start,
               sep = "_"),
-      period_end = NULL, period_start = NULL,
-      tree_measure_id_end = NULL, tree_measure_id_start = NULL
-    )
+      tree_measure_id_end = NULL, tree_measure_id_start = NULL,
+      species = paste(.data$species_end, .data$species_start, sep = "_"),
+      species_end = NULL, species_start = NULL,
+      alive_dead =
+        paste(.data$alive_dead_end, .data$alive_dead_start, sep = "_"),
+      alive_dead_end = NULL, alive_dead_start = NULL,
+      decay_stage =
+        paste(.data$decay_stage_end, .data$decay_stage_start, sep = "_"),
+      decay_stage_end = NULL, decay_stage_start = NULL,
+      dbh_mm = paste(.data$dbh_mm_end, .data$dbh_mm_start, sep = "_"),
+      dbh_mm_end = NULL, dbh_mm_start = NULL,
+      height_m = paste(.data$height_m_end, .data$height_m_start, sep = "_"),
+      height_m_end = NULL, height_m_start = NULL
+    ) %>%
+    pivot_longer(
+      cols =
+        !c("plot_id", "tree_measure_id", "tree_id", "period", "aberrant_field",
+           "anomaly"),
+      names_to = "varname",
+      values_to = "aberrant_value"
+    ) %>%
+    filter(
+      .data$aberrant_field == .data$varname |
+        .data$aberrant_field %in% c("coordinates")
+    ) %>%
+    mutate(
+      aberrant_value =
+        ifelse(
+          .data$aberrant_field %in% c("coordinates"),
+          NA,
+          .data$aberrant_value
+        )
+    ) %>%
+    select(-"varname") %>%
+    distinct()
 
-  incorrect_trees <- incorrect_trees %>%
-    bind_rows(
-      incorrect_tree_diff
-    )
+  if (nrow(incorrect_tree_diff) > 0) {
+    incorrect_trees <- incorrect_trees %>%
+      transmute(
+        .data$plot_id, .data$period, .data$tree_measure_id, .data$aberrant_field,
+        .data$anomaly,
+        aberrant_value = .data$old_id
+      ) %>%
+      bind_rows(
+        incorrect_tree_diff
+      )
+  }
 
   return(incorrect_trees)
 }
