@@ -40,6 +40,10 @@ create_unique_tree_id <- function(data_dendro) {
             !is.na(.data$coppice_id),
             .data$n_records > 1
           ) %>%
+          group_by(.data$plot_id, .data$coppice_id) %>%
+          mutate(min_period = min(.data$period)) %>%
+          ungroup() %>%
+          filter(.data$period == .data$min_period) %>%
           select("plot_id", "coppice_id", "tree_measure_id", "alive_dead", "period", "old_id"),
         by = c("plot_id", "coppice_id", "period"),
         suffix = c("", "_coupled"),
