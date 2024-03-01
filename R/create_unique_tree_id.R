@@ -22,7 +22,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr %>% filter left_join mutate select
+#' @importFrom dplyr %>% filter group_by left_join mutate n select ungroup
 #' @importFrom rlang .data
 #'
 create_unique_tree_id <- function(data_dendro) {
@@ -66,6 +66,23 @@ create_unique_tree_id <- function(data_dendro) {
     return(dataset)
   }
   status_tree <- lookup_tree_id(status_tree)
+
+  #add _a for alive and _b for dead if tree_id has doubles
+  status_tree <- status_tree %>%
+    group_by(.data$tree_id, .data$period) %>%
+    mutate(n_records = n()) %>%
+    ungroup() %>%
+    mutate(
+      ab = ifelse(.data$alive_dead == 11, "a", "b"),
+      tree_id =
+        ifelse(
+          !is.na(.data$tree_id) & .data$n_records > 1,
+          paste(.data$tree_id, .data$ab , sep = "_"),
+          .data$tree_id
+        ),
+      n_records = NULL, ab = NULL
+    )
+
   if (any(is.na(status_tree$tree_id))) {
     warning("Some records did not get a tree_id (NA) because the old_id was unknown in the previous period")
   }
