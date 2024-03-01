@@ -108,14 +108,14 @@ create_unique_tree_id <- function(data_dendro) {
         left_join(
           dataset %>%
             transmute(
-              .data$plot_id, .data$tree_measure_id_updated, .data$tree_id,
-              .data$old_id_updated, .data$alive_dead,
+              .data$plot_id, tree_measure_id_updated = .data$tree_measure_id,
+              .data$tree_id, old_id_updated = .data$old_id,
               period = .data$period + 1
             ) %>%
             filter(!is.na(.data$tree_id)) %>%
             distinct(),
           by = c("plot_id", "old_id_updated" = "tree_measure_id_updated",
-                 "alive_dead", "period"),
+                 "period"),
           suffix = c("", "_oldid")
         ) %>%
         mutate(
