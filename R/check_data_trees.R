@@ -374,6 +374,24 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "tree not alive", NA
         )
     ) %>%
+    left_join(
+      data_trees %>%
+        filter(!is.na(.data$coppice_id)) %>%
+        count(
+          .data$plot_id, .data$period, .data$coppice_id, .data$alive_dead
+        ) %>%
+        filter(.data$n > 1),
+      by = c("plot_id", "period", "coppice_id", "alive_dead")
+    ) %>%
+    mutate(
+      field_coppice_id =
+        ifelse(
+          is.na(.data$field_coppice_id) & !is.na(.data$n) & .data$n > 1,
+          paste0(.data$n, " times the same coppice_id"),
+          .data$field_coppice_id
+        ),
+      n = NULL
+    ) %>%
     pivot_longer(
       cols =
         c("location", "link_to_layer_shoots", "ratio_dbh_height",
