@@ -366,7 +366,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
 
   incorrect_tree_diff <- incorrect_tree_diff %>%
     select(
-      "plot_id", "tree_id", "period" = .data$period_diff, "species",
+      "plot_id", "tree_id", period = "period_diff", "species",
       starts_with("field_")
     ) %>%
     pivot_longer(
