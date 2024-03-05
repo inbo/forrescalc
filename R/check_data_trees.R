@@ -392,6 +392,38 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       n = NULL
     ) %>%
+    left_join(
+      data_trees %>%
+        filter(!is.na(.data$coppice_id)) %>%
+        group_by(.data$plot_id, .data$period, .data$coppice_id) %>%
+        mutate(
+          n_records = n(),
+          species_diff = max(.data$species) - min(.data$species),
+          x_m_diff = max(.data$X_m) - min(.data$X_m),
+          y_m_diff = max(.data$Y_m) - min(.data$Y_m),
+          dist_m_diff = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2)
+        ) %>%
+        ungroup() %>%
+        filter(.data$n_records > 1) %>%
+        transmute(
+          .data$plot_id, .data$period, .data$coppice_id,
+          field_species =
+            ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
+          field_coordinates =
+            ifelse(.data$dist_m_diff > 0.3, "walker in coppice tree", NA)
+        ) %>%
+        distinct(),
+      by = c("plot_id", "period", "coppice_id"),
+      suffix = c("", "_cop")
+    ) %>%
+    mutate(
+      field_species =
+        ifelse(
+          is.na(.data$field_species), .data$field_species_cop,
+          .data$field_species
+        ),
+      field_species_cop = NULL
+    ) %>%
     pivot_longer(
       cols =
         c("location", "link_to_layer_shoots", "ratio_dbh_height",
@@ -413,13 +445,15 @@ check_data_trees <- function(database, forest_reserve = "all") {
     filter(
       .data$aberrant_field == .data$varname |
         .data$aberrant_field %in%
-          c("location", "link_to_layer_shoots", "ratio_dbh_height")
+          c("location", "link_to_layer_shoots", "ratio_dbh_height",
+            "coordinates")
     ) %>%
     mutate(
       aberrant_value =
         ifelse(
           .data$aberrant_field %in%
-            c("location", "link_to_layer_shoots", "ratio_dbh_height"),
+            c("location", "link_to_layer_shoots", "ratio_dbh_height",
+              "coordinates"),
           NA,
           .data$aberrant_value
         )
