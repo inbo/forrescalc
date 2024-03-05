@@ -207,6 +207,53 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ungroup(),
       by = "tree_id"
     )
+  coppice_diff <- data_trees %>%
+    filter(!is.na(.data$coppice_id)) %>%
+    mutate(
+      tree_id_cop = gsub("(.*)_[a|b]$", "\\1", .data$tree_id)
+    ) %>%
+    left_join(
+      data_trees %>%
+        transmute(
+          .data$plot_id, .data$x_m, .data$y_m, .data$species, .data$coppice_id,
+          .data$tree_id, period = .data$period + 1, .data$tree_measure_id
+        ),
+      by = c("plot_id", "coppice_id", "period" = "period"),
+      suffix = c("_earlier", "_later")
+    ) %>%
+    filter(
+      !is.na(.data$tree_id_later),
+      .data$tree_id_earlier != .data$tree_id_later
+    ) %>%
+    mutate(
+      period = paste(.data$period + 1, .data$period, sep = "_"),
+      tree_id = paste(.data$tree_id_later, .data$tree_id_earlier, sep = "-"),
+      tree_measure_id =
+        paste(.data$tree_measure_id_later, .data$tree_measure_id_earlier,
+              sep = "-"),
+      species = paste(.data$species_later, .data$species_earlier, sep = "-"),
+      species_diff = .data$species_later - .data$species_earlier,
+      x_m_diff = .data$x_m_later - .data$x_m_earlier,
+      y_m_diff = .data$y_m_later - .data$y_m_earlier,
+      distance_m_diff = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
+      field_species = ifelse(.data$species_diff != 0, "shifter coppice", NA),
+      field_coordinates =
+        ifelse(.data$distance_m_diff > 0.3, "walker coppice", NA)
+    ) %>%
+    filter(!is.na(.data$field_species) | !is.na(.data$field_coordinates)) %>%
+    select(
+      "plot_id", "tree_id", "period", "field_species", "field_coordinates",
+      "species", "tree_measure_id"
+    ) %>%
+    pivot_longer(
+      cols = starts_with("field_"),
+      names_to = "aberrant_field",
+      values_to = "anomaly",
+      values_drop_na = TRUE
+    ) %>%
+    mutate(
+      aberrant_field = gsub("^field_", "", .data$aberrant_field)
+    )
   incorrect_tree_diff <- trees_diff %>%
     mutate(
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
@@ -372,7 +419,12 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       dbh_mm_end = NULL, dbh_mm_start = NULL,
       height_m = paste(.data$height_m_end, .data$height_m_start, sep = "_"),
       height_m_end = NULL, height_m_start = NULL
-    ) %>%
+    )
+  if (nrow(coppice_diff) > 0) {
+    incorrect_tree_diff <- incorrect_tree_diff %>%
+      bind_rows(coppice_diff)
+  }
+  incorrect_tree_diff <- incorrect_tree_diff %>%
     pivot_longer(
       cols =
         !c("plot_id", "tree_measure_id", "tree_id", "period", "aberrant_field",
