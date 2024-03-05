@@ -450,7 +450,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
   if (nrow(incorrect_tree_diff) > 0) {
     incorrect_trees <- incorrect_trees %>%
       transmute(
-        .data$plot_id, .data$period, .data$tree_measure_id, .data$aberrant_field,
+        .data$plot_id, .data$period, .data$tree_measure_id,
+        .data$aberrant_field,
         .data$anomaly,
         aberrant_value = .data$old_id
       ) %>%
