@@ -285,7 +285,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           .data$ind_sht_cop == 10
         ) %>%
         reframe(
-          dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
+          dbh_mm_diff = (boxplot(.data$dbh_mm_diff, plot = FALSE))$out
         ) %>%
         distinct() %>%
         mutate(field_dbh_mm = "outlier_diameter_total"),
@@ -299,7 +299,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ) %>%
         group_by(.data$species) %>%
         reframe(
-          dbh_mm_diff = (boxplot(.data$dbh_mm_diff))$out
+          dbh_mm_diff = (boxplot(.data$dbh_mm_diff, plot = FALSE))$out
         ) %>%
         ungroup() %>%
         distinct() %>%
@@ -329,7 +329,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
             .data$ind_sht_cop == 10
           ) %>%
           reframe(
-            height_m_diff = (boxplot(.data$height_m_diff))$out
+            height_m_diff = (boxplot(.data$height_m_diff, plot = FALSE))$out
           ) %>%
           distinct() %>%
           mutate(field_height_m = "outlier_height_total"),
@@ -343,7 +343,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           ) %>%
           group_by(.data$species) %>%
           reframe(
-            height_m_diff = (boxplot(.data$height_m_diff))$out
+            height_m_diff = (boxplot(.data$height_m_diff, plot = FALSE))$out
           ) %>%
           ungroup() %>%
           distinct() %>%
