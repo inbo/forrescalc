@@ -62,15 +62,15 @@ check_data_trees <- function(database, forest_reserve = "all") {
     %3$s;"
 
   query_shoots <-
-    "SELECT IDPlots AS plot_id,
-      XTrees%2$s AS XTrees,
-      YTrees%2$s AS YTrees,
-      IDTrees%2$s AS IDTrees,
-      ID AS shoot_id,
-      DBH_mm AS dbh_mm,
-      Height_m AS height_m,
-      IntactSnag
-    FROM Shoots%2$s"
+    "SELECT shoots.IDPlots AS plot_id,
+      shoots.XTrees%2$s AS x_trees,
+      shoots.YTrees%2$s AS y_trees,
+      shoots.IDTrees%2$s AS id_trees,
+      shoots.ID AS shoot_id,
+      shoots.DBH_mm AS dbh_mm,
+      shoots.Height_m AS height_m,
+      shoots.IntactSnag
+    FROM Shoots%2$s shoots;"
 
   query_trees_1986 <- sprintf(
     "SELECT Trees.IDPlots AS plot_id,
@@ -102,15 +102,15 @@ check_data_trees <- function(database, forest_reserve = "all") {
   )
 
   query_shoots_1986 <-
-    "SELECT IDPlots AS plot_id,
-      XTrees_1986 AS XTrees,
-      YTrees_1986 AS YTrees,
-      IDTrees_1986 AS IDTrees,
-      ID AS shoot_id,
-      DBH_mm AS dbh_mm,
-      Height_m AS height_m,
-      IntactSnag
-    FROM Shoots_1986"
+    "SELECT shoots.IDPlots AS plot_id,
+      shoots.XTrees_1986 AS x_trees,
+      shoots.YTrees_1986 AS y_trees,
+      shoots.IDTrees_1986 AS id_trees,
+      shoots.ID AS shoot_id,
+      shoots.DBH_mm AS dbh_mm,
+      shoots.Height_m AS height_m,
+      shoots.IntactSnag
+    FROM Shoots_1986 shoots;"
 
   data_trees <- query_database(database, query_trees, selection = selection)
   data_shoots <- query_database(database, query_shoots)
@@ -164,8 +164,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         filter(.data$ind_sht_cop == 12) %>%
         anti_join(
           data_shoots,
-          by = c("plot_id", "X_m" = "XTrees", "Y_m" = "YTrees",
-                 "tree_measure_id" = "IDTrees", "period")
+          by = c("plot_id", "X_m" = "x_trees", "Y_m" = "y_trees",
+                 "tree_measure_id" = "id_trees", "period")
         ) %>%
         select(
           "plot_id", "X_m", "Y_m", "tree_measure_id", "period"
@@ -181,8 +181,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         select("plot_id", "tree_measure_id", "nr_of_stems", "period") %>%
         inner_join(
           data_shoots %>%
-            count(.data$plot_id, .data$IDTrees, .data$period),
-          by = c("plot_id", "tree_measure_id" = "IDTrees", "period")
+            count(.data$plot_id, .data$id_trees, .data$period),
+          by = c("plot_id", "tree_measure_id" = "id_trees", "period")
         ) %>%
         filter(.data$nr_of_stems != .data$n) %>%
         transmute(

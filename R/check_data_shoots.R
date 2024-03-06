@@ -57,7 +57,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
       shoots.IUFROSocia AS iufro_socia
     FROM Shoots%2$s shoots
       INNER JOIN Plotdetails_%1$deSet pd ON shoots.IDPlots = pd.IDPlots
-    %3$s"
+    %3$s;"
 
   query_trees_1986 <-
     "SELECT Trees.IDPlots AS plot_id,

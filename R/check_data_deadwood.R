@@ -44,11 +44,11 @@ check_data_deadwood <- function(database, forest_reserve = "all") {
     %3$s;"
 
   query_deadwood_diameters <-
-    "SELECT IDPlots As plot_id,
-      IDDeadwood%2$s AS lying_deadw_id,
-      Distance_m AS distance_m,
-      Diameter_mm AS diameter_mm
-    FROM Deadwood%2$s_Diameters"
+    "SELECT dwd.IDPlots As plot_id,
+      dwd.IDDeadwood%2$s AS lying_deadw_id,
+      dwd.Distance_m AS distance_m,
+      dwd.Diameter_mm AS diameter_mm
+    FROM Deadwood%2$s_Diameters dwd;"
 
   data_deadwood <-
     query_database(database, query_deadwood, selection = selection)

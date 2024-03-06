@@ -22,7 +22,7 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% filter group_by mutate select ungroup
+#' @importFrom dplyr %>% filter group_by mutate rename select ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_vegetation <- function(database, forest_reserve = "all") {
@@ -35,7 +35,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
     "SELECT v.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       v.ID AS subplot_id,
-      v.Date AS date,
+      v.Date AS date_,
       v.Fieldteam AS fieldteam,
       v.Total_moss_cover as moss_cover_id,
       v.Total_herb_cover as herb_cover_id,
@@ -57,7 +57,8 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
     FROM qtotalCover;"
 
   data_vegetation <-
-    query_database(database, query_vegetation, selection = selection)
+    query_database(database, query_vegetation, selection = selection) %>%
+    rename(date = .data$date_)
   con <- connect_to_database(database)
   data_totalcover <- dbGetQuery(con, query_totalcover)
   dbDisconnect(con)
@@ -135,7 +136,8 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
         ifelse(
           !is.na(.data$homogeneous_id) & !.data$homogeneous_id %in% c(10, 20),
           "not in lookuplist", .data$field_homogeneous_id
-        )
+        ),
+      date = as.numeric(date)
     ) %>%
     pivot_longer(
       cols = c(starts_with("field_")),

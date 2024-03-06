@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% filter group_by left_join mutate select ungroup
+#' @importFrom dplyr %>% filter group_by left_join mutate rename select ungroup
 #' @importFrom tidyr pivot_longer
 #'
 check_data_regspecies <- function(database, forest_reserve = "all") {
@@ -45,16 +45,17 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
 
   query_regspecies <-
     "SELECT RegSpecies.IDPlots AS plot_id,
-      RegSpecies.IDRegeneration%2$s subplot_id,
+      RegSpecies.IDRegeneration%2$s AS subplot_id,
       RegSpecies.IDHeightClass%2$s AS heightclass_id,
       RegSpecies.ID AS regspecies_id,
       RegSpecies.Species AS species,
       RegSpecies.NumberClass AS number_class,
-      RegSpecies.Number AS number,
+      RegSpecies.Number AS number_,
       RegSpecies.GameDamage_number AS game_damage_number
     FROM RegSpecies%2$s RegSpecies;"
 
-  data_regspecies <- query_database(database, query_regspecies)
+  data_regspecies <- query_database(database, query_regspecies) %>%
+    rename(number = .data$number_)
   data_heightclass <-
     query_database(database, query_heightclass, selection = selection)
 

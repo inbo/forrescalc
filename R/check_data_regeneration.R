@@ -34,7 +34,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     "SELECT g.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       g.ID AS subplot_id,
-      g.Date AS date,
+      g.Date AS date_,
       g.Fieldteam AS fieldteam
     FROM ((Plots
         INNER JOIN Regeneration%2$s g ON Plots.ID = g.IDPlots)
@@ -47,7 +47,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
 
   incorrect_regeneration <- data_regeneration %>%
     mutate(
-      field_date = ifelse(is.na(.data$date), "missing", NA),
+      field_date = ifelse(is.na(.data$date_), "missing", NA),
       field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA)
     ) %>%
     pivot_longer(
@@ -58,7 +58,9 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     ) %>%
     mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
-      plottype = NULL
+      plottype = NULL,
+      date = as.numeric(.data$date_),
+      date_ = NULL
     ) %>%
     pivot_longer(
       cols = !c("plot_id", "subplot_id", "period", "aberrant_field", "anomaly"),
