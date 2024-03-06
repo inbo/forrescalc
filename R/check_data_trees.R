@@ -406,7 +406,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ungroup() %>%
         filter(.data$n_records > 1) %>%
         transmute(
-          .data$plot_id, .data$period, .data$coppice_id,
+          .data$plot_id, .data$period, .data$coppice_id, .data$n_records,
           field_species =
             ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
           field_coordinates =
@@ -422,7 +422,15 @@ check_data_trees <- function(database, forest_reserve = "all") {
           is.na(.data$field_species), .data$field_species_cop,
           .data$field_species
         ),
-      field_species_cop = NULL
+      field_species_cop = NULL,
+      field_ind_sht_cop =
+        ifelse(
+          !is.na(.data$field_ind_sht_cop) &
+            .data$field_coppice_id == "incorrect" & .data$ind_sht_cop == 12 &
+            .data$n_records > 1,
+          NA, .data$field_ind_sht_cop
+        ),
+      n_records = NULL
     ) %>%
     pivot_longer(
       cols =
