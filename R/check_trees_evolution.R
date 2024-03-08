@@ -220,14 +220,14 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           .data$tree_id, period = .data$period + 1, .data$tree_measure_id
         ),
       by = c("plot_id", "coppice_id", "period" = "period"),
-      suffix = c("_earlier", "_later")
+      suffix = c("_later", "_earlier")
     ) %>%
     filter(
-      !is.na(.data$tree_id_later),
+      !is.na(.data$tree_id_earlier),
       .data$tree_id_earlier != .data$tree_id_later
     ) %>%
     mutate(
-      period = paste(.data$period + 1, .data$period, sep = "_"),
+      period = paste(.data$period, .data$period - 1, sep = "_"),
       tree_id = paste(.data$tree_id_later, .data$tree_id_earlier, sep = "-"),
       tree_measure_id =
         paste(.data$tree_measure_id_later, .data$tree_measure_id_earlier,
