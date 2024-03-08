@@ -419,6 +419,10 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       dbh_mm_end = NULL, dbh_mm_start = NULL,
       height_m = paste(.data$height_m_end, .data$height_m_start, sep = "_"),
       height_m_end = NULL, height_m_start = NULL
+    ) %>%
+    filter(
+      !(.data$aberrant_field == "decay_stage" & anomaly == "wrong shift" &
+          decay_stage == "17_17")
     )
   if (nrow(coppice_diff) > 0) {
     incorrect_tree_diff <- incorrect_tree_diff %>%
