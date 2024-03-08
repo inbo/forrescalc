@@ -191,7 +191,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
       field_decay_stage_shoots =
         ifelse(
           (.data$decay_stage_shoots == 16 | is.na(.data$decay_stage_shoots)) &
-            .data$alive_dead == 12,
+            .data$alive_dead == 12 & is.na(.data$field_decay_stage_shoots),
           "tree not alive",
           .data$field_decay_stage_shoots
         ),
