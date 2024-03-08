@@ -237,9 +237,9 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       x_m_diff = .data$x_m_later - .data$x_m_earlier,
       y_m_diff = .data$y_m_later - .data$y_m_earlier,
       distance_m_diff = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
-      field_species = ifelse(.data$species_diff != 0, "shifter coppice", NA),
+      field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
       field_coordinates =
-        ifelse(.data$distance_m_diff > 0.3, "walker coppice", NA)
+        ifelse(.data$distance_m_diff > 0.3, "walker coppice_id", NA)
     ) %>%
     filter(!is.na(.data$field_species) | !is.na(.data$field_coordinates)) %>%
     select(
