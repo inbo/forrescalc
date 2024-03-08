@@ -125,6 +125,10 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
   })
 
   # same XY but not the same tree_id?
+  data_trees <- data_trees %>%
+    mutate(
+      tree_id_cop = sub("(^.*)_[a|b]$", "\\1", .data$tree_id)
+    )
   for (i in min(data_trees$period):(max(data_trees$period) - 1)) {
     incorrect_trees <- incorrect_trees %>%
       mutate(
@@ -148,8 +152,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
               ),
             by = c("plot_id", "x_dm", "y_dm")
           ) %>%
-          filter(.data$tree_id.x != .data$tree_id.y | is.na(.data$tree_id.x) |
-                   is.na(.data$tree_id.y)) %>%
+          filter(.data$tree_id_cop.x != .data$tree_id_cop.y |
+                   is.na(.data$tree_id.x) | is.na(.data$tree_id.y)) %>%
           transmute(
             .data$plot_id,
             period = paste(.data$period.y, .data$period.x, sep = "_"),
@@ -209,9 +213,6 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     )
   coppice_diff <- data_trees %>%
     filter(!is.na(.data$coppice_id)) %>%
-    mutate(
-      tree_id_cop = gsub("(.*)_[a|b]$", "\\1", .data$tree_id)
-    ) %>%
     left_join(
       data_trees %>%
         transmute(
