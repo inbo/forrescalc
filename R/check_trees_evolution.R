@@ -272,7 +272,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     left_join(
       trees_diff %>%
         reframe(
-          distance_m_diff = (boxplot(.data$distance_m_diff))$out
+          distance_m_diff = (boxplot(.data$distance_m_diff, plot = FALSE))$out
         ) %>%
         distinct() %>%
         mutate(field_coordinates = "walker"),
