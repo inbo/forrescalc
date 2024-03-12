@@ -14,7 +14,7 @@ query_table <- function(table, con = con_FM, id = "ID") {
   filter_species <-
     ifelse(
       any(columns == "Species"),
-       "AND t1.Species IN (6, 7, 16, 87, 131, 161)",
+       "AND t1.Species IN (6, 7, 16, 26, 28, 87, 131, 161)",
        ""
     )
   add_species <-
@@ -127,7 +127,7 @@ qiufrovitality <- dbReadTable(con_FM, "qiufrovitality")
 qiufrovitality_shoots <- dbReadTable(con_FM, "qiufrovitality_shoots")
 qnumber_regeneration_classes <- dbReadTable(con_FM, "qnumber_regeneration_classes")
 qPlotType <- dbReadTable(con_FM, "qPlotType")
-qspecies <- dbGetQuery(con_FM, "SELECT * FROM qspecies WHERE ID IN (6, 7, 16, 87)")
+qspecies <- dbGetQuery(con_FM, "SELECT * FROM qspecies WHERE ID IN (6, 7, 16, 26, 28, 87, 131, 161)")
 qtotalCover <- dbReadTable(con_FM, "qtotalCover")
 qYesNo <- dbReadTable(con_FM, "qYesNo")
 
