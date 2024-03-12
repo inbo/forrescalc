@@ -44,24 +44,29 @@ query_table <- function(table, con = con_FM, id = "ID", plot_id = "101, 11000, 2
 query_reltable <- function(table, con = con_FM, related_table, id = "ID") {
   columns <- dbListFields(con, table)
   columns <- columns[!grepl("^FM", columns) & !grepl("^FieldStatus$", columns)]
-  id_values <- paste(unique(related_table$ID), collapse = ", ")
-  filter_species <-
-    ifelse(
-      any(columns == "Species"),
-      "AND t1.Species IN (6, 7, 16, 87, 131, 161)",
-      ""
-    )
   columns <- paste("t1.", columns, sep = "", collapse = ", ")
-  query <-
-    gsub("\\n", " ",
-         sprintf(
-           "SELECT %1$s FROM %2$s t1
-            WHERE t1.IDPlots IN (101, 11000, 21000)
-            AND t1.%3$s IN (%4$s) %5$s;",
-           columns, table, id, id_values, filter_species
-         )
-    )
-  result <- dbGetQuery(con, query)
+  result <- NA
+  for (plot_id in unique(related_table$IDPlots)) {
+    related_table_plot <- related_table %>%
+      filter(.data$IDPlots == plot_id)
+    id_values <- paste(unique(related_table_plot$ID), collapse = ", ")
+    query <-
+      gsub("\\n", " ",
+           sprintf(
+             "SELECT %1$s FROM %2$s t1
+              WHERE t1.IDPlots IN (%5$s)
+              AND t1.%3$s IN (%4$s);",
+             columns, table, id, id_values, plot_id
+           )
+      )
+    if (length(result) == 1 && is.na(result)) {
+      result <- dbGetQuery(con, query)
+    } else {
+      result <- result %>%
+        bind_rows(dbGetQuery(con, query))
+    }
+  }
+
   return(result)
 }
 
@@ -78,9 +83,6 @@ Deadwood_Diameters <-
 Deadwood_2eSET <- query_table("Deadwood_2eSET")
 Deadwood_2eSET_Diameters <-
   query_reltable("Deadwood_2eSET_Diameters", related_table = Deadwood_2eSET, id = "IDDeadwood_2eSET")
-Deadwood_2eSET_Diameters <-
-  query_table("Deadwood_2eSET_Diameters", id = "IDDeadwood_2eSET") %>%
-  filter(IDDeadwood_2eSET %in% Deadwood_2eSET$ID)
 Deadwood_3eSET <- query_table("Deadwood_3eSET")
 if (nrow(Deadwood_3eSET) > 0) {
   Deadwood_3eSET_Diameters <-
@@ -159,13 +161,23 @@ if (nrow(Regeneration_3eSet) > 0) {
     query_table("RegSpecies_3eSet", id = "IDRegeneration_3eSet")
 }
 
-Trees <- query_table("Trees")
-Trees_1986 <- query_table("Trees_1986")
-Trees_2eSET <- query_table("Trees_2eSET")
-Trees_3eSET <- query_table("Trees_3eSET")
 
-Shoots <- query_reltable("Shoots", related_table = Trees, id = "IDTrees")
+Trees_1986 <- query_table("Trees_1986", plot_id = "11000")
+Trees <- query_table("Trees", plot_id = "101, 21000", top_x = 10) %>%
+  bind_rows(query_table("Trees", plot_id = "11000, 141100, 204, 1005, 2006"))
+Trees_2eSET <- query_reltable("Trees_2eSET", related_table = Trees, id = "Oldid") %>%
+  bind_rows(
+    query_table("Trees_2eSET", plot_id = "101, 21000", top_x = 10) %>%
+      filter(is.na(.data$OldID))
+  )
+Trees_3eSET <- query_reltable("Trees_3eSET", related_table = Trees_2eSET, id = "OldId") %>%
+  bind_rows(
+    query_table("Trees_3eSET", plot_id = "101, 21000", top_x = 10) %>%
+      filter(is.na(.data$OldID))
+  )
+
 Shoots_1986 <- query_reltable("Shoots_1986", related_table = Trees_1986, id = "IDTrees_1986")
+Shoots <- query_reltable("Shoots", related_table = Trees, id = "IDTrees")
 Shoots_2eSET <- query_reltable("Shoots_2eSET", related_table = Trees_2eSET, id = "IDTrees_2eSET")
 Shoots_3eSET <- query_reltable("Shoots_3eSET", related_table = Trees_3eSET, id = "IDTrees_3eSET")
 
