@@ -8,7 +8,7 @@ path_to_fieldmap <-
 library(DBI)
 library(dplyr)
 
-query_table <- function(table, con = con_FM, id = "ID") {
+query_table <- function(table, con = con_FM, id = "ID", plot_id = "101, 11000, 21000, 141100, 204, 1005, 2006", top_x = 3) {
   columns <- dbListFields(con, table)
   columns <- columns[!grepl("^FM", columns) & !grepl("^FieldStatus$", columns)]
   filter_species <-
@@ -28,13 +28,13 @@ query_table <- function(table, con = con_FM, id = "ID") {
     gsub("\\n", " ",
          sprintf(
            "SELECT %1$s FROM %2$s t1
-            WHERE t1.IDPlots IN (101, 11000, 21000) %4$s
+            WHERE t1.IDPlots IN (%6$s) %4$s
             AND t1.%3$s IN (
-              SELECT DISTINCT TOP 10 t2.%3$s FROM %2$s t2
+              SELECT DISTINCT TOP %7$s t2.%3$s FROM %2$s t2
               WHERE t2.IDPlots = t1.IDPlots %5$s
               ORDER BY t2.%3$s
             );",
-           columns, table, id, filter_species, add_species
+           columns, table, id, filter_species, add_species, plot_id, top_x
          )
     )
   result <- dbGetQuery(con, query)
@@ -103,7 +103,7 @@ columns <- paste("t1.", columns, sep = "", collapse = ", ")
 Plots <-
   dbGetQuery(
     con_FM,
-    sprintf("SELECT %s FROM Plots t1 WHERE t1.ID IN (101, 11000, 21000);", columns))
+    sprintf("SELECT %s FROM Plots t1 WHERE t1.ID IN (101, 11000, 21000, 141100, 204, 1005, 2006);", columns))
 rm(columns)
 
 qAliveDead <- dbReadTable(con_FM, "qAliveDead")
@@ -169,9 +169,19 @@ Shoots_1986 <- query_reltable("Shoots_1986", related_table = Trees_1986, id = "I
 Shoots_2eSET <- query_reltable("Shoots_2eSET", related_table = Trees_2eSET, id = "IDTrees_2eSET")
 Shoots_3eSET <- query_reltable("Shoots_3eSET", related_table = Trees_3eSET, id = "IDTrees_3eSET")
 
-Vegetation <- query_table("Vegetation")
-Vegetation_2eSet <- query_table("Vegetation_2eSet")
-Vegetation_3eSet <- query_table("Vegetation_3eSet")
+
+Vegetation <- query_table("Vegetation", plot_id = "101, 21000", top_x = 10) %>%
+  bind_rows(
+    query_table("Vegetation", plot_id = "11000, 141100, 204, 1005, 2006")
+  )
+Vegetation_2eSet <- query_table("Vegetation_2eSet", plot_id = "101, 21000", top_x = 10) %>%
+  bind_rows(
+    query_table("Vegetation_2eSet", plot_id = "11000, 141100, 204, 1005, 2006")
+  )
+Vegetation_3eSet <- query_table("Vegetation_3eSet", plot_id = "101, 21000", top_x = 10) %>%
+  bind_rows(
+    query_table("Vegetation_3eSet", plot_id = "11000, 141100, 204, 1005, 2006")
+  )
 
 Herblayer <-
   query_reltable("Herblayer", related_table = Vegetation, id = "IDVegetation") %>%
