@@ -116,7 +116,7 @@ qdecaystage <- dbReadTable(con_FM, "qdecaystage")
 qdiameterclass <- dbReadTable(con_FM, "qdiameterclass")
 qHeightClass_regeneration <- dbReadTable(con_FM, "qHeightClass_regeneration")
 qHerbSpecies240810 <-
-  dbGetQuery(con_FM, "SELECT * FROM qHerbSpecies240810 WHERE ID IN (6, 7, 16, 87, 131, 161)")
+  dbGetQuery(con_FM, "SELECT * FROM qHerbSpecies240810 WHERE ID IN (131, 161)")
 qIndShootCop <- dbReadTable(con_FM, "qIndShootCop")
 qIntactSnag <- dbReadTable(con_FM, "qIntactSnag")
 qiufroheight <- dbReadTable(con_FM, "qiufroheight")
@@ -174,15 +174,19 @@ Vegetation_2eSet <- query_table("Vegetation_2eSet")
 Vegetation_3eSet <- query_table("Vegetation_3eSet")
 
 Herblayer <-
-  query_reltable("Herblayer", related_table = Vegetation, id = "IDVegetation")  #hiervoor best enkele andere soorten selecteren!
+  query_reltable("Herblayer", related_table = Vegetation, id = "IDVegetation") %>%
+  filter(.data$Species %in% qHerbSpecies240810$ID)
 Herblayer_2eSet <-
-  query_reltable("Herblayer_2eSet", related_table = Vegetation_2eSet, id = "IDVegetation_2eSet")
+  query_reltable("Herblayer_2eSet", related_table = Vegetation_2eSet, id = "IDVegetation_2eSet") %>%
+  filter(.data$Species %in% qHerbSpecies240810$ID)
 if (nrow(Vegetation_3eSet) > 0) {
   Herblayer_3eSet <-
-    query_reltable("Herblayer_3eSet", related_table = Vegetation_3eSet, id = "IDVegetation_3eSet")
+    query_reltable("Herblayer_3eSet", related_table = Vegetation_3eSet, id = "IDVegetation_3eSet") %>%
+    filter(.data$Species %in% qHerbSpecies240810$ID)
 } else {
   Herblayer_3eSet <-
-    query_table("Herblayer_3eSet", id = "IDVegetation_3eSet")
+    query_table("Herblayer_3eSet", id = "IDVegetation_3eSet") %>%
+    filter(.data$Species %in% qHerbSpecies240810$ID)
 }
 
 dbDisconnect(con_FM)
