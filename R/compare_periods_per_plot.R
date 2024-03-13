@@ -56,6 +56,11 @@ compare_periods_per_plot <- function(dataset, measure_vars, replace_na_in_vars =
   if (!all(c("period", "plot_id") %in% names(dataset))) {
     stop("Dataset must contain the columns period and plot_id.")
   }
+  if (!all(has_name(dataset, measure_vars))) {
+    warning(
+      "Not all variables mentioned in measure_vars, are present in the dataset"
+    )
+  }
   if (all(!is.na(replace_na_in_vars)) &&
         !all(replace_na_in_vars %in% measure_vars)) {
     warning(
