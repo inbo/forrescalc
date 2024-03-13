@@ -45,11 +45,11 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
     %3$s;"
 
-  query_totalcover <-
+  query_coverherbs <-
     "SELECT ID as cover_id,
       Value1 as cover_interval,
       Value2 as cover_class_mean
-    FROM qtotalCover;"
+    FROM qCoverHerbs;"
 
   query_browseindex <-
     "SELECT ID as browse_index_id
@@ -58,7 +58,7 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
   data_herblayer <-
     query_database(database, query_herblayer, selection = selection)
   con <- connect_to_database(database)
-  data_totalcover <- dbGetQuery(con, query_totalcover)
+  data_coverherbs <- dbGetQuery(con, query_coverherbs)
   data_browseindex <- dbGetQuery(con, query_browseindex)
   dbDisconnect(con)
 
@@ -79,7 +79,7 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       field_coverage_id =
         ifelse(
           !is.na(.data$coverage_id) &
-            !.data$coverage_id %in% data_totalcover$cover_id,
+            !.data$coverage_id %in% data_coverherbs$cover_id,
           "not in lookuplist",
           .data$field_coverage_id
         ),
