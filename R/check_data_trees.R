@@ -37,6 +37,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
   query_trees <-
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
+      pd.rA3 AS r_a3, pd.rA4 AS r_a4,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -75,6 +76,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
   query_trees_1986 <- sprintf(
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
+      pd.rA3 AS r_a3, pd.rA4 AS r_a4,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -139,21 +141,24 @@ check_data_trees <- function(database, forest_reserve = "all") {
     mutate(
       location =
         ifelse(
-          .data$plottype == "CP" & sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 18,
+          .data$plottype == "CP" &
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a4,
           "tree not in A4",
           NA
         ),
       location =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$location),
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
+            is.na(.data$location),
           "tree not in A3",
           .data$location
         ),
       location =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
-            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > 9 & is.na(.data$location),
+            sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
+            is.na(.data$location),
           "tree not in A3",
           .data$location
         )
