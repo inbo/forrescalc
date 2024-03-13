@@ -241,7 +241,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_ind_sht_cop =
         ifelse(
-          .data$ind_sht_cop == 10 & .data$nr_of_stems > 1 &
+          .data$ind_sht_cop %in% c(10, 11) & .data$nr_of_stems > 1 &
             !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
           "incorrect", .data$field_ind_sht_cop
         ),
@@ -276,7 +276,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       field_decay_stage =
         ifelse(
           .data$decay_stage == 17 & !is.na(.data$decay_stage) &
-            .data$ind_sht_cop == 10,
+            .data$ind_sht_cop %in% c(10, 11),
           "tree no coppice",
           .data$field_decay_stage),
       field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
@@ -300,7 +300,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_hght =
         ifelse(
-          .data$iufro_hght == 50 & .data$ind_sht_cop == 10 &
+          .data$iufro_hght == 50 & .data$ind_sht_cop %in% c(10, 11) &
             !is.na(.data$iufro_hght),
           "tree no coppice", .data$field_iufro_hght
         ),
@@ -327,7 +327,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_vital =
         ifelse(
-          .data$iufro_vital == 50 & .data$ind_sht_cop == 10 &
+          .data$iufro_vital == 50 & .data$ind_sht_cop %in% c(10, 11) &
             !is.na(.data$iufro_vital),
           "tree no coppice",
           .data$field_iufro_vital
@@ -354,7 +354,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_socia =
         ifelse(
-          .data$iufro_socia == 50 & .data$ind_sht_cop == 10 &
+          .data$iufro_socia == 50 & .data$ind_sht_cop %in% c(10, 11) &
             !is.na(.data$iufro_socia),
           "tree no coppice",
           .data$field_iufro_socia),
@@ -363,13 +363,13 @@ check_data_trees <- function(database, forest_reserve = "all") {
                NA),
       field_coppice_id =
         ifelse(
-          !is.na(.data$coppice_id) & .data$ind_sht_cop == 10,
+          !is.na(.data$coppice_id) & .data$ind_sht_cop %in% c(10, 11),
           "unexpected (not missing)",
           NA
         ),
       field_coppice_id =
         ifelse(
-          is.na(.data$coppice_id) & .data$ind_sht_cop != 10,
+          is.na(.data$coppice_id) & !.data$ind_sht_cop %in% c(10, 11),
           "missing",
           .data$field_coppice_id
         ),
