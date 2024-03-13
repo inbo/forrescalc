@@ -138,10 +138,13 @@ check_data_shoots <- function(database, forest_reserve = "all") {
     ) %>%
     # ratio D/H (don't add item if height_m = NA)
     mutate(
-      d_h = .data$dbh_mm * pi / (.data$height_m * 10),
-      ratio_dbh_height = ifelse(.data$d_h < 1.5, "too low", NA),
-      ratio_dbh_height =
-        ifelse(.data$d_h > 15, "too high", .data$ratio_dbh_height),
+      ratio_dbh_height = round(.data$dbh_mm * pi / (.data$height_m * 10), 1),
+      field_ratio_dbh_height =
+        ifelse(.data$ratio_dbh_height < 1.5, "too low", NA),
+      field_ratio_dbh_height =
+        ifelse(
+          .data$ratio_dbh_height > 15, "too high", .data$field_ratio_dbh_height
+        ),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
         ifelse(
@@ -255,8 +258,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
     ) %>%
     pivot_longer(
       cols =
-        c("link_to_layer_trees", "ratio_dbh_height",
-          starts_with("field_")),
+        c("link_to_layer_trees", starts_with("field_")),
       names_to = "aberrant_field",
       values_to = "anomaly",
       values_drop_na = TRUE
@@ -273,13 +275,12 @@ check_data_shoots <- function(database, forest_reserve = "all") {
     ) %>%
     filter(
       .data$aberrant_field == .data$varname |
-        .data$aberrant_field %in% c("link_to_layer_trees", "ratio_dbh_height")
+        .data$aberrant_field %in% c("link_to_layer_trees")
     ) %>%
     mutate(
       aberrant_value =
         ifelse(
-          .data$aberrant_field %in%
-            c("link_to_layer_trees", "ratio_dbh_height"),
+          .data$aberrant_field %in% c("link_to_layer_trees"),
           NA,
           .data$aberrant_value
         )
