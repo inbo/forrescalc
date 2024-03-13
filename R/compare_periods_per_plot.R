@@ -13,6 +13,19 @@
 #' in addition to grouping variables and measure_vars
 #' @param measure_vars column names of variables that should be compared
 #' between periods (including year)
+#' @param replace_na_in_vars column names of variables (measure_vars)
+#' in which NA should be replaced by 0 in case at least one record is measured
+#' in the same plot_id in the same period.
+#' Similar to function `add_zeros()`, this argument allows to add zeros to
+#' end up with records for all species or heights in which measures were taken,
+#' even if this specific species or height was absent in the period (and thus
+#' the tree volume or number of trees being 0 for all periods and plots
+#' in which observations were done).
+#' Care should be taken to use this argument: it should only be used for
+#' aggregated results of measures (e.d. tree volume, tree number,...) and
+#' not for measures of individual trees (which will lead to unwanted additional
+#' records) or id's referring to coded tables.
+#' It is useless to use this argument if only one result per plot is given.
 #'
 #' @return dataframe with columns plot, year_diff, n_years, grouping variables
 #' and differences between periods for each column of measure_vars
@@ -31,6 +44,7 @@
 #'
 #' @export
 #'
+#' @importFrom assertthat has_name
 #' @importFrom dplyr %>% all_vars any_vars bind_rows filter filter_at
 #' @importFrom dplyr group_by group_by_at inner_join
 #' @importFrom dplyr mutate mutate_at select ungroup vars
@@ -38,9 +52,19 @@
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
-compare_periods_per_plot <- function(dataset, measure_vars) {
+compare_periods_per_plot <- function(dataset, measure_vars, replace_na_in_vars = NA) {
   if (!all(c("period", "plot_id") %in% names(dataset))) {
     stop("Dataset must contain the columns period and plot_id.")
+  }
+  if (all(!is.na(replace_na_in_vars)) &&
+        !all(replace_na_in_vars %in% measure_vars)) {
+    warning(
+      "Not all variable names given in replace_na_in_vars are measure_vars. NA is not replaced by 0 in the variables that are not measure_vars." #nolint: line_length_linter
+    )
+  }
+  if (length(replace_na_in_vars) == 1 && is.na(replace_na_in_vars) &&
+        !has_name(dataset, "unused_var")) {
+    replace_na_in_vars <- "unused_var"
   }
   fill_vars <- rep(list(0), length(measure_vars) - ("year" %in% measure_vars))
   names(fill_vars) <- measure_vars[measure_vars != "year"]
@@ -51,22 +75,32 @@ compare_periods_per_plot <- function(dataset, measure_vars) {
   #helper function to replace NA in year due to missing species by year of other
   #measures in the same group (plot_id and period)
   replace_na_year <- function(x) {
+    x <- ifelse(x == -999999999, NA, x)
     ifelse(is.na(x) & "year" %in% measure_vars, mean(x, na.rm = TRUE), x)
   }
   #helper function to replace NA by 0 in grouping vars
-  replace_na_var <- function(x) {
-    ifelse(is.na(x) & !is.na(mean(x, na.rm = TRUE)), 0, x)
+  replace_na_var <- function(x, by) {
+    ifelse(
+      x == -999999999,
+      ifelse(!all(x == -999999999), by, NA),
+      x
+    )
   }
 
   dataset_wide <- dataset %>%
     pivot_wider(
       names_from = "period",
       names_prefix = prefix,
-      values_from = all_of(measure_vars)
+      values_from = all_of(measure_vars),
+      values_fill = -999999999
     ) %>%
     group_by(.data$plot_id) %>%
     mutate_at(vars(matches("year")), replace_na_year) %>%
-    mutate_at(vars(matches(grouping_vars)), replace_na_var) %>%
+    mutate_at(
+      vars(!matches(grouping_vars) & matches(replace_na_in_vars)),
+      replace_na_var, by = 0
+    ) %>%
+    mutate_at(vars(!matches(grouping_vars)), replace_na_var, by = NA) %>%
     ungroup()
   dataset_long <- dataset_wide %>%
     filter_at(vars(all_of(grouping_vars)), any_vars(is.na(.))) %>%

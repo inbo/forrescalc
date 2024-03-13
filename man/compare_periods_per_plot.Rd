@@ -4,7 +4,7 @@
 \alias{compare_periods_per_plot}
 \title{compare parameters between periods (years that parameters are measured)}
 \usage{
-compare_periods_per_plot(dataset, measure_vars)
+compare_periods_per_plot(dataset, measure_vars, replace_na_in_vars = NA)
 }
 \arguments{
 \item{dataset}{dataframe with values for each period, plot and year,
@@ -12,6 +12,20 @@ in addition to grouping variables and measure_vars}
 
 \item{measure_vars}{column names of variables that should be compared
 between periods (including year)}
+
+\item{replace_na_in_vars}{column names of variables (measure_vars)
+in which NA should be replaced by 0 in case at least one record is measured
+in the same plot_id in the same period.
+Similar to function `add_zeros()`, this argument allows to add zeros to
+end up with records for all species or heights in which measures were taken,
+even if this specific species or height was absent in the period (and thus
+the tree volume or number of trees being 0 for all periods and plots
+in which observations were done).
+Care should be taken to use this argument: it should only be used for
+aggregated results of measures (e.d. tree volume, tree number,...) and
+not for measures of individual trees (which will lead to unwanted additional
+records) or id's referring to coded tables.
+It is useless to use this argument if only one result per plot is given.}
 }
 \value{
 dataframe with columns plot, year_diff, n_years, grouping variables
