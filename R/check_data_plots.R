@@ -32,8 +32,7 @@ check_data_plots <- function(database, forest_reserve = "all") {
     )
   query_plots <-
     "SELECT Plots.ID As plot_id,
-      Plots.Plottype AS plottype_id,
-      Plots.Homogeneous AS homogeneous_id
+      Plots.Plottype AS plottype_id
     FROM Plots
       INNER JOIN Plotdetails_%1$deSet pd ON Plots.ID = pd.IDPlots
     %3$s;"
@@ -59,13 +58,6 @@ check_data_plots <- function(database, forest_reserve = "all") {
             !.data$plottype_id %in% data_plottype$plottype_id,
           "not in lookuplist",
           .data$field_plottype_id
-        ),
-      field_homogeneous_id = ifelse(is.na(.data$homogeneous_id), "missing", NA),
-      field_homogeneous_id =
-        ifelse(
-          !is.na(.data$homogeneous_id) & !.data$homogeneous_id %in% c(10, 20),
-          "not in lookuplist",
-          .data$field_homogeneous_id
         )
     ) %>%
     pivot_longer(

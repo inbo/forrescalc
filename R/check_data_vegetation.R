@@ -42,8 +42,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
       v.Total_shrub_cover as shrub_cover_id,
       v.Total_tree_cover as tree_cover_id,
       v.Total_waterlayer_cover as waterlayer_cover_id,
-      v.Total_SoildisturbanceGame as total_soildisturbance_game_id,
-      v.Homogeneous as homogeneous_id
+      v.Total_SoildisturbanceGame as total_soildisturbance_game_id
     FROM ((Plots
         INNER JOIN Vegetation%2$s v ON Plots.ID = v.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
@@ -130,12 +129,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
             !.data$total_soildisturbance_game_id %in% data_totalcover$cover_id,
           "not in lookuplist",
           .data$field_total_soildisturbance_game_id
-        ),
-      field_homogeneous_id = ifelse(is.na(.data$homogeneous_id), "missing", NA),
-      field_homogeneous_id =
-        ifelse(
-          !is.na(.data$homogeneous_id) & !.data$homogeneous_id %in% c(10, 20),
-          "not in lookuplist", .data$field_homogeneous_id
         ),
       date = as.numeric(date)
     ) %>%
