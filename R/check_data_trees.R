@@ -248,12 +248,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
             !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
           "incorrect", .data$field_ind_sht_cop
         ),
-      field_ind_sht_cop =
-        ifelse(
-          .data$ind_sht_cop == 12 & .data$nr_of_stems == 1 &
-            !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
-          "incorrect", .data$field_ind_sht_cop
-        ),
       field_decay_stage =
         ifelse(
           is.na(.data$decay_stage) & .data$alive_dead == 12, "missing", NA
