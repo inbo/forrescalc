@@ -139,21 +139,19 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       bind_rows(
         data_trees %>%
           filter(.data$period == i) %>%
-          mutate(
-            x_dm = as.integer(10 * round(.data$x_m, 1)),
-            y_dm = as.integer(10 * round(.data$y_m, 1))
-          ) %>%
           inner_join(
             data_trees %>%
-              filter(.data$period == i + 1) %>%
-              mutate(
-                x_dm = as.integer(10 * round(.data$x_m, 1)),
-                y_dm = as.integer(10 * round(.data$y_m, 1))
-              ),
-            by = c("plot_id", "x_dm", "y_dm")
+              filter(.data$period == i + 1),
+            by = c("plot_id")
           ) %>%
           filter(.data$tree_id_cop.x != .data$tree_id_cop.y |
                    is.na(.data$tree_id.x) | is.na(.data$tree_id.y)) %>%
+          mutate(
+            location_shift =
+              sqrt((.data$x_m.y - .data$y_m.x) ^ 2 +
+                     (.data$y_m.y - .data$y_m.x) ^ 2)
+          ) %>%
+          filter(.data$location_shift < 0.2) %>%
           transmute(
             .data$plot_id,
             period = paste(.data$period.y, .data$period.x, sep = "_"),
