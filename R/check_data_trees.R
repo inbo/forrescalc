@@ -374,26 +374,28 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ifelse(
           .data$commonremark == 150 & .data$alive_dead != 11,
           "tree not alive", NA
-        )
+        ),
+      tree_measure_id = as.character(.data$tree_measure_id)
     ) %>%
-    left_join(
+    bind_rows(
       data_trees %>%
         filter(!is.na(.data$coppice_id)) %>%
-        count(
+        group_by(
           .data$plot_id, .data$period, .data$coppice_id, .data$alive_dead
         ) %>%
-        filter(.data$n > 1),
-      by = c("plot_id", "period", "coppice_id", "alive_dead")
-    ) %>%
-    mutate(
-      field_coppice_id =
-        ifelse(
-          is.na(.data$field_coppice_id) & !is.na(.data$n) & .data$n > 1,
-          paste0(.data$n, " times the same coppice_id"),
-          .data$field_coppice_id
-        ),
-      n = NULL,
-      tree_measure_id = as.character(.data$tree_measure_id)
+        mutate(
+          n_records = n(),
+          tree_measure_id_diff = paste(.data$tree_measure_id, collapse = "_")
+        ) %>%
+        ungroup() %>%
+        filter(.data$n_records > 1) %>%
+        transmute(
+          .data$plot_id, .data$period, .data$coppice_id, .data$alive_dead,
+          tree_measure_id = .data$tree_measure_id_diff,
+          field_coppice_id =
+            paste0(.data$n_records, " times the same coppice_id")
+        ) %>%
+        distinct()
     ) %>%
     left_join(
       data_trees %>%
