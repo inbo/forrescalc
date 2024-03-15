@@ -32,14 +32,8 @@ check_data_fmdb <- function(database, forest_reserve = "all") {
       check_data_shoots(database, forest_reserve) %>%
         mutate(
           layer = "Shoots",
-          anomaly = as.character(.data$anomaly)
-        )
-    ) %>%
-    bind_rows(
-      check_data_shoots(database, forest_reserve) %>%
-        mutate(
-          layer = "Shoots",
-          anomaly = as.character(.data$anomaly)
+          anomaly = as.character(.data$anomaly),
+          tree_measure_id = as.character(.data$tree_measure_id)
         )
     ) %>%
     bind_rows(
@@ -92,7 +86,6 @@ check_data_fmdb <- function(database, forest_reserve = "all") {
         )
     ) %>%
     mutate(
-      tree_measure_id = as.character(.data$tree_measure_id),
       period = as.character(.data$period),
       aberrant_value = as.character(.data$aberrant_value)
     ) %>%
