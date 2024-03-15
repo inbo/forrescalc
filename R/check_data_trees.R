@@ -427,21 +427,22 @@ check_data_trees <- function(database, forest_reserve = "all") {
           species_diff = max(.data$species) - min(.data$species),
           x_m_diff = max(.data$X_m) - min(.data$X_m),
           y_m_diff = max(.data$Y_m) - min(.data$Y_m),
-          dist_m_diff = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
+          location_shift = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
           tree_measure_id_diff = paste(.data$tree_measure_id, collapse = "_")
         ) %>%
         ungroup() %>%
         filter(.data$n_records > 1) %>%
         transmute(
-          .data$plot_id, .data$period, .data$coppice_id, #.data$n_records,
+          .data$plot_id, .data$period, .data$coppice_id,
+          location_shift = round(.data$location_shift, 2),
           tree_measure_id = .data$tree_measure_id_diff,
           field_species =
             ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
-          field_coordinates =
-            ifelse(.data$dist_m_diff > 0.5, "walker in coppice tree", NA)
+          field_location_shift =
+            ifelse(.data$location_shift > 0.5, "walker in coppice tree", NA)
         ) %>%
         filter(
-          !(is.na(.data$field_species) & is.na(.data$field_coordinates))
+          !(is.na(.data$field_species) & is.na(.data$field_location_shift))
         ) %>%
         distinct()
     ) %>%
@@ -465,13 +466,13 @@ check_data_trees <- function(database, forest_reserve = "all") {
     filter(
       .data$aberrant_field == .data$varname |
         .data$aberrant_field %in%
-          c("location", "link_to_layer_shoots", "coordinates")
+          c("location", "link_to_layer_shoots")
     ) %>%
     mutate(
       aberrant_value =
         ifelse(
           .data$aberrant_field %in%
-            c("location", "link_to_layer_shoots", "coordinates"),
+            c("location", "link_to_layer_shoots"),
           NA,
           .data$aberrant_value
         )
