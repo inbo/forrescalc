@@ -38,7 +38,7 @@ load_data_dendrometry <-
   function(database, plottype = NA, forest_reserve = NA,
            extra_variables = FALSE, processed = TRUE) {
   selection <-
-    translate_input_to_selectionquery(
+    translate_input_to_selectquery(
       database = database, plottype = plottype, forest_reserve = forest_reserve,
       processed = processed, survey_name = "Survey_Trees_YN"
     )
