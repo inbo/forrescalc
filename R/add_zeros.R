@@ -204,13 +204,14 @@ add_zeros <-
   }
 
   #helper function to replace NA by 0 for non dataset records
-  replace_na_zero <- function(x, ds_record, add_zero_no_na) {
-    ifelse(
-      is.na(add_zero_no_na),
-      ifelse(is.na(x) & is.na(ds_record), 0, x),
-      ifelse(is.na(x) & is.na(ds_record) & add_zero_no_na, 0, x)
-    )
-  }
+  replace_na_zero <- #nolint: object_usage_linter
+    function(x, ds_record, add_zero_no_na) {
+      ifelse(
+        is.na(add_zero_no_na),
+        ifelse(is.na(x) & is.na(ds_record), 0, x),
+        ifelse(is.na(x) & is.na(ds_record) & add_zero_no_na, 0, x)
+      )
+    }
 
   complete_table <- dataset %>%
     mutate(ds_record = TRUE) %>%
