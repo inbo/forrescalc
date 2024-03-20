@@ -399,23 +399,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ) %>%
         distinct()
     ) %>%
-    left_join(
-      data_trees %>%
-        filter(!is.na(.data$coppice_id)) %>%
-        count(.data$plot_id, .data$period, .data$coppice_id) %>%
-        filter(.data$n > 1) %>%
-        distinct(),
-      by = c("plot_id", "period", "coppice_id")
-    ) %>%
-    mutate(
-      field_ind_sht_cop =
-        ifelse(
-          !is.na(.data$field_ind_sht_cop) & !is.na(.data$n) &
-            .data$field_coppice_id == "incorrect" & .data$ind_sht_cop == 12,
-          NA, .data$field_ind_sht_cop
-        ),
-      n = NULL
-    ) %>%
     bind_rows(
       data_trees %>%
         filter(!is.na(.data$coppice_id)) %>%
