@@ -50,7 +50,7 @@
 #'
 #' @export
 #'
-#' @importFrom assertthat has_name
+#' @importFrom assertthat assert_that has_name
 #' @importFrom dplyr %>% all_vars any_vars bind_rows filter filter_at
 #' @importFrom dplyr group_by group_by_at inner_join
 #' @importFrom dplyr mutate mutate_at select ungroup vars
@@ -60,14 +60,15 @@
 #'
 compare_periods_per_plot <-
   function(dataset, measure_vars, replace_na_in_vars = NA) {
-  if (!all(c("period", "plot_id") %in% names(dataset))) {
-    stop("Dataset must contain the columns period and plot_id.")
-  }
-  if (!all(has_name(dataset, measure_vars))) {
-    stop(
+  assert_that(
+    all(c("period", "plot_id") %in% names(dataset)),
+    msg = "Dataset must contain the columns period and plot_id."
+  )
+  assert_that(
+    all(has_name(dataset, measure_vars)),
+    msg =
       "Not all variables mentioned in measure_vars, are present in the dataset"
-    )
-  }
+  )
   if (all(!is.na(replace_na_in_vars)) &&
         !all(replace_na_in_vars %in% measure_vars)) {
     warning(
