@@ -51,7 +51,7 @@ from_git_to_access <-
         ) {
           tablename <-
             sub(
-              "Error\\: Table","", val[["message"]]
+              "Error\\: Table", "", val[["message"]]
             )
           tablename <-
             sub(

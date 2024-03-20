@@ -36,7 +36,7 @@ query_database <-
            n_periods = 3) {
 
   #code to avoid warning in sprintf due to absence of %x in string
-  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2,]
+  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2, ]
   absent <- as.character(1:5)[!as.character(1:5) %in% present]
   to_insert <- paste(paste0("%", absent, "$s"), collapse = " ")
   query <- paste0(query, to_insert)

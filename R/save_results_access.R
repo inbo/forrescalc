@@ -70,7 +70,7 @@ save_results_access <- function(results, database, remove_tables = FALSE) {
         ) {
           tablename <-
             sub(
-              "Error\\: Table","", val[["message"]]
+              "Error\\: Table", "", val[["message"]]
             )
           tablename <-
             sub(
