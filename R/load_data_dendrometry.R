@@ -151,7 +151,7 @@ load_data_dendrometry <-
   }
   data_dendro <- data_dendro %>%
     mutate(
-      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5 ),
+      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5),
       subcircle =
         ifelse(
           .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,

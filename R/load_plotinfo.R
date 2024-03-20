@@ -105,7 +105,7 @@ load_plotinfo <- function(database) {
                 ungroup()) %>%
     mutate(
       survey_number = .data$period - .data$min_period + 1,
-      year_dendro = year(.data$date_dendro) - (month(.data$date_dendro) < 5 )
+      year_dendro = year(.data$date_dendro) - (month(.data$date_dendro) < 5)
     ) %>%
     select(-.data$min_period, -.data$date_dendro)
 
