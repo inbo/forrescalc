@@ -77,7 +77,8 @@ select_for_DAS_indicator <- function(data_to_select, grouping_vars) {
       total_proportion = sum(.data$basal_area_proportion)
     ) %>%
     ungroup() %>%
-    filter(.data$total_proportion > 0.9) %>% #by writing == 1, some results are dropped due to rounding
+    filter(.data$total_proportion > 0.9) %>%
+                      # == 1 drops some results due to rounding
     select_at(grouping_vars)
 
   return(selected_groups)

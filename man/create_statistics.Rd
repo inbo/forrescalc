@@ -87,14 +87,19 @@ be named after the values in forresdat, omitting `min_`, `_min`, `max_` or
 #change path before running
 library(forrescalc)
 dendro_by_plot <-
-  read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(
+    tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat"
+  )
 create_statistics(
   dataset = dendro_by_plot,
   level = c("forest_reserve", "period"),
   variables = "vol_alive_m3_ha"
 )
 dendro_by_diam_plot_species <-
-  read_forresdat(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(
+    tablename = "dendro_by_diam_plot_species",
+    repo_path = "C:/gitrepo/forresdat"
+  )
 create_statistics(
   dataset = dendro_by_diam_plot_species,
   level = c("forest_reserve", "year", "species", "dbh_class_5cm"),
@@ -102,14 +107,19 @@ create_statistics(
 )
 #example on interval data (shrub_cover and tree_cover)
 vegetation_by_plot <-
-  read_forresdat(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(
+    tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat"
+  )
 create_statistics(dataset = vegetation_by_plot,
   level = c("forest_reserve", "period", "plottype"),
   variables = c("number_of_species", "shrub_cover", "tree_cover")
 )
-#example on data with confidence interval (number_established_ha and number_seedlings_ha)
+# example on data with confidence interval (number_established_ha and
+# number_seedlings_ha)
 regeneration_by_plot <-
-  read_forresdat(tablename = "regeneration_by_plot", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat(
+    tablename = "regeneration_by_plot", repo_path = "C:/gitrepo/forresdat"
+  )
 create_statistics(dataset = regeneration_by_plot,
   level = c("forest_reserve", "period", "plot_id"),
   variables = c("number_established_ha", "number_seedlings_ha")

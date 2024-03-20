@@ -5,7 +5,8 @@
 #' List item names will be used to name each of the tables,
 #' which contain as a content the different dataframes.
 #'
-#' @param results results from calculations in package forrescalc as a named list
+#' @param results results from calculations in package forrescalc as a
+#'   named list
 #' @param database name of (empty) Access database including path in which
 #' results should be saved
 #' @param remove_tables overwrite existing tables in database?  Default is

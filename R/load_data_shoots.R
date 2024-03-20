@@ -68,7 +68,9 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
   }
 
   data_shoots <- data_shoots %>%
-    mutate(intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag))
+    mutate(
+      intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag)
+    )
 
   return(data_shoots)
 }

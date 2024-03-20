@@ -45,7 +45,8 @@ load_data_dendrometry <-
   add_fields <-
     ifelse(
       extra_variables,
-      ", (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
+      ", (Trees.X_m - Plots.Xorig_m) AS x_local,
+        (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, Trees.IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
@@ -54,7 +55,8 @@ load_data_dendrometry <-
   query_dendro <-
       "SELECT Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+          AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
@@ -84,13 +86,15 @@ load_data_dendrometry <-
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
-        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %3$s;"
+        LEFT JOIN qBranchLenghtReduction blr
+          ON Trees.BranchLengthReduction = blr.ID) %3$s;"
 
   query_dendro_1986 <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+          AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
@@ -120,7 +124,8 @@ load_data_dendrometry <-
         INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
-        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %1$s;",
+        LEFT JOIN qBranchLenghtReduction blr
+          ON Trees.BranchLengthReduction = blr.ID) %1$s;",
       selection, add_fields
     )
 

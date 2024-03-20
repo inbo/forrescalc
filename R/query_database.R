@@ -82,7 +82,9 @@ query_database <-
 
   if (inherits(con, "SQLiteConnection")) {
     dataset <- dataset %>%
-      mutate(across(starts_with("date_"), ~ as.POSIXct(.x, origin = "1970-01-01")))
+      mutate(
+        across(starts_with("date_"), ~ as.POSIXct(.x, origin = "1970-01-01"))
+      )
   }
   # starts_with("date_") could in future be replaced with where(as.Date) of
   # packages tidyselect and lubridate

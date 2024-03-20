@@ -7,7 +7,8 @@
 save_results_access(results, database, remove_tables = FALSE)
 }
 \arguments{
-\item{results}{results from calculations in package forrescalc as a named list}
+\item{results}{results from calculations in package forrescalc as a
+named list}
 
 \item{database}{name of (empty) Access database including path in which
 results should be saved}

@@ -5,7 +5,8 @@
 #' List item names will be used to name each of the tables, which contain
 #' as a content the different dataframes.
 #'
-#' @param results results from calculations in package forrescalc as a named list
+#' @param results results from calculations in package forrescalc as a
+#' named list
 #' @param repo_path name and path of local git repository in which results
 #' should be saved
 #' @param push push commits directly to the remote on github?
@@ -20,8 +21,10 @@
 #' \dontrun{
 #' #change path before running
 #' library(forrescalc)
-#' data_dendro <-
-#'   load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' result_dendro <- calculate_dendrometry(data_dendro)
 #' save_results_git(result = result_dendro, repo_path = "C:/gitrepo/forresdat")
 #' }
@@ -34,7 +37,8 @@ save_results_git <- function(results, repo_path, push = FALSE, strict = TRUE) {
   repo <- repository(repo_path)
   pull(repo, credentials = get_cred(repo))
   sorting_max <-
-    c("period", "year", "plot_id", "dbh_class_5cm", "decaystage", "subplot_id", "tree_measure_id", "height_class", "species")
+    c("period", "year", "plot_id", "dbh_class_5cm", "decaystage", "subplot_id",
+      "tree_measure_id", "height_class", "species")
   for (tablename in names(results)) {
     sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
     write_vc(results[[tablename]], file = paste0("data/", tablename),
@@ -50,7 +54,7 @@ save_results_git <- function(results, repo_path, push = FALSE, strict = TRUE) {
         )
       ) {
         stop(
-          "New tables are identical to tables in git-repository, so no commit added",
+          "New tables are identical to tables in git-repository, so no commit added",  #nolint: line_length_linter
           call. = FALSE
         )
       }

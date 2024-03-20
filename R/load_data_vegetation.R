@@ -36,7 +36,8 @@ load_data_vegetation <-
     query_vegetation <-
         "SELECT Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,

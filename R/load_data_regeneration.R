@@ -34,7 +34,8 @@ load_data_regeneration <-
     query_regeneration <-
         "SELECT Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve, pd.rA2 AS r_A2, pd.rA1 AS r_A1,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
@@ -53,7 +54,8 @@ load_data_regeneration <-
           IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
               Subquery.species IS NULL,
               0, Subquery.rdn) AS rubbing_damage_number
-        FROM ((((Plots INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
+        FROM ((((Plots
+          INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
           INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
           LEFT JOIN
@@ -75,7 +77,8 @@ load_data_regeneration <-
     data.frame(
       id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
       number_class =
-        c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100", "> 100", "> 1000", "0"),
+        c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100",
+          "> 100", "> 1000", "0"),
       approx_nr_regeneration = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
       min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001, 0),
       max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000, 0),

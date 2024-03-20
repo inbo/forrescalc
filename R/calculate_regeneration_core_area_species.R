@@ -46,13 +46,15 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
   if (nrow(no_subcircle) > 0) {
     warning(
       sprintf(
-        "Records of dataset data_regeneration with subcircle NA are ignored for this calculation. Such record(s) with nr_of_regeneration different from 0 occur in plot_id %s",
+        "Records of dataset data_regeneration with subcircle NA are ignored for this calculation. Such record(s) with nr_of_regeneration different from 0 occur in plot_id %s", #nolint: line_length_linter
         paste(no_subcircle$plot_id, collapse = ", ")
       )
     )
   }
   unique_plotarea_ha <- data_regeneration %>%
-    group_by(.data$plot_id, .data$year, .data$period, .data$subplot_id, .data$subcircle) %>%
+    group_by(
+      .data$plot_id, .data$year, .data$period, .data$subplot_id, .data$subcircle
+    ) %>%
     summarise(
       n_plotarea_ha = n_distinct(.data$plotarea_ha),
       n_plottype = n_distinct(.data$plottype)
@@ -62,7 +64,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
   if (nrow(unique_plotarea_ha) > 0) {
     warning(
       sprintf(
-        "Records of dataset data_regeneration from the same plot_id, year, period, subplot_id and subcircle are supposed to have the same plotarea_ha and plottype. This is not the case in plot_id %s. Here the sum of the number of regeneration is divided by the average of the plotarea_ha, without applying any weighing for the area in which the regeneration is observed.",
+        "Records of dataset data_regeneration from the same plot_id, year, period, subplot_id and subcircle are supposed to have the same plotarea_ha and plottype. This is not the case in plot_id %s. Here the sum of the number of regeneration is divided by the average of the plotarea_ha, without applying any weighing for the area in which the regeneration is observed.", #nolint: line_length_linter
         paste(unique_plotarea_ha$plot_id, collapse = ", ")
       )
     )

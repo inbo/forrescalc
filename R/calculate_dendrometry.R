@@ -48,7 +48,8 @@
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' height_model <- load_height_models(path_to_height_models)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_dendrometry(data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
+#' calculate_dendrometry(
+#'   data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
 #'
 #' @export
 #'

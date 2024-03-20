@@ -16,7 +16,8 @@
 #' #see code of calculate_regeneration_plot_height()
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup vars
+#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup
+#'   vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr nest pivot_longer pivot_wider unnest
 #' @importFrom readr read_csv2

@@ -15,8 +15,11 @@
 #' \dontrun{
 #' #change paths before running
 #' library(forrescalc)
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' from_access_to_git(
-#'   database = "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
+#'   database = path_to_fieldmapdb,
 #'   tables = c("qLayer", "qMossLondo"),
 #'   repo_path = "C:/gitrepo/forresdat"
 #' )

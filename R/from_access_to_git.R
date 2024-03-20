@@ -39,7 +39,9 @@ from_access_to_git <-
   }
   dbDisconnect(con)
   tryCatch(
-    commit(repo, message = "scripted commit: copy from fieldmap", session = TRUE),
+    commit(
+      repo, message = "scripted commit: copy from fieldmap", session = TRUE
+    ),
     error = function(e) {
       val <- withCallingHandlers(e)
       if (

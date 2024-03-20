@@ -7,7 +7,8 @@
 save_results_git(results, repo_path, push = FALSE, strict = TRUE)
 }
 \arguments{
-\item{results}{results from calculations in package forrescalc as a named list}
+\item{results}{results from calculations in package forrescalc as a
+named list}
 
 \item{repo_path}{name and path of local git repository in which results
 should be saved}
@@ -32,8 +33,10 @@ as a content the different dataframes.
 \dontrun{
 #change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 result_dendro <- calculate_dendrometry(data_dendro)
 save_results_git(result = result_dendro, repo_path = "C:/gitrepo/forresdat")
 }

@@ -7,7 +7,8 @@ path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
 path_to_height_models <-
   system.file("example/height_models", package = "forrescalc")
 
-#only when q-tables in Fieldmap have changed (and only mention the changed table)
+# only when q-tables in Fieldmap have changed
+# (and only mention the changed table)
 from_access_to_git(
   database = path_to_fieldmap,
   tables = c("qAliveDead", "qSpecies", "qHeightClass_regeneration",

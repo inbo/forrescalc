@@ -44,7 +44,10 @@ create_unique_tree_id <- function(data_dendro) {
           mutate(min_period = min(.data$period)) %>%
           ungroup() %>%
           filter(.data$period == .data$min_period) %>%
-          select("plot_id", "coppice_id", "tree_measure_id", "alive_dead", "period", "old_id"),
+          select(
+            "plot_id", "coppice_id", "tree_measure_id", "alive_dead", "period",
+            "old_id"
+          ),
         by = c("plot_id", "coppice_id", "period"),
         suffix = c("", "_coupled"),
         relationship = "many-to-many"
@@ -140,7 +143,9 @@ create_unique_tree_id <- function(data_dendro) {
     select(-"suffix", -"old_id_updated", -"tree_measure_id_updated")
 
   if (any(is.na(status_tree$tree_id))) {
-    warning("Some records did not get a tree_id (NA) because the old_id was unknown in the previous period")
+    warning(
+      "Some records did not get a tree_id (NA) because the old_id was unknown in the previous period" #nolint: line_length_linter
+    )
   }
 
   return(status_tree)

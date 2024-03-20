@@ -8,7 +8,11 @@ path_to_fieldmap <-
 library(DBI)
 library(dplyr)
 
-query_table <- function(table, con = con_FM, id = "ID", plot_id = "101, 11000, 21000, 141100, 204, 1005, 2006", top_x = 3) {
+query_table <-
+  function(
+    table, con = con_FM, id = "ID",
+    plot_id = "101, 11000, 21000, 141100, 204, 1005, 2006", top_x = 3
+  ) {
   columns <- dbListFields(con, table)
   columns <- columns[!grepl("^FM", columns) & !grepl("^FieldStatus$", columns)]
   filter_species <-
@@ -74,19 +78,31 @@ query_reltable <- function(table, con = con_FM, related_table, id = "ID") {
 con_FM <-
   dbConnect(
     odbc::odbc(),
-    .connection_string = paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", path_to_fieldmap)
+    .connection_string =
+      paste0(
+        "Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=",
+        path_to_fieldmap
+      )
   )
 
 Deadwood <- query_table(table = "Deadwood")
 Deadwood_Diameters <-
-  query_reltable("Deadwood_diameters", related_table = Deadwood, id = "IDDeadwood")
+  query_reltable(
+    "Deadwood_diameters", related_table = Deadwood, id = "IDDeadwood"
+  )
 Deadwood_2eSET <- query_table("Deadwood_2eSET")
 Deadwood_2eSET_Diameters <-
-  query_reltable("Deadwood_2eSET_Diameters", related_table = Deadwood_2eSET, id = "IDDeadwood_2eSET")
+  query_reltable(
+    "Deadwood_2eSET_Diameters", related_table = Deadwood_2eSET,
+    id = "IDDeadwood_2eSET"
+  )
 Deadwood_3eSET <- query_table("Deadwood_3eSET")
 if (nrow(Deadwood_3eSET) > 0) {
   Deadwood_3eSET_Diameters <-
-    query_reltable("Deadwood_3eSET_Diameters", related_table = Deadwood_3eSET, id = "IDDeadwood_3eSET")
+    query_reltable(
+      "Deadwood_3eSET_Diameters", related_table = Deadwood_3eSET,
+      id = "IDDeadwood_3eSET"
+    )
 } else {
   Deadwood_3eSET_Diameters <-
     query_table("Deadwood_3eSET_Diameters", id = "IDDeadwood_3eSET") %>%
@@ -105,7 +121,12 @@ columns <- paste("t1.", columns, sep = "", collapse = ", ")
 Plots <-
   dbGetQuery(
     con_FM,
-    sprintf("SELECT %s FROM Plots t1 WHERE t1.ID IN (101, 11000, 21000, 141100, 204, 1005, 2006);", columns))
+    sprintf(
+      "SELECT %s FROM Plots t1
+        WHERE t1.ID IN (101, 11000, 21000, 141100, 204, 1005, 2006);",
+      columns
+    )
+  )
 rm(columns)
 
 qAliveDead <- dbReadTable(con_FM, "qAliveDead")
@@ -127,9 +148,14 @@ qiufrosocialstatus <- dbReadTable(con_FM, "qiufrosocialstatus")
 qiufrosocialstatus_shoots <- dbReadTable(con_FM, "qiufrosocialstatus_shoots")
 qiufrovitality <- dbReadTable(con_FM, "qiufrovitality")
 qiufrovitality_shoots <- dbReadTable(con_FM, "qiufrovitality_shoots")
-qnumber_regeneration_classes <- dbReadTable(con_FM, "qnumber_regeneration_classes")
+qnumber_regeneration_classes <-
+  dbReadTable(con_FM, "qnumber_regeneration_classes")
 qPlotType <- dbReadTable(con_FM, "qPlotType")
-qspecies <- dbGetQuery(con_FM, "SELECT * FROM qspecies WHERE ID IN (6, 7, 16, 26, 28, 87, 131, 161)")
+qspecies <-
+  dbGetQuery(
+    con_FM,
+    "SELECT * FROM qspecies WHERE ID IN (6, 7, 16, 26, 28, 87, 131, 161)"
+  )
 qtotalCover <- dbReadTable(con_FM, "qtotalCover")
 qYesNo <- dbReadTable(con_FM, "qYesNo")
 
@@ -138,24 +164,40 @@ Regeneration_2eSet <- query_table("Regeneration_2eSet")
 Regeneration_3eSet <- query_table("Regeneration_3eSet")
 
 HeightClass <-
-  query_reltable("HeightClass", related_table = Regeneration, id = "IDRegeneration")
+  query_reltable(
+    "HeightClass", related_table = Regeneration, id = "IDRegeneration"
+  )
 HeightClass_2eSet <-
-  query_reltable("HeightClass_2eSet", related_table = Regeneration_2eSet, id = "IDRegeneration_2eSet")
+  query_reltable(
+    "HeightClass_2eSet", related_table = Regeneration_2eSet,
+    id = "IDRegeneration_2eSet"
+  )
 if (nrow(Regeneration_3eSet) > 0) {
   HeightClass_3eSet <-
-    query_reltable("HeightClass_3eSet", related_table = Regeneration_3eSet, id = "IDRegeneration_3eSet")
+    query_reltable(
+      "HeightClass_3eSet", related_table = Regeneration_3eSet,
+      id = "IDRegeneration_3eSet"
+    )
 } else {
   HeightClass_3eSet <-
     query_table("HeightClass_3eSet", id = "IDRegeneration_3eSet")
 }
 
 RegSpecies <-
-  query_reltable("RegSpecies", related_table = Regeneration, id = "IDRegeneration")
+  query_reltable(
+    "RegSpecies", related_table = Regeneration, id = "IDRegeneration"
+  )
 RegSpecies_2eSet <-
-  query_reltable("RegSpecies_2eSet", related_table = Regeneration_2eSet, id = "IDRegeneration_2eSet")
+  query_reltable(
+    "RegSpecies_2eSet", related_table = Regeneration_2eSet,
+    id = "IDRegeneration_2eSet"
+  )
 if (nrow(Regeneration_3eSet) > 0) {
   RegSpecies_3eSet <-
-    query_reltable("RegSpecies_3eSet", related_table = Regeneration_3eSet, id = "IDRegeneration_3eSet")
+    query_reltable(
+      "RegSpecies_3eSet", related_table = Regeneration_3eSet,
+      id = "IDRegeneration_3eSet"
+    )
 } else {
   RegSpecies_3eSet <-
     query_table("RegSpecies_3eSet", id = "IDRegeneration_3eSet")
@@ -165,45 +207,64 @@ if (nrow(Regeneration_3eSet) > 0) {
 Trees_1986 <- query_table("Trees_1986", plot_id = "11000")
 Trees <- query_table("Trees", plot_id = "101, 21000", top_x = 10) %>%
   bind_rows(query_table("Trees", plot_id = "11000, 141100, 204, 1005, 2006"))
-Trees_2eSET <- query_reltable("Trees_2eSET", related_table = Trees, id = "Oldid") %>%
+Trees_2eSET <-
+  query_reltable("Trees_2eSET", related_table = Trees, id = "Oldid") %>%
   bind_rows(
     query_table("Trees_2eSET", plot_id = "101, 21000", top_x = 10) %>%
       filter(is.na(.data$OldID))
   )
-Trees_3eSET <- query_reltable("Trees_3eSET", related_table = Trees_2eSET, id = "OldId") %>%
+Trees_3eSET <-
+  query_reltable("Trees_3eSET", related_table = Trees_2eSET, id = "OldId") %>%
   bind_rows(
     query_table("Trees_3eSET", plot_id = "101, 21000", top_x = 10) %>%
       filter(is.na(.data$OldID))
   )
 
-Shoots_1986 <- query_reltable("Shoots_1986", related_table = Trees_1986, id = "IDTrees_1986")
+Shoots_1986 <-
+  query_reltable("Shoots_1986", related_table = Trees_1986, id = "IDTrees_1986")
 Shoots <- query_reltable("Shoots", related_table = Trees, id = "IDTrees")
-Shoots_2eSET <- query_reltable("Shoots_2eSET", related_table = Trees_2eSET, id = "IDTrees_2eSET")
-Shoots_3eSET <- query_reltable("Shoots_3eSET", related_table = Trees_3eSET, id = "IDTrees_3eSET")
+Shoots_2eSET <-
+  query_reltable(
+    "Shoots_2eSET", related_table = Trees_2eSET, id = "IDTrees_2eSET"
+  )
+Shoots_3eSET <-
+  query_reltable(
+    "Shoots_3eSET", related_table = Trees_3eSET, id = "IDTrees_3eSET"
+  )
 
 
 Vegetation <- query_table("Vegetation", plot_id = "101, 21000", top_x = 10) %>%
   bind_rows(
     query_table("Vegetation", plot_id = "11000, 141100, 204, 1005, 2006")
   )
-Vegetation_2eSet <- query_table("Vegetation_2eSet", plot_id = "101, 21000", top_x = 10) %>%
+Vegetation_2eSet <-
+  query_table("Vegetation_2eSet", plot_id = "101, 21000", top_x = 10) %>%
   bind_rows(
     query_table("Vegetation_2eSet", plot_id = "11000, 141100, 204, 1005, 2006")
   )
-Vegetation_3eSet <- query_table("Vegetation_3eSet", plot_id = "101, 21000", top_x = 10) %>%
+Vegetation_3eSet <-
+  query_table("Vegetation_3eSet", plot_id = "101, 21000", top_x = 10) %>%
   bind_rows(
     query_table("Vegetation_3eSet", plot_id = "11000, 141100, 204, 1005, 2006")
   )
 
 Herblayer <-
-  query_reltable("Herblayer", related_table = Vegetation, id = "IDVegetation") %>%
+  query_reltable(
+    "Herblayer", related_table = Vegetation, id = "IDVegetation"
+  ) %>%
   filter(.data$Species %in% qHerbSpecies240810$ID)
 Herblayer_2eSet <-
-  query_reltable("Herblayer_2eSet", related_table = Vegetation_2eSet, id = "IDVegetation_2eSet") %>%
+  query_reltable(
+    "Herblayer_2eSet", related_table = Vegetation_2eSet,
+    id = "IDVegetation_2eSet"
+  ) %>%
   filter(.data$Species %in% qHerbSpecies240810$ID)
 if (nrow(Vegetation_3eSet) > 0) {
   Herblayer_3eSet <-
-    query_reltable("Herblayer_3eSet", related_table = Vegetation_3eSet, id = "IDVegetation_3eSet") %>%
+    query_reltable(
+      "Herblayer_3eSet", related_table = Vegetation_3eSet,
+      id = "IDVegetation_3eSet"
+    ) %>%
     filter(.data$Species %in% qHerbSpecies240810$ID)
 } else {
   Herblayer_3eSet <-
@@ -254,7 +315,9 @@ dbWriteTable(packagedb, "qiufrosocialstatus", qiufrosocialstatus)
 dbWriteTable(packagedb, "qiufrosocialstatus_shoots", qiufrosocialstatus_shoots)
 dbWriteTable(packagedb, "qiufrovitality", qiufrovitality)
 dbWriteTable(packagedb, "qiufrovitality_shoots", qiufrovitality_shoots)
-dbWriteTable(packagedb, "qnumber_regeneration_classes", qnumber_regeneration_classes)
+dbWriteTable(
+  packagedb, "qnumber_regeneration_classes", qnumber_regeneration_classes
+)
 dbWriteTable(packagedb, "qPlotType", qPlotType)
 dbWriteTable(packagedb, "qspecies", qspecies)
 dbWriteTable(packagedb, "qtotalCover", qtotalCover)

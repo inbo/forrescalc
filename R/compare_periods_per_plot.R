@@ -36,10 +36,16 @@
 #' library(forrescalc)
 #' library(dplyr)
 #' treenr_by_plot <-
-#'   read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat") %>%
-#'   select(period, year, plot_id, number_of_tree_species, number_of_trees_ha) %>%
+#'   read_forresdat(
+#'     tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat"
+#'   ) %>%
+#'   select(
+#'     period, year, plot_id, number_of_tree_species, number_of_trees_ha
+#'   ) %>%
 #'   distinct()
-#' compare_periods_per_plot(treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha"))
+#' compare_periods_per_plot(
+#'   treenr_by_plot, c("year", "number_of_tree_species", "number_of_trees_ha")
+#' )
 #' }
 #'
 #' @export
@@ -52,7 +58,8 @@
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data
 #'
-compare_periods_per_plot <- function(dataset, measure_vars, replace_na_in_vars = NA) {
+compare_periods_per_plot <-
+  function(dataset, measure_vars, replace_na_in_vars = NA) {
   if (!all(c("period", "plot_id") %in% names(dataset))) {
     stop("Dataset must contain the columns period and plot_id.")
   }

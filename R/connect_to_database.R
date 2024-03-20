@@ -32,13 +32,13 @@ connect_to_database <-
         odbc(),
         .connection_string =
           paste0(
-            "Driver={Firebird/InterBase(r) driver};UID=SYSDBA;PWD=masterkey; DBNAME=",
+            "Driver={Firebird/InterBase(r) driver};UID=SYSDBA;PWD=masterkey; DBNAME=", #nolint: line_length_linter
             database
           )
       )
   } else {
     stop(
-      "This database type is not supported, please use .mdb, .accdb, .fdb, .gdb or .sqlite"
+      "This database type is not supported, please use .mdb, .accdb, .fdb, .gdb or .sqlite" #nolint: line_length_linter
     )
   }
 

@@ -30,7 +30,8 @@
 #' combinations of their values should have a record in the dataset.
 #' @param grouping_vars one or more variables for which the combination of
 #' values of the variables given in `comb_vars` should be made for each value,
-#' e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"),
+#' e.g. if grouping_vars = "forest_reserve" and
+#' comb_vars = c("plot", "species"),
 #' all combinations of the values in "plot" and "species" are made
 #' within each value of "forest_reserve".
 #' @param add_zero_no_na variable indicating which records of the grouping_vars
@@ -62,8 +63,13 @@
 #' library(forrescalc)
 #' library(tidyverse)
 #' dendro_by_plot_species <-
-#'   read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat") %>%
-#'   select(-year, -plottype, -starts_with("survey_"), -data_processed, -starts_with("game_"))
+#'   read_forresdat(
+#'     tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat"
+#'   ) %>%
+#'   select(
+#'     -year, -plottype, -starts_with("survey_"), -data_processed,
+#'     -starts_with("game_")
+#'   )
 #' add_zeros(
 #'   dataset = dendro_by_plot_species,
 #'   comb_vars = c("plot_id", "period", "species"),
@@ -132,27 +138,33 @@ add_zeros <-
             select(all_of(grouping_vars)) %>%
             distinct()
         ),
-      msg = "variable add_zero_no_na must have one unique value for each combination of grouping_vars" #nolint
+      msg =
+        "variable add_zero_no_na must have one unique value for each combination of grouping_vars" #nolint: line_length_linter
     )
     assert_that(
       all(remove_na_records_in_comb_vars %in% comb_vars),
-      msg = "variables of remove_na_records_in_comb_vars should be mentioned in comb_vars"
+      msg =
+        "variables of remove_na_records_in_comb_vars should be mentioned in comb_vars" #nolint: line_length_linter
     )
     assert_that(
       all(has_name(dataset, defaults_to_na)),
-      msg =  "dataset should contain all variables from defaults_to_na as column names"
+      msg =
+        "dataset should contain all variables from defaults_to_na as column names" #nolint: line_length_linter
     )
     assert_that(
       all(!defaults_to_na %in% comb_vars),
-      msg = "variables of defaults_to_na can not be comb_vars, as comb_vars are given all possible values, while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables"
+      msg =
+        "variables of defaults_to_na can not be comb_vars, as comb_vars are given all possible values, while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables" #nolint: line_length_linter
     )
     assert_that(
       all(!defaults_to_na %in% grouping_vars),
-      msg = "variables of defaults_to_na can not be grouping_vars, as grouping_Vars already have a value, while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables"
+      msg =
+        "variables of defaults_to_na can not be grouping_vars, as grouping_Vars already have a value, while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables" #nolint: line_length_linter
     )
     assert_that(
       all(!defaults_to_na %in% add_zero_no_na),
-      msg = "variables of defaults_to_na can not be variables of add_zero_no_na, as the latter already have a value (TRUE/FALSE), while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables"
+      msg =
+        "variables of defaults_to_na can not be variables of add_zero_no_na, as the latter already have a value (TRUE/FALSE), while defaults_to_na is meant to fill in NA instead of 0 for 'empty' variables" #nolint: line_length_linter
     )
   }
   if (!all(sapply(dataset %>%

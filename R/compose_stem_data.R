@@ -10,8 +10,8 @@
 #' Default is FALSE (no).
 #' ATTENTION: some variables as iufro-classes and (common-)remark are
 #' - for coppice - collected at shoot level.
-#' To include these extra variables, it is necessary to indicate this argument in both
-#' load-functions (load_data_dendrometry() and load_data_shoots()):
+#' To include these extra variables, it is necessary to indicate this argument
+#' in both load-functions (load_data_dendrometry() and load_data_shoots()):
 #' extra_variables = TRUE.
 #' @inheritParams calculate_dendrometry
 #' @inheritParams load_data_shoots
@@ -40,7 +40,8 @@
 #' @importFrom dplyr %>% bind_rows filter inner_join mutate select
 #' @importFrom assertthat has_name
 #'
-compose_stem_data <- function(data_dendro, data_shoots, extra_variables = FALSE) {
+compose_stem_data <-
+  function(data_dendro, data_shoots, extra_variables = FALSE) {
   extra_vars <- c("iufro_hght", "iufro_vital", "iufro_socia",
                   "remark", "common_remark")
   extra_vars_shoots <- c("iufro_hght_shoots", "iufro_vital_shoots",
@@ -49,11 +50,13 @@ compose_stem_data <- function(data_dendro, data_shoots, extra_variables = FALSE)
   if (extra_variables) {
   assert_that(
     has_name(data_dendro, extra_vars),
-    msg =  "data_dendro should contain extra variables as iufroclasses and (common_)remark"  #nolint
+    msg =
+      "data_dendro should contain extra variables as iufroclasses and (common_)remark" #nolint: line_length_linter
   )
   assert_that(
     has_name(data_shoots, extra_vars_shoots),
-    msg =  "data_shoots should contain extra variables as iufroclasses and (common_)remark" #nolint
+    msg =
+      "data_shoots should contain extra variables as iufroclasses and (common_)remark" #nolint: line_length_linter
   )
   } else {
     if (has_name(data_dendro, extra_vars)) {

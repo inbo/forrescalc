@@ -108,11 +108,14 @@ calc_stem_volume <- function(data_stems) {
             (exp(1.10597 * log(.data$calc_height_m) +
                    1.78865 * log(.data$d_cm) - 3.07192) -
                #Verlies
-               exp(-4.608923 * log(.data$d_cm) +
-                     3.005989 * log(.data$calc_height_m) -
-                     1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
-                     1.605266 * log(.data$d_cm) * log(.data$calc_height_m) +
-                     5.410272))
+               exp(
+                 -4.608923 * log(.data$d_cm) +
+                 3.005989 * log(.data$calc_height_m) -
+                 1.3209 * log(.data$calc_height_m) * log(.data$calc_height_m) +
+                 1.605266 * log(.data$d_cm) * log(.data$calc_height_m) +
+                 5.410272
+               )
+             )
         ),
       vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3),
       vol_bole_m3 =
@@ -132,7 +135,8 @@ calc_stem_volume <- function(data_stems) {
       upper_diam_snag_mm =
         ifelse(
           .data$intact_snag == 10,
-          .data$dbh_mm * (.data$calc_height_m - .data$height_m) / .data$calc_height_m,
+          .data$dbh_mm * (.data$calc_height_m - .data$height_m) /
+            .data$calc_height_m,
           NA
         ),
       volume_snag_m3 =
