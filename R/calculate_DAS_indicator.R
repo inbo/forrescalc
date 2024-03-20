@@ -12,7 +12,7 @@
 #' @template calculate_das_indicator_explanation_part2
 #'
 #' @inheritParams calculate_dendro_plot
-#' @param na.rm Ignore records with no value? Default is FALSE, so no records
+#' @param na_rm Ignore records with no value? Default is FALSE, so no records
 #' will be ignored unless it is explicitly mentioned by 'na.rm = TRUE'
 #'
 #' @return dataframe with results for DAS indicator on forest level (?)
@@ -33,7 +33,7 @@
 #' height_model <- load_height_models(path_to_height_models)
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
-#' calculate_DAS_indicator(data_dendro_calc)
+#' calculate_das_indicator(data_dendro_calc)
 #' }
 #'
 #' @export
@@ -45,12 +45,12 @@
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'
-calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
+calculate_das_indicator <- function(data_dendro_calc, na_rm = FALSE) {
   #only consider living trees
   data_dendro_calc <- data_dendro_calc %>%
     filter(.data$alive_dead == 11)
 
-  if (na.rm) {
+  if (na_rm) {
     data_dendro_calc <- data_dendro_calc %>%
       filter(
         !is.na(.data$dbh_mm),
@@ -68,12 +68,12 @@ calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
   )
 
   #select relevant plots
-  DAS_reserve <- data_dendro_calc %>%
-    select_for_DAS_indicator(grouping_vars = c("forest_reserve", "year",
+  das_reserve <- data_dendro_calc %>%
+    select_for_das_indicator(grouping_vars = c("forest_reserve", "year",
                                                "period")) %>%
     inner_join(data_dendro_calc, by = c("forest_reserve", "year"
                                         , "period")) %>%
-    select_for_DAS_indicator(grouping_vars = c("plot_id", "year"
+    select_for_das_indicator(grouping_vars = c("plot_id", "year"
                                                , "period")) %>%
     inner_join(
       data_dendro_calc %>%
@@ -130,5 +130,5 @@ calculate_DAS_indicator <- function(data_dendro_calc, na.rm = FALSE) {
     ) %>%
     ungroup()
 
-  return(DAS_reserve)
+  return(das_reserve)
 }

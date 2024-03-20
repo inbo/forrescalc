@@ -24,7 +24,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
-#' select_for_DAS_indicator(data_dendro)
+#' select_for_das_indicator(data_dendro)
 #' }
 #'
 #' @export
@@ -34,7 +34,7 @@
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #'
-select_for_DAS_indicator <- function(data_to_select, grouping_vars) {
+select_for_das_indicator <- function(data_to_select, grouping_vars) {
   selected_groups <- data_to_select  %>%
     group_by_at(grouping_vars) %>%
     summarise(
