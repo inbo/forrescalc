@@ -126,7 +126,7 @@ create_statistics <-
       )
   ) {
 
-  if (has_name(dataset, "period") & length(unique(dataset$period)) > 1 &
+  if (has_name(dataset, "period") && length(unique(dataset$period)) > 1 &&
       !"period" %in% c(level, variables)) {
     warning(
       "Are you sure you don't want to include period in level? Your dataset has measurements in different periods." #nolint: line_length_linter

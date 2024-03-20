@@ -16,7 +16,7 @@
 connect_to_database <-
   function(database) {
 
-  if (grepl(".accdb$", database) | grepl(".mdb$", database)) {
+  if (grepl(".accdb$", database) || grepl(".mdb$", database)) {
     con <-
       dbConnect(
         odbc(),
@@ -26,7 +26,7 @@ connect_to_database <-
       )
   } else if (grepl(".sqlite$", database)) {
     con <- dbConnect(SQLite(), database)
-  } else if (grepl(".fdb$", database) | grepl(".gdb", database)) {
+  } else if (grepl(".fdb$", database) || grepl(".gdb", database)) {
     con <-
       dbConnect(
         odbc(),
