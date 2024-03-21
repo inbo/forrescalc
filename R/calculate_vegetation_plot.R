@@ -57,8 +57,8 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       by = c("plottype", "plot_id", "period", "subplot_id")
     ) %>%
     mutate(
-      # CCC: total cover in percentage =
-      #                    (TL/100 + SL/100 - TL/100 * SL/100) * 100,
+      # cumulated_canopy_cover:
+      # total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
       # where TL is the percentage cover of the tree layer
       # and SL is the percentage cover of the shrub layer.
       cumulated_canopy_cover_min =
