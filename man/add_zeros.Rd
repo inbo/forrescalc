@@ -77,14 +77,10 @@ The data in forresdat already contain one record with zeros per plot
 be added automatically if 'plot_id' is added to `comb_vars`.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-library(tidyverse)
+library(dplyr)
 dendro_by_plot_species <-
-  read_forresdat(
-    tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat"
-  ) \%>\%
+  read_forresdat(tablename = "dendro_by_plot_species") \%>\%
   select(
     -year, -plottype, -starts_with("survey_"), -data_processed,
     -starts_with("game_")
@@ -106,6 +102,5 @@ add_zeros(
   grouping_vars = c("forest_reserve"),
   defaults_to_na = "stems_per_tree"
 )
-}
 
 }

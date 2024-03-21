@@ -10,8 +10,6 @@
 #' To load table plotinfo, set argument `join_plotinfo = FALSE`.
 #'
 #' @param tablename name of the table that should be read
-#' @param repo_path name and path of local git repository from which data
-#' should be retrieved
 #' @param join_plotinfo should table plotinfo be joined to the chosen table to
 #' add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
 #' FALSE) and data_processed (TRUE or FALSE)?
@@ -28,26 +26,24 @@
 #' data_processed (TRUE or FALSE)
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' read_forresdat(tablename = "dendro_by_plot",
-#' repo_path = "C:/gitrepo/forresdat")
-#' }
+#' read_forresdat(tablename = "dendro_by_plot")
 #'
 #' @export
 #'
-#' @importFrom git2rdata pull read_vc repository
 #' @importFrom assertthat assert_that has_name
+#' @importFrom readr read_tsv
 #'
 read_forresdat <-
-  function(tablename, repo_path, join_plotinfo = TRUE,
-           plottype = c("CP", "CA", "all")) {
+  function(tablename, join_plotinfo = TRUE, plottype = c("CP", "CA", "all")) {
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
-  repo <- repository(repo_path)
-  pull(repo, credentials = get_cred(repo))
-  dataset <- read_vc(file = paste0("data/", tablename), root = repo)
+  url <-
+    sprintf(
+      "https://raw.githubusercontent.com/inbo/forresdat/master/data/%s.tsv",
+      tablename
+    )
+  dataset <- read_tsv(url)
   if (has_name(dataset, "plottype") && var_plottype != "all") {
     dataset <- dataset %>%
       filter(.data$plottype == var_plottype)
@@ -62,22 +58,25 @@ read_forresdat <-
   if (join_plotinfo) {
     assert_that(
       has_name(dataset, "plot_id"),
-      msg = "No column 'plot_id' in the requested table, please add 'join_plotinfo = FALSE'" #nolint
+      msg =
+        "No column 'plot_id' in the requested table, please add 'join_plotinfo = FALSE'" #nolint: line_length_linter
     )
     if (has_name(dataset, "plottype")) {
       dataset <- dataset %>%
         select(-"plottype")
     }
+    url_plotinfo <-
+      "https://raw.githubusercontent.com/inbo/forresdat/master/data/plotinfo.tsv" #nolint: line_length_linter
     if (has_name(dataset, "period")) {
       dataset <- dataset %>%
         left_join(
-          read_vc(file = "data/plotinfo", root = repo),
+          read_tsv(url_plotinfo),
           by = c("plot_id", "period")
         )
     } else {
       dataset <- dataset %>%
         left_join(
-          read_vc(file = "data/plotinfo", root = repo),
+          read_tsv(url_plotinfo),
           by = "plot_id"
         )
     }

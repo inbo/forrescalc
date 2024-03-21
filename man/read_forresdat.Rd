@@ -6,16 +6,12 @@
 \usage{
 read_forresdat(
   tablename,
-  repo_path,
   join_plotinfo = TRUE,
   plottype = c("CP", "CA", "all")
 )
 }
 \arguments{
 \item{tablename}{name of the table that should be read}
-
-\item{repo_path}{name and path of local git repository from which data
-should be retrieved}
 
 \item{join_plotinfo}{should table plotinfo be joined to the chosen table to
 add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
@@ -45,11 +41,7 @@ These zero value records can easily be added by using the function
 To load table plotinfo, set argument `join_plotinfo = FALSE`.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-read_forresdat(tablename = "dendro_by_plot",
-repo_path = "C:/gitrepo/forresdat")
-}
+read_forresdat(tablename = "dendro_by_plot")
 
 }
