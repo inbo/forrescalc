@@ -82,7 +82,8 @@ load_data_deadwood <-
     query_database(database, query_deadwood,
                    selection = selection, add_fields = add_fields) %>%
     mutate(
-      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5),
+      year =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5)),
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(

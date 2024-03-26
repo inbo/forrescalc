@@ -89,7 +89,7 @@ load_data_regeneration <-
     query_database(database, query_regeneration,
                    selection = selection, conjunction = conjunction) %>%
     mutate(
-      year = year(.data$date_regeneration),
+      year = as.integer(year(.data$date_regeneration)),
       year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       subcircle =
         ifelse(

@@ -33,7 +33,7 @@
 
 query_database <-
   function(database, query, selection = "", add_fields = "", conjunction = "",
-           n_periods = 3) {
+           n_periods = 3L) {
 
   #code to avoid warning in sprintf due to absence of %x in string
   present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2, ]
@@ -52,10 +52,10 @@ query_database <-
       sprintf(query, n_corr, "", selection, add_fields, conjunction)
     ) %>%
     mutate(
-      period = 1
+      period = 1L
     )
 
-  if (n_periods >= 2) {
+  if (n_periods >= 2L) {
     for (n in 2:n_periods) {
       n_eset <- ifelse(no_neset, "", paste0("_", n, "eSet"))
       n_corr <- ifelse(no_n, "", n)

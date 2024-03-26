@@ -131,7 +131,7 @@ load_data_dendrometry <-
 
   con <- connect_to_database(database)
   dendro_1986 <- dbGetQuery(con, query_dendro_1986) %>%
-    mutate(period = 0)
+    mutate(period = 0L)
   if (inherits(con, "SQLiteConnection")) {
     dendro_1986 <- dendro_1986 %>%
       mutate(
@@ -151,7 +151,8 @@ load_data_dendrometry <-
   }
   data_dendro <- data_dendro %>%
     mutate(
-      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5),
+      year =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5)),
       subcircle =
         ifelse(
           .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,

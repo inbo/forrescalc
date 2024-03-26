@@ -62,7 +62,7 @@ load_plotinfo <- function(database) {
 
   con <- connect_to_database(database)
   plotinfo_1986 <- dbGetQuery(con, query_plot_1986) %>%
-    mutate(period = 0)
+    mutate(period = 0L)
   dbDisconnect(con)
 
   plotinfo <-
@@ -104,8 +104,9 @@ load_plotinfo <- function(database) {
 
                 ungroup()) %>%
     mutate(
-      survey_number = .data$period - .data$min_period + 1,
-      year_dendro = year(.data$date_dendro) - (month(.data$date_dendro) < 5)
+      survey_number = .data$period - .data$min_period + 1L,
+      year_dendro =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5))
     ) %>%
     select(-.data$min_period, -.data$date_dendro)
 
