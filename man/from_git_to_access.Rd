@@ -4,41 +4,59 @@
 \alias{from_git_to_access}
 \title{copy table(s) from git repository to access db}
 \usage{
-from_git_to_access(tables, repo_path, database, remove_tables = FALSE)
+from_git_to_access(
+  tables,
+  database,
+  remove_tables = FALSE,
+  plottype = NA,
+  join_plotinfo = TRUE
+)
 }
 \arguments{
 \item{tables}{vector with table names of tables that should be moved}
 
-\item{repo_path}{name and path of local git repository in which results
-should be saved}
-
-\item{database}{name of fieldmap/access database (with specific fieldmap
-structure) including path}
+\item{database}{name of (empty) Access database including path in which
+results should be saved}
 
 \item{remove_tables}{overwrite existing tables in database?  Default is
 FALSE, which means tables are not overwritten/deleted unless this parameter
 is explicitly put on TRUE.}
+
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
+
+\item{join_plotinfo}{should table plotinfo be joined to the chosen table to
+add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
+FALSE) and data_processed (TRUE or FALSE)?
+Default is TRUE.
+(This is only possible if the given table contains a column plot_id,
+so this parameter should be put FALSE if this column is absent.)
+Must be FALSE if you want to load the table "plotinfo" itself.}
 }
 \value{
 No value is returned, the tables are saved in the access database.
 }
 \description{
-This function loads one or more tables from  a git repository and saves them
-in an access database.
+This function loads one or more tables from git repository forresdat
+and saves them in an Access (or SQLite) database.
 }
 \examples{
-\dontrun{
-#change paths before running
 library(forrescalc)
 # (add path to your own database here)
-path_to_database <-
-  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+path_to_database <- "my-db.sqlite"
+from_git_to_access(
+  tables = "dendro_by_plot",
+  database = path_to_database
+)
+# if tables don't contain column plot_id, or it is not relevant to add
+# information on the plots, add argument join_plotinfo = FALSE
 from_git_to_access(
   tables = c("qAliveDead", "qdecaystage"),
-  repo_path = "C:/gitrepo/forresdat",
   database = path_to_database,
-  remove_tables = TRUE
+  join_plotinfo = FALSE
 )
-}
+
+file.remove("my-db.sqlite")
 
 }
