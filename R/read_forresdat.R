@@ -47,12 +47,14 @@ read_forresdat <-
     dataset <- dataset %>%
       filter(.data$plottype == var_plottype)
   } else {
-    warning(
-      sprintf(
-        "As table '%s' has no field 'plottype', the output table contains all records, not only those with plottype %s.", #nolint: line_length_linter
-        tablename, var_plottype
+    if (var_plottype != "all") {
+      warning(
+        sprintf(
+          "As table '%s' has no field 'plottype', the output table contains all records, not only those with plottype %s.", #nolint: line_length_linter
+          tablename, var_plottype
+        )
       )
-    )
+    }
   }
   if (join_plotinfo) {
     assert_that(
