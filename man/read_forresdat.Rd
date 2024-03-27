@@ -31,8 +31,7 @@ forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
 data_processed (TRUE or FALSE)
 }
 \description{
-This function reads a table in git2rdata format from git repository forresdat
-(or another git repository dependent on the given repo path).
+This function reads a table in tsv format from git repository forresdat.
 Data available in forresdat only contains observations, so no records with
 zero values are added for for instance species that were not observed and
 hence absent.
