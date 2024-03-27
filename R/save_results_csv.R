@@ -21,6 +21,10 @@
 #' regeneration <- calculate_regeneration(data_regeneration)
 #' save_results_csv(results = regeneration, output_dir = path_to_plotlevel_csv)
 #'
+#' files <- list.files()
+#' files <- files[grepl("^regeneration_by.*\\.csv$", files)]
+#' file.remove(files)
+#'
 #' @export
 #'
 #' @importFrom utils write.csv2
