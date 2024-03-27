@@ -141,8 +141,11 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           filter(.data$period == i) %>%
           inner_join(
             data_trees %>%
-              filter(.data$period == i + 1),
-            by = c("plot_id")
+              filter(
+                .data$period == i + 1,
+                is.na(.data$old_id)
+              ),
+            by = c("plot_id", "species")
           ) %>%
           filter(.data$tree_id_cop.x != .data$tree_id_cop.y |
                    is.na(.data$tree_id.x) | is.na(.data$tree_id.y)) %>%
