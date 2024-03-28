@@ -15,11 +15,12 @@
 #' @importFrom readxl read_xlsx
 #'
 #' @examples
-#' \dontrun{
 #' #change path before running
 #' library(forrescalc)
-#' load_height_models("C:/bosreservaten/Hoogtemodellen/")
-#' }
+#' # (add path to your height models here)
+#' path_to_height_models <-
+#'   system.file("example/height_models", package = "forrescalc")
+#' load_height_models(path_to_height_models)
 #'
 #' @export
 #'
@@ -38,7 +39,7 @@ load_height_models <- function(path_to_height_models) {
       no_extension = str_extract(.data$filename, "^(.+)(?=\\.)"),
       x = str_split(.data$no_extension, "_"),
       plottype = sapply(.data$x, `[`, 3),
-      period = as.numeric(sapply(.data$x, `[`, 4)),
+      period = as.integer(sapply(.data$x, `[`, 4)),
       path_file = paste0(path_to_height_models, .data$filename)
     ) %>%
     select(-.data$no_extension, -.data$x) %>%

@@ -17,11 +17,11 @@
 #' spring flora and other flora), ....
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_data_herblayer(path_to_fieldmapdb)
 #'
 #' @export
 #'
@@ -32,7 +32,7 @@
 load_data_herblayer <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
     selection <-
-      translate_input_to_selectionquery(
+      translate_input_to_selectquery(
         database = database, plottype = plottype,
         forest_reserve = forest_reserve, processed = processed,
         survey_name = "Survey_Vegetation_YN"

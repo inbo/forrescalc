@@ -12,14 +12,15 @@
 #' vegetation survey and (2) whether the data have been processed or not.
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_plotinfo(path_to_fieldmapdb)
 #'
 #' @export
 #'
+#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom dplyr %>% distinct filter group_by mutate left_join select
 #' @importFrom dplyr summarise ungroup
 #' @importFrom lubridate month year
@@ -59,14 +60,20 @@ load_plotinfo <- function(database) {
       INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
 
-  con <- odbcConnectAccess2007(database)
-  plotinfo_1986 <- sqlQuery(con, query_plot_1986, stringsAsFactors = FALSE) %>%
-    mutate(period = 0)
-  odbcClose(con)
+  con <- connect_to_database(database)
+  plotinfo_1986 <- dbGetQuery(con, query_plot_1986) %>%
+    mutate(period = 0L)
+  dbDisconnect(con)
 
   plotinfo <-
     query_database(database, query_plot)
   if (nrow(plotinfo_1986) > 0) {
+    if (inherits(con, "SQLiteConnection")) {
+      plotinfo_1986 <- plotinfo_1986 %>%
+        mutate(
+          date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")
+        )
+    }
     plotinfo <- plotinfo %>%
       bind_rows(
         plotinfo_1986
@@ -97,8 +104,9 @@ load_plotinfo <- function(database) {
 
                 ungroup()) %>%
     mutate(
-      survey_number = .data$period - .data$min_period + 1,
-      year_dendro = year(.data$date_dendro) - (month(.data$date_dendro) < 5 )
+      survey_number = .data$period - .data$min_period + 1L,
+      year_dendro =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5))
     ) %>%
     select(-.data$min_period, -.data$date_dendro)
 

@@ -16,16 +16,13 @@
 #' approx_nr_regeneration_ha.
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_regeneration_CA <-
-#'   load_data_regeneration(
-#'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'     plottype = "CA"
-#'   )
+#'   load_data_regeneration(path_to_fieldmapdb, plottype = "CA")
 #' calculate_regeneration_core_area_height_species(data_regeneration_CA)
-#' }
 #'
 #' @export
 #'
@@ -40,7 +37,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$year, .data$period,
+      .data$plot_id, .data$year, .data$period,
       .data$height_class, .data$species, .data$plotarea_ha
     ) %>%
     summarise(

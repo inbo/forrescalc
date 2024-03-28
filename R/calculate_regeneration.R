@@ -14,13 +14,12 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' data_regeneration <-
-#'   load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
 #' calculate_regeneration(data_regeneration)
-#' }
 #'
 #' @param data_regeneration dataframe on tree regeneration with variables
 #' plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
@@ -40,11 +39,12 @@ calculate_regeneration <- function(data_regeneration) {
   by_plot_species <- calculate_regeneration_plot_species(data_regeneration)
   by_plot_height_species <-
     calculate_regeneration_plot_height_species(data_regeneration)
-  data_regeneration_CA <- data_regeneration %>%
+  data_regeneration_ca <- data_regeneration %>%
     filter(.data$plottype == "CA")
-  by_ca_species <- calculate_regeneration_core_area_species(data_regeneration_CA)
+  by_ca_species <-
+    calculate_regeneration_core_area_species(data_regeneration_ca)
   by_ca_height_species <-
-    calculate_regeneration_core_area_height_species(data_regeneration_CA)
+    calculate_regeneration_core_area_height_species(data_regeneration_ca)
 
   return(
     list(

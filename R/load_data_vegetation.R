@@ -12,15 +12,15 @@
 #'
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_data_vegetation(path_to_fieldmapdb)
 #'
 #' @export
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate rename
 #' @importFrom lubridate year
@@ -28,7 +28,7 @@
 load_data_vegetation <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
     selection <-
-      translate_input_to_selectionquery(
+      translate_input_to_selectquery(
         database = database, plottype = plottype,
         forest_reserve = forest_reserve, processed = processed,
         survey_name = "Survey_Vegetation_YN"
@@ -36,7 +36,8 @@ load_data_vegetation <-
     query_vegetation <-
         "SELECT Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
           pd.ForestReserve AS forest_reserve,
           pd.LengthCoreArea_m AS length_core_area_m,
           pd.WidthCoreArea_m AS width_core_area_m,
@@ -61,8 +62,8 @@ load_data_vegetation <-
               tc.Value1 AS cover_interval
         FROM qtotalCover tc"
 
-  con <- odbcConnectAccess2007(database)
-  total_cover <- sqlQuery(con, query_total_cover, stringsAsFactors = FALSE) %>%
+  con <- connect_to_database(database)
+  total_cover <- dbGetQuery(con, query_total_cover) %>%
     mutate(
       min_cover = gsub("^(\\d+) - (\\d+) %", "\\1", .data$cover_interval),
       max_cover = gsub("^(\\d+) - (\\d+) %", "\\2", .data$cover_interval),
@@ -75,7 +76,7 @@ load_data_vegetation <-
       min_cover = as.numeric(.data$min_cover),
       max_cover = as.numeric(.data$max_cover)
     )
-  odbcClose(con)
+  dbDisconnect(con)
 
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%

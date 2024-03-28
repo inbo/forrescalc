@@ -15,8 +15,8 @@ forest_reserve, survey_trees, survey_deadw, period and year_dendro
 date_dendro, species, decaystage, calc_volume_m3, period and year
 (output of function load_data_deadwood())}
 
-\item{data_dendro_calc}{dataframe on stems (shoots and trees) as given from the
-function calc_variables_stem_level()}
+\item{data_dendro_calc}{dataframe on stems (shoots and trees) as given from
+the function calc_variables_stem_level()}
 }
 \value{
 dataframe with columns plot, year, decaystage, vol_log_m3_ha
@@ -26,22 +26,22 @@ This function calculates for each plot and year the volume logs and standing
 dead wood per hectare and per decay stage.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_deadwood <-
-  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+# (add path to your height models here)
+path_to_height_models <-
+  system.file("example/height_models", package = "forrescalc")
+
+data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 data_stems <- compose_stem_data(data_dendro, data_shoots)
-height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
+height_model <- load_height_models(path_to_height_models)
 data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
-plotinfo <-
-  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+plotinfo <- load_plotinfo(path_to_fieldmapdb)
 calculate_deadw_decay_plot(plotinfo, data_deadwood, data_dendro_calc)
-}
 
 }

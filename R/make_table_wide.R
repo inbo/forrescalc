@@ -19,15 +19,9 @@
 #' @importFrom tidyr pivot_wider
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
 #' library(dplyr)
-#' table_long <-
-#'   read_forresdat(
-#'     tablename = "dendro_by_plot_species",
-#'     repo_path = "C:/Users/els_lommelen/Documents/gitrepos/forresdat"
-#'   ) %>%
+#' table_long <- read_forresdat(tablename = "dendro_by_plot_species") %>%
 #'   filter(plot_id < 110) %>%
 #'   select(plot_id, species, period, number_of_trees_ha, vol_alive_m3_ha)
 #' table_wide <-
@@ -41,7 +35,6 @@
 #' table_wide <-
 #'   make_table_wide(table_long, column_to_repeat = "period",
 #'                   columns_for_comparison = c("vol_alive_m3_ha"))
-#' }
 #'
 make_table_wide <-
   function(table_long, column_to_repeat, columns_for_comparison) {

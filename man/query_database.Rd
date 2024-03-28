@@ -10,7 +10,7 @@ query_database(
   selection = "",
   add_fields = "",
   conjunction = "",
-  n_periods = 3
+  n_periods = 3L
 )
 }
 \arguments{

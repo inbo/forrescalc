@@ -25,47 +25,46 @@
 #' @return Dataframe containing the result of the query and an additional column
 #' period
 #'
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
-#' @importFrom dplyr %>% bind_rows mutate
-
+#' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom dplyr %>% across bind_rows mutate
 #' @importFrom rlang .data
+#' @importFrom tidyselect starts_with
 #'
 
 query_database <-
   function(database, query, selection = "", add_fields = "", conjunction = "",
-           n_periods = 3) {
+           n_periods = 3L) {
 
   #code to avoid warning in sprintf due to absence of %x in string
-  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2,]
+  present <- regmatches(query, gregexec("\\%(\\d)\\$[d|s]", query))[[1]][2, ]
   absent <- as.character(1:5)[!as.character(1:5) %in% present]
-  to_insert <- paste0("%", absent, "$s")
+  to_insert <- paste(paste0("%", absent, "$s"), collapse = " ")
   query <- paste0(query, to_insert)
   no_neset <- !"2" %in% present
   no_n <- !"1" %in% present
 
-  con <- odbcConnectAccess2007(database)
+  con <- connect_to_database(database)
+
   n_corr <- ifelse(no_n, "", 1)
   dataset <-
-    sqlQuery(
+    dbGetQuery(
       con,
-      sprintf(query, n_corr, "", selection, add_fields, conjunction),
-      stringsAsFactors = FALSE
+      sprintf(query, n_corr, "", selection, add_fields, conjunction)
     ) %>%
     mutate(
-      period = 1
+      period = 1L
     )
 
-  if (n_periods >= 2) {
+  if (n_periods >= 2L) {
     for (n in 2:n_periods) {
       n_eset <- ifelse(no_neset, "", paste0("_", n, "eSet"))
       n_corr <- ifelse(no_n, "", n)
       data_period_n <-
-        sqlQuery(
+        dbGetQuery(
           con,
           sprintf(
             query, n_corr, n_eset, selection, add_fields, conjunction
-          ),
-          stringsAsFactors = FALSE
+          )
         ) %>%
           mutate(
             period = n
@@ -81,7 +80,16 @@ query_database <-
     }
   }
 
-  odbcClose(con)
+  if (inherits(con, "SQLiteConnection")) {
+    dataset <- dataset %>%
+      mutate(
+        across(starts_with("date_"), ~ as.POSIXct(.x, origin = "1970-01-01"))
+      )
+  }
+  # starts_with("date_") could in future be replaced with where(as.Date) of
+  # packages tidyselect and lubridate
+
+  dbDisconnect(con)
 
   return(dataset)
 }

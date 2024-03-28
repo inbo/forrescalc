@@ -22,7 +22,8 @@ combinations of their values should have a record in the dataset.}
 
 \item{grouping_vars}{one or more variables for which the combination of
 values of the variables given in `comb_vars` should be made for each value,
-e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"),
+e.g. if grouping_vars = "forest_reserve" and
+comb_vars = c("plot", "species"),
 all combinations of the values in "plot" and "species" are made
 within each value of "forest_reserve".}
 
@@ -76,13 +77,14 @@ The data in forresdat already contain one record with zeros per plot
 be added automatically if 'plot_id' is added to `comb_vars`.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-library(tidyverse)
+library(dplyr)
 dendro_by_plot_species <-
-  read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat") \%>\%
-  select(-year, -plottype, -starts_with("survey_"), -data_processed, -starts_with("game_"))
+  read_forresdat(tablename = "dendro_by_plot_species") \%>\%
+  select(
+    -year, -plottype, -starts_with("survey_"), -data_processed,
+    -starts_with("game_")
+  )
 add_zeros(
   dataset = dendro_by_plot_species,
   comb_vars = c("plot_id", "period", "species"),
@@ -100,6 +102,5 @@ add_zeros(
   grouping_vars = c("forest_reserve"),
   defaults_to_na = "stems_per_tree"
 )
-}
 
 }

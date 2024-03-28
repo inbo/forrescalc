@@ -22,16 +22,12 @@
 #' and mean_coverage_class_average_perc
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' data_herblayer_CA <-
-#'   load_data_herblayer(
-#'     "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-#'     plottype = "CA"
-#'   )
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_herblayer_CA <- load_data_herblayer(path_to_fieldmapdb, plottype = "CA")
 #' calculate_vegetation_core_area_species(data_herblayer_CA)
-#' }
 #'
 #' @export
 #'
@@ -50,7 +46,9 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
     ) %>%
     summarise(
       number_of_subplots_with_vegetation = n_distinct(.data$subplot_id),
-      perc_of_subplots = .data$number_of_subplots_with_vegetation * 100 / unique(.data$n_subplots),
+      perc_of_subplots =
+        .data$number_of_subplots_with_vegetation * 100 /
+          unique(.data$n_subplots),
       number_of_subplots_browsed =
         ifelse(
           all(is.na(.data$browse_index_id)),
@@ -65,9 +63,11 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
           sum(!is.na(.data$browse_index_id) & .data$browse_index_id == 120)
         ),
       perc_of_subplots_browsed =
-        .data$number_of_subplots_browsed * 100 / .data$number_of_subplots_with_vegetation,
+        .data$number_of_subplots_browsed * 100 /
+          .data$number_of_subplots_with_vegetation,
       perc_of_subplots_seriously_browsed =
-        .data$number_of_subplots_seriously_browsed * 100 / .data$number_of_subplots_with_vegetation,
+        .data$number_of_subplots_seriously_browsed * 100 /
+          .data$number_of_subplots_with_vegetation,
       mean_coverage_class_average_perc = mean(.data$coverage_class_average_perc)
     ) %>%
     ungroup()

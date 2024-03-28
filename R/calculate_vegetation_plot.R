@@ -15,15 +15,13 @@
 #' also of the soildisturbance by game.
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' data_vegetation <-
-#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' data_herblayer <-
-#'   load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
+#' data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
 #' calculate_vegetation_plot(data_vegetation, data_herblayer)
-#' }
 #'
 #' @export
 #'
@@ -59,14 +57,25 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
       by = c("plottype", "plot_id", "period", "subplot_id")
     ) %>%
     mutate(
-      # CCC: total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
-      # where TL is the percentage cover of the tree layer and SL is the percentage cover of the shrub layer.
+      # cumulated_canopy_cover:
+      # total cover in percentage = (TL/100 + SL/100 - TL/100 * SL/100) * 100,
+      # where TL is the percentage cover of the tree layer
+      # and SL is the percentage cover of the shrub layer.
       cumulated_canopy_cover_min =
-        100 * (1 - (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)),
+        100 * (
+          1 -
+            (1 - .data$shrub_cover_min / 100) * (1 - .data$tree_cover_min / 100)
+        ),
       cumulated_canopy_cover_max =
-        100 * (1 - (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100)),
+        100 * (
+          1 -
+            (1 - .data$shrub_cover_max / 100) * (1 - .data$tree_cover_max / 100)
+        ),
       cumulated_canopy_cover_mid =
-        100 * (1 - (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100))
+        100 * (
+          1 -
+            (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100)
+        )
     )
 
   return(by_plot)

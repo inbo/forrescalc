@@ -54,19 +54,20 @@ and it makes aggregations of volume data on logs on the levels of
 }
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_deadwood <-
-  load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-height_model <- load_height_models("C:/bosreservaten/Hoogtemodellen/")
-plotinfo <-
-  load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-calculate_dendrometry(data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+# (add path to your height models here)
+path_to_height_models <-
+  system.file("example/height_models", package = "forrescalc")
+
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
+height_model <- load_height_models(path_to_height_models)
+plotinfo <- load_plotinfo(path_to_fieldmapdb)
+calculate_dendrometry(
+  data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
 
 }

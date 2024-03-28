@@ -16,7 +16,8 @@
 #' #see code of calculate_regeneration_plot_height()
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup vars
+#' @importFrom dplyr %>% group_by_at left_join mutate select summarise ungroup
+#'   vars
 #' @importFrom tidyselect all_of
 #' @importFrom tidyr nest pivot_longer pivot_wider unnest
 #' @importFrom readr read_csv2
@@ -36,7 +37,7 @@ sum_intervals <-
     return(data.frame(n_obs = NA, sum = NA, lci = NA, uci = NA))
   }
 
-  if (!is.na(transformation) & transformation == "log") {
+  if (!is.na(transformation) && transformation == "log") {
     value <- exp((log(var_min + 1e-10) + log(var_max)) / 2)
     variance <- ((log(var_max) - log(var_min + 1e-10)) / (2 * 1.96)) ^ 2
   } else {
@@ -55,7 +56,7 @@ sum_intervals <-
   result$lci <- result$sum - 1.96 * sqrt(variance) / sqrt(result$n_obs)
   result$uci <- result$sum + 1.96 * sqrt(variance) / sqrt(result$n_obs)
 
-  if (!is.na(transformation) & transformation == "log") {
+  if (!is.na(transformation) && transformation == "log") {
     result$sum <- exp(result$sum)
     result$lci <- exp(result$lci)
     result$uci <-

@@ -17,10 +17,11 @@ This function groups the information on height models from the `.xlsx` files
 in the given folder together in one dataframe.
 }
 \examples{
-\dontrun{
 #change path before running
 library(forrescalc)
-load_height_models("C:/bosreservaten/Hoogtemodellen/")
-}
+# (add path to your height models here)
+path_to_height_models <-
+  system.file("example/height_models", package = "forrescalc")
+load_height_models(path_to_height_models)
 
 }

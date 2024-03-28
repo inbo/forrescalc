@@ -21,31 +21,32 @@
 #' @return Dataframe with dendrometry data
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_data_dendrometry(path_to_fieldmapdb)
 #'
 #' @export
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% mutate
 #' @importFrom lubridate month year
-#' @importFrom RODBC odbcClose odbcConnectAccess2007 sqlQuery
+#' @importFrom DBI dbDisconnect dbGetQuery
 #'
 load_data_dendrometry <-
   function(database, plottype = NA, forest_reserve = NA,
            extra_variables = FALSE, processed = TRUE) {
   selection <-
-    translate_input_to_selectionquery(
+    translate_input_to_selectquery(
       database = database, plottype = plottype, forest_reserve = forest_reserve,
       processed = processed, survey_name = "Survey_Trees_YN"
     )
   add_fields <-
     ifelse(
       extra_variables,
-      ", (Trees.X_m - Plots.Xorig_m) AS x_local, (Trees.Y_m - Plots.Yorig_m) AS y_local,
+      ", (Trees.X_m - Plots.Xorig_m) AS x_local,
+        (Trees.Y_m - Plots.Yorig_m) AS y_local,
         Trees.CoppiceID AS coppice_id, Trees.IUFROHght AS iufro_hght,
         Trees.IUFROVital AS iufro_vital, Trees.IUFROSocia AS iufro_socia,
         Trees.Remark AS remark, Trees.CommonRemark AS common_remark",
@@ -54,7 +55,8 @@ load_data_dendrometry <-
   query_dendro <-
       "SELECT Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+          AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
@@ -84,13 +86,15 @@ load_data_dendrometry <-
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
-        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %3$s;"
+        LEFT JOIN qBranchLenghtReduction blr
+          ON Trees.BranchLengthReduction = blr.ID) %3$s;"
 
   query_dendro_1986 <-
     sprintf(
       "SELECT Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+        IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+          AS totalplotarea_ha,
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
         pd.ForestReserve AS forest_reserve,
@@ -120,14 +124,21 @@ load_data_dendrometry <-
         INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
         LEFT JOIN qCrownVolRedu cvr ON Trees.CrownVolumeReduction = cvr.ID)
-        LEFT JOIN qBranchLenghtReduction blr ON Trees.BranchLengthReduction = blr.ID) %1$s;",
+        LEFT JOIN qBranchLenghtReduction blr
+          ON Trees.BranchLengthReduction = blr.ID) %1$s;",
       selection, add_fields
     )
 
-  con <- odbcConnectAccess2007(database)
-  dendro_1986 <- sqlQuery(con, query_dendro_1986, stringsAsFactors = FALSE) %>%
-    mutate(period = 0)
-  odbcClose(con)
+  con <- connect_to_database(database)
+  dendro_1986 <- dbGetQuery(con, query_dendro_1986) %>%
+    mutate(period = 0L)
+  if (inherits(con, "SQLiteConnection")) {
+    dendro_1986 <- dendro_1986 %>%
+      mutate(
+        date_dendro = as.POSIXct(.data$date_dendro, origin = "1970-01-01")
+      )
+  }
+  dbDisconnect(con)
 
   data_dendro <-
     query_database(database, query_dendro,
@@ -140,7 +151,8 @@ load_data_dendrometry <-
   }
   data_dendro <- data_dendro %>%
     mutate(
-      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5 ),
+      year =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5)),
       subcircle =
         ifelse(
           .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,

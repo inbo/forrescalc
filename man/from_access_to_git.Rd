@@ -26,16 +26,18 @@ change to FALSE only if tables are structurally changed
 No value is returned, the tables are saved in the git repository.
 }
 \description{
-This function loads one or more tables from the access database and saves
-them in a git repository.
+This function loads one or more tables from the access database
+(or an SQLite database) and saves them in a git repository.
 }
 \examples{
 \dontrun{
-#change paths before running
 library(forrescalc)
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 from_access_to_git(
-  database = "C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-  tables = c("qLayer", "qMossLondo"),
+  database = path_to_fieldmapdb,
+  tables = c("qCoverHerbs", "qtotalCover"),
   repo_path = "C:/gitrepo/forresdat"
 )
 }

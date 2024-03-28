@@ -11,11 +11,11 @@
 #' @return Dataframe with data on logs
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' load_data_deadwood("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' }
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' load_data_deadwood(path_to_fieldmapdb)
 #'
 #' @export
 #'
@@ -28,7 +28,7 @@ load_data_deadwood <-
   function(database, plottype = NA, forest_reserve = NA,
            extra_variables = FALSE, processed = TRUE) {
     selection <-
-      translate_input_to_selectionquery(
+      translate_input_to_selectquery(
         database = database, plottype = plottype,
         forest_reserve = forest_reserve, processed = processed,
         survey_name = "Survey_Deadwood_YN"
@@ -47,7 +47,8 @@ load_data_deadwood <-
   query_deadwood <-
     "SELECT Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
-      IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha) AS totalplotarea_ha,
+      IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+        AS totalplotarea_ha,
       pd.ForestReserve AS forest_reserve,
       pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
@@ -63,7 +64,8 @@ load_data_deadwood <-
       Deadw_Diam.total_length_m,
       Deadw_Diam.min_diam_mm,
       Deadw_Diam.max_diam_mm %4$s
-    FROM ((((Plots INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
+    FROM ((((Plots
+      INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
       LEFT JOIN
@@ -80,7 +82,8 @@ load_data_deadwood <-
     query_database(database, query_deadwood,
                    selection = selection, add_fields = add_fields) %>%
     mutate(
-      year = year(.data$date_dendro) - (month(.data$date_dendro) < 5),
+      year =
+        as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5)),
       dbh_class_5cm = give_diamclass_5cm(.data$max_diam_mm),
       plotarea_ha =
         ifelse(

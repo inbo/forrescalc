@@ -13,7 +13,7 @@
 #'
 #' @noRd
 #'
-translate_input_to_selectionquery <-
+translate_input_to_selectquery <-
   function(database, plottype, forest_reserve, processed, survey_name) {
     if (!is.na(plottype)) {
       check_input(plottype, database, "qPlotType", "Value3")

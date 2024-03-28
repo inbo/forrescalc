@@ -20,8 +20,8 @@ iufro_vital, iufro_socia, remark and common_remark be added?
 Default is FALSE (no).
 ATTENTION: some variables as iufro-classes and (common-)remark are
 - for coppice - collected at shoot level.
-To include these extra variables, it is necessary to indicate this argument in both
-load-functions (load_data_dendrometry() and load_data_shoots()):
+To include these extra variables, it is necessary to indicate this argument
+in both load-functions (load_data_dendrometry() and load_data_shoots()):
 extra_variables = TRUE.}
 }
 \value{
@@ -34,23 +34,19 @@ intact/snag from coppice trees by their separate stems given in the shoot
 data (result from function load_data_shoots()).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 compose_stem_data(data_dendro, data_shoots)
 
 #to include iufro-classes and other additional variables:
 data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-  extra_variables = TRUE)
+  load_data_dendrometry(path_to_fieldmapdb, extra_variables = TRUE)
 data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb",
-  extra_variables = TRUE)
+  load_data_shoots(path_to_fieldmapdb, extra_variables = TRUE)
 compose_stem_data(data_dendro, data_shoots, extra_variables = TRUE)
-}
 
 }
