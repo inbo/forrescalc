@@ -416,7 +416,11 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     ) %>%
     filter(
       !(.data$aberrant_field == "decay_stage" & .data$anomaly == "wrong shift" &
-          .data$decay_stage == "17_17")
+          .data$decay_stage == "17_17"),
+      !(.data$aberrant_field == "decay_stage" & .data$anomaly == "wrong shift" &
+          .data$decay_stage == "16_17"),
+      !(.data$aberrant_field == "decay_stage" & .data$anomaly == "wrong shift" &
+          .data$decay_stage == "17_16")
     )
   if (nrow(coppice_diff) > 0) {
     incorrect_tree_diff <- incorrect_tree_diff %>%
