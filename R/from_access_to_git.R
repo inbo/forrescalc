@@ -1,7 +1,7 @@
 #' copy table(s) from access db to git repository
 #'
 #' This function loads one or more tables from the access database
-#' (or an SQLite database) and saves them in a git repository.
+#' (or an SQLite database) and saves them in the git repository forresdat.
 #'
 #' @param tables vector with table names of tables that should be moved
 #' @inheritParams load_data_dendrometry
@@ -11,33 +11,80 @@
 #'
 #' @export
 #'
-#' @importFrom git2rdata commit pull push repository write_vc
+#' @importFrom dplyr bind_rows left_join
+#' @importFrom git2r add checkout commit pull push repository
 #' @importFrom DBI dbDisconnect dbReadTable
+#' @importFrom frictionless add_resource create_schema read_package
+#'   write_package
+#' @importFrom purrr imap
+#' @importFrom readxl read_xlsx
 #'
 #' @examples
 #' \dontrun{
+#' #make a local clone of forresdat and change path before running
 #' library(forrescalc)
+#' # add path to your local clone of forresdat
+#' path_to_forresdat <- "xxx/forresdat"
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' from_access_to_git(
 #'   database = path_to_fieldmapdb,
 #'   tables = c("qCoverHerbs", "qtotalCover"),
-#'   repo_path = "C:/gitrepo/forresdat"
+#'   repo_path = path_to_forresdat
 #' )
 #' }
 #'
 from_access_to_git <-
-  function(database, tables, repo_path, push = FALSE, strict = TRUE) {
+  function(
+    database, tables, repo_path, metadata_path, push = FALSE, strict = TRUE,
+    branch = "develop"
+  ) {
   repo <- repository(repo_path)
+  checkout(repo, branch)
   pull(repo, credentials = get_cred(repo))
+  metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
+  package <- read_package(file.path(repo_path, "datapackage.json"))
   con <- connect_to_database(database)
   for (tablename in tables) {
     table <- dbReadTable(con, tablename)
-    write_vc(table, file = paste0("data/", tablename), root = repo,
-             sorting = "ID", stage = TRUE, strict = strict)
+    schema_table <- create_schema(table)
+    if (!tablename %in% metadata_tables$Table) {
+      warning(
+        sprintf(
+          "Table %s has no metadata in tab 'Content' in the metadata file",
+          tablename
+        )
+      )
+    } else {
+      metadata_columns <- read_xlsx(metadata_path, sheet = tablename)
+      metadata_columns_ordered <-
+        bind_rows(
+          imap(
+            schema_table$fields, ~data.frame(index = .y, name = .x[["name"]])
+          )
+        ) %>%
+        left_join(metadata_columns, by = c("name" = "Field Name"))
+      schema_table$fields <-
+        imap(
+          schema_table$fields,
+          ~c(.x, description = metadata_columns_ordered$Description[.y])
+        )
+    }
+    package <- package %>%
+      add_resource(
+        resource_name = tablename,
+        data = table,
+        schema = schema_table,
+        description =
+          metadata_tables[
+            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+          ]$Description
+      )
   }
   dbDisconnect(con)
+  write_package(package, repo_path)
+  add(repo, path = "*")
   tryCatch(
     commit(
       repo, message = "scripted commit: copy from fieldmap", session = TRUE

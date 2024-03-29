@@ -28,8 +28,7 @@
 #'
 #' @export
 #'
-#' @importFrom git2r commits reset
-#' @importFrom git2rdata repository
+#' @importFrom git2r commits repository reset
 #'
 remove_last_commit_git <- function(repo_path) {
   repo <- repository(repo_path)

@@ -4,7 +4,15 @@
 \alias{from_access_to_git}
 \title{copy table(s) from access db to git repository}
 \usage{
-from_access_to_git(database, tables, repo_path, push = FALSE, strict = TRUE)
+from_access_to_git(
+  database,
+  tables,
+  repo_path,
+  metadata_path,
+  push = FALSE,
+  strict = TRUE,
+  branch = "develop"
+)
 }
 \arguments{
 \item{database}{name of fieldmap/access database (with specific fieldmap
@@ -15,30 +23,40 @@ structure) including path}
 \item{repo_path}{name and path of local git repository in which results
 should be saved}
 
+\item{metadata_path}{path including .xlsx file in which the metadata are
+stored}
+
 \item{push}{push commits directly to the remote on github?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
 \item{strict}{keep default TRUE to update data without structural changes,
 change to FALSE only if tables are structurally changed
 (e.g. additional column, change in sorting order,...)}
+
+\item{branch}{branch from repository forresdat to which the new version
+should be committed.
+Default is 'develop'.}
 }
 \value{
 No value is returned, the tables are saved in the git repository.
 }
 \description{
 This function loads one or more tables from the access database
-(or an SQLite database) and saves them in a git repository.
+(or an SQLite database) and saves them in the git repository forresdat.
 }
 \examples{
 \dontrun{
+#make a local clone of forresdat and change path before running
 library(forrescalc)
+# add path to your local clone of forresdat
+path_to_forresdat <- "xxx/forresdat"
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 from_access_to_git(
   database = path_to_fieldmapdb,
   tables = c("qCoverHerbs", "qtotalCover"),
-  repo_path = "C:/gitrepo/forresdat"
+  repo_path = path_to_forresdat
 )
 }
 

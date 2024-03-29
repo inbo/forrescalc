@@ -4,7 +4,14 @@
 \alias{save_results_git}
 \title{save results of calculations in git repository}
 \usage{
-save_results_git(results, repo_path, push = FALSE, strict = TRUE)
+save_results_git(
+  results,
+  repo_path,
+  metadata_path,
+  push = FALSE,
+  strict = TRUE,
+  branch = "develop"
+)
 }
 \arguments{
 \item{results}{results from calculations in package forrescalc as a
@@ -13,32 +20,41 @@ named list}
 \item{repo_path}{name and path of local git repository in which results
 should be saved}
 
+\item{metadata_path}{path including .xlsx file in which the metadata are
+stored}
+
 \item{push}{push commits directly to the remote on github?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
 \item{strict}{keep default TRUE to update data without structural changes,
 change to FALSE only if tables are structurally changed
 (e.g. additional column, change in sorting order,...)}
+
+\item{branch}{branch from repository forresdat to which the new version
+should be committed.
+Default is 'develop'.}
 }
 \value{
 No value is returned, data are saved in the specified git repository
 }
 \description{
-This function saves the results from calculations in the forrescalc package
-(or any other named list with dataframes) in a git repository.
+This function saves the results from calculations by the forrescalc package
+(or any other named list with dataframes) in git repository forresdat.
 List item names will be used to name each of the tables, which contain
 as a content the different dataframes.
 }
 \examples{
 \dontrun{
-#change path before running
+#make a local clone of forresdat and change path before running
 library(forrescalc)
+# add path to your local clone of forresdat
+path_to_forresdat <- "xxx/forresdat"
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 result_dendro <- calculate_dendrometry(data_dendro)
-save_results_git(result = result_dendro, repo_path = "C:/gitrepo/forresdat")
+save_results_git(result = result_dendro, repo_path = path_to_forresdat)
 }
 
 }

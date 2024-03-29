@@ -1,7 +1,7 @@
 #' save results of calculations in git repository
 #'
-#' This function saves the results from calculations in the forrescalc package
-#' (or any other named list with dataframes) in a git repository.
+#' This function saves the results from calculations by the forrescalc package
+#' (or any other named list with dataframes) in git repository forresdat.
 #' List item names will be used to name each of the tables, which contain
 #' as a content the different dataframes.
 #'
@@ -9,41 +9,93 @@
 #' named list
 #' @param repo_path name and path of local git repository in which results
 #' should be saved
+#' @param metadata_path path including .xlsx file in which the metadata are
+#' stored
 #' @param push push commits directly to the remote on github?
 #' Default is FALSE (no). (This option can only be used with SSH.)
 #' @param strict keep default TRUE to update data without structural changes,
 #' change to FALSE only if tables are structurally changed
 #' (e.g. additional column, change in sorting order,...)
+#' @param branch branch from repository forresdat to which the new version
+#' should be committed.
+#' Default is 'develop'.
 #'
 #' @return No value is returned, data are saved in the specified git repository
 #'
 #' @examples
 #' \dontrun{
-#' #change path before running
+#' #make a local clone of forresdat and change path before running
 #' library(forrescalc)
+#' # add path to your local clone of forresdat
+#' path_to_forresdat <- "xxx/forresdat"
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' result_dendro <- calculate_dendrometry(data_dendro)
-#' save_results_git(result = result_dendro, repo_path = "C:/gitrepo/forresdat")
+#' save_results_git(result = result_dendro, repo_path = path_to_forresdat)
 #' }
 #'
 #' @export
 #'
-#' @importFrom git2rdata commit pull push repository write_vc
+#' @importFrom dplyr bind_rows left_join
+#' @importFrom git2r add checkout commit pull push repository
+#' @importFrom readxl read_xlsx
+#' @importFrom frictionless add_resource create_schema read_package
+#'   write_package
+#' @importFrom purrr imap
 #'
-save_results_git <- function(results, repo_path, push = FALSE, strict = TRUE) {
+save_results_git <-
+  function(
+    results, repo_path, metadata_path, push = FALSE, strict = TRUE,
+    branch = "develop"
+  ) {
   repo <- repository(repo_path)
+  checkout(repo, branch)
   pull(repo, credentials = get_cred(repo))
   sorting_max <-
     c("period", "year", "plot_id", "dbh_class_5cm", "decaystage", "subplot_id",
       "tree_measure_id", "height_class", "species")
+  metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
+  package <- read_package(file.path(repo_path, "datapackage.json"))
   for (tablename in names(results)) {
     sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
-    write_vc(results[[tablename]], file = paste0("data/", tablename),
-             root = repo, sorting = sorting, stage = TRUE, strict = strict)
+    schema_results <- create_schema(results[[tablename]])
+    if (!tablename %in% metadata_tables$Table) {
+      warning(
+        sprintf(
+          "Table %s has no metadata in tab 'Content' in the metadata file",
+          tablename
+        )
+      )
+    } else {
+      metadata_columns <- read_xlsx(metadata_path, sheet = tablename)
+      metadata_columns_ordered <-
+        bind_rows(
+          imap(
+            schema_results$fields, ~data.frame(index = .y, name = .x[["name"]])
+          )
+        ) %>%
+        left_join(metadata_columns, by = c("name" = "Field Name"))
+      schema_results$fields <-
+        imap(
+          schema_results$fields,
+          ~c(.x, description = metadata_columns_ordered$Description[.y])
+        )
+    }
+    package <- package %>%
+      add_resource(
+        resource_name = tablename,
+        data = results[[tablename]],
+        schema = schema_results,
+        description =
+          metadata_tables[
+            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+          ]$Description
+      )
   }
+  write_package(package, repo_path)
+  add(repo, path = "*")
   tryCatch(
     commit(repo, message = "scripted commit from forrescalc", session = TRUE),
     error = function(e) {
