@@ -182,6 +182,13 @@ load_data_regeneration <-
           .data$rubbing_damage_perc
         )
     ) %>%
+    mutate(rubbing_damage_perc =
+             ifelse(
+               .data$rubbing_damage_perc > 100,
+               100,
+               .data$rubbing_damage_perc
+             )
+    ) %>%
     select(-.data$year_main_survey)
 
   return(data_regeneration)
