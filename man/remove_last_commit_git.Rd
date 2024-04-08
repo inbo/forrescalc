@@ -24,15 +24,12 @@ commit in forresdat after they discoved mistakes in it.
 \dontrun{
 #change paths before running
 library(forrescalc)
-# (add path to your own fieldmap database here)
-path_to_fieldmapdb <-
-  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-from_access_to_git(
-  database = path_to_fieldmapdb,
-  tables = c("qLayer", "qMossLondo"),
-  repo_path = "C:/gitrepo/forresdat"
-)
-remove_last_commit_git(repo_path = "C:/gitrepo/forresdat")
+# add path to your local clone of forresdat
+path_to_forresdat <- "xxx/forresdat"
+
+# only run this after writing a commit with `save_results_git()` or
+# `from_access_to_git()` that has not yet been pushed to Github!
+remove_last_commit_git(repo_path = path_to_forresdat)
 }
 
 }

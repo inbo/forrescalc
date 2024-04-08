@@ -28,12 +28,25 @@
 #' library(forrescalc)
 #' # add path to your local clone of forresdat
 #' path_to_forresdat <- "xxx/forresdat"
+#' # if you don't have a local clone yet, make it:
+#' git2r::clone("https://github.com/inbo/forresdat.git", path_to_forresdat)
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
-#' result_dendro <- calculate_dendrometry(data_dendro)
-#' save_results_git(result = result_dendro, repo_path = path_to_forresdat)
+#' # add path to metadata here
+#' temp <- tempfile(fileext = ".xlsx")
+#' dl <- googledrive::drive_download(
+#'          googledrive::as_id("17M_TfOyjpqLzsFqQ_w1DXitzI7tnULR6"),
+#'          path = temp, overwrite = TRUE
+#'        )
+#'
+#' data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
+#' result_regeneration <- calculate_regeneration(data_regeneration)
+#' save_results_git(
+#'   results = result_regeneration,
+#'   repo_path = path_to_forresdat,
+#'   metadata_path = temp
+#' )
 #' }
 #'
 #' @export

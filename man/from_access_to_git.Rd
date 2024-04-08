@@ -50,6 +50,8 @@ This function loads one or more tables from the access database
 library(forrescalc)
 # add path to your local clone of forresdat
 path_to_forresdat <- "xxx/forresdat"
+# if you don't have a local clone yet, make it:
+git2r::clone("https://github.com/inbo/forresdat.git", path_to_forresdat)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
