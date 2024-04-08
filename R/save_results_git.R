@@ -51,12 +51,13 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr bind_rows left_join
+#' @importFrom dplyr across arrange bind_rows left_join
 #' @importFrom git2r add checkout commit pull push repository
 #' @importFrom readxl read_xlsx
 #' @importFrom frictionless add_resource create_schema read_package
 #'   write_package
 #' @importFrom purrr imap
+#' @importFrom tidyselect all_of
 #'
 save_results_git <-
   function(
@@ -72,8 +73,11 @@ save_results_git <-
   metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
   package <- read_package(file.path(repo_path, "datapackage.json"))
   for (tablename in names(results)) {
-    sorting <- sorting_max[sorting_max %in% colnames(results[[tablename]])]
-    schema_results <- create_schema(results[[tablename]])
+    table_results <- results[[tablename]]
+    sorting <- sorting_max[sorting_max %in% colnames(table_results)]
+    table_results <- table_results %>%
+      arrange(across(all_of(sorting)))
+    schema_results <- create_schema(table_results)
     if (!tablename %in% metadata_tables$Table) {
       warning(
         sprintf(
@@ -99,7 +103,7 @@ save_results_git <-
     package <- package %>%
       add_resource(
         resource_name = tablename,
-        data = results[[tablename]],
+        data = table_results,
         schema = schema_results,
         description =
           metadata_tables[
