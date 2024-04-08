@@ -249,6 +249,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
     ) %>%
     select(
       "plottype", "plot_id", "year", "period", "species",
+      "nr_of_subplots_with_regeneration", "perc_subplots_with_regeneration",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha", "mean_number_seedlings_ha",
       "lci_number_seedlings_ha", "uci_number_seedlings_ha",
