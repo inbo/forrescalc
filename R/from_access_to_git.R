@@ -15,8 +15,8 @@
 #' @importFrom dplyr arrange bind_rows left_join
 #' @importFrom git2r add checkout commit pull push repository
 #' @importFrom DBI dbDisconnect dbReadTable
-#' @importFrom frictionless add_resource create_schema read_package
-#'   write_package
+#' @importFrom frictionless add_resource create_schema get_schema read_package
+#'   read_resource remove_resource resources write_package
 #' @importFrom purrr imap
 #' @importFrom readxl read_xlsx
 #'
@@ -55,6 +55,14 @@ from_access_to_git <-
       table <- table %>%
         arrange(.data$ID)
     }
+    if (tablename %in% resources(package)) {
+      colnames_forresdat <- colnames(read_resource(package, tablename))
+      table <-
+        compare_colnames_forresdat(table, tablename, colnames_forresdat, strict)
+      schema_forresdat <- get_schema(package, tablename)
+      package <- package %>%
+        remove_resource(tablename)
+    }
     schema_table <- create_schema(table)
     if (!tablename %in% metadata_tables$Table) {
       warning(
@@ -77,6 +85,19 @@ from_access_to_git <-
           schema_table$fields,
           ~c(.x, description = metadata_columns_ordered$Description[.y])
         )
+    }
+    if (strict && exists("schema_forresdat")) {
+      tryCatch(
+        all.equal(schema_table, schema_forresdat),
+        error = function(e)
+          stop(
+            paste(
+              "Differences in metadata with the version on forresdat:",
+              e
+            )
+          ),
+        finally = sprintf("(Error refers to table %s", tablename)
+      )
     }
     package <- package %>%
       add_resource(
