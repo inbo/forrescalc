@@ -51,11 +51,11 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr across arrange bind_rows left_join
+#' @importFrom dplyr %>% across arrange bind_rows left_join
 #' @importFrom git2r add checkout commit pull push repository
 #' @importFrom readxl read_xlsx
 #' @importFrom frictionless add_resource create_schema get_schema read_package
-#'   read_resource resources write_package
+#'   read_resource remove_resource resources write_package
 #' @importFrom purrr imap
 #' @importFrom tidyselect all_of
 #'
