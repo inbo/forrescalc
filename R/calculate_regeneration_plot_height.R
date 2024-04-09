@@ -30,7 +30,10 @@
 calculate_regeneration_plot_height <- function(data_regeneration) {
   by_plot_height <- data_regeneration %>%
     mutate(
-      plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha)
+      plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
+      nr_tmp = ifelse(!is.na(nr_of_regeneration)
+                      , nr_of_regeneration
+                      , approx_nr_regeneration)
     ) %>%
     group_by(
       .data$plottype, .data$plot_id, .data$year, .data$period,
@@ -40,7 +43,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
       rubbing_damage_perc =
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
-        sum(.data$nr_of_regeneration * (.data$subcircle == "A2"), na.rm = TRUE),
+        sum(.data$nr_tmp, na.rm = TRUE),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
       interval =
         sum_intervals(
@@ -58,10 +61,17 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha,
       rubbing_damage_perc =
         ifelse(
-          .data$not_na_rubbing > 0 & .data$rubbing_damage_perc > 0,
+          .data$not_na_rubbing > 0 & .data$rubbing_damage_perc >= 0,
           .data$rubbing_damage_perc,
           NA
         )
+    ) %>%
+    mutate(rubbing_damage_perc =
+             ifelse(
+               .data$rubbing_damage_perc > 100,
+               100,
+               .data$rubbing_damage_perc
+             )
     ) %>%
     select(
       -.data$interval, -.data$plotarea_ha,

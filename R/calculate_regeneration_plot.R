@@ -141,14 +141,14 @@ calculate_regeneration_plot <- function(data_regeneration) {
       rubbing_damage_nr_established =
         ifelse(
           .data$not_na_rubbing_established > 0 &
-            .data$rubbing_damage_nr_established > 0,
+            .data$rubbing_damage_nr_established >= 0,
           .data$rubbing_damage_nr_established,
           NA
         ),
       rubbing_damage_nr_seedlings =
         ifelse(
           .data$not_na_rubbing_seedlings > 0 &
-            .data$rubbing_damage_nr_seedlings > 0,
+            .data$rubbing_damage_nr_seedlings >= 0,
           .data$rubbing_damage_nr_seedlings,
           NA
         ),
@@ -257,6 +257,19 @@ calculate_regeneration_plot <- function(data_regeneration) {
            approx_rubbing_damage_perc_seedlings =
              .data$rubbing_damage_nr_seedlings * 100 /
              .data$approx_nr_seedlings
+    ) %>%
+    mutate(approx_rubbing_damage_perc_seedlings =
+             ifelse(
+               .data$approx_rubbing_damage_perc_seedlings > 100,
+               100,
+               .data$approx_rubbing_damage_perc_seedlings
+             )
+           , approx_rubbing_damage_perc_established =
+             ifelse(
+               .data$approx_rubbing_damage_perc_established > 100,
+               100,
+               .data$approx_rubbing_damage_perc_established
+             )
     ) %>%
     select(
       "plottype", "plot_id", "year", "period", "subplot_id",
