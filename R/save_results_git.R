@@ -80,7 +80,9 @@ save_results_git <-
     if (tablename %in% resources(package)) {
       colnames_forresdat <- colnames(read_resource(package, tablename))
       table_results <-
-        compare_colnames_forresdat(table_results, tablename, colnames_forresdat)
+        compare_colnames_forresdat(
+          table_results, tablename, colnames_forresdat, strict
+        )
       schema_forresdat <- get_schema(package, tablename)
       package <- package %>%
         remove_resource(tablename)
