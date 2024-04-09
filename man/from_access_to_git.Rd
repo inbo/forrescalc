@@ -55,10 +55,18 @@ git2r::clone("https://github.com/inbo/forresdat.git", path_to_forresdat)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+# add path to metadata here
+temp <- tempfile(fileext = ".xlsx")
+dl <- googledrive::drive_download(
+         googledrive::as_id("17M_TfOyjpqLzsFqQ_w1DXitzI7tnULR6"),
+         path = temp, overwrite = TRUE
+       )
+
 from_access_to_git(
   database = path_to_fieldmapdb,
   tables = c("qCoverHerbs", "qtotalCover"),
-  repo_path = path_to_forresdat
+  repo_path = path_to_forresdat,
+  metadata_path = temp
 )
 }
 
