@@ -54,8 +54,8 @@
 #' @importFrom dplyr across arrange bind_rows left_join
 #' @importFrom git2r add checkout commit pull push repository
 #' @importFrom readxl read_xlsx
-#' @importFrom frictionless add_resource create_schema read_package
-#'   write_package
+#' @importFrom frictionless add_resource create_schema get_schema read_package
+#'   read_resource resources write_package
 #' @importFrom purrr imap
 #' @importFrom tidyselect all_of
 #'
@@ -77,6 +77,44 @@ save_results_git <-
     sorting <- sorting_max[sorting_max %in% colnames(table_results)]
     table_results <- table_results %>%
       arrange(across(all_of(sorting)))
+    if (tablename %in% resources(package)) {
+      colnames_forresdat <- colnames(read_resource(package, tablename))
+      colnames_results <- colnames(table_results)
+      colnames_old <-
+        colnames_forresdat[!colnames_forresdat %in% colnames_results]
+      colnames_new <-
+        colnames_results[!colnames_results %in% colnames_forresdat]
+      if (length(colnames_old) > 0 || length(colnames_new) > 0) {
+        if (strict) {
+          text <- paste0(
+            sprintf(
+              "extra in new table: %s",
+              paste(colnames_new, sep = ", ")[length(colnames_new) > 0]
+            ),
+            "; "[length(colnames_new) > 0 && length(colnames_old) > 0],
+            sprintf(
+              "extra in forresdat: %s",
+              paste(colnames_old, sep = ", ")[length(colnames_old) > 0]
+            )
+          )
+          stop(
+            sprintf(
+              "Table %s has different column names than the version on forresdat. (%s) Use strict = FALSE if you want to save the new version anyway.", #nolint: line_length_linter
+              tablename, text
+            )
+          )
+        } else {
+          colnames_forresdat <-
+            colnames_forresdat[colnames_forresdat %in% colnames_results]
+          colnames_forresdat <- c(colnames_forresdat, colnames_new)
+        }
+      }
+      table_results <- table_results %>%
+        select(colnames_forresdat)
+      schema_forresdat <- get_schema(package, tablename)
+      package <- package %>%
+        remove_resource(tablename)
+    }
     schema_results <- create_schema(table_results)
     if (!tablename %in% metadata_tables$Table) {
       warning(
@@ -99,6 +137,19 @@ save_results_git <-
           schema_results$fields,
           ~c(.x, description = metadata_columns_ordered$Description[.y])
         )
+    }
+    if (strict && exists("schema_forresdat")) {
+      tryCatch(
+        all.equal(schema_results, schema_forresdat),
+        error = function(e)
+          stop(
+            paste(
+              "Differences in metadata with the version on forresdat:",
+              e
+            )
+          ),
+        finally = sprintf("(Error refers to table %s", tablename)
+      )
     }
     package <- package %>%
       add_resource(
