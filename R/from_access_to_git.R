@@ -55,7 +55,7 @@ from_access_to_git <-
   checkout(repo, branch)
   pull(repo, credentials = get_cred(repo))
   metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
-  package <- read_package(file.path(repo_path, "datapackage.json"))
+  package <- read_package(file.path(repo_path, "data", "datapackage.json"))
   con <- connect_to_database(database)
   for (tablename in tables) {
     table <- dbReadTable(con, tablename)
@@ -119,7 +119,7 @@ from_access_to_git <-
       )
   }
   dbDisconnect(con)
-  write_package(package, repo_path)
+  write_package(package, file.path(repo_path, "data"))
   add(repo, path = "*")
   tryCatch(
     commit(

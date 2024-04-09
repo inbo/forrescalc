@@ -71,7 +71,7 @@ save_results_git <-
     c("period", "year", "plot_id", "dbh_class_5cm", "decaystage", "subplot_id",
       "tree_measure_id", "height_class", "species")
   metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
-  package <- read_package(file.path(repo_path, "datapackage.json"))
+  package <- read_package(file.path(repo_path, "data", "datapackage.json"))
   for (tablename in names(results)) {
     table_results <- results[[tablename]]
     sorting <- sorting_max[sorting_max %in% colnames(table_results)]
@@ -134,7 +134,7 @@ save_results_git <-
           ]$Description
       )
   }
-  write_package(package, repo_path)
+  write_package(package, file.path(repo_path, "data"))
   add(repo, path = "*")
   tryCatch(
     commit(repo, message = "scripted commit from forrescalc", session = TRUE),
