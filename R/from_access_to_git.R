@@ -11,7 +11,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr bind_rows left_join
+#' @importFrom assertthat has_name
+#' @importFrom dplyr arrange bind_rows left_join
 #' @importFrom git2r add checkout commit pull push repository
 #' @importFrom DBI dbDisconnect dbReadTable
 #' @importFrom frictionless add_resource create_schema read_package
@@ -50,6 +51,10 @@ from_access_to_git <-
   con <- connect_to_database(database)
   for (tablename in tables) {
     table <- dbReadTable(con, tablename)
+    if (has_name(table, "ID")) {
+      table <- table %>%
+        arrange(.data$ID)
+    }
     schema_table <- create_schema(table)
     if (!tablename %in% metadata_tables$Table) {
       warning(
