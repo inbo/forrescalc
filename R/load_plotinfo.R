@@ -5,6 +5,7 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
+#' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with columns plot_id, plottype, forest_reserve, period,
 #' year of dendrometric survey and information on
@@ -27,7 +28,14 @@
 #' @importFrom rlang .data
 #'
 
-load_plotinfo <- function(database) {
+load_plotinfo <-
+  function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
+  selection <-
+    translate_input_to_selectquery(
+      database = database, plottype = plottype,
+      forest_reserve = forest_reserve, processed = processed,
+      survey_name = "DataProcessed_YN"
+    )
   query_plot <-
     "SELECT Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
@@ -42,23 +50,26 @@ load_plotinfo <- function(database) {
       pd.DataProcessed_YN AS data_processed
     FROM (Plots
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID %3$s;"
 
   query_plot_1986 <-
-    "SELECT Plots.ID AS plot_id,
-      qPlotType.Value3 AS plottype,
-      pd.ForestReserve AS forest_reserve,
-      pd.Survey_Trees_YN AS survey_trees,
-      pd.Survey_Deadwood_YN AS survey_deadw,
-      pd.Survey_Vegetation_YN AS survey_veg,
-      pd.Survey_Regeneration_YN AS survey_reg,
-      pd.Date_Dendro_1986 AS date_dendro,
-      pd.GameImpactVegObserved AS game_impact_veg,
-      pd.GameImpactRegObserved AS game_impact_reg,
-      pd.DataProcessed_YN AS data_processed
-    FROM (Plots
-      INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
-      INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID;"
+    sprintf(
+      "SELECT Plots.ID AS plot_id,
+        qPlotType.Value3 AS plottype,
+        pd.ForestReserve AS forest_reserve,
+        pd.Survey_Trees_YN AS survey_trees,
+        pd.Survey_Deadwood_YN AS survey_deadw,
+        pd.Survey_Vegetation_YN AS survey_veg,
+        pd.Survey_Regeneration_YN AS survey_reg,
+        pd.Date_Dendro_1986 AS date_dendro,
+        pd.GameImpactVegObserved AS game_impact_veg,
+        pd.GameImpactRegObserved AS game_impact_reg,
+        pd.DataProcessed_YN AS data_processed
+      FROM (Plots
+        INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
+        INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID  %1$s;",
+      selection
+    )
 
   con <- connect_to_database(database)
   plotinfo_1986 <- dbGetQuery(con, query_plot_1986) %>%
@@ -66,7 +77,7 @@ load_plotinfo <- function(database) {
   dbDisconnect(con)
 
   plotinfo <-
-    query_database(database, query_plot)
+    query_database(database, query_plot, selection = selection)
   if (nrow(plotinfo_1986) > 0) {
     if (inherits(con, "SQLiteConnection")) {
       plotinfo_1986 <- plotinfo_1986 %>%
