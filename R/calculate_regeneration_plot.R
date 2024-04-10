@@ -106,7 +106,10 @@ calculate_regeneration_plot <- function(data_regeneration) {
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
       nr_of_tree_species_established =
         n_distinct(.data$species_a2, na.rm = TRUE),
-      plotarea_ha = mean(.data$plotarea_ha, na.rm = TRUE),
+      plotarea_a1_ha = max(.data$plotarea_ha * (.data$subcircle == "A1")
+                            , na.rm = TRUE),
+      plotarea_a2_ha = max(.data$plotarea_ha * (.data$subcircle == "A2")
+                            , na.rm = TRUE),
       established_interval =
         sum_intervals(
           var_min = .data$min_number_established,
@@ -167,109 +170,113 @@ calculate_regeneration_plot <- function(data_regeneration) {
           .data$rubbing_damage_nr_seedlings
         )
     ) %>%
-    mutate(mean_number_established =
-             ifelse(is.na(.data$mean_number_established)
-                    & .data$mean_number_seedlings > 0
-                    , 0
-                    , .data$mean_number_established),
-           lci_number_established =
-             ifelse(is.na(.data$lci_number_established)
-                    & .data$mean_number_seedlings > 0
-                    , 0
-                    , .data$lci_number_established),
-           uci_number_established =
-             ifelse(is.na(.data$uci_number_established)
-                    & .data$mean_number_seedlings > 0
-                    , 0
-                    , .data$uci_number_established),
-           mean_number_seedlings =
-             ifelse(is.na(.data$mean_number_seedlings)
-                    & .data$mean_number_established > 0
-                    , 0
-                    , .data$mean_number_seedlings),
-           lci_number_seedlings =
-             ifelse(is.na(.data$lci_number_seedlings)
-                    & .data$mean_number_established > 0
-                    , 0
-                    , .data$lci_number_seedlings),
-           uci_number_seedlings =
-             ifelse(is.na(.data$uci_number_seedlings)
-                    & .data$mean_number_established > 0
-                    , 0
-                    , .data$uci_number_seedlings),
-           approx_nr_established =
-             ifelse(.data$approx_nr_established == 0 &
-                      is.na(.data$mean_number_established),
-                    NA,
-                    .data$approx_nr_established),
-           approx_nr_seedlings =
-             ifelse(.data$approx_nr_seedlings == 0 &
-                      is.na(.data$mean_number_seedlings),
-                    NA,
-                    .data$approx_nr_seedlings),
-           number_of_tree_species =
-             ifelse(.data$number_of_tree_species == 0 &
-                      is.na(.data$mean_number_seedlings),
-                    NA,
-                    .data$number_of_tree_species),
-           nr_of_tree_species_established =
-             ifelse(.data$nr_of_tree_species_established == 0 &
-                      is.na(.data$mean_number_seedlings),
-                    NA,
-                    .data$nr_of_tree_species_established),
-           mean_number_established_ha =
-             .data$mean_number_established / .data$plotarea_ha,
-           lci_number_established_ha =
-             .data$lci_number_established / .data$plotarea_ha,
-           uci_number_established_ha =
-             .data$uci_number_established / .data$plotarea_ha,
-           mean_number_seedlings_ha =
-             .data$mean_number_seedlings / .data$plotarea_ha,
-           lci_number_seedlings_ha =
-             .data$lci_number_seedlings / .data$plotarea_ha,
-           uci_number_seedlings_ha =
-             .data$uci_number_seedlings / .data$plotarea_ha,
-           mean_rubbing_damage_perc_established =
-             .data$rubbing_damage_nr_established * 100 /
-               .data$mean_number_established,
-           lci_rubbing_damage_perc_established =
-             .data$rubbing_damage_nr_established * 100 /
-               .data$uci_number_established,
-           uci_rubbing_damage_perc_established =
-             .data$rubbing_damage_nr_established * 100 /
-               .data$lci_number_established,
-           mean_rubbing_damage_perc_seedlings =
-             .data$rubbing_damage_nr_seedlings * 100 /
-               .data$mean_number_seedlings,
-           lci_rubbing_damage_perc_seedlings =
-             .data$rubbing_damage_nr_seedlings * 100 /
-               .data$uci_number_seedlings,
-           uci_rubbing_damage_perc_seedlings =
-             .data$rubbing_damage_nr_seedlings * 100 /
-               .data$lci_number_seedlings,
-           approx_nr_established_ha =
-             .data$approx_nr_established / .data$plotarea_ha,
-           approx_nr_seedlings_ha =
-             .data$approx_nr_seedlings / .data$plotarea_ha,
-           approx_rubbing_damage_perc_established =
-             .data$rubbing_damage_nr_established * 100 /
-             .data$approx_nr_established,
-           approx_rubbing_damage_perc_seedlings =
-             .data$rubbing_damage_nr_seedlings * 100 /
-             .data$approx_nr_seedlings
-    ) %>%
-    mutate(approx_rubbing_damage_perc_seedlings =
-             ifelse(
-               .data$approx_rubbing_damage_perc_seedlings > 100,
-               100,
-               .data$approx_rubbing_damage_perc_seedlings
-             )
-           , approx_rubbing_damage_perc_established =
-             ifelse(
-               .data$approx_rubbing_damage_perc_established > 100,
-               100,
-               .data$approx_rubbing_damage_perc_established
-             )
+    mutate(
+      number_of_tree_species =
+        ifelse(.data$number_of_tree_species == 0 &
+                 is.na(.data$mean_number_seedlings),
+               NA,
+               .data$number_of_tree_species),
+      nr_of_tree_species_established =
+        ifelse(.data$nr_of_tree_species_established == 0 &
+                 is.na(.data$mean_number_seedlings),
+               NA,
+               .data$nr_of_tree_species_established),
+      mean_number_established_ha =
+        .data$mean_number_established / .data$plotarea_a2_ha,
+      lci_number_established_ha =
+        .data$lci_number_established / .data$plotarea_a2_ha,
+      uci_number_established_ha =
+        .data$uci_number_established / .data$plotarea_a2_ha,
+      mean_number_seedlings_ha =
+        .data$mean_number_seedlings / .data$plotarea_a1_ha,
+      lci_number_seedlings_ha =
+        .data$lci_number_seedlings / .data$plotarea_a1_ha,
+      uci_number_seedlings_ha =
+        .data$uci_number_seedlings / .data$plotarea_a1_ha,
+      # correctie voor NA wegens plotarea_a1_ha of plotarea_a2_ha = 0
+      mean_number_established_ha =
+        ifelse(is.na(.data$mean_number_established_ha)
+               & .data$mean_number_seedlings_ha > 0
+               , 0
+               , .data$mean_number_established_ha),
+      lci_number_established_ha =
+        ifelse(is.na(.data$lci_number_established_ha)
+               & .data$mean_number_seedlings_ha > 0
+               , 0
+               , .data$lci_number_established_ha),
+      uci_number_established_ha =
+        ifelse(is.na(.data$uci_number_established_ha)
+               & .data$mean_number_seedlings_ha > 0
+               , 0
+               , .data$uci_number_established_ha),
+      mean_number_seedlings_ha =
+        ifelse(is.na(.data$mean_number_seedlings_ha)
+               & .data$mean_number_established_ha > 0
+               , 0
+               , .data$mean_number_seedlings_ha),
+      lci_number_seedlings_ha =
+        ifelse(is.na(.data$lci_number_seedlings_ha)
+               & .data$mean_number_established_ha > 0
+               , 0
+               , .data$lci_number_seedlings_ha),
+      uci_number_seedlings_ha =
+        ifelse(is.na(.data$uci_number_seedlings_ha)
+               & .data$mean_number_established_ha > 0
+               , 0
+               , .data$uci_number_seedlings_ha),
+
+      mean_rubbing_damage_perc_established =
+        .data$rubbing_damage_nr_established * 100 /
+        .data$mean_number_established,
+      lci_rubbing_damage_perc_established =
+        .data$rubbing_damage_nr_established * 100 /
+        .data$uci_number_established,
+      uci_rubbing_damage_perc_established =
+        .data$rubbing_damage_nr_established * 100 /
+        .data$lci_number_established,
+      mean_rubbing_damage_perc_seedlings =
+        .data$rubbing_damage_nr_seedlings * 100 /
+        .data$mean_number_seedlings,
+      lci_rubbing_damage_perc_seedlings =
+        .data$rubbing_damage_nr_seedlings * 100 /
+        .data$uci_number_seedlings,
+      uci_rubbing_damage_perc_seedlings =
+        .data$rubbing_damage_nr_seedlings * 100 /
+        .data$lci_number_seedlings,
+
+      # om approx_nr_xxx = 0 door sum van NA's (zie hoger) te corrigeren
+      approx_nr_established =
+        ifelse(.data$approx_nr_established == 0 &
+                 is.na(.data$mean_number_established),
+               NA,
+               .data$approx_nr_established),
+      approx_nr_seedlings =
+        ifelse(.data$approx_nr_seedlings == 0 &
+                 is.na(.data$mean_number_seedlings),
+               NA,
+               .data$approx_nr_seedlings),
+      # per hectare
+      approx_nr_established_ha =
+        .data$approx_nr_established / .data$plotarea_a2_ha,
+      approx_nr_seedlings_ha =
+        .data$approx_nr_seedlings / .data$plotarea_a1_ha,
+      # om NA's wegens geen A1 of A2 te vervangen door een 0
+      approx_nr_established_ha =
+        ifelse(is.na(.data$approx_nr_established_ha) &
+                 .data$approx_nr_seedlings_ha > 0
+               , 0
+               , .data$approx_nr_established_ha),
+      approx_nr_seedlings_ha =
+        ifelse(is.na(.data$approx_nr_seedlings_ha) &
+                 .data$approx_nr_established_ha > 0
+               , 0
+               , .data$approx_nr_seedlings_ha),
+      approx_rubbing_damage_perc_established = pmin(
+        .data$rubbing_damage_nr_established * 100 /
+        .data$approx_nr_established, 100),
+      approx_rubbing_damage_perc_seedlings = pmin(
+        .data$rubbing_damage_nr_seedlings * 100 /
+        .data$approx_nr_seedlings, 100)
     ) %>%
     select(
       "plottype", "plot_id", "year", "period", "subplot_id",
