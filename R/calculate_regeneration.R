@@ -2,8 +2,9 @@
 #'
 #' This function makes aggregations of tree generation data on the levels of
 #' \itemize{
-#'  \item plot, height class and year (and subplot for core area)
 #'  \item plot and year (and subplot for core area)
+#'  \item plot, height class and year (and subplot for core area)
+#'  \item plot, tree species and year (and subplot for core area)
 #'  \item plot, height class, tree species and year (and subplot for core area)
 #' }
 #' For core area plots it makes additional aggregations on the levels of
@@ -33,8 +34,9 @@
 #' @export
 #'
 calculate_regeneration <- function(data_regeneration) {
-  by_plot_height <- calculate_regeneration_plot_height(data_regeneration)
   by_plot <- calculate_regeneration_plot(data_regeneration)
+  by_plot_height <- calculate_regeneration_plot_height(data_regeneration)
+  by_plot_species <- calculate_regeneration_plot_species(data_regeneration)
   by_plot_height_species <-
     calculate_regeneration_plot_height_species(data_regeneration)
   data_regeneration_ca <- data_regeneration %>%
@@ -46,8 +48,9 @@ calculate_regeneration <- function(data_regeneration) {
 
   return(
     list(
-      regeneration_by_plot_height = by_plot_height,
       regeneration_by_plot = by_plot,
+      regeneration_by_plot_height = by_plot_height,
+      regeneration_by_plot_species = by_plot_species,
       regeneration_by_plot_height_species = by_plot_height_species,
       regeneration_by_core_area_species = by_ca_species,
       regeneration_by_core_area_height_species = by_ca_height_species
