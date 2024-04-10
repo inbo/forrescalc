@@ -41,6 +41,8 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
+      approx_nr_regeneration_ha =
+        sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha),
       rubbing_damage_perc =
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
         sum(.data$nr_tmp, na.rm = TRUE),
@@ -50,9 +52,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
           var_min = .data$min_number_of_regeneration,
           var_max = .data$max_number_of_regeneration,
           transformation = "log", na_rm = TRUE
-        ),
-      approx_nr_regeneration_ha =
-        sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha)
+        )
     ) %>%
     ungroup() %>%
     mutate(
