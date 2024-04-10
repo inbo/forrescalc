@@ -41,9 +41,9 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
     summarise(
       approx_nr_regeneration_ha =
         sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha),
-      rubbing_damage_perc =
+      rubbing_damage_perc = pmin(
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
-        sum(.data$nr_tmp, na.rm = TRUE),
+          sum(.data$nr_tmp, na.rm = TRUE), 100),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
       interval =
         sum_intervals(
@@ -63,13 +63,6 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
           .data$rubbing_damage_perc,
           NA
         )
-    ) %>%
-    mutate(rubbing_damage_perc =
-             ifelse(
-               .data$rubbing_damage_perc > 100,
-               100,
-               .data$rubbing_damage_perc
-             )
     ) %>%
     select(
       -.data$interval, -.data$plotarea_ha,

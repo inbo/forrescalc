@@ -234,25 +234,12 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
              .data$approx_nr_established / .data$plotarea_ha,
            approx_nr_seedlings_ha =
              .data$approx_nr_seedlings / .data$plotarea_ha,
-           approx_rubbing_damage_perc_established =
+           approx_rubbing_damage_perc_established = pmin(
              .data$rubbing_damage_nr_established * 100 /
-             .data$approx_nr_established,
-           approx_rubbing_damage_perc_seedlings =
+               .data$approx_nr_established, 100),
+           approx_rubbing_damage_perc_seedlings = pmin(
              .data$rubbing_damage_nr_seedlings * 100 /
-             .data$approx_nr_seedlings
-    ) %>%
-    mutate(approx_rubbing_damage_perc_seedlings =
-             ifelse(
-               .data$approx_rubbing_damage_perc_seedlings > 100,
-               100,
-               .data$approx_rubbing_damage_perc_seedlings
-             )
-           , approx_rubbing_damage_perc_established =
-             ifelse(
-               .data$approx_rubbing_damage_perc_established > 100,
-               100,
-               .data$approx_rubbing_damage_perc_established
-             )
+               .data$approx_nr_seedlings, 100)
     ) %>%
     select(
       "plottype", "plot_id", "year", "period", "subplot_id", "species",
