@@ -40,7 +40,7 @@ compare_colnames_forresdat <-
       )
       stop(
         sprintf(
-          "Table %s has different column names than the version on forresdat. (%s) Use strict = FALSE if you want to save the new version anyway.", #nolint: line_length_linter
+          "Table %1$s has different column names than the version on forresdat. (%2$s) Use strict = FALSE if you want to save the new version anyway.", #nolint: line_length_linter
           tablename, text
         )
       )
