@@ -155,7 +155,13 @@ load_data_vegetation <-
       soildisturbance_game_cover_mid =
         (.data$soildisturbance_game_cover_min +
            .data$soildisturbance_game_cover_max) / 2
-    )
+    ) %>%
+    select(.data$forest_reserve, .data$plot_id, .data$plottype, .data$subplot_id
+           , .data$period, .data$year_main_survey, .data$date_vegetation
+           , .data$totalplotarea_ha, .data$plotarea_ha
+           , everything()
+           , -.data$length_core_area_m, -.data$width_core_area_m
+           , -.data$core_area_ha)
 
   return(data_vegetation)
 }

@@ -194,7 +194,20 @@ load_data_dendrometry <-
           .data$plotarea_ha
         ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
-    )
+    ) %>%
+    select("forest_reserve", "plot_id", "plottype"
+            , "period", "year", "date_dendro"
+            , "totalplotarea_ha", "plotarea_ha"
+            , "tree_measure_id", "old_id", "species", "dbh_mm"
+            , "height_m", "calc_height_fm",
+            , contains(c("alive", "intact", "cop", "decay"
+                         , "nr_of_stems"
+                         , "dbh_class"
+                         , "subcircle"
+                         , "r_A", "dbh_min_a"
+                         , "core"))
+            , everything())
+
 
   return(data_dendro)
 }

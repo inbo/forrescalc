@@ -70,7 +70,8 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
   data_shoots <- data_shoots %>%
     mutate(
       intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag)
-    )
+    ) %>%
+    select("period", everything())
 
   return(data_shoots)
 }

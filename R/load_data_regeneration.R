@@ -183,7 +183,18 @@ load_data_regeneration <-
           .data$rubbing_damage_perc
         )
     ) %>%
-    select(-.data$year_main_survey)
+    select("forest_reserve", "plot_id", "plottype", "subplot_id"
+           , "period", "year", "date_regeneration"
+           , "totalplotarea_ha", "plotarea_ha"
+           , "height_class", "species", "number_class"
+           , "nr_of_regeneration", "approx_nr_regeneration"
+           , "min_number_of_regeneration", "max_number_of_regeneration"
+           , "rubbing_damage_number", "rubbing_damage_perc"
+           , contains(c("subcircle"
+                        , "r_A1","r_A2"
+                        , "core"))
+           , everything()
+           , -.data$year_main_survey)
 
   return(data_regeneration)
 }

@@ -109,7 +109,14 @@ load_data_deadwood <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         )
-    )
+    ) %>%
+    select("forest_reserve", "plot_id", "plottype"
+           , "period", "year", "date_dendro"
+           , "totalplotarea_ha", "plotarea_ha"
+           , contains(c("deadw_id", "species", "decay", "intact", "calc"
+                        , "length_m", "diam_mm", "dbh"
+                        , "r_A", "core"))
+           , everything())
 
   return(data_deadwood)
 }
