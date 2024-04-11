@@ -69,7 +69,7 @@ calculate_dendro_plot_species <-
           "survey_deadw"
         ) %>%
         filter(.data$survey_trees | .data$survey_deadw),
-      by = c("plot_id", "year", "period")
+      by = c("plottype", "plot_id", "year", "period")
     ) %>%
     mutate(
       across(

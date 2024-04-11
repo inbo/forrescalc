@@ -89,11 +89,11 @@ calculate_deadw_decay_plot <-
     if (is.data.frame(by_decay_plot)) {
       by_decay_plot <- plotinfo %>%
         select(
-          "plot_id", year = "year_dendro", "period", "survey_trees",
+          "plottype", "plot_id", year = "year_dendro", "period", "survey_trees",
           "survey_deadw"
         ) %>%
         left_join(
-          by_decay_plot, by = c("plot_id", "year", "period")
+          by_decay_plot, by = c("plottype", "plot_id", "year", "period")
         ) %>%
         filter(.data$survey_trees | .data$survey_deadw) %>%
         mutate(
