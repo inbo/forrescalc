@@ -13,7 +13,7 @@
 #'
 #' @importFrom assertthat has_name
 #' @importFrom dplyr arrange bind_rows left_join
-#' @importFrom git2r add checkout commit pull push repository
+#' @importFrom git2r add branches checkout commit pull push repository
 #' @importFrom DBI dbDisconnect dbReadTable
 #' @importFrom frictionless add_resource create_schema get_schema read_package
 #'   read_resource remove_resource resources write_package
@@ -52,6 +52,14 @@ from_access_to_git <-
     branch = "develop"
   ) {
   repo <- repository(repo_path)
+  if (!has_name(branches(repo), branch)) {
+    stop(
+      sprintf(
+        "Branch %s doesn't exist in forresdat. Add this branch and try again",
+        branch
+      )
+    )
+  }
   checkout(repo, branch)
   pull(repo, credentials = get_cred(repo))
   metadata_tables <- read_xlsx(metadata_path, sheet = "Content")

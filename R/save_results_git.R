@@ -51,8 +51,9 @@
 #'
 #' @export
 #'
+#' @importFrom assertthat has_name
 #' @importFrom dplyr %>% across arrange bind_rows left_join
-#' @importFrom git2r add checkout commit pull push repository
+#' @importFrom git2r add checkout commit branches pull push repository
 #' @importFrom readxl read_xlsx
 #' @importFrom frictionless add_resource create_schema get_schema read_package
 #'   read_resource remove_resource resources write_package
@@ -65,6 +66,14 @@ save_results_git <-
     branch = "develop"
   ) {
   repo <- repository(repo_path)
+  if (!has_name(branches(repo), branch)) {
+    stop(
+      sprintf(
+        "Branch %s doesn't exist in forresdat. Add this branch and try again",
+        branch
+      )
+    )
+  }
   checkout(repo, branch)
   pull(repo, credentials = get_cred(repo))
   sorting_max <-
