@@ -48,7 +48,7 @@ remove_table_forresdat <-
   package <- read_package(file.path(repo_path, "data", "datapackage.json"))
   for (tablename in tables) {
     if (tablename %in% resources(package)) {
-      package <- package %>%
+      package <- package |>
         remove_resource(tablename)
       file.remove(file.path(repo_path, "data", paste0(tablename, ".csv")))
     } else {
