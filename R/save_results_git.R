@@ -95,6 +95,7 @@ save_results_git <-
       schema_forresdat <- get_schema(package, tablename)
       package <- package %>%
         remove_resource(tablename)
+      file.remove(file.path(repo_path, "data", paste0(tablename, ".csv")))
     }
     schema_results <- create_schema(table_results)
     if (!tablename %in% metadata_tables$Table) {
