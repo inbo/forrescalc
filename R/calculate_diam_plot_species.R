@@ -85,7 +85,7 @@ calculate_diam_plot_species <-
     ) %>%
     mutate(
       across(
-        .data$stem_number_alive_ha:.data$vol_bole_dead_m3_ha,
+        "stem_number_alive_ha":"vol_bole_dead_m3_ha",
         ~ ifelse(is.na(.x) & survey_trees, 0, .x)
       ),
       vol_log_m3_ha =

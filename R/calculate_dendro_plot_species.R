@@ -73,7 +73,7 @@ calculate_dendro_plot_species <-
     ) %>%
     mutate(
       across(
-        .data$number_of_trees_ha:.data$vol_bole_dead_m3_ha,
+        "number_of_trees_ha":"vol_bole_dead_m3_ha",
         ~ ifelse(is.na(.x) & survey_trees, 0, .x)
       ),
       vol_log_m3_ha =
