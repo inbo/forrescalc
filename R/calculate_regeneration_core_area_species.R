@@ -139,15 +139,13 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       uci_number_seedlings = .data$seedlings_interval$uci,
       rubbing_damage_nr_established =
         ifelse(
-          .data$not_na_rubbing_established > 0 &
-            .data$rubbing_damage_nr_established >= 0,
+          .data$not_na_rubbing_established > 0,
           .data$rubbing_damage_nr_established,
           NA
         ),
       rubbing_damage_nr_seedlings =
         ifelse(
-          .data$not_na_rubbing_seedlings > 0 &
-            .data$rubbing_damage_nr_seedlings >= 0,
+          .data$not_na_rubbing_seedlings > 0,
           .data$rubbing_damage_nr_seedlings,
           NA
         ),

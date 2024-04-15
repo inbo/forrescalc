@@ -68,7 +68,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha,
       approx_rubbing_damage_perc =
         ifelse(
-          .data$not_na_rubbing > 0 & .data$approx_rubbing_damage_perc >= 0,
+          .data$not_na_rubbing > 0,
           .data$approx_rubbing_damage_perc,
           NA
         )
