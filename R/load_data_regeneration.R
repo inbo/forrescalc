@@ -130,8 +130,9 @@ load_data_regeneration <-
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      rubbing_damage_perc =
-        .data$rubbing_damage_number * 100 / .data$nr_of_regeneration
+      rubbing_damage_perc = pmin(
+        .data$rubbing_damage_number * 100 / .data$nr_of_regeneration,
+        100)
     ) %>%
     left_join(
       number_classes %>%
@@ -181,13 +182,6 @@ load_data_regeneration <-
           .data$rubbing_damage_number * 100 / .data$approx_nr_regeneration,
           .data$rubbing_damage_perc
         )
-    ) %>%
-    mutate(rubbing_damage_perc =
-             ifelse(
-               .data$rubbing_damage_perc > 100,
-               100,
-               .data$rubbing_damage_perc
-             )
     ) %>%
     select(-.data$year_main_survey)
 
