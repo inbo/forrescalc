@@ -15,7 +15,7 @@ describe("load_data_deadwood()", {
         "length_core_area_m", "width_core_area_m", "core_area_ha",
         "lying_deadw_id", "species", "decaystage", "intact_fragm",
         "calc_volume_m3", "calc_length_m", "total_length_m",
-        "min_diam_mm", "max_diam_mm","period", "year", "dbh_class_5cm",
+        "min_diam_mm", "max_diam_mm", "period", "year", "dbh_class_5cm",
         "plotarea_ha")
     )
     expect_equal(
@@ -91,7 +91,7 @@ describe("load_data_regeneration()", {
     expect_equal(
       colnames(data_regeneration),
       c("plot_id", "plottype", "totalplotarea_ha", "forest_reserve",
-         "r_A2","r_A1",
+         "r_A2", "r_A1",
         "length_core_area_m", "width_core_area_m", "core_area_ha",
         "subplot_id", "date_regeneration", "height_class", "species",
         "number_class", "nr_of_regeneration", "rubbing_damage_number",
