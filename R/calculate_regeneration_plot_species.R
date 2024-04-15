@@ -173,7 +173,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
              .data$lci_number_seedlings / .data$plotarea_a1_ha,
            uci_number_seedlings_ha =
              .data$uci_number_seedlings / .data$plotarea_a1_ha,
-           # correctie voor NA wegens plotarea_a1_ha of plotarea_a2_ha = 0
+           # correction for NA due to plotarea_a1_ha or plotarea_a2_ha = 0
            mean_number_established_ha =
              ifelse(is.na(.data$mean_number_established_ha)
                     & .data$mean_number_seedlings_ha > 0
@@ -224,7 +224,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
              .data$rubbing_damage_nr_seedlings * 100 /
              .data$lci_number_seedlings,
 
-           # om approx_nr_xxx = 0 door sum van NA's (zie hoger) te corrigeren
+           # to correct approx_nr_xxx = 0 by sum of NAs (see above)
            approx_nr_established =
              ifelse(.data$approx_nr_established == 0 &
                       is.na(.data$mean_number_established),
@@ -240,7 +240,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
              .data$approx_nr_established / .data$plotarea_a2_ha,
            approx_nr_seedlings_ha =
              .data$approx_nr_seedlings / .data$plotarea_a1_ha,
-           # om NA's wegens geen A1 of A2 te vervangen door een 0
+           # to replace NAs due to no A1 or A2 with a 0
            approx_nr_established_ha =
              ifelse(is.na(.data$approx_nr_established_ha) &
                       .data$approx_nr_seedlings_ha > 0
