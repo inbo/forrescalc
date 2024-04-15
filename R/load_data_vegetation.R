@@ -111,39 +111,39 @@ load_data_vegetation <-
     ) %>%
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(
-      moss_cover_interval = .data$cover_interval,
-      moss_cover_min = .data$min_cover,
-      moss_cover_max = .data$max_cover
+      moss_cover_interval = "cover_interval",
+      moss_cover_min = "min_cover",
+      moss_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_herb_cover_id" = "id")) %>%
     rename(
-      herb_cover_interval = .data$cover_interval,
-      herb_cover_min = .data$min_cover,
-      herb_cover_max = .data$max_cover
+      herb_cover_interval = "cover_interval",
+      herb_cover_min = "min_cover",
+      herb_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_shrub_cover_id" = "id")) %>%
     rename(
-      shrub_cover_interval = .data$cover_interval,
-      shrub_cover_min = .data$min_cover,
-      shrub_cover_max = .data$max_cover
+      shrub_cover_interval = "cover_interval",
+      shrub_cover_min = "min_cover",
+      shrub_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_tree_cover_id" = "id")) %>%
     rename(
-      tree_cover_interval = .data$cover_interval,
-      tree_cover_min = .data$min_cover,
-      tree_cover_max = .data$max_cover
+      tree_cover_interval = "cover_interval",
+      tree_cover_min = "min_cover",
+      tree_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_waterlayer_cover_id" = "id")) %>%
     rename(
-      waterlayer_cover_interval = .data$cover_interval,
-      waterlayer_cover_min = .data$min_cover,
-      waterlayer_cover_max = .data$max_cover
+      waterlayer_cover_interval = "cover_interval",
+      waterlayer_cover_min = "min_cover",
+      waterlayer_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_soildisturbance_game_id" = "id")) %>%
     rename(
-      soildisturbance_game_cover_interval = .data$cover_interval,
-      soildisturbance_game_cover_min = .data$min_cover,
-      soildisturbance_game_cover_max = .data$max_cover
+      soildisturbance_game_cover_interval = "cover_interval",
+      soildisturbance_game_cover_min = "min_cover",
+      soildisturbance_game_cover_max = "max_cover"
     ) %>%
     mutate(
       moss_cover_mid = (.data$moss_cover_min + .data$moss_cover_max) / 2,
