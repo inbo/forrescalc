@@ -136,7 +136,7 @@ load_data_regeneration <-
     ) %>%
     left_join(
       number_classes %>%
-        select(-.data$number_class),
+        select(-"number_class"),
       by = c("number_class" = "id")
     ) %>%
     mutate(
@@ -183,7 +183,7 @@ load_data_regeneration <-
           .data$rubbing_damage_perc
         )
     ) %>%
-    select(-.data$year_main_survey)
+    select(-"year_main_survey")
 
   return(data_regeneration)
 }

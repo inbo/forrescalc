@@ -69,14 +69,14 @@ compose_stem_data <-
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
     select(
-      -.data$nr_of_stems, -.data$dbh_class_5cm
+      -"nr_of_stems", -"dbh_class_5cm"
     )
   stem_data <- data_dendro_relevant %>%
     filter(.data$ind_sht_cop != 12) %>%
     bind_rows(
       data_dendro_relevant %>%
-        select(-.data$dbh_mm, -.data$height_m,
-               -.data$intact_snag, -.data$decaystage) %>%
+        select(-"dbh_mm", -"height_m",
+               -"intact_snag", -"decaystage") %>%
         filter(.data$ind_sht_cop == 12) %>%
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%

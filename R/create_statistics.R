@@ -195,7 +195,7 @@ create_statistics <-
       filter(!is.na(.data$value)) %>%
       right_join(
         dataset %>%
-          select(all_of(level), .data$variable, .data$logaritmic) %>%
+          select(all_of(level), "variable", "logaritmic") %>%
           distinct(),
         by = c(level, "variable", "logaritmic")
       )

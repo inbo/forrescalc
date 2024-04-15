@@ -24,7 +24,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by n_distinct select summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height <- function(data_regeneration) {
@@ -64,8 +64,8 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
         )
     ) %>%
     select(
-      -.data$interval, -.data$plotarea_ha,
-      -.data$not_na_rubbing
+      -"interval", -"plotarea_ha",
+      -"not_na_rubbing"
     )
 
   return(by_plot_height)

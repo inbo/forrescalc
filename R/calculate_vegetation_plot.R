@@ -43,16 +43,16 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     left_join(
       data_vegetation %>%
         select(
-          .data$plottype, .data$plot_id, .data$subplot_id, .data$period,
-          .data$year_main_survey, .data$date_vegetation,
-          .data$moss_cover_min, .data$moss_cover_max, .data$moss_cover_mid,
-          .data$herb_cover_min, .data$herb_cover_max, .data$herb_cover_mid,
-          .data$shrub_cover_min, .data$shrub_cover_max, .data$shrub_cover_mid,
-          .data$tree_cover_min, .data$tree_cover_max, .data$tree_cover_mid,
-          .data$waterlayer_cover_min, .data$waterlayer_cover_max,
-          .data$waterlayer_cover_mid, .data$soildisturbance_game_cover_min,
-          .data$soildisturbance_game_cover_max,
-          .data$soildisturbance_game_cover_mid
+          "plottype", "plot_id", "subplot_id", "period",
+          "year_main_survey", "date_vegetation",
+          "moss_cover_min", "moss_cover_max", "moss_cover_mid",
+          "herb_cover_min", "herb_cover_max", "herb_cover_mid",
+          "shrub_cover_min", "shrub_cover_max", "shrub_cover_mid",
+          "tree_cover_min", "tree_cover_max", "tree_cover_mid",
+          "waterlayer_cover_min", "waterlayer_cover_max",
+          "waterlayer_cover_mid", "soildisturbance_game_cover_min",
+          "soildisturbance_game_cover_max",
+          "soildisturbance_game_cover_mid"
         ),
       by = c("plottype", "plot_id", "period", "subplot_id")
     ) %>%

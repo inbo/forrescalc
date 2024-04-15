@@ -26,7 +26,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% mutate
+#' @importFrom dplyr %>% mutate select
 #' @importFrom lubridate year
 #'
 load_data_herblayer <-
@@ -106,7 +106,7 @@ load_data_herblayer <-
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
     ) %>%
-    select(-.data$year_main_survey)
+    select(-"year_main_survey")
 
   return(data_herblayer)
 }

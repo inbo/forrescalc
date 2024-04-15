@@ -33,7 +33,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% distinct filter group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% distinct filter group_by n_distinct select summarise
+#'   ungroup
 #' @importFrom rlang .data
 #'
 calculate_regeneration_core_area_species <- function(data_regeneration) {

@@ -60,8 +60,8 @@ calc_variables_tree_level <-
 
   data_dendro1 <- data_dendro %>%
     select(
-      -.data$dbh_mm, -.data$nr_of_stems, -.data$calc_height_fm,
-      -.data$intact_snag, -.data$decaystage
+      -"dbh_mm", -"nr_of_stems", -"calc_height_fm",
+      -"intact_snag", -"decaystage"
     ) %>%
     left_join(
       data_stems_calc %>%
@@ -108,7 +108,7 @@ calc_variables_tree_level <-
                0
              )
     ) %>%
-    select(-.data$individual)
+    select(-"individual")
 
   return(data_dendro1)
 }

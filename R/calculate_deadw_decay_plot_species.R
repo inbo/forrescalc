@@ -30,7 +30,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by summarise ungroup
+#' @importFrom dplyr %>% group_by select summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_deadw_decay_plot_species <-

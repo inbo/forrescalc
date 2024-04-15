@@ -219,11 +219,11 @@ add_zeros <-
                               add_zero_no_na, defaults_to_na)))),
       ~replace_na_zero(., .data$ds_record, !!!ensyms(add_zero_no_na))
     ) %>%
-    select(-.data$ds_record)
+    select(-"ds_record")
 
   if (add_zero_no_na == "to_be_removed") {
     complete_table <- complete_table %>%
-      select(-.data$to_be_removed)
+      select(-"to_be_removed")
   }
 
   return(complete_table)

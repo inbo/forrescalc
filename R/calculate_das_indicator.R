@@ -77,7 +77,7 @@ calculate_das_indicator <- function(data_dendro_calc, na_rm = FALSE) {
                                                , "period")) %>%
     inner_join(
       data_dendro_calc %>%
-        select(.data$plot_id, .data$forest_reserve) %>%
+        select("plot_id", "forest_reserve") %>%
         distinct(),
       by = c("plot_id")
     ) %>%

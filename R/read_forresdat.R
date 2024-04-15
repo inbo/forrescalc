@@ -31,6 +31,7 @@
 #' @export
 #'
 #' @importFrom assertthat assert_that has_name
+#' @importFrom dplyr select
 #' @importFrom readr read_tsv
 #'
 read_forresdat <-

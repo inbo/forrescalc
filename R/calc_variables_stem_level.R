@@ -59,11 +59,11 @@ calc_variables_stem_level <-
     bind_rows(
       data_stems1 %>%
         filter(is.na(.data$model)) %>%
-        select(-.data$model, -.data$P1, -.data$P2) %>%
+        select(-"model", -"P1", -"P2") %>%
         left_join(
           height_model %>%
             filter(is.na(.data$species)) %>%
-            select(-.data$species),
+            select(-"species"),
           by = c("forest_reserve", "period", "plottype")
         )
     ) %>%
@@ -83,7 +83,7 @@ calc_variables_stem_level <-
                , pmax(1.3, .data$calc_height_r))
     ) %>%
     select(
-      -.data$model, -.data$P1, -.data$P2
+      -"model", -"P1", -"P2"
     )
   data_stems2 <- calc_stem_volume(data_stems2) %>%
     mutate(
@@ -150,8 +150,8 @@ calc_variables_stem_level <-
              )
     ) %>%
     select(
-      -.data$calc_height_fm, -.data$calc_height_r, -.data$dh_model,
-      -.data$reduction_crown, -.data$reduction_branch)
+      -"calc_height_fm", -"calc_height_r", -"dh_model",
+      -"reduction_crown", -"reduction_branch")
 
   return(data_stems2)
 }
