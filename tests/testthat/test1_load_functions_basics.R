@@ -5,6 +5,8 @@ path_to_fieldmapdb <-
 
 describe("load_data_deadwood()", {
   data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
+  data_deadwood_extra <-
+    load_data_deadwood(path_to_fieldmapdb, extra_variables = TRUE)
   it("output columns are correct", {
     expect_equal(
       colnames(data_deadwood),
@@ -13,7 +15,19 @@ describe("load_data_deadwood()", {
         "length_core_area_m", "width_core_area_m", "core_area_ha",
         "lying_deadw_id", "species", "decaystage", "intact_fragm",
         "calc_volume_m3", "calc_length_m", "total_length_m",
-        "min_diam_mm", "max_diam_mm", "period", "year", "dbh_class_5cm",
+        "min_diam_mm", "max_diam_mm","period", "year", "dbh_class_5cm",
+        "plotarea_ha")
+    )
+    expect_equal(
+      colnames(data_deadwood_extra),
+      c("plot_id", "plottype", "totalplotarea_ha", "forest_reserve",
+        "date_dendro", "r_A1", "r_A2", "r_A3", "r_A4",
+        "length_core_area_m", "width_core_area_m", "core_area_ha",
+        "lying_deadw_id", "species", "decaystage", "intact_fragm",
+        "calc_volume_m3", "calc_length_m", "total_length_m",
+        "min_diam_mm", "max_diam_mm",
+        "remark", "common_remark",
+        "period", "year", "dbh_class_5cm",
         "plotarea_ha")
     )
   })
@@ -21,6 +35,8 @@ describe("load_data_deadwood()", {
 
 describe("load_data_dendrometry()", {
   data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+  data_dendro_extra <-
+    load_data_dendrometry(path_to_fieldmapdb, extra_variables = TRUE)
   it("output columns are correct", {
     expect_equal(
       colnames(data_dendro),
@@ -33,6 +49,23 @@ describe("load_data_dendrometry()", {
         "decaystage", "calc_height_fm",
         "crown_volume_reduction", "branch_length_reduction",
         "ind_sht_cop", "nr_of_stems", "period", "year",
+        "subcircle", "subcirclearea_ha", "plotarea_ha", "dbh_class_5cm")
+    )
+    expect_equal(
+      colnames(data_dendro_extra),
+      c("plot_id", "plottype", "totalplotarea_ha", "tree_measure_id", "old_id",
+        "forest_reserve", "date_dendro", "r_A1", "r_A2", "r_A3", "r_A4",
+        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_core_area", "dbh_min_core_area_dead",
+        "length_core_area_m", "width_core_area_m", "core_area_ha",
+        "dbh_mm", "height_m", "species", "alive_dead", "intact_snag",
+        "decaystage", "calc_height_fm",
+        "crown_volume_reduction", "branch_length_reduction",
+        "ind_sht_cop", "nr_of_stems",
+        "x_local", "y_local", "coppice_id",
+        "iufro_hght", "iufro_vital", "iufro_socia",
+        "remark", "common_remark",
+        "period", "year",
         "subcircle", "subcirclearea_ha", "plotarea_ha", "dbh_class_5cm")
     )
   })
@@ -71,11 +104,21 @@ describe("load_data_regeneration()", {
 
 describe("load_data_shoots()", {
   data_shoots <- load_data_shoots(path_to_fieldmapdb)
+  data_shoots_extra <-
+    load_data_shoots(path_to_fieldmapdb, extra_variables = TRUE)
   it("output columns are correct", {
     expect_equal(
       colnames(data_shoots),
       c("plot_id", "tree_measure_id", "shoot_measure_id",
         "dbh_mm", "height_m", "intact_snag", "decaystage", "period")
+    )
+    expect_equal(
+      colnames(data_shoots_extra),
+      c("plot_id", "tree_measure_id", "shoot_measure_id",
+        "dbh_mm", "height_m", "intact_snag", "decaystage",
+        "iufro_hght_shoots", "iufro_vital_shoots", "iufro_socia_shoots",
+        "remark_shoots", "common_remark_shoots",
+        "period")
     )
   })
 })
