@@ -46,7 +46,7 @@ load_height_models <- function(path_to_height_models) {
     mutate(
       data = map(.data$path_file, add_models)
     ) %>%
-    unnest(cols = c(.data$data)) %>%
+    unnest(cols = c(data)) %>%
     select(-"filename", -"path_file") %>%
     distinct()
   if (nrow(heightmodels) == 0) {
