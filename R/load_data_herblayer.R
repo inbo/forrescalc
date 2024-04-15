@@ -53,7 +53,7 @@ load_data_herblayer <-
           Herb.species,
           Herb.coverage_id,
           Herb.coverage_class_average,
-          IIf(Herb.browse_index_id IS NULL AND pd.GameImpactVegObserved = 10 = 10,
+          IIf(Herb.browse_index_id IS NULL AND pd.GameImpactVegObserved = 10,
             100, Herb.browse_index_id) AS browse_index_id
         FROM ((((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
