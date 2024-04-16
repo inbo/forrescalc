@@ -18,7 +18,7 @@
 #' @importFrom frictionless add_resource create_schema get_schema read_package
 #'   read_resource remove_resource resources write_package
 #' @importFrom purrr imap
-#' @importFrom readxl read_xlsx
+#' @importFrom readxl excel_sheets read_xlsx
 #'
 #' @examples
 #' \dontrun{
@@ -85,6 +85,14 @@ from_access_to_git <-
       warning(
         sprintf(
           "Table %s has no metadata in tab 'Content' in the metadata file",
+          tablename
+        )
+      )
+    }
+    if (!tablename %in% excel_sheets(metadata_path)) {
+      warning(
+        sprintf(
+          "There is no tab %s with metadata in the metadata file",
           tablename
         )
       )
