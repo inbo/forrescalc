@@ -108,7 +108,8 @@ from_access_to_git <-
       schema_table$fields <-
         imap(
           schema_table$fields,
-          ~c(.x, description = metadata_columns_ordered$Description[.y])
+          ~c(.x, description = metadata_columns_ordered$Description[.y],
+             extra_info = metadata_columns_ordered$`Extra info`[.y])
         )
     }
     if (strict && exists("schema_forresdat")) {
@@ -133,7 +134,11 @@ from_access_to_git <-
         description =
           metadata_tables[
             !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
-          ]$Description
+          ]$Description,
+        extra_info =
+          metadata_tables[
+            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+          ]$`Extra info`,
       )
   }
   dbDisconnect(con)

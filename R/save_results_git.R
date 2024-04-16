@@ -125,7 +125,8 @@ save_results_git <-
       schema_results$fields <-
         imap(
           schema_results$fields,
-          ~c(.x, description = metadata_columns_ordered$Description[.y])
+          ~c(.x, description = metadata_columns_ordered$Description[.y],
+             extra_info = metadata_columns_ordered$`Extra info`[.y])
         )
     }
     if (strict && exists("schema_forresdat")) {
@@ -150,7 +151,11 @@ save_results_git <-
         description =
           metadata_tables[
             !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
-          ]$Description
+          ]$Description,
+        extra_info =
+          metadata_tables[
+            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+          ]$`Extra info`,
       )
   }
   write_package(package, file.path(repo_path, "data"))
