@@ -123,13 +123,14 @@ save_results_git <-
     if (strict && exists("schema_forresdat")) {
       tryCatch(
         all.equal(schema_results, schema_forresdat),
-        error = function(e)
+        error = function(e) {
           stop(
             paste(
               "Differences in metadata with the version on forresdat:",
               e
             )
-          ),
+          )
+        },
         finally = sprintf("(Error refers to table %s", tablename)
       )
     }
