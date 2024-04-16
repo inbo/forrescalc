@@ -1,4 +1,4 @@
-#' Calcualtes and aggregates parameters on dendrometry of trees
+#' Calculates and aggregates parameters on dendrometry of trees
 #'
 #' This function calculates additional variables and makes aggregations of
 #' individual tree measures on the levels of

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_dendrometry.R
 \name{calculate_dendrometry}
 \alias{calculate_dendrometry}
-\title{Calcualtes and aggregates parameters on dendrometry of trees}
+\title{Calculates and aggregates parameters on dendrometry of trees}
 \usage{
 calculate_dendrometry(
   data_dendro,
