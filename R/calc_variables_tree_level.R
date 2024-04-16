@@ -58,6 +58,10 @@
 calc_variables_tree_level <-
   function(data_dendro, data_stems_calc) {
 
+  attributes <-
+    compare_attributes(
+      data_dendro, data_stems_calc, "data_dendro", "data_stems_calc"
+    )
   data_dendro1 <- data_dendro %>%
     select(
       -"dbh_mm", -"nr_of_stems", -"calc_height_fm",
@@ -109,6 +113,8 @@ calc_variables_tree_level <-
              )
     ) %>%
     select(-"individual")
+
+  attr(data_dendro1, "database") <- attributes[["attr_database"]]
 
   return(data_dendro1)
 }

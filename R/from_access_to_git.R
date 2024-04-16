@@ -19,6 +19,7 @@
 #'   read_resource remove_resource resources write_package
 #' @importFrom purrr imap
 #' @importFrom readxl excel_sheets read_xlsx
+#' @importFrom tools file_path_sans_ext
 #'
 #' @examples
 #' \dontrun{
@@ -139,6 +140,7 @@ from_access_to_git <-
           metadata_tables[
             !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
           ]$`Extra info`,
+        source_database = file_path_sans_ext(basename(database))
       )
   }
   dbDisconnect(con)

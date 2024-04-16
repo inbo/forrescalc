@@ -68,5 +68,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       -"not_na_rubbing"
     )
 
+  attr(by_plot_height, "database") <- attr(data_regeneration, "database")
+
   return(by_plot_height)
 }

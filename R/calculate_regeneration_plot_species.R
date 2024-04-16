@@ -255,5 +255,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
       "approx_rubbing_damage_perc_seedlings"
     )
 
+  attr(by_plot, "database") <- attr(data_regeneration, "database")
+
   return(by_plot)
 }

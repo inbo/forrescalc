@@ -157,5 +157,7 @@ load_data_vegetation <-
            .data$soildisturbance_game_cover_max) / 2
     )
 
+  attr(data_vegetation, "database") <- file_path_sans_ext(basename(database))
+
   return(data_vegetation)
 }

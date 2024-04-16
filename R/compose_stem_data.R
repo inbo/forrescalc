@@ -66,6 +66,10 @@ compose_stem_data <-
       data_shoots <- data_shoots %>% select(-all_of(extra_vars_shoots))
     }
   }
+  attributes <-
+    compare_attributes(
+      data_dendro, data_shoots, "data_dendro", "data_shoots"
+    )
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
     select(
@@ -117,6 +121,8 @@ compose_stem_data <-
         common_remark_shoots = NULL,
       )
   }
+
+  attr(stem_data, "database") <- attributes[["attr_database"]]
 
   return(stem_data)
 }

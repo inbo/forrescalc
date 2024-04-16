@@ -38,6 +38,14 @@
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
+  attributes1 <-
+    compare_attributes(
+      data_dendro_calc, data_deadwood, "data_dendro_calc", "data_deadwood"
+    )
+  attributes2 <-
+    compare_attributes(
+      data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
+    )
   by_plot <- data_dendro_calc %>%
     mutate(
       species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
@@ -92,6 +100,8 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
       vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
+
+  attr(by_plot, "database") <- attributes1[["attr_database"]]
 
   return(by_plot)
 }

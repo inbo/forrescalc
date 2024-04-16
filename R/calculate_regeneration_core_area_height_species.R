@@ -74,5 +74,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
       -"not_na_rubbing"
     )
 
+  attr(by_plot_species, "database") <- attr(data_regeneration, "database")
+
   return(by_plot_species)
 }

@@ -185,5 +185,7 @@ load_data_regeneration <-
     ) %>%
     select(-"year_main_survey")
 
+  attr(data_regeneration, "database") <- file_path_sans_ext(basename(database))
+
   return(data_regeneration)
 }

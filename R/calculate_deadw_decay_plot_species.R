@@ -37,6 +37,10 @@ calculate_deadw_decay_plot_species <-
   function(plotinfo, data_deadwood = NA, data_dendro_calc = NA) {
 
   if (is.data.frame(data_deadwood)) {
+    attributes_dw <-
+      compare_attributes(
+        plotinfo, data_deadwood, "plotinfo", "data_deadwood"
+      )
     by_decay_plot_species_log <- data_deadwood %>%
       group_by(
         .data$plottype, .data$plot_id, .data$year, .data$period, .data$species,
@@ -49,6 +53,10 @@ calculate_deadw_decay_plot_species <-
   }
 
   if (is.data.frame(data_dendro_calc)) {
+    attributes_dc <-
+      compare_attributes(
+        plotinfo, data_dendro_calc, "plotinfo", "data_dendro_calc"
+      )
     by_decay_plot_species_standing <- data_dendro_calc %>%
       group_by(
         .data$plottype, .data$plot_id, .data$year, .data$period, .data$species,
@@ -76,12 +84,14 @@ calculate_deadw_decay_plot_species <-
           vol_bole_dead_m3_ha = NA
         )
     }
+    attributes <- attributes_dw
   } else {
     if (is.data.frame(data_dendro_calc)) {
       by_decay_plot_species <- by_decay_plot_species_standing %>%
         mutate(
           vol_log_m3_ha = NA
         )
+      attributes <- attributes_dc
     } else {
       by_decay_plot_species <- NA
     }
@@ -119,6 +129,7 @@ calculate_deadw_decay_plot_species <-
         survey_trees = NULL,
         survey_deadw = NULL
       )
+    attr(by_decay_plot_species, "database") <- attributes[["attr_database"]]
   }
 
   return(by_decay_plot_species)

@@ -111,5 +111,7 @@ load_data_deadwood <-
         )
     )
 
+  attr(data_deadwood, "database") <- file_path_sans_ext(basename(database))
+
   return(data_deadwood)
 }

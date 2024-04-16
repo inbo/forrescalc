@@ -108,5 +108,7 @@ load_data_herblayer <-
     ) %>%
     select(-"year_main_survey")
 
+  attr(data_herblayer, "database") <- file_path_sans_ext(basename(database))
+
   return(data_herblayer)
 }

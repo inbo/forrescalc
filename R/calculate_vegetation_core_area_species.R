@@ -72,5 +72,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
     ) %>%
     ungroup()
 
+  attr(by_core_area_species, "database") <- attr(data_herblayer, "database")
+
   return(by_core_area_species)
 }

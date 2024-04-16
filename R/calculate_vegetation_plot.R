@@ -30,6 +30,10 @@
 #' @importFrom rlang .data
 #'
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
+  attributes <-
+    compare_attributes(
+      data_vegetation, data_herblayer, "data_vegetation", "data_herblayer"
+    )
   by_plot <- data_herblayer %>%
     group_by(
       .data$plottype, .data$plot_id, .data$period, .data$subplot_id
@@ -77,6 +81,8 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
             (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100)
         )
     )
+
+  attr(by_plot, "database") <- attributes[["attr_database"]]
 
   return(by_plot)
 }
