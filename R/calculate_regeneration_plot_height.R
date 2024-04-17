@@ -28,6 +28,7 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   by_plot_height <- data_regeneration %>%
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha)
@@ -69,6 +70,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
     )
 
   attr(by_plot_height, "database") <- attr(data_regeneration, "database")
+  attr(by_plot_height, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot_height)
 }

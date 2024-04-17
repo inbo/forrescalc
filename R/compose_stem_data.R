@@ -123,6 +123,7 @@ compose_stem_data <-
   }
 
   attr(stem_data, "database") <- attributes[["attr_database"]]
+  attr(stem_data, "forrescalc") <- attributes[["attr_forrescalc"]]
 
   return(stem_data)
 }

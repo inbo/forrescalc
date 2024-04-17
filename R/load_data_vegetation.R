@@ -24,6 +24,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate rename
 #' @importFrom lubridate year
+#' @importFrom utils packageVersion
 #'
 load_data_vegetation <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
@@ -158,6 +159,8 @@ load_data_vegetation <-
     )
 
   attr(data_vegetation, "database") <- file_path_sans_ext(basename(database))
+  attr(data_vegetation, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_vegetation)
 }

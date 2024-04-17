@@ -129,6 +129,7 @@ calculate_deadw_decay_plot <-
           survey_deadw = NULL
         )
       attr(by_decay_plot, "database") <- attributes[["attr_database"]]
+      attr(by_decay_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
     }
 
   return(by_decay_plot)

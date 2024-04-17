@@ -20,6 +20,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate select
 #' @importFrom lubridate year
+#' @importFrom utils packageVersion
 #'
 load_data_regeneration <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
@@ -186,6 +187,8 @@ load_data_regeneration <-
     select(-"year_main_survey")
 
   attr(data_regeneration, "database") <- file_path_sans_ext(basename(database))
+  attr(data_regeneration, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_regeneration)
 }

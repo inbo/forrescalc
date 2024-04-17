@@ -13,6 +13,7 @@
 #' @importFrom tidyr unnest
 #' @importFrom purrr map
 #' @importFrom readxl read_xlsx
+#' @importFrom utils packageVersion
 #'
 #' @examples
 #' #change path before running
@@ -52,6 +53,9 @@ load_height_models <- function(path_to_height_models) {
   if (nrow(heightmodels) == 0) {
     warning("No height models (.xlsx files) found on the given path.")
   }
+
+  attr(heightmodels, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(heightmodels)
 }

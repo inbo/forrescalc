@@ -35,6 +35,7 @@
 #' @importFrom rlang .data
 #'
 calculate_vegetation_core_area_species <- function(data_herblayer) {
+  check_forrescalc_version_attr(data_herblayer)
   by_core_area_species <- data_herblayer %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
@@ -73,6 +74,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
     ungroup()
 
   attr(by_core_area_species, "database") <- attr(data_herblayer, "database")
+  attr(by_core_area_species, "forrescalc") <- attr(data_herblayer, "forrescalc")
 
   return(by_core_area_species)
 }

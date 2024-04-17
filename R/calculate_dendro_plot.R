@@ -102,6 +102,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
     )
 
   attr(by_plot, "database") <- attributes1[["attr_database"]]
+  attr(by_plot, "forrescalc") <- attributes1[["attr_forrescalc"]]
 
   return(by_plot)
 }

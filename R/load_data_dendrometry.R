@@ -33,6 +33,7 @@
 #' @importFrom dplyr %>% mutate
 #' @importFrom lubridate month year
 #' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom utils packageVersion
 #'
 load_data_dendrometry <-
   function(database, plottype = NA, forest_reserve = NA,
@@ -197,6 +198,8 @@ load_data_dendrometry <-
     )
 
   attr(data_dendro, "database") <- file_path_sans_ext(basename(database))
+  attr(data_dendro, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_dendro)
 }

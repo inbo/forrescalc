@@ -16,6 +16,7 @@
 #'
 calc_stem_volume <- function(data_stems) {
 
+  check_forrescalc_version_attr(data_stems)
   # (2) calculate volume (bole and crown; 1 entry and 2 entries)
     # bole volume 1 entry
   data_stems <- data_stems %>%

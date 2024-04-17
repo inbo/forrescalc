@@ -47,6 +47,11 @@
 calc_variables_stem_level <-
   function(data_stems, height_model) {
 
+  attr(height_model, "database") <- attr(data_stems, "database")
+  attributes <-
+    compare_attributes(
+      data_stems, height_model, "data_stems", "height_model"
+    )
   # (1) calculate height using height models (calc_height_r)
   data_stems1 <- data_stems %>%
     left_join(
@@ -152,6 +157,9 @@ calc_variables_stem_level <-
     select(
       -"calc_height_fm", -"calc_height_r", -"dh_model",
       -"reduction_crown", -"reduction_branch")
+
+  attr(data_stems2, "database") <- attributes[["attr_database"]]
+  attr(data_stems2, "forrescalc") <- attributes[["attr_forrescalc"]]
 
   return(data_stems2)
 }

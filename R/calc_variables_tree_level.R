@@ -115,6 +115,7 @@ calc_variables_tree_level <-
     select(-"individual")
 
   attr(data_dendro1, "database") <- attributes[["attr_database"]]
+  attr(data_dendro1, "forrescalc") <- attributes[["attr_forrescalc"]]
 
   return(data_dendro1)
 }

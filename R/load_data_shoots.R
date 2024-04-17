@@ -21,6 +21,8 @@
 #' @export
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom utils packageVersion
 #'
 load_data_shoots <- function(database, extra_variables = FALSE) {
   add_fields <-
@@ -73,6 +75,8 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
     )
 
   attr(data_shoots, "database") <- file_path_sans_ext(basename(database))
+  attr(data_shoots, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_shoots)
 }

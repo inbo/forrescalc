@@ -83,6 +83,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     )
 
   attr(by_plot, "database") <- attributes[["attr_database"]]
+  attr(by_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
 
   return(by_plot)
 }

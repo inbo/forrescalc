@@ -157,6 +157,7 @@ save_results_git <-
             !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
           ]$`Extra info`,
         source_database = attr(table_results, "database"),
+        calculation = attr(table_results, "forrescalc")
       )
   }
   write_package(package, file.path(repo_path, "data"))

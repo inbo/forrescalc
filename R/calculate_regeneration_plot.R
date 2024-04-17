@@ -36,6 +36,7 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   no_subcircle <- data_regeneration %>%
     filter(
       is.na(.data$subcircle),
@@ -274,6 +275,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
     )
 
   attr(by_plot, "database") <- attr(data_regeneration, "database")
+  attr(by_plot, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot)
 }

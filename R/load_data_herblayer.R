@@ -28,6 +28,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% mutate select
 #' @importFrom lubridate year
+#' @importFrom utils packageVersion
 #'
 load_data_herblayer <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
@@ -109,6 +110,8 @@ load_data_herblayer <-
     select(-"year_main_survey")
 
   attr(data_herblayer, "database") <- file_path_sans_ext(basename(database))
+  attr(data_herblayer, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_herblayer)
 }

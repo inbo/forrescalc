@@ -106,6 +106,7 @@ calculate_diam_plot_species <-
     )
 
   attr(by_diam_plot_species, "database") <- attributes1[["attr_database"]]
+  attr(by_diam_plot_species, "forrescalc") <- attributes1[["attr_forrescalc"]]
 
   return(by_diam_plot_species)
 }

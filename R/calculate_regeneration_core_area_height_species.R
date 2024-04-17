@@ -30,6 +30,7 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_core_area_height_species <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   by_plot_species <- data_regeneration %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
@@ -75,6 +76,7 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
     )
 
   attr(by_plot_species, "database") <- attr(data_regeneration, "database")
+  attr(by_plot_species, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot_species)
 }
