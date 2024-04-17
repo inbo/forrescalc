@@ -26,6 +26,7 @@
 #' @importFrom dplyr summarise ungroup
 #' @importFrom lubridate month year
 #' @importFrom rlang .data
+#' @importFrom utils packageVersion
 #'
 
 load_plotinfo <-
@@ -119,7 +120,11 @@ load_plotinfo <-
       year_dendro =
         as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5))
     ) %>%
-    select(-.data$min_period, -.data$date_dendro)
+    select(-"min_period", -"date_dendro")
+
+  attr(plotinfo, "database") <- file_path_sans_ext(basename(database))
+  attr(plotinfo, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(plotinfo)
 }
