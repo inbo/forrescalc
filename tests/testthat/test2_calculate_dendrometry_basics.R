@@ -102,35 +102,40 @@ describe("compose_stem_data()", {
   it("output columns are correct", {
     expect_equal(
       colnames(stem_data),
-      c("plot_id", "plottype", "totalplotarea_ha", "tree_measure_id", "old_id",
-        "forest_reserve", "date_dendro", "r_A1", "r_A2", "r_A3", "r_A4",
+      c("forest_reserve", "plot_id", "plottype",
+        "period", "year", "date_dendro",
+        "totalplotarea_ha", "plotarea_ha",
+        "tree_measure_id", "old_id", "shoot_measure_id", "species",
+        "dbh_mm", "height_m", "calc_height_fm",
+        "alive_dead", "intact_snag", "ind_sht_cop", "decaystage",
+        "dbh_class_5cm", "basal_area_m2",
+        "crown_volume_reduction", "branch_length_reduction",
+        "subcircle", "subcirclearea_ha",
+        "r_A1", "r_A2", "r_A3", "r_A4",
         "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
-        "length_core_area_m", "width_core_area_m", "core_area_ha",
-        "dbh_mm", "height_m", "species", "alive_dead", "intact_snag",
-        "decaystage", "calc_height_fm",
-        "crown_volume_reduction", "branch_length_reduction",
-        "ind_sht_cop", "period", "year",
-        "subcircle", "subcirclearea_ha", "plotarea_ha", "shoot_measure_id",
-        "dbh_class_5cm", "basal_area_m2")
+        "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
+
     expect_equal(
       colnames(stem_data_extra),
-      c("plot_id", "plottype", "totalplotarea_ha", "tree_measure_id", "old_id",
-        "forest_reserve", "date_dendro", "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
-        "dbh_min_core_area", "dbh_min_core_area_dead",
-        "length_core_area_m", "width_core_area_m", "core_area_ha",
-        "dbh_mm", "height_m", "species", "alive_dead", "intact_snag",
-        "decaystage", "calc_height_fm",
+      c("forest_reserve", "plot_id", "plottype",
+        "period", "year", "date_dendro",
+        "totalplotarea_ha", "plotarea_ha",
+        "tree_measure_id", "old_id", "shoot_measure_id", "species",
+        "dbh_mm", "height_m", "calc_height_fm",
+        "alive_dead", "intact_snag", "ind_sht_cop", "decaystage",
+        "dbh_class_5cm", "basal_area_m2",
         "crown_volume_reduction", "branch_length_reduction",
-        "ind_sht_cop",
         "x_local", "y_local", "coppice_id",
         "iufro_hght", "iufro_vital", "iufro_socia",
         "remark", "common_remark",
-        "period", "year",
-        "subcircle", "subcirclearea_ha", "plotarea_ha", "shoot_measure_id",
-        "dbh_class_5cm", "basal_area_m2")
+        "subcircle", "subcirclearea_ha",
+        "r_A1", "r_A2", "r_A3", "r_A4",
+        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_core_area", "dbh_min_core_area_dead",
+        "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
   })
 })
+
