@@ -9,7 +9,7 @@
 #' @inheritParams calculate_regeneration
 #'
 #' @return dataframe with columns plot, subplot, year, period, height_class,
-#' number_of_tree_species, rubbing_damage_perc,
+#' number_of_tree_species, approx_rubbing_damage_perc,
 #' mean_number_of_regeneration_ha,
 #' lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
 #' approx_nr_regeneration_ha.
@@ -43,7 +43,7 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
       approx_nr_regeneration_ha =
         sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha),
-      rubbing_damage_perc = pmin(
+      approx_rubbing_damage_perc = pmin(
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
           sum(.data$nr_tmp, na.rm = TRUE), 100),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
@@ -59,10 +59,10 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
       mean_number_of_regeneration_ha = .data$interval$sum / .data$plotarea_ha,
       lci_number_of_regeneration_ha = .data$interval$lci / .data$plotarea_ha,
       uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha,
-      rubbing_damage_perc =
+      approx_rubbing_damage_perc =
         ifelse(
-          .data$not_na_rubbing > 0 & .data$rubbing_damage_perc >= 0,
-          .data$rubbing_damage_perc,
+          .data$not_na_rubbing > 0 & .data$approx_rubbing_damage_perc >= 0,
+          .data$approx_rubbing_damage_perc,
           NA
         )
     ) %>%
