@@ -74,7 +74,8 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
       intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag)
     )
 
-  attr(data_shoots, "database") <- file_path_sans_ext(basename(database))
+  attr(data_shoots, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_shoots, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 

@@ -122,7 +122,7 @@ load_plotinfo <-
     ) %>%
     select(-"min_period", -"date_dendro")
 
-  attr(plotinfo, "database") <- file_path_sans_ext(basename(database))
+  attr(plotinfo, "database") <- sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(plotinfo, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 
