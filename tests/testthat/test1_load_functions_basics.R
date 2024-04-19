@@ -142,7 +142,7 @@ describe("load_data_vegetation()", {
     expect_equal(
       colnames(data_vegetation),
       c("forest_reserve", "plot_id", "plottype", "subplot_id",
-        "period", "year", "date_vegetation",
+        "period", "year_main_survey", "date_vegetation",
         "totalplotarea_ha", "plotarea_ha",
         "total_moss_cover_id", "total_herb_cover_id", "total_shrub_cover_id",
         "total_tree_cover_id", "total_waterlayer_cover_id",
