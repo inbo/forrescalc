@@ -197,7 +197,8 @@ load_data_dendrometry <-
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
 
-  attr(data_dendro, "database") <- file_path_sans_ext(basename(database))
+  attr(data_dendro, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_dendro, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 

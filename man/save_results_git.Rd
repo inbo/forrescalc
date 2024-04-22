@@ -17,8 +17,8 @@ save_results_git(
 \item{results}{results from calculations in package forrescalc as a
 named list}
 
-\item{repo_path}{name and path of local git repository in which results
-should be saved}
+\item{repo_path}{name and path of local forresdat repository in which
+results/tables should be saved}
 
 \item{metadata_path}{path including .xlsx file in which the metadata are
 stored}

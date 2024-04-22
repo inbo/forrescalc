@@ -186,7 +186,8 @@ load_data_regeneration <-
     ) %>%
     select(-"year_main_survey")
 
-  attr(data_regeneration, "database") <- file_path_sans_ext(basename(database))
+  attr(data_regeneration, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_regeneration, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 

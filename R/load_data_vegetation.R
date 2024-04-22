@@ -158,7 +158,8 @@ load_data_vegetation <-
            .data$soildisturbance_game_cover_max) / 2
     )
 
-  attr(data_vegetation, "database") <- file_path_sans_ext(basename(database))
+  attr(data_vegetation, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_vegetation, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 

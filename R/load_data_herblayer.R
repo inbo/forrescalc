@@ -108,7 +108,8 @@ load_data_herblayer <-
     ) %>%
     select(-"year_main_survey")
 
-  attr(data_herblayer, "database") <- file_path_sans_ext(basename(database))
+  attr(data_herblayer, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_herblayer, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 

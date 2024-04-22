@@ -112,7 +112,8 @@ load_data_deadwood <-
         )
     )
 
-  attr(data_deadwood, "database") <- file_path_sans_ext(basename(database))
+  attr(data_deadwood, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(data_deadwood, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
 
