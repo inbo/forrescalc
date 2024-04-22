@@ -91,7 +91,7 @@ describe("load_data_herblayer()", {
         "totalplotarea_ha", "plotarea_ha",
         "species", "coverage_id",
         "browse_index_id", "coverage_class_average_perc",
-        "length_core_area_m", "width_core_area_m", "core_area_ha",
+        "length_core_area_m", "width_core_area_m", "core_area_ha"
         )
     )
   })
