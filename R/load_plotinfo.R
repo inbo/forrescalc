@@ -38,14 +38,17 @@ load_plotinfo <-
       survey_name = "DataProcessed_YN"
     )
   query_plot <-
-    "SELECT Plots.ID AS plot_id,
+    "SELECT pd.ForestReserve AS forest_reserve,
+      Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
-      pd.ForestReserve AS forest_reserve,
+      99 AS period,  --add column name for right order (to be overwritten)
+      99 AS survey_number,
+      1234 AS year_dendro, --add column name for right order (to be overwritten)
+      pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.Survey_Trees_YN AS survey_trees,
       pd.Survey_Deadwood_YN AS survey_deadw,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
-      pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
       pd.DataProcessed_YN AS data_processed
@@ -55,14 +58,17 @@ load_plotinfo <-
 
   query_plot_1986 <-
     sprintf(
-      "SELECT Plots.ID AS plot_id,
+      "SELECT pd.ForestReserve AS forest_reserve,
+        Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        pd.ForestReserve AS forest_reserve,
+        99 AS period,  --add column name for right order (to be overwritten)
+        99 AS survey_number,
+        1234 AS year_dendro,
+        pd.Date_Dendro_1986 AS date_dendro,
         pd.Survey_Trees_YN AS survey_trees,
         pd.Survey_Deadwood_YN AS survey_deadw,
         pd.Survey_Vegetation_YN AS survey_veg,
         pd.Survey_Regeneration_YN AS survey_reg,
-        pd.Date_Dendro_1986 AS date_dendro,
         pd.GameImpactVegObserved AS game_impact_veg,
         pd.GameImpactRegObserved AS game_impact_reg,
         pd.DataProcessed_YN AS data_processed

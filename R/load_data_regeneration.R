@@ -33,17 +33,17 @@ load_data_regeneration <-
     conjunction <-
       ifelse(grepl("WHERE", selection), "AND", "WHERE")
     query_regeneration <-
-        "SELECT Plots.ID AS plot_id,
+        "SELECT pd.ForestReserve AS forest_reserve,
+          Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
-            AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve, pd.rA2 AS r_A2, pd.rA1 AS r_A1,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
           Reg.ID AS subplot_id,
+          99 AS period,  --add column name for right order (to be overwritten)
+          1234 AS year,  --add column name for right order (to be overwritten)
           Reg.Date AS date_regeneration,
           Reg.Year AS year_main_survey,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
+          0.0 AS plotarea_ha,
           Subquery.height_class,
           Subquery.species,
           IIf(Subquery.number_class IS NULL AND
@@ -54,7 +54,14 @@ load_data_regeneration <-
               0, Subquery.nr_of_regeneration) AS nr_of_regeneration,
           IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
               Subquery.species IS NULL,
-              0, Subquery.rdn) AS rubbing_damage_number
+              0, Subquery.rdn) AS rubbing_damage_number,
+          0.0 AS rubbing_damage_perc,
+          0 AS subcircle,
+          0 AS subcirclearea_ha,
+          pd.rA1 AS r_A1, pd.rA2 AS r_A2,
+          pd.LengthCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha
         FROM ((((Plots
           INNER JOIN PlotDetails_%1$deSet AS pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Regeneration%2$s AS Reg ON Plots.ID = Reg.IDPlots)
