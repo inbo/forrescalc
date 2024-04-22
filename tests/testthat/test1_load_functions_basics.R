@@ -171,7 +171,7 @@ describe("load_plotinfo()", {
       c("forest_reserve", "plot_id", "plottype",
         "period", "survey_number", "year_dendro",
         "survey_trees", "survey_deadw", "survey_veg", "survey_reg",
-        "game_impact_veg", "game_impact_reg", "data_processed",
+        "game_impact_veg", "game_impact_reg", "data_processed"
         )
     )
   })
