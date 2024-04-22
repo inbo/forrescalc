@@ -14,7 +14,7 @@ min_number_of_regeneration and max_number_of_regeneration.}
 }
 \value{
 dataframe with columns plot, subplot, year, height_class, species,
-rubbing_damage_perc, mean_number_of_regeneration_ha,
+approx_rubbing_damage_perc, mean_number_of_regeneration_ha,
 lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
 approx_nr_regeneration_ha.
 }
