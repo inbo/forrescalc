@@ -18,8 +18,9 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% left_join mutate select
+#' @importFrom dplyr %>% left_join mutate relocate select
 #' @importFrom lubridate year
+#' @importFrom tidyselect ends_with
 #' @importFrom utils packageVersion
 #'
 load_data_regeneration <-
@@ -191,7 +192,11 @@ load_data_regeneration <-
           .data$rubbing_damage_perc
         )
     ) %>%
-    select(-"year_main_survey")
+    select(-"year_main_survey") %>%
+    relocate("approx_nr_regeneration", .after = "nr_of_regeneration") %>%
+    relocate(
+      ends_with("_number_of_regeneration"), .after = "approx_nr_regeneration"
+    )
 
   attr(data_regeneration, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)

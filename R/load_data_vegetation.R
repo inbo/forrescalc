@@ -22,8 +22,9 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% left_join mutate rename
+#' @importFrom dplyr %>% left_join mutate relocate rename
 #' @importFrom lubridate year
+#' @importFrom tidyselect contains last_col
 #' @importFrom utils packageVersion
 #'
 load_data_vegetation <-
@@ -158,7 +159,8 @@ load_data_vegetation <-
       soildisturbance_game_cover_mid =
         (.data$soildisturbance_game_cover_min +
            .data$soildisturbance_game_cover_max) / 2
-    )
+    ) %>%
+    relocate(contains("core_area_"), .after = last_col())
 
   attr(data_vegetation, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
