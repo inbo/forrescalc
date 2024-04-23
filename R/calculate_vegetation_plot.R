@@ -25,8 +25,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by left_join mutate n_distinct select summarise
-#' ungroup
+#' @importFrom dplyr %>% group_by left_join mutate n_distinct relocate select
+#' summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
@@ -36,7 +36,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
     )
   by_plot <- data_herblayer %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$period, .data$subplot_id
+      .data$plottype, .data$plot_id, .data$subplot_id, .data$period
     ) %>%
     summarise(
       number_of_species = n_distinct(.data$species, na.rm = TRUE),
@@ -58,7 +58,7 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
           "soildisturbance_game_cover_max",
           "soildisturbance_game_cover_mid"
         ),
-      by = c("plottype", "plot_id", "period", "subplot_id")
+      by = c("plottype", "plot_id", "subplot_id", "period")
     ) %>%
     mutate(
       # cumulated_canopy_cover:
@@ -80,6 +80,9 @@ calculate_vegetation_plot <- function(data_vegetation, data_herblayer) {
           1 -
             (1 - .data$shrub_cover_mid / 100) * (1 - .data$tree_cover_mid / 100)
         )
+    ) %>%
+    relocate(
+      c("year_main_survey", "date_vegetation"), .before = "number_of_species"
     )
 
   attr(by_plot, "database") <- attributes[["attr_database"]]
