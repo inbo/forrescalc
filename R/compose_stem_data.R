@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter inner_join mutate select
+#' @importFrom dplyr %>% bind_rows filter inner_join mutate relocate select
 #' @importFrom assertthat has_name
 #'
 compose_stem_data <-
@@ -87,7 +87,9 @@ compose_stem_data <-
     mutate(
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm),
       basal_area_m2 = pi * (.data$dbh_mm / 2000) ^ 2
-    )
+    ) %>%
+    relocate("shoot_measure_id", .after = "old_id") %>%
+    relocate(all_of(c("dbh_class_5cm", "basal_area_m2")), .after = "decaystage")
 
   if (
     has_name(
