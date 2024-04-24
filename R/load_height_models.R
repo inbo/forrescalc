@@ -7,7 +7,7 @@
 #'
 #' @return Dataframe with height model data
 #'
-#' @importFrom dplyr %>% distinct mutate select transmute
+#' @importFrom dplyr %>% distinct mutate relocate select transmute
 #' @importFrom rlang .data
 #' @importFrom stringr str_detect str_extract str_split
 #' @importFrom tidyr unnest
@@ -49,7 +49,8 @@ load_height_models <- function(path_to_height_models) {
     ) %>%
     unnest(cols = c(data)) %>%
     select(-"filename", -"path_file") %>%
-    distinct()
+    distinct() %>%
+    relocate("forest_reserve", .before = "plottype")
   if (nrow(heightmodels) == 0) {
     warning("No height models (.xlsx files) found on the given path.")
   }
@@ -64,6 +65,7 @@ load_height_models <- function(path_to_height_models) {
 add_models <- function(path_file) {
   read_xlsx(path_file) %>%
     transmute(
+      forest_reserve = .data$BR,
       species =
         ifelse(
           is.na(.data$Species) | .data$Species == "<ALL>", -Inf, .data$Species
@@ -71,7 +73,6 @@ add_models <- function(path_file) {
       species = as.numeric(.data$species),
       species = ifelse(.data$species == -Inf, NA_real_, .data$species),
       model = .data$Model,
-      .data$P1, .data$P2,
-      forest_reserve = .data$BR
+      .data$P1, .data$P2
     )
 }

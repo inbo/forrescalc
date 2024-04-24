@@ -11,10 +11,9 @@ describe("vegetation_by_plot", {
   it("output columns are correct", {
     expect_equal(
       colnames(results_vegetation[["vegetation_by_plot"]]),
-      c("plottype", "plot_id", #"year",
-        "period", "subplot_id",
+      c("plottype", "plot_id", "subplot_id",
+        "period", "year_main_survey", "date_vegetation",
         "number_of_species", "cumm_herb_coverage_class_average_perc",
-        "year_main_survey", "date_vegetation",
         "moss_cover_min", "moss_cover_max", "moss_cover_mid",
         "herb_cover_min", "herb_cover_max", "herb_cover_mid",
         "shrub_cover_min", "shrub_cover_max", "shrub_cover_mid",
@@ -32,7 +31,7 @@ describe("vegetation_by_core_area_species", {
   it("output columns are correct", {
     expect_equal(
       colnames(results_vegetation[["vegetation_by_core_area_species"]]),
-      c("plottype", "plot_id", "year", "period", "species",
+      c("plottype", "plot_id", "period", "year", "species",
         "number_of_subplots_with_vegetation", "perc_of_subplots",
         "number_of_subplots_browsed", "number_of_subplots_seriously_browsed",
         "perc_of_subplots_browsed", "perc_of_subplots_seriously_browsed",

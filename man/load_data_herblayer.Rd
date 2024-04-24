@@ -30,9 +30,8 @@ Defaults to TRUE (yes).}
 Dataframe with vegetation data on the species level ('herb layer'),
 containing columns as species, coverage_id, browse_index_id, date_vegetation
 (= date of survey of specific species, different for spring flora and other
-flora in the same plot), year_main_survey (= year of main vegetation survey),
-year (= year of survey of specific species, possibly different for
-spring flora and other flora), ....
+flora in the same plot), year (= year of survey of specific species, possibly
+different for spring flora and other flora), ....
 }
 \description{
 This function queries the given database to retrieve data on vegetation

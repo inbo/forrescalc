@@ -37,6 +37,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
     )
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
+      99 AS period,  --add column name for right order (to be overwritten)
       Shoots.IDTrees%2$s AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
@@ -47,6 +48,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
 
   query_shoots_1986 <-
     "SELECT Shoots.IDPlots AS plot_id,
+      0 AS period,  --add column name for right order (to be overwritten)
       Shoots.IDTrees_1986 AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
