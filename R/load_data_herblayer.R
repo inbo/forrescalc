@@ -80,7 +80,7 @@ load_data_herblayer <-
   data_herblayer <-
     query_database(database, query_herblayer, selection = selection) %>%
     mutate(
-      year = year(.data$date_vegetation),
+      year = as.integer(year(.data$date_vegetation)),
       year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       plotarea_ha =
         ifelse(

@@ -89,6 +89,7 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
         "number_of_tree_species":"vol_bole_dead_m3_ha",
         ~ ifelse(is.na(.x) & survey_trees, 0, .x)
       ),
+      number_of_tree_species = as.integer(.data$number_of_tree_species),
       vol_log_m3_ha =
         ifelse(
           is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
