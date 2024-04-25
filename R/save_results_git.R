@@ -160,6 +160,8 @@ save_results_git <-
         calculation = attr(table_results, "forrescalc")
       )
   }
+  package$resources <-
+    package$resources[order(sapply(package$resources, "[[", 1))]
   write_package(package, file.path(repo_path, "data"))
   add(repo, path = "*")
   tryCatch(

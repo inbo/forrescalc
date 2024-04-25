@@ -143,6 +143,8 @@ from_access_to_git <-
       )
   }
   dbDisconnect(con)
+  package$resources <-
+    package$resources[order(sapply(package$resources, "[[", 1))]
   write_package(package, file.path(repo_path, "data"))
   add(repo, path = "*")
   tryCatch(
