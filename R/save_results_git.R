@@ -165,7 +165,9 @@ save_results_git <-
   write_package(package, file.path(repo_path, "data"))
   add(repo, path = "*")
   tryCatch(
-    commit(repo, message = "scripted commit from forrescalc", session = TRUE),
+    commit(
+      repo, message = "scripted commit: results added/updated", session = TRUE
+    ),
     error = function(e) {
       val <- withCallingHandlers(e)
       if (
