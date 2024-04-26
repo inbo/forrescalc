@@ -6,7 +6,7 @@
 #' as a content the different dataframes.
 #'
 #' @param results results from calculations in package forrescalc as a
-#' named list
+#' named list of dataframes
 #' @param repo_path name and path of local forresdat repository in which
 #' results/tables should be saved
 #' @param metadata_path path including .xlsx file in which the metadata are
