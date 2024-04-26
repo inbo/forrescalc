@@ -1,11 +1,11 @@
-#' copy table(s) from access db to git repository
+#' copy table(s) from access db to git repository forresdat
 #'
 #' This function loads one or more tables from the access database
 #' (or an SQLite database) and saves them in the git repository forresdat.
 #'
 #' @param tables vector with table names of tables that should be moved
 #' @inheritParams load_data_dendrometry
-#' @inheritParams save_results_git
+#' @inheritParams save_results_forresdat
 #'
 #' @return No value is returned, the tables are saved in the git repository.
 #'
@@ -38,7 +38,7 @@
 #'          path = temp, overwrite = TRUE
 #'        )
 #'
-#' from_access_to_git(
+#' from_access_to_forresdat(
 #'   database = path_to_fieldmapdb,
 #'   tables = c("qCoverHerbs", "qtotalCover"),
 #'   repo_path = path_to_forresdat,
@@ -46,7 +46,7 @@
 #' )
 #' }
 #'
-from_access_to_git <-
+from_access_to_forresdat <-
   function(
     database, tables, repo_path, metadata_path, push = FALSE, strict = TRUE,
     branch = "develop"

@@ -1,4 +1,4 @@
-#' save results of calculations in git repository
+#' save results of calculations in git repository forresdat
 #'
 #' This function saves the results from calculations by the forrescalc package
 #' (or any other named list with dataframes) in git repository forresdat.
@@ -42,7 +42,7 @@
 #'
 #' data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
 #' result_regeneration <- calculate_regeneration(data_regeneration)
-#' save_results_git(
+#' save_results_forresdat(
 #'   results = result_regeneration,
 #'   repo_path = path_to_forresdat,
 #'   metadata_path = temp
@@ -60,7 +60,7 @@
 #' @importFrom purrr imap
 #' @importFrom tidyselect all_of
 #'
-save_results_git <-
+save_results_forresdat <-
   function(
     results, repo_path, metadata_path, push = FALSE, strict = TRUE,
     branch = "develop"

@@ -79,13 +79,13 @@ And there are also some functions that we thought to be useful (or user request 
 
 _NOTE: to be able to save/retrieve data to/from `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its github page](https://github.com/inbo/forresdat)._
 
-With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_git()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_git()` (and other functions related to git) use the functionality of the [git2rdata](https://ropensci.github.io/git2rdata/) package.
+With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_forresdat()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_forresdat()` (and other functions related to git) use the functionality of the [git2rdata](https://ropensci.github.io/git2rdata/) package.
 
 Tables from git can be loaded again in R with the function `read_forresdat()`.
 
-Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_git()` and `from_git_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
+Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_forresdat()` and `from_forresdat_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
 
-Functions `save_results_git()` and `from_access_to_git()` save tables in your local copy of the git repository (grouped as 1 commit for each function). Changes can be checked in the local repository (project `forresdat`, tab _Git_, button _History_) and _pushed_ to the _remote_ repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function `remove_last_commit_git`, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.
+Functions `save_results_forresdat()` and `from_access_to_forresdat()` save tables in your local copy of the git repository (grouped as 1 commit for each function). Changes can be checked in the local repository (project `forresdat`, tab _Git_, button _History_) and _pushed_ to the _remote_ repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function `remove_last_commit_forresdat()`, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.
 
 ## Update `forresdat`
 

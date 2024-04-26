@@ -7,7 +7,7 @@
 #' @param tables vector with table names of tables that should be removed
 #' @param repo_path name and path of local forresdat repository in which
 #' results/tables should be saved
-#' @inheritParams save_results_git
+#' @inheritParams save_results_forresdat
 #'
 #' @return No value is returned, the tables are removed from the git repository.
 #'

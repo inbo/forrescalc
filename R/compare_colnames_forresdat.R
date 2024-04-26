@@ -2,14 +2,15 @@
 #'
 #' This helper function checks if the column names of the table to be added to
 #' forresdat has the same column names as the table in forresdat.
-#' This code is to be used in `save_results_git()` and `from_access_to_git()`,
+#' This code is to be used in `save_results_forresdat()` and
+#' `from_access_to_forresdat()`,
 #' to avoid having the same code twice.
 #'
 #' @param table table to be added to forresdat
 #' @param tablename name of table to be added to forresdat
 #' @param colnames_forresdat the column names of this table in forresdat
 #'   (in order of occurrence)
-#' @inheritParams save_results_git
+#' @inheritParams save_results_forresdat
 #'
 #' @return (reworked) table with the column names in the order they should be
 #' added to forresdat (or an error in case strict = TRUE)
