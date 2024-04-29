@@ -14,7 +14,7 @@ dl <- googledrive::drive_download(
   googledrive::as_id("17M_TfOyjpqLzsFqQ_w1DXitzI7tnULR6"),
   path = temp, overwrite = TRUE
 )
-from_access_to_git(
+from_access_to_forresdat(
   database = path_to_fieldmap,
   tables = c("qAliveDead", "qSpecies", "qHeightClass_regeneration",
              "qnumber_regeneration_classes", "qdecaystage"),
@@ -30,7 +30,7 @@ dl <- googledrive::drive_download(
 )
 
 plotinfo <- load_plotinfo(database = path_to_fieldmap)
-save_results_git(
+save_results_forresdat(
   results = list(plotinfo = plotinfo),
   repo_path = path_to_git_forresdat,
   metadata_path = temp
@@ -62,7 +62,7 @@ dl <- googledrive::drive_download(
   overwrite = TRUE
 )
 
-save_results_git(
+save_results_forresdat(
   results = dendro,
   repo_path = path_to_git_forresdat,
   metadata_path = temp
@@ -84,7 +84,7 @@ dl <- googledrive::drive_download(
   overwrite = TRUE
 )
 
-save_results_git(
+save_results_forresdat(
   results = regeneration,
   repo_path = path_to_git_forresdat,
   metadata_path = temp
@@ -110,7 +110,7 @@ dl <- googledrive::drive_download(
   overwrite = TRUE
 )
 
-save_results_git(
+save_results_forresdat(
   results = vegetation,
   repo_path = path_to_git_forresdat,
   metadata_path = temp
