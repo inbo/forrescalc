@@ -52,7 +52,7 @@ load_data_herblayer <-
           0.0 AS plotarea_ha,
           Herb.species,
           Herb.coverage_id,
-          IIf(Herb.browse_index_id IS NULL AND pd.Survey_vegetation_YN = 10,
+          IIf(Herb.browse_index_id IS NULL AND pd.GameImpactVegObserved = 10,
             100, Herb.browse_index_id) AS browse_index_id,
           Herb.coverage_class_average,
           0.0 AS coverage_class_average_perc,
