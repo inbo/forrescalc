@@ -159,6 +159,17 @@ save_results_forresdat <-
         source_database = attr(table_results, "database"),
         calculation = attr(table_results, "forrescalc")
       )
+    if (has_name(metadata_tables, "Attention")) {
+      package$resources[[which(resources(package) == tablename)]] <-
+        append(
+          package$resources[[which(resources(package) == tablename)]],
+          c(attention = metadata_tables[
+              !is.na(metadata_tables$Table) &
+                metadata_tables$Table == tablename,
+            ]$Attention),
+          after = 9
+        )
+    }
   }
   package$resources <-
     package$resources[order(sapply(package$resources, "[[", 1))]
