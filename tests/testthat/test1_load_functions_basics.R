@@ -177,11 +177,8 @@ describe("load_plotinfo()", {
   })
 })
 
-path_to_height_models <-
-  system.file("example/height_models", package = "forrescalc")
-
 describe("load_height_models()", {
-  height_models <- load_height_models(path_to_height_models)
+  height_models <- load_height_models()
   it("output columns are correct", {
     expect_equal(
       colnames(height_models),

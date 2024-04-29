@@ -19,6 +19,7 @@ Imports:
   frictionless,
   fs,
   git2r,
+  httr,
   lubridate,
   odbc,
   plyr,

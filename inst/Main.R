@@ -4,8 +4,6 @@ library(forrescalc)
 path_to_fieldmap <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
-path_to_height_models <-
-  system.file("example/height_models", package = "forrescalc")
 
 # only when q-tables in Fieldmap have changed
 # (and only mention the changed table)
@@ -50,7 +48,7 @@ data_shoots <-
   load_data_shoots(
     database = path_to_fieldmap
   )
-height_model <- load_height_models(path_to_height_models)
+height_model <- load_height_models()
 
 dendro <- calculate_dendrometry(data_dendro, data_deadwood, data_shoots,
                                 height_model, plotinfo)
