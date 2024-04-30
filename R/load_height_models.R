@@ -13,7 +13,7 @@
 #' @importFrom stringr str_extract str_split
 #' @importFrom tidyr unnest
 #' @importFrom purrr map
-#' @importFrom readr read_csv2
+#' @importFrom readr locale read_csv2
 #' @importFrom utils packageVersion
 #'
 #' @examples
@@ -66,7 +66,10 @@ load_height_models <- function() {
 
 
 add_models <- function(path_file) {
-  read_csv2(path_file, show_col_types = FALSE) %>%
+  read_csv2(
+    path_file, show_col_types = FALSE,
+    locale = locale(decimal_mark = ",", grouping_mark = ".")
+  ) %>%
     transmute(
       forest_reserve = .data$BR,
       species =
