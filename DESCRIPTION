@@ -20,6 +20,7 @@ Imports:
   fs,
   git2r,
   httr,
+  jsonlite,
   lubridate,
   odbc,
   plyr,

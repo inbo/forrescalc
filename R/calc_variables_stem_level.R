@@ -157,6 +157,7 @@ calc_variables_stem_level <-
 
   attr(data_stems2, "database") <- attributes[["attr_database"]]
   attr(data_stems2, "forrescalc") <- attributes[["attr_forrescalc"]]
+  attr(data_stems2, "heightmodels") <- attr(height_model, "heightmodels")
 
   return(data_stems2)
 }

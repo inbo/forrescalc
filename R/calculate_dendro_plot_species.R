@@ -94,6 +94,8 @@ calculate_dendro_plot_species <-
 
   attr(by_plot_species, "database") <- attributes1[["attr_database"]]
   attr(by_plot_species, "forrescalc") <- attributes1[["attr_forrescalc"]]
+  attr(by_plot_species, "heightmodels") <-
+    attr(data_dendro_calc, "heightmodels")
 
   return(by_plot_species)
 }

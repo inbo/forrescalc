@@ -8,6 +8,7 @@
 #'
 #' @importFrom dplyr %>% distinct mutate relocate select transmute
 #' @importFrom httr content GET stop_for_status
+#' @importFrom jsonlite fromJSON
 #' @importFrom rlang .data
 #' @importFrom stringr str_extract str_split
 #' @importFrom tidyr unnest
@@ -56,6 +57,9 @@ load_height_models <- function() {
 
   attr(heightmodels, "forrescalc") <-
     paste("forrescalc", packageVersion("forrescalc"))
+  commit <- fromJSON("https://api.github.com/repos/inbo/forresheights/commits?")
+  attr(heightmodels, "heightmodels") <-
+    paste("forresheights commit", commit$sha[1])
 
   return(heightmodels)
 }

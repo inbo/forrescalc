@@ -157,7 +157,8 @@ save_results_forresdat <-
             !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
           ]$`Extra info`,
         source_database = attr(table_results, "database"),
-        calculation = attr(table_results, "forrescalc")
+        calculation = attr(table_results, "forrescalc"),
+        height_model = attr(table_results, "heightmodels")
       )
     if (has_name(metadata_tables, "Attention")) {
       package$resources[[which(resources(package) == tablename)]] <-

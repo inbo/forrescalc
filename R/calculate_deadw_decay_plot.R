@@ -128,6 +128,10 @@ calculate_deadw_decay_plot <-
       attr(by_decay_plot, "database") <- attributes[["attr_database"]]
       attr(by_decay_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
     }
+    if (is.data.frame(data_dendro_calc)) {
+      attr(by_decay_plot, "heightmodels") <-
+        attr(data_dendro_calc, "heightmodels")
+    }
 
   return(by_decay_plot)
 }

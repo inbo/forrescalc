@@ -129,6 +129,10 @@ calculate_deadw_decay_plot_species <-
     attr(by_decay_plot_species, "database") <- attributes[["attr_database"]]
     attr(by_decay_plot_species, "forrescalc") <- attributes[["attr_forrescalc"]]
   }
+  if (is.data.frame(data_dendro_calc)) {
+    attr(by_decay_plot_species, "heightmodels") <-
+      attr(data_dendro_calc, "heightmodels")
+  }
 
   return(by_decay_plot_species)
 }

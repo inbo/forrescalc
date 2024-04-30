@@ -102,6 +102,7 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
 
   attr(by_diam_plot, "database") <- attributes1[["attr_database"]]
   attr(by_diam_plot, "forrescalc") <- attributes1[["attr_forrescalc"]]
+  attr(by_diam_plot, "heightmodels") <- attr(data_stems_calc, "heightmodels")
 
   return(by_diam_plot)
 }
