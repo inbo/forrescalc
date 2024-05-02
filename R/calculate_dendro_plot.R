@@ -35,14 +35,13 @@
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
-  attributes1 <-
+  attributes <-
     compare_attributes(
       data_dendro_calc, data_deadwood, "data_dendro_calc", "data_deadwood"
     )
-  attributes2 <-
-    compare_attributes(
-      data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
-    )
+  compare_attributes(
+    data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
+  )
   by_plot <- data_dendro_calc %>%
     mutate(
       species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
@@ -99,8 +98,8 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
-  attr(by_plot, "database") <- attributes1[["attr_database"]]
-  attr(by_plot, "forrescalc") <- attributes1[["attr_forrescalc"]]
+  attr(by_plot, "database") <- attributes[["attr_database"]]
+  attr(by_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
   attr(by_plot, "heightmodels") <- attr(data_dendro_calc, "heightmodels")
 
   return(by_plot)

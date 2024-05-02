@@ -32,14 +32,13 @@
 #'
 calculate_dendro_plot_species <-
   function(data_dendro_calc, data_deadwood, plotinfo) {
-  attributes1 <-
+  attributes <-
     compare_attributes(
       data_dendro_calc, data_deadwood, "data_dendro_calc", "data_deadwood"
     )
-  attributes2 <-
-    compare_attributes(
-      data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
-    )
+  compare_attributes(
+    data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
+  )
   by_plot_species <- data_dendro_calc %>%
     group_by(
       .data$plottype, .data$plot_id, .data$year, .data$period, .data$species
@@ -92,8 +91,8 @@ calculate_dendro_plot_species <-
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 
-  attr(by_plot_species, "database") <- attributes1[["attr_database"]]
-  attr(by_plot_species, "forrescalc") <- attributes1[["attr_forrescalc"]]
+  attr(by_plot_species, "database") <- attributes[["attr_database"]]
+  attr(by_plot_species, "forrescalc") <- attributes[["attr_forrescalc"]]
   attr(by_plot_species, "heightmodels") <-
     attr(data_dendro_calc, "heightmodels")
 

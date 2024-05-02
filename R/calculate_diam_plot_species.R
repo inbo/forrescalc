@@ -34,14 +34,13 @@
 #'
 calculate_diam_plot_species <-
   function(data_stems_calc, data_deadwood, plotinfo) {
-  attributes1 <-
+  attributes <-
     compare_attributes(
       data_stems_calc, data_deadwood, "data_stems_calc", "data_deadwood"
     )
-  attributes2 <-
-    compare_attributes(
-      data_stems_calc, plotinfo, "data_stems_calc", "plotinfo"
-    )
+  compare_attributes(
+    data_stems_calc, plotinfo, "data_stems_calc", "plotinfo"
+  )
   by_diam_plot_species <- data_stems_calc %>%
     group_by(
       .data$plottype, .data$plot_id, .data$year, .data$period, .data$species,
@@ -102,8 +101,8 @@ calculate_diam_plot_species <-
       survey_deadw = NULL
     )
 
-  attr(by_diam_plot_species, "database") <- attributes1[["attr_database"]]
-  attr(by_diam_plot_species, "forrescalc") <- attributes1[["attr_forrescalc"]]
+  attr(by_diam_plot_species, "database") <- attributes[["attr_database"]]
+  attr(by_diam_plot_species, "forrescalc") <- attributes[["attr_forrescalc"]]
   attr(by_diam_plot_species, "heightmodels") <-
     attr(data_stems_calc, "heightmodels")
 
