@@ -136,4 +136,3 @@ describe("compose_stem_data()", {
     )
   })
 })
-

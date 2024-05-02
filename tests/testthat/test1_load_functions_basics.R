@@ -106,7 +106,7 @@ describe("load_data_regeneration()", {
         "period", "year", "date_regeneration",
         "totalplotarea_ha", "plotarea_ha",
         "height_class", "species", "number_class",
-        "nr_of_regeneration","approx_nr_regeneration",
+        "nr_of_regeneration", "approx_nr_regeneration",
         "min_number_of_regeneration", "max_number_of_regeneration",
         "rubbing_damage_number", "rubbing_damage_perc",
         "subcircle", "subcirclearea_ha",
