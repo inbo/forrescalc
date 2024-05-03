@@ -24,10 +24,11 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by n_distinct select summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_height <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   by_plot_height <- data_regeneration %>%
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
@@ -39,8 +40,8 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
         )
     ) %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$year, .data$period,
-      .data$height_class, .data$subplot_id, .data$plotarea_ha
+      .data$plottype, .data$plot_id, .data$subplot_id, .data$period, .data$year,
+      .data$height_class, .data$plotarea_ha
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
@@ -70,9 +71,12 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
         )
     ) %>%
     select(
-      -.data$interval, -.data$plotarea_ha,
-      -.data$not_na_rubbing
+      -"interval", -"plotarea_ha",
+      -"not_na_rubbing"
     )
+
+  attr(by_plot_height, "database") <- attr(data_regeneration, "database")
+  attr(by_plot_height, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot_height)
 }

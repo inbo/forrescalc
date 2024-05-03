@@ -35,6 +35,7 @@
 #' @importFrom rlang .data
 #'
 calculate_regeneration_plot_species <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   no_subcircle <- data_regeneration %>%
     filter(
       is.na(.data$subcircle),
@@ -96,7 +97,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
                .data$rubbing_damage_number, NA)
     ) %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$year, .data$period, .data$subplot_id,
+      .data$plottype, .data$plot_id, .data$subplot_id, .data$period, .data$year,
       .data$species
     ) %>%
     summarise(
@@ -256,9 +257,9 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
        .data$lci_number_seedlings
     ) %>%
     select(
-      "plottype", "plot_id", "year", "period", "subplot_id", "species",
-      "approx_nr_established_ha",
-      "approx_nr_seedlings_ha", "approx_rubbing_damage_perc_established",
+      "plottype", "plot_id", "subplot_id", "period", "year", "species",
+      "approx_nr_established_ha", "approx_nr_seedlings_ha",
+      "approx_rubbing_damage_perc_established",
       "approx_rubbing_damage_perc_seedlings",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha",
@@ -270,6 +271,9 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
       "mean_rubbing_damage_perc_seedlings", "lci_rubbing_damage_perc_seedlings",
       "uci_rubbing_damage_perc_seedlings"
     )
+
+  attr(by_plot, "database") <- attr(data_regeneration, "database")
+  attr(by_plot, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot)
 }

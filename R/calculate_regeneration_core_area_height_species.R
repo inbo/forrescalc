@@ -26,10 +26,11 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by n_distinct summarise ungroup
+#' @importFrom dplyr %>% group_by n_distinct select summarise ungroup
 #' @importFrom rlang .data
 #'
 calculate_regeneration_core_area_height_species <- function(data_regeneration) {
+  check_forrescalc_version_attr(data_regeneration)
   by_plot_species <- data_regeneration %>%
     mutate(
       nr_tmp =
@@ -39,13 +40,13 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
           approx_nr_regeneration
         )
     ) %>%
-    group_by(.data$plot_id, .data$period) %>%
+    group_by(.data$plottype, .data$plot_id, .data$period) %>%
     mutate(
       n_subplots = n_distinct(.data$subplot_id)
     ) %>%
     ungroup() %>%
     group_by(
-      .data$plot_id, .data$year, .data$period,
+      .data$plottype, .data$plot_id, .data$period, .data$year,
       .data$height_class, .data$species, .data$plotarea_ha
     ) %>%
     summarise(
@@ -78,9 +79,12 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
         )
     ) %>%
     select(
-      -.data$interval, -.data$plotarea_ha,
-      -.data$not_na_rubbing
+      -"interval", -"plotarea_ha",
+      -"not_na_rubbing"
     )
+
+  attr(by_plot_species, "database") <- attr(data_regeneration, "database")
+  attr(by_plot_species, "forrescalc") <- attr(data_regeneration, "forrescalc")
 
   return(by_plot_species)
 }
