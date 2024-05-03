@@ -65,39 +65,43 @@ from_access_to_forresdat <-
   metadata_tables <- read_xlsx(metadata_path, sheet = "Content")
   package <- read_package(file.path(repo_path, "data", "datapackage.json"))
   con <- connect_to_database(database)
-  for (tablename in tables) {
-    table <- dbReadTable(con, tablename)
+  for (tablename_fm in tables) {
+    table <- dbReadTable(con, tablename_fm)
     if (has_name(table, "ID")) {
       table <- table %>%
         arrange(.data$ID)
     }
-    if (tablename %in% resources(package)) {
-      colnames_forresdat <- colnames(read_resource(package, tablename))
+    tablename_fd <-
+      gsub("^(q?)_", "\\1", tolower(gsub("([A-Z])", "_\\1", tablename_fm)))
+    if (tablename_fd %in% resources(package)) {
+      colnames_forresdat <- colnames(read_resource(package, tablename_fd))
       table <-
-        compare_colnames_forresdat(table, tablename, colnames_forresdat, strict)
-      schema_forresdat <- get_schema(package, tablename)
+        compare_colnames_forresdat(
+          table, tablename_fd, colnames_forresdat, strict
+        )
+      schema_forresdat <- get_schema(package, tablename_fd)
       package <- package %>%
-        remove_resource(tablename)
-      file.remove(file.path(repo_path, "data", paste0(tablename, ".csv")))
+        remove_resource(tablename_fd)
+      file.remove(file.path(repo_path, "data", paste0(tablename_fd, ".csv")))
     }
     schema_table <- create_schema(table)
-    if (!tablename %in% metadata_tables$Table) {
+    if (!tablename_fd %in% metadata_tables$Table) {
       warning(
         sprintf(
           "Table %s has no metadata in tab 'Content' in the metadata file",
-          tablename
+          tablename_fd
         )
       )
     }
-    if (!tablename %in% excel_sheets(metadata_path)) {
+    if (!tablename_fd %in% excel_sheets(metadata_path)) {
       warning(
         sprintf(
           "There is no tab %s with metadata in the metadata file",
-          tablename
+          tablename_fd
         )
       )
     } else {
-      metadata_columns <- read_xlsx(metadata_path, sheet = tablename)
+      metadata_columns <- read_xlsx(metadata_path, sheet = tablename_fd)
       metadata_columns_ordered <-
         bind_rows(
           imap(
@@ -123,21 +127,23 @@ from_access_to_forresdat <-
             )
           )
         },
-        finally = sprintf("(Error refers to table %s", tablename)
+        finally = sprintf("(Error refers to table %s", tablename_fd)
       )
     }
     package <- package %>%
       add_resource(
-        resource_name = tablename,
+        resource_name = tablename_fd,
         data = table,
         schema = schema_table,
         description =
           metadata_tables[
-            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+            !is.na(metadata_tables$Table) &
+              metadata_tables$Table == tablename_fd,
           ]$Description,
         extra_info =
           metadata_tables[
-            !is.na(metadata_tables$Table) & metadata_tables$Table == tablename,
+            !is.na(metadata_tables$Table) &
+              metadata_tables$Table == tablename_fd,
           ]$`Extra info`,
         source_database = sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
       )
