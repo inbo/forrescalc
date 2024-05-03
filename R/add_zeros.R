@@ -61,7 +61,7 @@
 #' library(forrescalc)
 #' library(dplyr)
 #' dendro_by_plot_species <-
-#'   read_forresdat(tablename = "dendro_by_plot_species") %>%
+#'   read_forresdat_table(tablename = "dendro_by_plot_species") %>%
 #'   select(
 #'     -year, -plottype, -starts_with("survey_"), -data_processed,
 #'     -starts_with("game_")

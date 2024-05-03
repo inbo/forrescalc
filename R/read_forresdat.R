@@ -29,7 +29,7 @@
 #'
 #' @examples
 #' library(forrescalc)
-#' data_dendro <- read_forresdat(tablename = "dendro_by_plot")
+#' data_dendro <- read_forresdat_table(tablename = "dendro_by_plot")
 #' data_dendro
 #' attr(data_dendro, "forresdat")
 #'
@@ -39,7 +39,7 @@
 #' @importFrom dplyr select
 #' @importFrom readr read_tsv
 #'
-read_forresdat <-
+read_forresdat_table <-
   function(tablename, join_plotinfo = TRUE, plottype = c("CP", "CA", "all")) {
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
