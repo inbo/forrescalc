@@ -133,6 +133,11 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
             !is.na(.data$number_class) &
             .data$game_damage_number > .data$max_number,
           "higher than total number", NA
+        ),
+      field_game_damage_number =
+        ifelse(
+          !is.na(.data$game_damage_number) & .data$game_impact_reg == 20,
+          "unexpected (not missing)", NA
         )
     ) %>%
     group_by(
