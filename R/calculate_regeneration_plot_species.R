@@ -159,9 +159,7 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
             !is.na(.data$rubbing_damage_nr_established),
           0,
           .data$rubbing_damage_nr_seedlings
-        )
-    ) %>%
-    mutate(
+        ),
       # to correct approx_nr_xxx = 0 by sum of NAs (see above)
       approx_nr_established =
         ifelse(.data$approx_nr_established == 0 &
