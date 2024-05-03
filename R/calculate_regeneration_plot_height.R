@@ -3,7 +3,7 @@
 #' This function calculates for each plot, tree height class and year
 #' the number of species, total number of regeneration (or interval with mean
 #' and confidence interval using a log transformation) and
-#' rubbing damage percentage for regeneration.
+#' approximate rubbing damage percentage for regeneration.
 #' For core area plots, these variables are calculated for each subplot.
 #'
 #' @inheritParams calculate_regeneration
