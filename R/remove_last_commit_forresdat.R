@@ -1,4 +1,4 @@
-#' remove last local change from git repository
+#' remove last local change from git repository forresdat
 #'
 #' This function removes the last commit from the active branch of the
 #' specified git repository. ONLY USE THIS FUNCTION IF YOUR COMMIT IS
@@ -15,23 +15,19 @@
 #' \dontrun{
 #' #change paths before running
 #' library(forrescalc)
-#' # (add path to your own fieldmap database here)
-#' path_to_fieldmapdb <-
-#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' from_access_to_git(
-#'   database = path_to_fieldmapdb,
-#'   tables = c("qLayer", "qMossLondo"),
-#'   repo_path = "C:/gitrepo/forresdat"
-#' )
-#' remove_last_commit_git(repo_path = "C:/gitrepo/forresdat")
+#' # add path to your local clone of forresdat
+#' path_to_forresdat <- "xxx/forresdat"
+#'
+#' # only run this after writing a commit with `save_results_forresdat()` or
+#' # `from_access_to_forresdat()` that has not yet been pushed to Github!
+#' remove_last_commit_forresdat(repo_path = path_to_forresdat)
 #' }
 #'
 #' @export
 #'
-#' @importFrom git2r commits reset
-#' @importFrom git2rdata repository
+#' @importFrom git2r commits repository reset
 #'
-remove_last_commit_git <- function(repo_path) {
+remove_last_commit_forresdat <- function(repo_path) {
   repo <- repository(repo_path)
   reset(commits(repo)[[2]], reset_type = "hard")
 }

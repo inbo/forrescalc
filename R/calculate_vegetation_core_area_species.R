@@ -35,6 +35,7 @@
 #' @importFrom rlang .data
 #'
 calculate_vegetation_core_area_species <- function(data_herblayer) {
+  check_forrescalc_version_attr(data_herblayer)
   by_core_area_species <- data_herblayer %>%
     group_by(.data$plot_id, .data$period) %>%
     mutate(
@@ -42,7 +43,7 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
     ) %>%
     ungroup() %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$year, .data$period, .data$species
+      .data$plottype, .data$plot_id, .data$period, .data$year, .data$species
     ) %>%
     summarise(
       number_of_subplots_with_vegetation = n_distinct(.data$subplot_id),
@@ -71,6 +72,9 @@ calculate_vegetation_core_area_species <- function(data_herblayer) {
       mean_coverage_class_average_perc = mean(.data$coverage_class_average_perc)
     ) %>%
     ungroup()
+
+  attr(by_core_area_species, "database") <- attr(data_herblayer, "database")
+  attr(by_core_area_species, "forrescalc") <- attr(data_herblayer, "forrescalc")
 
   return(by_core_area_species)
 }

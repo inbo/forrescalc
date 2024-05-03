@@ -132,7 +132,7 @@ create_unique_tree_id <- function(data_dendro) {
               .data$tree_id
             )
         ) %>%
-        select(-.data$tree_id_oldid, -.data$old_id_updated_oldid)
+        select(-"tree_id_oldid", -"old_id_updated_oldid")
       if (sum(is.na(dataset$tree_id)) < n_na_dataset) {
         dataset <- lookup_tree_id(dataset)
       }

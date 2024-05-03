@@ -22,15 +22,21 @@
 #'
 #' @return A dataframe with the specified table, default columns plottype,
 #' forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
-#' data_processed (TRUE or FALSE)
+#' data_processed (TRUE or FALSE).
+#' To be able to recall the version of the data, this dataframe contains
+#' an attribute with the sha of the commit of forresdat from which the data
+#' are taken.
 #'
 #' @examples
 #' library(forrescalc)
-#' read_forresdat(tablename = "dendro_by_plot")
+#' data_dendro <- read_forresdat(tablename = "dendro_by_plot")
+#' data_dendro
+#' attr(data_dendro, "forresdat")
 #'
 #' @export
 #'
 #' @importFrom assertthat assert_that has_name
+#' @importFrom dplyr select
 #' @importFrom readr read_tsv
 #'
 read_forresdat <-
@@ -83,5 +89,10 @@ read_forresdat <-
     }
   }
   warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint
+
+  commit <- fromJSON("https://api.github.com/repos/inbo/forresdat/commits?")
+  attr(dataset, "forresdat") <-
+    paste("forresdat commit", commit$sha[1])
+
   return(dataset)
 }

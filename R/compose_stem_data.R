@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter inner_join mutate select
+#' @importFrom dplyr %>% bind_rows filter inner_join mutate relocate select
 #' @importFrom assertthat has_name
 #'
 compose_stem_data <-
@@ -66,24 +66,30 @@ compose_stem_data <-
       data_shoots <- data_shoots %>% select(-all_of(extra_vars_shoots))
     }
   }
+  attributes <-
+    compare_attributes(
+      data_dendro, data_shoots, "data_dendro", "data_shoots"
+    )
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
     select(
-      -.data$nr_of_stems, -.data$dbh_class_5cm
+      -"nr_of_stems", -"dbh_class_5cm"
     )
   stem_data <- data_dendro_relevant %>%
     filter(.data$ind_sht_cop != 12) %>%
     bind_rows(
       data_dendro_relevant %>%
-        select(-.data$dbh_mm, -.data$height_m,
-               -.data$intact_snag, -.data$decaystage) %>%
+        select(-"dbh_mm", -"height_m",
+               -"intact_snag", -"decaystage") %>%
         filter(.data$ind_sht_cop == 12) %>%
         inner_join(data_shoots, by = c("plot_id", "tree_measure_id", "period"))
     ) %>%
     mutate(
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm),
       basal_area_m2 = pi * (.data$dbh_mm / 2000) ^ 2
-    )
+    ) %>%
+    relocate("shoot_measure_id", .after = "old_id") %>%
+    relocate(all_of(c("dbh_class_5cm", "basal_area_m2")), .after = "decaystage")
 
   if (
     has_name(
@@ -117,6 +123,9 @@ compose_stem_data <-
         common_remark_shoots = NULL,
       )
   }
+
+  attr(stem_data, "database") <- attributes[["attr_database"]]
+  attr(stem_data, "forrescalc") <- attributes[["attr_forrescalc"]]
 
   return(stem_data)
 }

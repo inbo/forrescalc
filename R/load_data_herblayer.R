@@ -12,9 +12,8 @@
 #' @return Dataframe with vegetation data on the species level ('herb layer'),
 #' containing columns as species, coverage_id, browse_index_id, date_vegetation
 #' (= date of survey of specific species, different for spring flora and other
-#' flora in the same plot), year_main_survey (= year of main vegetation survey),
-#' year (= year of survey of specific species, possibly different for
-#' spring flora and other flora), ....
+#' flora in the same plot), year (= year of survey of specific species, possibly
+#' different for spring flora and other flora), ....
 #'
 #' @examples
 #' library(forrescalc)
@@ -26,8 +25,9 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% mutate
+#' @importFrom dplyr %>% mutate select
 #' @importFrom lubridate year
+#' @importFrom utils packageVersion
 #'
 load_data_herblayer <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
@@ -38,23 +38,27 @@ load_data_herblayer <-
         survey_name = "Survey_Vegetation_YN"
       )
     query_herblayer <-
-        "SELECT Plots.ID AS plot_id,
+        "SELECT pd.ForestReserve AS forest_reserve,
+          Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
-          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
-            AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
           Veg.ID AS subplot_id,
+          99 AS period,  --add column name for right order (to be overwritten)
+          1234 AS year,  --add column name for right order (to be overwritten)
           IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date)
             AS date_vegetation,
           Veg.Year AS year_main_survey,
+          IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
+            AS totalplotarea_ha,
+          0.0 AS plotarea_ha,
           Herb.species,
           Herb.coverage_id,
+          IIf(Herb.browse_index_id IS NULL AND pd.GameImpactVegObserved = 10,
+            100, Herb.browse_index_id) AS browse_index_id,
           Herb.coverage_class_average,
-          IIf(Herb.browse_index_id IS NULL AND pd.Survey_vegetation_YN = 10,
-            100, Herb.browse_index_id) AS browse_index_id
+          0.0 AS coverage_class_average_perc,
+          pd.LengthCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha
         FROM ((((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
@@ -76,7 +80,7 @@ load_data_herblayer <-
   data_herblayer <-
     query_database(database, query_herblayer, selection = selection) %>%
     mutate(
-      year = year(.data$date_vegetation),
+      year = as.integer(year(.data$date_vegetation)),
       year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
       plotarea_ha =
         ifelse(
@@ -106,7 +110,12 @@ load_data_herblayer <-
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
     ) %>%
-    select(-.data$year_main_survey)
+    select(-"year_main_survey")
+
+  attr(data_herblayer, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
+  attr(data_herblayer, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_herblayer)
 }

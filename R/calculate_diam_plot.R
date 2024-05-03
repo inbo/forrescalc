@@ -16,14 +16,11 @@
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' # (add path to your height models here)
-#' path_to_height_models <-
-#'   system.file("example/height_models", package = "forrescalc")
 #'
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' height_model <- load_height_models(path_to_height_models)
+#' height_model <- load_height_models()
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
@@ -36,6 +33,13 @@
 #' @importFrom rlang .data
 #'
 calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
+  attributes <-
+    compare_attributes(
+      data_stems_calc, data_deadwood, "data_stems_calc", "data_deadwood"
+    )
+  compare_attributes(
+    data_stems_calc, plotinfo, "data_stems_calc", "plotinfo"
+  )
   by_diam_plot <- data_stems_calc %>%
     group_by(
       .data$plottype, .data$plot_id, .data$year, .data$period,
@@ -83,7 +87,7 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
     ) %>%
     mutate(
       across(
-        .data$stem_number_alive_ha:.data$vol_bole_dead_m3_ha,
+        "stem_number_alive_ha":"vol_bole_dead_m3_ha",
         ~ ifelse(is.na(.x) & survey_trees, 0, .x)
       ),
       vol_log_m3_ha =
@@ -94,6 +98,10 @@ calculate_diam_plot <- function(data_stems_calc, data_deadwood, plotinfo) {
       survey_trees = NULL,
       survey_deadw = NULL
     )
+
+  attr(by_diam_plot, "database") <- attributes[["attr_database"]]
+  attr(by_diam_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
+  attr(by_diam_plot, "heightmodels") <- attr(data_stems_calc, "heightmodels")
 
   return(by_diam_plot)
 }

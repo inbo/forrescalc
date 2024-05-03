@@ -21,6 +21,8 @@
 #' @export
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom dplyr %>% bind_rows mutate
+#' @importFrom utils packageVersion
 #'
 load_data_shoots <- function(database, extra_variables = FALSE) {
   add_fields <-
@@ -35,6 +37,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
     )
   query_shoots <-
     "SELECT Shoots.IDPlots AS plot_id,
+      99 AS period,  --add column name for right order (to be overwritten)
       Shoots.IDTrees%2$s AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
@@ -45,6 +48,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
 
   query_shoots_1986 <-
     "SELECT Shoots.IDPlots AS plot_id,
+      0 AS period,  --add column name for right order (to be overwritten)
       Shoots.IDTrees_1986 AS tree_measure_id,
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
@@ -71,6 +75,11 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
     mutate(
       intact_snag = ifelse(is.na(.data$intact_snag), 11, .data$intact_snag)
     )
+
+  attr(data_shoots, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
+  attr(data_shoots, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_shoots)
 }

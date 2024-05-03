@@ -59,6 +59,18 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
   data_heightclass <-
     query_database(database, query_heightclass, selection = selection)
 
+  number_classes <-
+    data.frame(
+      id = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
+      number_class =
+        c("1", "2 - 5", "6 - 10", "11 - 20", "21 - 40", "41 - 60", "61 - 100",
+          "> 100", "> 1000", "0"),
+      approx_nr_regeneration = c(1, 3, 8, 15, 30, 50, 80, 101, 1001, 0),
+      min_number_of_regeneration = c(1, 2, 6, 11, 21, 41, 61, 101, 1001, 0),
+      max_number_of_regeneration = c(1, 5, 10, 20, 40, 60, 100, 1000, 10000, 0),
+      stringsAsFactors = FALSE
+    )
+
   incorrect_regspecies <- data_heightclass %>%
     group_by(
       .data$plot_id, .data$subplot_id, .data$heightclass, .data$period
@@ -85,6 +97,11 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ungroup(),
       by = c("plot_id", "subplot_id", "heightclass_id", "period")
     ) %>%
+    left_join(
+      number_classes %>%
+        select("id", max_number = "max_number_of_regeneration"),
+      by = c("number_class" = "id")
+    ) %>%
     mutate(
       field_number_class =
         ifelse(
@@ -103,6 +120,19 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
           is.na(.data$game_damage_number) & .data$game_impact_reg == 10 &
             .data$not_na_game_damage_number,
           "missing", NA
+        ),
+      field_game_damage_number =
+        ifelse(
+          is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
+            !is.na(.data$number) & .data$game_damage_number > .data$number,
+          "higher than total number", NA
+        ),
+      field_game_damage_number =
+        ifelse(
+          is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
+            !is.na(.data$number_class) &
+            .data$game_damage_number > .data$max_number,
+          "higher than total number", NA
         )
     ) %>%
     group_by(

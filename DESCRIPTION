@@ -16,9 +16,11 @@ Imports:
   assertthat,
   DBI,
   dplyr,
+  frictionless,
   fs,
   git2r,
-  git2rdata,
+  httr,
+  jsonlite,
   lubridate,
   odbc,
   plyr,
@@ -34,5 +36,6 @@ Imports:
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr

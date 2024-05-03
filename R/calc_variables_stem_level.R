@@ -29,14 +29,11 @@
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' # (add path to your height models here)
-#' path_to_height_models <-
-#'   system.file("example/height_models", package = "forrescalc")
 #'
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' height_model <- load_height_models(path_to_height_models)
+#' height_model <- load_height_models()
 #' calc_variables_stem_level(data_stems, height_model)
 #'
 #' @export
@@ -47,6 +44,11 @@
 calc_variables_stem_level <-
   function(data_stems, height_model) {
 
+  attr(height_model, "database") <- attr(data_stems, "database")
+  attributes <-
+    compare_attributes(
+      data_stems, height_model, "data_stems", "height_model"
+    )
   # (1) calculate height using height models (calc_height_r)
   data_stems1 <- data_stems %>%
     left_join(
@@ -59,11 +61,11 @@ calc_variables_stem_level <-
     bind_rows(
       data_stems1 %>%
         filter(is.na(.data$model)) %>%
-        select(-.data$model, -.data$P1, -.data$P2) %>%
+        select(-"model", -"P1", -"P2") %>%
         left_join(
           height_model %>%
             filter(is.na(.data$species)) %>%
-            select(-.data$species),
+            select(-"species"),
           by = c("forest_reserve", "period", "plottype")
         )
     ) %>%
@@ -83,7 +85,7 @@ calc_variables_stem_level <-
                , pmax(1.3, .data$calc_height_r))
     ) %>%
     select(
-      -.data$model, -.data$P1, -.data$P2
+      -"model", -"P1", -"P2"
     )
   data_stems2 <- calc_stem_volume(data_stems2) %>%
     mutate(
@@ -150,8 +152,12 @@ calc_variables_stem_level <-
              )
     ) %>%
     select(
-      -.data$calc_height_fm, -.data$calc_height_r, -.data$dh_model,
-      -.data$reduction_crown, -.data$reduction_branch)
+      -"calc_height_fm", -"calc_height_r", -"dh_model",
+      -"reduction_crown", -"reduction_branch")
+
+  attr(data_stems2, "database") <- attributes[["attr_database"]]
+  attr(data_stems2, "forrescalc") <- attributes[["attr_forrescalc"]]
+  attr(data_stems2, "heightmodels") <- attr(height_model, "heightmodels")
 
   return(data_stems2)
 }

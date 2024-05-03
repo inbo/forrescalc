@@ -17,15 +17,12 @@
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' # (add path to your height models here)
-#' path_to_height_models <-
-#'   system.file("example/height_models", package = "forrescalc")
 #'
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' height_model <- load_height_models(path_to_height_models)
+#' height_model <- load_height_models()
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
@@ -38,6 +35,13 @@
 #' @importFrom rlang .data
 #'
 calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
+  attributes <-
+    compare_attributes(
+      data_dendro_calc, data_deadwood, "data_dendro_calc", "data_deadwood"
+    )
+  compare_attributes(
+    data_dendro_calc, plotinfo, "data_dendro_calc", "plotinfo"
+  )
   by_plot <- data_dendro_calc %>%
     mutate(
       species_alive = ifelse(.data$alive_dead == 11, .data$species, NA)
@@ -78,9 +82,10 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
     ) %>%
     mutate(
       across(
-        .data$number_of_tree_species:.data$vol_bole_dead_m3_ha,
+        "number_of_tree_species":"vol_bole_dead_m3_ha",
         ~ ifelse(is.na(.x) & survey_trees, 0, .x)
       ),
+      number_of_tree_species = as.integer(.data$number_of_tree_species),
       vol_log_m3_ha =
         ifelse(
           is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
@@ -92,6 +97,10 @@ calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
       vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
+
+  attr(by_plot, "database") <- attributes[["attr_database"]]
+  attr(by_plot, "forrescalc") <- attributes[["attr_forrescalc"]]
+  attr(by_plot, "heightmodels") <- attr(data_dendro_calc, "heightmodels")
 
   return(by_plot)
 }

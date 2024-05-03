@@ -31,6 +31,7 @@
 #'
 calc_intact_deadwood <- function(data_deadwood) {
 
+  check_forrescalc_version_attr(data_deadwood)
   data_deadwood_intact <- data_deadwood %>%
     filter(.data$intact_fragm == 10) %>%
     rename(

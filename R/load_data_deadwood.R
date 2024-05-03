@@ -23,6 +23,7 @@
 #' @importFrom dplyr %>% mutate
 #' @importFrom stringr str_replace
 #' @importFrom lubridate month year
+#' @importFrom utils packageVersion
 #'
 load_data_deadwood <-
   function(database, plottype = NA, forest_reserve = NA,
@@ -45,16 +46,15 @@ load_data_deadwood <-
         ""
       )
   query_deadwood <-
-    "SELECT Plots.ID AS plot_id,
+    "SELECT pd.ForestReserve AS forest_reserve,
+      Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
+      99 AS period,  --add column name for right order (to be overwritten)
+      1234 AS year,  --add column name for right order (to be overwritten)
+      pd.Date_Dendro_%1$deSet AS date_dendro,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
         AS totalplotarea_ha,
-      pd.ForestReserve AS forest_reserve,
-      pd.Date_Dendro_%1$deSet AS date_dendro,
-      pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-      pd.LengthCoreArea_m AS length_core_area_m,
-      pd.WidthCoreArea_m AS width_core_area_m,
-      pd.Area_ha AS core_area_ha,
+      0.0 AS plotarea_ha,  --add column name for right order (to be overwritten)
       Deadwood.ID AS lying_deadw_id,
       Deadwood.Species AS species,
       Deadwood.DecayStage AS decaystage,
@@ -63,7 +63,12 @@ load_data_deadwood <-
       Deadwood.CalcLength_m AS calc_length_m,
       Deadw_Diam.total_length_m,
       Deadw_Diam.min_diam_mm,
-      Deadw_Diam.max_diam_mm %4$s
+      Deadw_Diam.max_diam_mm,
+      0 AS dbh_class_5cm %4$s,
+      pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
+      pd.LengthCoreArea_m AS length_core_area_m,
+      pd.WidthCoreArea_m AS width_core_area_m,
+      pd.Area_ha AS core_area_ha
     FROM ((((Plots
       INNER JOIN Deadwood%2$s Deadwood ON Plots.ID = Deadwood.IDPlots)
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
@@ -110,6 +115,11 @@ load_data_deadwood <-
           .data$plotarea_ha
         )
     )
+
+  attr(data_deadwood, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
+  attr(data_deadwood, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_deadwood)
 }

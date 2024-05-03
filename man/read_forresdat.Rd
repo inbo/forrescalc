@@ -28,7 +28,10 @@ Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
 \value{
 A dataframe with the specified table, default columns plottype,
 forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
-data_processed (TRUE or FALSE)
+data_processed (TRUE or FALSE).
+To be able to recall the version of the data, this dataframe contains
+an attribute with the sha of the commit of forresdat from which the data
+are taken.
 }
 \description{
 This function reads a table in tsv format from git repository forresdat.
@@ -41,6 +44,8 @@ To load table plotinfo, set argument `join_plotinfo = FALSE`.
 }
 \examples{
 library(forrescalc)
-read_forresdat(tablename = "dendro_by_plot")
+data_dendro <- read_forresdat(tablename = "dendro_by_plot")
+data_dendro
+attr(data_dendro, "forresdat")
 
 }

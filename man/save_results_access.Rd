@@ -31,15 +31,12 @@ library(forrescalc)
 # (add path to your own fieldmap database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-# (add path to your height models here)
-path_to_height_models <-
-  system.file("example/height_models", package = "forrescalc")
 
 # do calculations
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 data_shoots <- load_data_shoots(path_to_fieldmapdb)
-height_model <- load_height_models(path_to_height_models)
+height_model <- load_height_models()
 plotinfo <- load_plotinfo(path_to_fieldmapdb)
 result_dendro <-
   calculate_dendrometry(

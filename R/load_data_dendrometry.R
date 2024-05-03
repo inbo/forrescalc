@@ -33,6 +33,7 @@
 #' @importFrom dplyr %>% mutate
 #' @importFrom lubridate month year
 #' @importFrom DBI dbDisconnect dbGetQuery
+#' @importFrom utils packageVersion
 #'
 load_data_dendrometry <-
   function(database, plottype = NA, forest_reserve = NA,
@@ -53,14 +54,31 @@ load_data_dendrometry <-
       ""
     )
   query_dendro <-
-      "SELECT Plots.ID AS plot_id,
+      "SELECT pd.ForestReserve AS forest_reserve,
+        Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
+        99 AS period,  --add column name for right order (to be overwritten)
+        1234 AS year,  --add column name for right order (to be overwritten)
+        pd.Date_Dendro_%1$deSet AS date_dendro,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
           AS totalplotarea_ha,
+        0.0 AS plotarea_ha,  --add column name for order (to be overwritten)
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
-        pd.ForestReserve AS forest_reserve,
-        pd.Date_Dendro_%1$deSet AS date_dendro,
+        Trees.Species AS species,
+        Trees.DBH_mm AS dbh_mm,
+        Trees.Height_m AS height_m,
+        Trees.Calcheight_m AS calc_height_fm,
+        Trees.AliveDead AS alive_dead,
+        Trees.IntactSnag AS intact_snag,
+        Trees.IndShtCop AS ind_sht_cop,
+        Trees.DecayStage AS decaystage,
+        Trees.TreeNumber AS nr_of_stems,
+        0 AS dbh_class_5cm,
+        cvr.Value3 AS crown_volume_reduction,
+        blr.Value3 AS branch_length_reduction %4$s,
+        0 AS subcircle,
+        0.0 AS subcirclearea_ha,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
@@ -70,18 +88,7 @@ load_data_dendrometry <-
         pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
-        pd.Area_ha AS core_area_ha,
-        Trees.DBH_mm AS dbh_mm,
-        Trees.Height_m AS height_m,
-        Trees.Species AS species,
-        Trees.AliveDead AS alive_dead,
-        Trees.IntactSnag AS intact_snag,
-        Trees.DecayStage AS decaystage,
-        Trees.Calcheight_m AS calc_height_fm,
-        cvr.Value3 AS crown_volume_reduction,
-        blr.Value3 AS branch_length_reduction,
-        Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS nr_of_stems %4$s
+        pd.Area_ha AS core_area_ha
       FROM (((((Plots INNER JOIN Trees%2$s Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
@@ -91,14 +98,31 @@ load_data_dendrometry <-
 
   query_dendro_1986 <-
     sprintf(
-      "SELECT Plots.ID AS plot_id,
+      "SELECT pd.ForestReserve AS forest_reserve,
+        Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
+        0 AS period,
+        1234 AS year,  --add column name for right order (to be overwritten)
+        pd.Date_Dendro_1986 AS date_dendro,
         IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
           AS totalplotarea_ha,
+        0.0 AS plotarea_ha,  --add column name for order (to be overwritten)
         Trees.ID AS tree_measure_id,
         Trees.OldID AS old_id,
-        pd.ForestReserve AS forest_reserve,
-        pd.Date_Dendro_1986 AS date_dendro,
+        Trees.Species AS species,
+        Trees.DBH_mm AS dbh_mm,
+        Trees.Height_m AS height_m,
+        Trees.Calcheight_m AS calc_height_fm,
+        Trees.AliveDead AS alive_dead,
+        Trees.IntactSnag AS intact_snag,
+        Trees.IndShtCop AS ind_sht_cop,
+        Trees.DecayStage AS decaystage,
+        Trees.TreeNumber AS nr_of_stems,
+        0 AS dbh_class_5cm,
+        cvr.Value3 AS crown_volume_reduction,
+        blr.Value3 AS branch_length_reduction %2$s,
+        0 AS subcircle,
+        0.0 AS subcirclearea_ha,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
         pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
@@ -108,18 +132,7 @@ load_data_dendrometry <-
         pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
-        pd.Area_ha AS core_area_ha,
-        Trees.DBH_mm AS dbh_mm,
-        Trees.Height_m AS height_m,
-        Trees.Species AS species,
-        Trees.AliveDead AS alive_dead,
-        Trees.IntactSnag AS intact_snag,
-        Trees.DecayStage AS decaystage,
-        Trees.Calcheight_m AS calc_height_fm,
-        cvr.Value3 AS crown_volume_reduction,
-        blr.Value3 AS branch_length_reduction,
-        Trees.IndShtCop AS ind_sht_cop,
-        Trees.TreeNumber AS nr_of_stems %2$s
+        pd.Area_ha AS core_area_ha
       FROM (((((Plots INNER JOIN Trees_1986 Trees ON Plots.ID = Trees.IDPlots)
         INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
@@ -195,6 +208,11 @@ load_data_dendrometry <-
         ),
       dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
     )
+
+  attr(data_dendro, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
+  attr(data_dendro, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_dendro)
 }

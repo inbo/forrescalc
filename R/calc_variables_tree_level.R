@@ -37,14 +37,11 @@
 #' # (add path to your own fieldmap database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-#' # (add path to your height models here)
-#' path_to_height_models <-
-#'   system.file("example/height_models", package = "forrescalc")
 #'
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' height_model <- load_height_models(path_to_height_models)
+#' height_model <- load_height_models()
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' calc_variables_tree_level(data_dendro, data_stems_calc)
 #'
@@ -58,10 +55,14 @@
 calc_variables_tree_level <-
   function(data_dendro, data_stems_calc) {
 
+  attributes <-
+    compare_attributes(
+      data_dendro, data_stems_calc, "data_dendro", "data_stems_calc"
+    )
   data_dendro1 <- data_dendro %>%
     select(
-      -.data$dbh_mm, -.data$nr_of_stems, -.data$calc_height_fm,
-      -.data$intact_snag, -.data$decaystage
+      -"dbh_mm", -"nr_of_stems", -"calc_height_fm",
+      -"intact_snag", -"decaystage"
     ) %>%
     left_join(
       data_stems_calc %>%
@@ -69,9 +70,11 @@ calc_variables_tree_level <-
         summarise(
           nr_of_stems = n(),
           decaystage =
-            round(
-              sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
-                sum(.data$dbh_mm ^ 2 / 4)
+            as.integer(
+              round(
+                sum(.data$decaystage * .data$dbh_mm ^ 2 / 4) /
+                  sum(.data$dbh_mm ^ 2 / 4)
+              )
             ),
           intact_snag = max(.data$intact_snag),
           calc_height_m = sum(.data$calc_height_m * .data$dbh_mm ^ 2 / 4) /
@@ -108,7 +111,11 @@ calc_variables_tree_level <-
                0
              )
     ) %>%
-    select(-.data$individual)
+    select(-"individual")
+
+  attr(data_dendro1, "database") <- attributes[["attr_database"]]
+  attr(data_dendro1, "forrescalc") <- attributes[["attr_forrescalc"]]
+  attr(data_dendro1, "heightmodels") <- attr(data_stems_calc, "heightmodels")
 
   return(data_dendro1)
 }

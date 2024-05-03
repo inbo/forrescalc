@@ -2,26 +2,20 @@
 % Please edit documentation in R/load_height_models.R
 \name{load_height_models}
 \alias{load_height_models}
-\title{retrieve height model data from xlsx files}
+\title{retrieve height model data from git repository forresheights}
 \usage{
-load_height_models(path_to_height_models)
-}
-\arguments{
-\item{path_to_height_models}{path to folder where height models are stored}
+load_height_models()
 }
 \value{
 Dataframe with height model data
 }
 \description{
-This function groups the information on height models from the `.xlsx` files
-in the given folder together in one dataframe.
+This function groups the information on height models from the `.csv` files
+in the git repository [forresheights](https://github.com/inbo/forresheights)
+together in one dataframe.
 }
 \examples{
-#change path before running
 library(forrescalc)
-# (add path to your height models here)
-path_to_height_models <-
-  system.file("example/height_models", package = "forrescalc")
-load_height_models(path_to_height_models)
+load_height_models()
 
 }

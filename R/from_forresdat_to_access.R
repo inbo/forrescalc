@@ -1,10 +1,10 @@
-#' copy table(s) from git repository to access db
+#' copy table(s) from git repository forresdat to access db
 #'
 #' This function loads one or more tables from git repository forresdat
 #' and saves them in an Access (or SQLite) database.
 #'
 #' @inheritParams save_results_access
-#' @inheritParams from_access_to_git
+#' @inheritParams from_access_to_forresdat
 #' @inheritParams load_data_dendrometry
 #' @inheritParams read_forresdat
 #'
@@ -18,13 +18,13 @@
 #' library(forrescalc)
 #' # (add path to your own database here)
 #' path_to_database <- "my-db.sqlite"
-#' from_git_to_access(
+#' from_forresdat_to_access(
 #'   tables = "dendro_by_plot",
 #'   database = path_to_database
 #' )
 #' # if tables don't contain column plot_id, or it is not relevant to add
 #' # information on the plots, add argument join_plotinfo = FALSE
-#' from_git_to_access(
+#' from_forresdat_to_access(
 #'   tables = c("qAliveDead", "qdecaystage"),
 #'   database = path_to_database,
 #'   join_plotinfo = FALSE
@@ -32,7 +32,7 @@
 #'
 #' file.remove("my-db.sqlite")
 #'
-from_git_to_access <-
+from_forresdat_to_access <-
   function(
     tables, database, remove_tables = FALSE, plottype = NA, join_plotinfo = TRUE
   ) {

@@ -22,8 +22,10 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% left_join mutate rename
+#' @importFrom dplyr %>% left_join mutate relocate rename
 #' @importFrom lubridate year
+#' @importFrom tidyselect contains last_col
+#' @importFrom utils packageVersion
 #'
 load_data_vegetation <-
   function(database, plottype = NA, forest_reserve = NA, processed = TRUE) {
@@ -34,23 +36,25 @@ load_data_vegetation <-
         survey_name = "Survey_Vegetation_YN"
       )
     query_vegetation <-
-        "SELECT Plots.ID AS plot_id,
+        "SELECT pd.ForestReserve AS forest_reserve,
+          Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
+          Veg.ID AS subplot_id,
+          99 AS period,  --add column name for right order (to be overwritten)
+          Veg.Year AS year_main_survey,
+          Veg.Date AS date_vegetation,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
             AS totalplotarea_ha,
-          pd.ForestReserve AS forest_reserve,
-          pd.LengthCoreArea_m AS length_core_area_m,
-          pd.WidthCoreArea_m AS width_core_area_m,
-          pd.Area_ha AS core_area_ha,
-          Veg.ID AS subplot_id,
-          Veg.Date AS date_vegetation,
-          Veg.Year AS year_main_survey,
+          0.0 AS plotarea_ha,
           Veg.Total_moss_cover AS total_moss_cover_id,
           Veg.Total_herb_cover AS total_herb_cover_id,
           Veg.Total_shrub_cover AS total_shrub_cover_id,
           Veg.Total_tree_cover AS total_tree_cover_id,
           Veg.Total_waterlayer_cover AS total_waterlayer_cover_id,
-          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id
+          Veg.Total_SoildisturbanceGame As total_soildisturbance_game_id,
+          pd.LengthCoreArea_m AS length_core_area_m,
+          pd.WidthCoreArea_m AS width_core_area_m,
+          pd.Area_ha AS core_area_ha
         FROM (((Plots
           INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
           INNER JOIN Vegetation%2$s Veg ON Plots.ID = Veg.IDPlots)
@@ -82,7 +86,7 @@ load_data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
     mutate(
       year_main_survey = ifelse(!is.na(.data$date_vegetation)
-                                , year(.data$date_vegetation)
+                                , as.integer(year(.data$date_vegetation))
                                 , .data$year_main_survey),
       plotarea_ha =
         ifelse(
@@ -111,39 +115,39 @@ load_data_vegetation <-
     ) %>%
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(
-      moss_cover_interval = .data$cover_interval,
-      moss_cover_min = .data$min_cover,
-      moss_cover_max = .data$max_cover
+      moss_cover_interval = "cover_interval",
+      moss_cover_min = "min_cover",
+      moss_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_herb_cover_id" = "id")) %>%
     rename(
-      herb_cover_interval = .data$cover_interval,
-      herb_cover_min = .data$min_cover,
-      herb_cover_max = .data$max_cover
+      herb_cover_interval = "cover_interval",
+      herb_cover_min = "min_cover",
+      herb_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_shrub_cover_id" = "id")) %>%
     rename(
-      shrub_cover_interval = .data$cover_interval,
-      shrub_cover_min = .data$min_cover,
-      shrub_cover_max = .data$max_cover
+      shrub_cover_interval = "cover_interval",
+      shrub_cover_min = "min_cover",
+      shrub_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_tree_cover_id" = "id")) %>%
     rename(
-      tree_cover_interval = .data$cover_interval,
-      tree_cover_min = .data$min_cover,
-      tree_cover_max = .data$max_cover
+      tree_cover_interval = "cover_interval",
+      tree_cover_min = "min_cover",
+      tree_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_waterlayer_cover_id" = "id")) %>%
     rename(
-      waterlayer_cover_interval = .data$cover_interval,
-      waterlayer_cover_min = .data$min_cover,
-      waterlayer_cover_max = .data$max_cover
+      waterlayer_cover_interval = "cover_interval",
+      waterlayer_cover_min = "min_cover",
+      waterlayer_cover_max = "max_cover"
     ) %>%
     left_join(total_cover, by = c("total_soildisturbance_game_id" = "id")) %>%
     rename(
-      soildisturbance_game_cover_interval = .data$cover_interval,
-      soildisturbance_game_cover_min = .data$min_cover,
-      soildisturbance_game_cover_max = .data$max_cover
+      soildisturbance_game_cover_interval = "cover_interval",
+      soildisturbance_game_cover_min = "min_cover",
+      soildisturbance_game_cover_max = "max_cover"
     ) %>%
     mutate(
       moss_cover_mid = (.data$moss_cover_min + .data$moss_cover_max) / 2,
@@ -155,7 +159,13 @@ load_data_vegetation <-
       soildisturbance_game_cover_mid =
         (.data$soildisturbance_game_cover_min +
            .data$soildisturbance_game_cover_max) / 2
-    )
+    ) %>%
+    relocate(contains("core_area_"), .after = last_col())
+
+  attr(data_vegetation, "database") <-
+    sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
+  attr(data_vegetation, "forrescalc") <-
+    paste("forrescalc", packageVersion("forrescalc"))
 
   return(data_vegetation)
 }
