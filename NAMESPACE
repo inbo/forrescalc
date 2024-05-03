@@ -119,14 +119,11 @@ importFrom(git2r,push)
 importFrom(git2r,remote_url)
 importFrom(git2r,repository)
 importFrom(git2r,reset)
-<<<<<<< HEAD
 importFrom(git2rdata,commit)
 importFrom(git2rdata,pull)
 importFrom(git2rdata,push)
 importFrom(git2rdata,repository)
 importFrom(git2rdata,write_vc)
-=======
->>>>>>> 18fc10d3202bb273883dd5a893edca6a73734f72
 importFrom(graphics,boxplot)
 importFrom(httr,GET)
 importFrom(httr,content)
