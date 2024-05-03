@@ -43,6 +43,8 @@ No value is returned, the tables are saved in the git repository.
 \description{
 This function loads one or more tables from the access database
 (or an SQLite database) and saves them in the git repository forresdat.
+Table names in camelcase in the database are renamed to snakecase before
+saving in forresdat.
 }
 \examples{
 \dontrun{
