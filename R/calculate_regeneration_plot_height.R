@@ -31,9 +31,12 @@ calculate_regeneration_plot_height <- function(data_regeneration) {
   by_plot_height <- data_regeneration %>%
     mutate(
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
-      nr_tmp = ifelse(!is.na(nr_of_regeneration)
-                      , nr_of_regeneration
-                      , approx_nr_regeneration)
+      nr_tmp =
+        ifelse(
+          !is.na(nr_of_regeneration),
+          nr_of_regeneration,
+          approx_nr_regeneration
+        )
     ) %>%
     group_by(
       .data$plottype, .data$plot_id, .data$year, .data$period,
