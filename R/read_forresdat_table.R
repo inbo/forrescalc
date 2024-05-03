@@ -88,7 +88,7 @@ read_forresdat_table <-
         )
     }
   }
-  warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint
+  warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint: line_length_linter
 
   commit <- fromJSON("https://api.github.com/repos/inbo/forresdat/commits?")
   attr(dataset, "forresdat") <-
