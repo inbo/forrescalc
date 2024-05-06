@@ -168,9 +168,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
             !is.na(.data$rubbing_damage_nr_established),
           0,
           .data$rubbing_damage_nr_seedlings
-        )
-    ) %>%
-    mutate(
+        ),
       number_of_tree_species =
         ifelse(.data$number_of_tree_species == 0 &
                  is.na(.data$mean_number_seedlings),
