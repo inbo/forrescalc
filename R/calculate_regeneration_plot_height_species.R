@@ -33,9 +33,9 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       nr_tmp =
         ifelse(
-          !is.na(nr_of_regeneration),
-          nr_of_regeneration,
-          approx_nr_regeneration
+          !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$approx_nr_regeneration
         )
     ) %>%
     group_by(

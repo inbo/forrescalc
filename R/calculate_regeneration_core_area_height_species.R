@@ -36,9 +36,9 @@ calculate_regeneration_core_area_height_species <- function(data_regeneration) {
     mutate(
       nr_tmp =
         ifelse(
-          !is.na(nr_of_regeneration),
-          nr_of_regeneration,
-          approx_nr_regeneration
+          !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$approx_nr_regeneration
         )
     ) %>%
     group_by(.data$plottype, .data$plot_id, .data$period) %>%
