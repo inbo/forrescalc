@@ -23,8 +23,9 @@ approx_nr_regeneration_ha.
 \description{
 This function calculates for each plot, height, species and year the number
 of regeneration per ha (or interval with mean and confidence interval
-using a log transformation), and the number and percentage of
-subplots in which the species is regenerating.
+using a log transformation), the number and percentage of
+subplots in which the species is regenerating and
+the approximate rubbing damage percentage per hectare.
 This calculation is designed for core areas, that consist of different
 subplots.
 }
