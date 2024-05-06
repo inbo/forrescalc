@@ -37,13 +37,15 @@ load_plotinfo <-
       forest_reserve = forest_reserve, processed = processed,
       survey_name = "DataProcessed_YN"
     )
+  # in the below query, 'default values for columns are added to set the columns
+  # in the correct order, they are overwritten later in the R script
   query_plot <-
     "SELECT pd.ForestReserve AS forest_reserve,
       Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
-      99 AS period,  --add column name for right order (to be overwritten)
+      99 AS period,
       99 AS survey_number,
-      1234 AS year_dendro, --add column name for right order (to be overwritten)
+      1234 AS year_dendro,
       pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.Survey_Trees_YN AS survey_trees,
       pd.Survey_Deadwood_YN AS survey_deadw,

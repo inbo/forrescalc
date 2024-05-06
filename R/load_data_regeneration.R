@@ -33,13 +33,15 @@ load_data_regeneration <-
       )
     conjunction <-
       ifelse(grepl("WHERE", selection), "AND", "WHERE")
+    # in the below query, 'default values for columns are added to set the
+    # columns in the correct order, they are overwritten later in the R script
     query_regeneration <-
         "SELECT pd.ForestReserve AS forest_reserve,
           Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
           Reg.ID AS subplot_id,
-          99 AS period,  --add column name for right order (to be overwritten)
-          1234 AS year,  --add column name for right order (to be overwritten)
+          99 AS period,
+          1234 AS year,
           Reg.Date AS date_regeneration,
           Reg.Year AS year_main_survey,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)

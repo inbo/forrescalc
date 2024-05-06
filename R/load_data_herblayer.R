@@ -37,13 +37,15 @@ load_data_herblayer <-
         forest_reserve = forest_reserve, processed = processed,
         survey_name = "Survey_Vegetation_YN"
       )
+    # in the below query, 'default values for columns are added to set the
+    # columns in the correct order, they are overwritten later in the R script
     query_herblayer <-
         "SELECT pd.ForestReserve AS forest_reserve,
           Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
           Veg.ID AS subplot_id,
-          99 AS period,  --add column name for right order (to be overwritten)
-          1234 AS year,  --add column name for right order (to be overwritten)
+          99 AS period,
+          1234 AS year,
           IIf(Herb.Deviating_date IS NULL, Veg.Date, Herb.Deviating_date)
             AS date_vegetation,
           Veg.Year AS year_main_survey,
