@@ -35,12 +35,14 @@ load_data_vegetation <-
         forest_reserve = forest_reserve, processed = processed,
         survey_name = "Survey_Vegetation_YN"
       )
+    # in the below query, 'default values for columns are added to set the
+    # columns in the correct order, they are overwritten later in the R script
     query_vegetation <-
         "SELECT pd.ForestReserve AS forest_reserve,
           Plots.ID AS plot_id,
           qPlotType.Value3 AS plottype,
           Veg.ID AS subplot_id,
-          99 AS period,  --add column name for right order (to be overwritten)
+          99 AS period,
           Veg.Year AS year_main_survey,
           Veg.Date AS date_vegetation,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
