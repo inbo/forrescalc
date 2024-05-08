@@ -1,6 +1,8 @@
 #' load tables from git repository forresdat
 #'
-#' This function reads a table in tsv format from git repository forresdat.
+#' This function reads a table in csv format from git repository forresdat
+#' (and saves the forresdat data to a local temp directory to avoid unneeded
+#' downloading in the future).
 #' Data available in forresdat only contains observations, so no records with
 #' zero values are added for for instance species that were not observed and
 #' hence absent.
@@ -24,8 +26,8 @@
 #' forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
 #' data_processed (TRUE or FALSE).
 #' To be able to recall the version of the data, this dataframe contains
-#' an attribute with the sha of the commit of forresdat from which the data
-#' are taken.
+#' an attribute with the version number of the release of forresdat from which
+#' the data are taken.
 #'
 #' @examples
 #' library(forrescalc)
@@ -37,18 +39,14 @@
 #'
 #' @importFrom assertthat assert_that has_name
 #' @importFrom dplyr select
-#' @importFrom readr read_tsv
+#' @importFrom readr read_csv
 #'
 read_forresdat_table <-
   function(tablename, join_plotinfo = TRUE, plottype = c("CP", "CA", "all")) {
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
-  url <-
-    sprintf(
-      "https://raw.githubusercontent.com/inbo/forresdat/master/data/%s.tsv",
-      tablename
-    )
-  dataset <- read_tsv(url)
+  path_to_forresdat <- download_forresdat()
+  dataset <- read_csv(file.path(path_to_forresdat, paste0(tablename, ".csv")))
   if (has_name(dataset, "plottype") && var_plottype != "all") {
     dataset <- dataset %>%
       filter(.data$plottype == var_plottype)
@@ -72,27 +70,24 @@ read_forresdat_table <-
       dataset <- dataset %>%
         select(-"plottype")
     }
-    url_plotinfo <-
-      "https://raw.githubusercontent.com/inbo/forresdat/master/data/plotinfo.tsv" #nolint: line_length_linter
     if (has_name(dataset, "period")) {
       dataset <- dataset %>%
         left_join(
-          read_tsv(url_plotinfo),
+          read_csv(file.path(path_to_forresdat, "plotinfo.csv")),
           by = c("plot_id", "period")
         )
     } else {
       dataset <- dataset %>%
         left_join(
-          read_tsv(url_plotinfo),
+          read_csv(file.path(path_to_forresdat, "plotinfo.csv")),
           by = "plot_id"
         )
     }
   }
   warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint: line_length_linter
 
-  commit <- fromJSON("https://api.github.com/repos/inbo/forresdat/commits?")
   attr(dataset, "forresdat") <-
-    paste("forresdat commit", commit$sha[1])
+    paste("forresdat release", attr(path_to_forresdat, "version"))
 
   return(dataset)
 }
