@@ -139,37 +139,16 @@ calc_stem_volume <- function(data_stems) {
       -"vol_bole_t1_m3", -"vol_bole_t2_m3"
     ) %>%
     mutate(
-      # volume correction for snags
+      # (4) volume correction for snags
+      # crown volume = 0
       vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3),
-      upper_diam_snag_mm =
-        ifelse(
-          .data$intact_snag == 10,
-          .data$dbh_mm * (.data$calc_height_m - .data$height_m) /
-            .data$calc_height_m,
-          NA
-        ),
-      volume_snag_m3 =
-        ifelse(
-          .data$intact_snag == 10,
-          # as truncated cone - appears to be less accurate!!!!
-          # pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
-          # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
-          # AS CILINDER - GIVES BETTER RESULTS
-          pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
-          # ! TEMPORARY SOLUTION: goal is to incorporate taper functions cfr FM-IA
-            NA),
-      # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
-      # nee, want dan ook geen volumes van de andere bomen ...)
+      # bole volume = volume cilinder
       vol_bole_m3 =
         ifelse(
           .data$intact_snag == 10,
-          .data$volume_snag_m3,
+          pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
           .data$vol_bole_m3
         )
-    ) %>%
-    select(
-      -"upper_diam_snag_mm", -"volume_snag_m3",
-      -"vol_bole_t1_m3", -"vol_bole_t2_m3"
     )
 
   return(data_stems)
