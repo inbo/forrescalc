@@ -32,7 +32,8 @@ Imports:
   stats,
   stringr,
   tidyr (>= 1.0.0),
-  tidyselect (>= 1.0.0)
+  tidyselect (>= 1.0.0),
+  tools
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
