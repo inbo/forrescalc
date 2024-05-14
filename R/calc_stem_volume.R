@@ -135,7 +135,8 @@ calc_stem_volume <- function(data_stems) {
     ) %>%
     select(
       -"a", -"b", -"c", -"d", -"e", -"f", -"g",
-      -"formula", -"d_cm", -"perimeter", -"perimeter_150"
+      -"formula", -"d_cm", -"perimeter", -"perimeter_150",
+      -"vol_bole_t1_m3", -"vol_bole_t2_m3"
     ) %>%
     mutate(
       # volume correction for snags
