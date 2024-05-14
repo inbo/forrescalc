@@ -49,20 +49,6 @@ calc_stem_volume <- function(data_stems) {
     select(
       -"a", -"b", -"c", -"d"
     ) %>%
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
-        )
-      ),
-      by = "species"
-    ) %>%
-    mutate(
-      perimeter_150 = (.data$perimeter - .data$a) / .data$b
-    ) %>%
-    select(
-      -"a", -"b"
-    ) %>%
     # (2) calculate crown volume - tariff 1 entry
     left_join(
       suppressMessages(
@@ -85,6 +71,20 @@ calc_stem_volume <- function(data_stems) {
       -"a", -"b", -"c", -"d"
     ) %>%
     # (3) calculate bole volume - tariff 2 entries
+    left_join(
+      suppressMessages(
+        read_csv2(
+          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
+        )
+      ),
+      by = "species"
+    ) %>%
+    mutate(
+      perimeter_150 = (.data$perimeter - .data$a) / .data$b
+    ) %>%
+    select(
+      -"a", -"b"
+    ) %>%
     left_join(
       suppressMessages(
         read_csv2(
