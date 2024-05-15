@@ -263,7 +263,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_decay_stage),
       field_decay_stage =
         ifelse(
-          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 17) &
+          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15) &
             .data$alive_dead == 11 & !is.na(.data$decay_stage),
           "tree alive",
           .data$field_decay_stage),
