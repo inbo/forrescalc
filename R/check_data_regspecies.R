@@ -117,15 +117,9 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ),
       field_game_damage_number =
         ifelse(
-          is.na(.data$game_damage_number) & .data$game_impact_reg == 10 &
-            .data$not_na_game_damage_number,
-          "missing", NA
-        ),
-      field_game_damage_number =
-        ifelse(
           is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
             !is.na(.data$number) & .data$game_damage_number > .data$number,
-          "higher than total number", .data$game_damage_number
+          "higher than total number", NA
         ),
       field_game_damage_number =
         ifelse(
