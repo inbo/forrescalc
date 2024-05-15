@@ -113,7 +113,7 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
           is.na(.data$width_core_area_m) & .data$plottype == "CA", "missing",
           NA
         ),
-      field_area_ha = ifelse(is.na(.data$area_ha), "missing", NA)
+      field_area_ha = ifelse(is.na(.data$area_ha) & .data$plottype == "CA", "missing", NA)
     ) %>%
     pivot_longer(
       cols = c(starts_with("field_")),
