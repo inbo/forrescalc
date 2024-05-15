@@ -288,7 +288,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_hght =
         ifelse(
-          .data$iufro_hght %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_hght %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_hght),
           "tree not alive",
           .data$field_iufro_hght),
@@ -313,7 +313,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_vital =
         ifelse(
-          .data$iufro_vital %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_vital %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_vital),
           "tree not alive",
           .data$field_iufro_vital
@@ -341,7 +341,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_iufro_socia),
       field_iufro_socia =
         ifelse(
-          .data$iufro_socia %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_socia %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_socia),
           "tree not alive",
           .data$field_iufro_socia),
