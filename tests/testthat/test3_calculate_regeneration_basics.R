@@ -36,6 +36,7 @@ describe("regeneration_by_plot_height", {
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "number_of_tree_species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
         "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
@@ -71,6 +72,7 @@ describe("regeneration_by_plot_height_species", {
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
         "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
@@ -111,6 +113,7 @@ describe("regeneration_by_core_area_height_species", {
         "nr_of_subplots_with_regeneration",
         "perc_subplots_with_regeneration",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
         "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
