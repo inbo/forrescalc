@@ -219,6 +219,10 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
              .data$lci_number_seedlings / .data$plotarea_ha,
            uci_number_seedlings_ha =
              .data$uci_number_seedlings / .data$plotarea_ha,
+           rubbing_damage_nr_established_ha =
+             .data$rubbing_damage_nr_established / .data$plotarea_ha,
+           rubbing_damage_nr_seedlings_ha =
+             .data$rubbing_damage_nr_seedlings / .data$plotarea_ha,
            mean_rubbing_damage_perc_established =
              .data$rubbing_damage_nr_established * 100 /
                .data$mean_number_established,
@@ -254,6 +258,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       "approx_nr_established_ha", "approx_nr_seedlings_ha",
       "approx_rubbing_damage_perc_established",
       "approx_rubbing_damage_perc_seedlings",
+      "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha", "mean_number_seedlings_ha",
       "lci_number_seedlings_ha", "uci_number_seedlings_ha",
