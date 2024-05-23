@@ -107,9 +107,8 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
           "missing", NA
         ),
       field_game_damage_number =
-        ifelse(
-          is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
-            !is.na(.data$number) & .data$game_damage_number > .data$number,
+        ifelse(.data$game_impact_reg == 10 & !is.na(.data$number) &
+                 .data$game_damage_number > .data$number,
           "higher than total number", NA
         ),
       field_game_damage_number =
@@ -117,12 +116,12 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
           is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
             !is.na(.data$number_class) &
             .data$game_damage_number > .data$max_number,
-          "higher than total number", .data$game_damage_number
+          "higher than total number", .data$field_game_damage_number
         ),
       field_game_damage_number =
         ifelse(
           !is.na(.data$game_damage_number) & .data$game_impact_reg == 20,
-          "unexpected (not missing)", .data$game_damage_number
+          "unexpected (not missing)", .data$field_game_damage_number
         )
     ) %>%
     group_by(
