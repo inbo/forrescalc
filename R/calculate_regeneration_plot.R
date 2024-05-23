@@ -166,9 +166,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
             !is.na(.data$rubbing_damage_nr_established),
           0,
           .data$rubbing_damage_nr_seedlings
-        )
-    ) %>%
-    mutate(
+        ),
       number_of_tree_species =
         ifelse(.data$number_of_tree_species == 0 &
                  is.na(.data$mean_number_seedlings),
@@ -207,6 +205,10 @@ calculate_regeneration_plot <- function(data_regeneration) {
         .data$lci_number_seedlings / .data$plotarea_a1_ha,
       uci_number_seedlings_ha =
         .data$uci_number_seedlings / .data$plotarea_a1_ha,
+      rubbing_damage_nr_established_ha =
+        .data$rubbing_damage_nr_established / .data$plotarea_a2_ha,
+      rubbing_damage_nr_seedlings_ha =
+        .data$rubbing_damage_nr_seedlings / .data$plotarea_a1_ha,
       # correction for NA due to plotarea_a1_ha or plotarea_a2_ha = 0
       approx_nr_established_ha =
         ifelse(is.na(.data$approx_nr_established_ha) &
@@ -280,6 +282,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
       "approx_nr_established_ha", "approx_nr_seedlings_ha",
       "approx_rubbing_damage_perc_established",
       "approx_rubbing_damage_perc_seedlings",
+      "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
       "mean_number_established_ha",
       "lci_number_established_ha", "uci_number_established_ha",
       "mean_number_seedlings_ha", "lci_number_seedlings_ha",

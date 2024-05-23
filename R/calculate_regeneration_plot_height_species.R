@@ -33,9 +33,9 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       plotarea_ha = ifelse(.data$plottype == "CA", 0.01, .data$plotarea_ha),
       nr_tmp =
         ifelse(
-          !is.na(nr_of_regeneration),
-          nr_of_regeneration,
-          approx_nr_regeneration
+          !is.na(.data$nr_of_regeneration),
+          .data$nr_of_regeneration,
+          .data$approx_nr_regeneration
         )
     ) %>%
     group_by(
@@ -48,6 +48,7 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
       approx_rubbing_damage_perc = pmin(
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
           sum(.data$nr_tmp, na.rm = TRUE), 100),
+      rubbing_damage_number = sum(.data$rubbing_damage_number, na.rm = TRUE),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
       interval =
         sum_intervals(
@@ -58,6 +59,8 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     mutate(
+      rubbing_damage_number_ha =
+        .data$rubbing_damage_number / .data$plotarea_ha,
       mean_number_of_regeneration_ha = .data$interval$sum / .data$plotarea_ha,
       lci_number_of_regeneration_ha = .data$interval$lci / .data$plotarea_ha,
       uci_number_of_regeneration_ha = .data$interval$uci / .data$plotarea_ha,
@@ -70,7 +73,7 @@ calculate_regeneration_plot_height_species <- function(data_regeneration) {
     ) %>%
     select(
       -"interval", -"plotarea_ha",
-      -"not_na_rubbing"
+      -"not_na_rubbing", -"rubbing_damage_number"
     )
 
   attr(by_plot_height_species, "database") <-
