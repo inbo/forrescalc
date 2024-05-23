@@ -2,50 +2,46 @@
 % Please edit documentation in R/read_forresdat.R
 \name{read_forresdat}
 \alias{read_forresdat}
-\title{load tables from git repository forresdat}
+\title{load datapackage from git repository forresdat}
 \usage{
-read_forresdat(
-  tablename,
-  join_plotinfo = TRUE,
-  plottype = c("CP", "CA", "all")
-)
-}
-\arguments{
-\item{tablename}{name of the table that should be read}
-
-\item{join_plotinfo}{should table plotinfo be joined to the chosen table to
-add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
-FALSE) and data_processed (TRUE or FALSE)?
-Default is TRUE.
-(This is only possible if the given table contains a column plot_id,
-so this parameter should be put FALSE if this column is absent.)
-Must be FALSE if you want to load the table "plotinfo" itself.}
-
-\item{plottype}{Data of which 'plottype' (used method) should be retrieved?
-Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
-(retrieve both circle plots and core areas) could be chosen.}
+read_forresdat()
 }
 \value{
-A dataframe with the specified table, default columns plottype,
-forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
-data_processed (TRUE or FALSE).
-To be able to recall the version of the data, this dataframe contains
-an attribute with the sha of the commit of forresdat from which the data
-are taken.
+A frictionless datapackage with all tables and metadata from GitHub
+repository forresdat, which can be explored using package
+[frictionless](https://docs.ropensci.org/frictionless/).
+To be able to recall the version of the data, this datapackage contains
+an attribute with the version number of the release of forresdat from which
+the data are taken.
 }
 \description{
-This function reads a table in tsv format from git repository forresdat.
-Data available in forresdat only contains observations, so no records with
+This function reads the datapackage from git repository forresdat
+(and saves the forresdat data to a local temp directory to avoid unneeded
+downloading in the future).
+This datapackage contains both data and metadata and can be explored using
+functions of the [frictionless](https://docs.ropensci.org/frictionless/)
+package.
+
+Data available in forresdat only contain observations, so no records with
 zero values are added for for instance species that were not observed and
 hence absent.
 These zero value records can easily be added by using the function
 `add_zeros()`.
-To load table plotinfo, set argument `join_plotinfo = FALSE`.
+
+The different tables of this dataset contain data that are collected
+using 2 different methods (plottypes):
+circular plots (CP) and core areas (CA).
+It is advised to only use one of them for analyses, as the data are likely
+to differ due to method related differences.
+
+General information on the plot level is available in table `plotinfo`,
+which can easily be joined to other tables on `plot_id` and `period`
+(or only `plot_id` if `period` is absent).
 }
 \examples{
 library(forrescalc)
-data_dendro <- read_forresdat(tablename = "dendro_by_plot")
-data_dendro
-attr(data_dendro, "forresdat")
+datapackage <- read_forresdat()
+frictionless::resources(datapackage)
+attr(datapackage, "forresdat")
 
 }

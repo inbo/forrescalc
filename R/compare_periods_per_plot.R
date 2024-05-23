@@ -34,7 +34,7 @@
 #' library(forrescalc)
 #' library(dplyr)
 #' treenr_by_plot <-
-#'   read_forresdat(tablename = "dendro_by_plot") %>%
+#'   read_forresdat_table(tablename = "dendro_by_plot") %>%
 #'   select(
 #'     period, year, plot_id, number_of_tree_species, number_of_trees_ha
 #'   ) %>%

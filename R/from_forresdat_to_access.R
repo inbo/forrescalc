@@ -6,7 +6,7 @@
 #' @inheritParams save_results_access
 #' @inheritParams from_access_to_forresdat
 #' @inheritParams load_data_dendrometry
-#' @inheritParams read_forresdat
+#' @inheritParams read_forresdat_table
 #'
 #' @return No value is returned, the tables are saved in the access database.
 #'
@@ -25,7 +25,7 @@
 #' # if tables don't contain column plot_id, or it is not relevant to add
 #' # information on the plots, add argument join_plotinfo = FALSE
 #' from_forresdat_to_access(
-#'   tables = c("qAliveDead", "qdecaystage"),
+#'   tables = c("qalive_dead", "qdecaystage"),
 #'   database = path_to_database,
 #'   join_plotinfo = FALSE
 #' )
@@ -42,7 +42,7 @@ from_forresdat_to_access <-
   con <- connect_to_database(database)
   for (tablename in tables) {
     dataset <-
-      read_forresdat(
+      read_forresdat_table(
         tablename, join_plotinfo = join_plotinfo, plottype = plottype
       )
     tryCatch(

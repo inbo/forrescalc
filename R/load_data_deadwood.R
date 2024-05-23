@@ -45,16 +45,18 @@ load_data_deadwood <-
         ", Deadwood.Remark AS remark, Deadwood.CommonRemark AS common_remark",
         ""
       )
+  # in the below query, 'default values for columns are added to set the columns
+  # in the correct order, they are overwritten later in the R script
   query_deadwood <-
     "SELECT pd.ForestReserve AS forest_reserve,
       Plots.ID AS plot_id,
       qPlotType.Value3 AS plottype,
-      99 AS period,  --add column name for right order (to be overwritten)
-      1234 AS year,  --add column name for right order (to be overwritten)
+      99 AS period,
+      1234 AS year,
       pd.Date_Dendro_%1$deSet AS date_dendro,
       IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
         AS totalplotarea_ha,
-      0.0 AS plotarea_ha,  --add column name for right order (to be overwritten)
+      0.0 AS plotarea_ha,
       Deadwood.ID AS lying_deadw_id,
       Deadwood.Species AS species,
       Deadwood.DecayStage AS decaystage,

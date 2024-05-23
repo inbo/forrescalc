@@ -21,7 +21,7 @@
 #' @examples
 #' library(forrescalc)
 #' library(dplyr)
-#' table_long <- read_forresdat(tablename = "dendro_by_plot_species") %>%
+#' table_long <- read_forresdat_table(tablename = "dendro_by_plot_species") %>%
 #'   filter(plot_id < 110) %>%
 #'   select(plot_id, species, period, number_of_trees_ha, vol_alive_m3_ha)
 #' table_wide <-
