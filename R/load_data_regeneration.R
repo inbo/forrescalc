@@ -116,6 +116,12 @@ load_data_regeneration <-
           (pi * .data$r_A2 ^ 2) / 10000,
           (pi * .data$r_A1 ^ 2) / 10000
         ),
+      subcirclearea_ha =
+        ifelse(
+          .data$plottype == "CA",
+          0.01,
+          .data$subcirclearea_ha
+        ),
       plotarea_ha =
         ifelse(
           .data$plottype == "CP",
