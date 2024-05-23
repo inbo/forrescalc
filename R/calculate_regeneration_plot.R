@@ -108,7 +108,7 @@ calculate_regeneration_plot <- function(data_regeneration) {
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
       nr_of_tree_species_established =
         n_distinct(.data$species_a2, na.rm = TRUE),
-      plotarea_a1_ha = min(.data$plotarea_ha * (.data$subcircle == "A1")),
+      plotarea_a1_ha = max(.data$plotarea_ha * (.data$subcircle == "A1")),
       plotarea_a2_ha = max(.data$plotarea_ha * (.data$subcircle == "A2")),
       established_interval =
         sum_intervals(
