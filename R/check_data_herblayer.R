@@ -68,11 +68,6 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       n_records = n()
     ) %>%
     ungroup() %>%
-    group_by(.data$plot_id, .data$period) %>%
-    mutate(
-      not_na_browse_index = any(!is.na(.data$browse_index))
-    ) %>%
-    ungroup() %>%
     mutate(
       field_coverage_id =
         ifelse(is.na(.data$coverage_id), "missing", NA),
