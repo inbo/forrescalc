@@ -89,6 +89,10 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
       n_height_class = NULL
     ) %>%
     left_join(
+      data_regspecies,
+      by = c("plot_id", "subplot_id", "heightclass_id", "period")
+    ) %>%
+    left_join(
       number_classes %>%
         select("id", max_number = "max_number_of_regeneration"),
       by = c("number_class" = "id")
