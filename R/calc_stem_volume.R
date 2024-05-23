@@ -1,14 +1,24 @@
 #' Calculate stem volume including bole and crown volume
 #'
-#' This internal helper function calculates the bole and crown volume to be used
+#' This function calculates the bole and crown volume to be used
 #' in functions `calc_variables_stem_level()` and `calc_intact_deadwood()`.
+#' The volume of snags is calculated as a cilinder. This is a temporary
+#' solution, as the goal is to incorporate taper functions cfr FM-IA.
+#' Volume calculation as a truncated cone (1/3 x π x h x ( R² + R x r + r² ))
+#' appears to be less accurate.
+#' (upper_diam_snag_mm = dbh_mm * (calc_height_m - height_m) / calc_height_m)
+#' (volume truncated cone = pi x height_m x
+#' (dbh_mm^2 + dbh_mm x upper_diam_snag_mm + upper_diam_snag_mm^2)/(3 x 2000^2))
 #'
-#' @param data_stems dataframe on stems (shoots and trees) in which the height
-#' is already corrected using the height models (if necessary)
+#' @param data_stems dataframe on stems (shoots and trees) as given from the
+#' first part of the function `compose_stem_data()`,
+#' with variables plot_id, tree_measure_id, period, species,
+#' dbh_mm, height_m, intact_snag, calc_height_m
 #'
-#' @return Dataframe with ...
+#' @return Dataframe of stem data with vol_bole_m3 and vol_crown_m3 as
+#' extra variables
 #'
-#' @export
+#' @noRd
 #'
 #' @importFrom readr read_csv2
 #' @importFrom rlang .data
@@ -17,9 +27,8 @@
 calc_stem_volume <- function(data_stems) {
 
   check_forrescalc_version_attr(data_stems)
-  # (2) calculate volume (bole and crown; 1 entry and 2 entries)
-    # bole volume 1 entry
   data_stems <- data_stems %>%
+    # (1) calculate bole volume - tariff 1 entry
     left_join(
       suppressMessages(
         read_csv2(
@@ -41,21 +50,7 @@ calc_stem_volume <- function(data_stems) {
     select(
       -"a", -"b", -"c", -"d"
     ) %>%
-    left_join(
-      suppressMessages(
-        read_csv2(
-          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
-        )
-      ),
-      by = "species"
-    ) %>%
-    mutate(
-      perimeter_150 = (.data$perimeter - .data$a) / .data$b
-    ) %>%
-    select(
-      -"a", -"b"
-    ) %>%
-    # crown volume 1 entry
+    # (2) calculate crown volume - tariff 1 entry
     left_join(
       suppressMessages(
         read_csv2(
@@ -76,8 +71,21 @@ calc_stem_volume <- function(data_stems) {
     select(
       -"a", -"b", -"c", -"d"
     ) %>%
-    # bole volume 2 entries
-    # !! (when DH-model or calc_height_fm is available)
+    # (3) calculate bole volume - tariff 2 entries
+    left_join(
+      suppressMessages(
+        read_csv2(
+          system.file("extdata/convert_perimeter.csv", package = "forrescalc")
+        )
+      ),
+      by = "species"
+    ) %>%
+    mutate(
+      perimeter_150 = (.data$perimeter - .data$a) / .data$b
+    ) %>%
+    select(
+      -"a", -"b"
+    ) %>%
     left_join(
       suppressMessages(
         read_csv2(
@@ -128,40 +136,20 @@ calc_stem_volume <- function(data_stems) {
     ) %>%
     select(
       -"a", -"b", -"c", -"d", -"e", -"f", -"g",
-      -"formula", -"d_cm", -"perimeter", -"perimeter_150"
+      -"formula", -"d_cm", -"perimeter", -"perimeter_150",
+      -"vol_bole_t1_m3", -"vol_bole_t2_m3"
     ) %>%
     mutate(
-      # volume correction for snags
+      # (4) volume correction for snags
+      # crown volume = 0
       vol_crown_m3 = ifelse(.data$intact_snag == 10, 0, .data$vol_crown_m3),
-      upper_diam_snag_mm =
-        ifelse(
-          .data$intact_snag == 10,
-          .data$dbh_mm * (.data$calc_height_m - .data$height_m) /
-            .data$calc_height_m,
-          NA
-        ),
-      volume_snag_m3 =
-        ifelse(
-          .data$intact_snag == 10,
-          # as truncated cone - appears to be less accurate!!!!
-          # pi * .data$height_m * (.data$dbh_mm^2 + .data$dbh_mm * .data$upper_diam_snag_mm + .data$upper_diam_snag_mm^2) / (3 * 2000^2),
-          # 1/3 x π x h x ( R² + R x r + r² ) - truncated cone
-          # AS CILINDER - GIVES BETTER RESULTS
-          pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
-          # ! TEMPORARY SOLUTION: goal is to incorporate taper functions cfr FM-IA
-            NA),
-      # !!! ? als calc_height er niet is, dan ev. wel nog als cilinder???
-      # nee, want dan ook geen volumes van de andere bomen ...)
+      # bole volume = volume cilinder
       vol_bole_m3 =
         ifelse(
           .data$intact_snag == 10,
-          .data$volume_snag_m3,
+          pi * .data$height_m * .data$dbh_mm^2 / 2000^2,
           .data$vol_bole_m3
         )
-    ) %>%
-    select(
-      -"upper_diam_snag_mm", -"volume_snag_m3",
-      -"vol_bole_t1_m3", -"vol_bole_t2_m3"
     )
 
   return(data_stems)
