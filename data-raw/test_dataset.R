@@ -34,4 +34,13 @@ dbWriteTable(
   con_testdb, "Deadwood_Diameters", deadwood_diameters, overwrite = TRUE
 )
 
+herblayer <- dbReadTable(con_testdb, "Herblayer")
+herblayer[herblayer$ID == 119, "Coverage"] <- NA
+herblayer[herblayer$ID == 120, "Coverage"] <- 19
+herblayer[herblayer$ID == 119, "Species"] <-
+  herblayer[herblayer$ID == 120, "Species"]
+herblayer[herblayer$ID == 119, "BrowseIndex"] <- NA
+herblayer[herblayer$ID == 120, "BrowseIndex"] <- 130
+dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
+
 dbDisconnect(con_testdb)

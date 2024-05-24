@@ -70,3 +70,55 @@ describe("check_data_deadwood", {
     )
   })
 })
+
+describe("check_data_herblayer", {
+  check_herblayer <- check_data_herblayer(path_to_testdb)
+  check_herblayer <- check_herblayer[check_herblayer$period == 1, ]
+  it("check coverage_id", {
+    expect_equal(
+      check_herblayer[
+        check_herblayer$plot_id == 101 &
+          check_herblayer$aberrant_field == "coverage_id", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        herblayer_id = c(119, 120),
+        period = 1,
+        aberrant_field = "coverage_id",
+        anomaly = c("missing", "not in lookuplist"),
+        aberrant_value = c(NA, 19)
+      )
+    )
+  })
+  it("check species", {
+    expect_equal(
+      check_herblayer[
+        check_herblayer$plot_id == 101 &
+          check_herblayer$aberrant_field == "species", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        herblayer_id = c(119, 120),
+        period = 1,
+        aberrant_field = "species",
+        anomaly = c("2 times the same species"),
+        aberrant_value = 161
+      )
+    )
+  })
+  it("check browse_index", {
+    expect_equal(
+      check_herblayer[
+        check_herblayer$plot_id == 101 &
+          check_herblayer$aberrant_field == "browse_index", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        herblayer_id = c(119, 120),
+        period = 1,
+        aberrant_field = "browse_index",
+        anomaly = c("missing", "not in lookuplist"),
+        aberrant_value = c(NA, 130)
+      )
+    )
+  })
