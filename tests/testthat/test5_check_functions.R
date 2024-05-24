@@ -171,3 +171,113 @@ describe("check_data_plots", {
     )
   })
 })
+
+describe("check_data_regeneration", {
+  check_regeneration <- check_data_regeneration(path_to_testdb)
+  check_regeneration <- check_regeneration[check_regeneration$period == 1, ]
+  it("check missing data", {
+    expect_equal(
+      check_regeneration[check_regeneration$plot_id == 101, ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        period = 1,
+        aberrant_field = c("date", "fieldteam"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+})
+
+describe("check_data_regspecies", {
+  check_regspecies <- check_data_regspecies(path_to_testdb)
+  check_regspecies1 <- check_regspecies[check_regspecies$period == 1, ]
+  check_regspecies3 <- check_regspecies[check_regspecies$period == 3, ]
+  it("check heightclass", {
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$plot_id == 101 &
+          check_regspecies1$aberrant_field == "heightclass", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = c(142, 142, 142, 143),
+        period = 1,
+        regspecies_id = c(142, 145, 146, 150),
+        aberrant_field = "heightclass",
+        anomaly = "2 times the same height class",
+        aberrant_value = 3000
+      )
+    )
+  })
+  it("check species", {
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$plot_id == 101 &
+          check_regspecies1$aberrant_field == "species", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = c(142, 143),
+        period = 1,
+        regspecies_id = c(146, 150),
+        aberrant_field = "species",
+        anomaly = "2 times the same species",
+        aberrant_value = 39
+      )
+    )
+  })
+  it("check number", {
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$regspecies_id == 150 &
+          check_regspecies1$aberrant_field == "number", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = 143,
+        period = 1,
+        regspecies_id = 150,
+        aberrant_field = "number",
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check number_class", {  #error from original FM -> check if still wrong
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$regspecies_id == 141 &
+          check_regspecies1$aberrant_field == "number_class", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = 141,
+        period = 1,
+        regspecies_id = 141,
+        aberrant_field = "number_class",
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check game_damage_number", {
+    expect_equal(
+      check_regspecies3[
+        check_regspecies3$plot_id == 101 &
+          check_regspecies3$heightclass_id %in% c(1, 3) &
+          check_regspecies3$aberrant_field == "game_damage_number", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = c(1, 3),
+        period = 3,
+        regspecies_id = c(1, 2),
+        aberrant_field = "game_damage_number",
+        anomaly = "higher than total number",
+        aberrant_value = c(70, 20)
+      )
+    )
+  })
+})
