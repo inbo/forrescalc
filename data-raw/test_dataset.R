@@ -43,4 +43,10 @@ herblayer[herblayer$ID == 119, "BrowseIndex"] <- NA
 herblayer[herblayer$ID == 120, "BrowseIndex"] <- 130
 dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
 
+plotdetails_1eset <- data.frame(IDPlots = c(20, 30, 40, 50), ID = 1)
+dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
+
+plots <- data.frame(ID = c(20, 30, 40, 50), Plottype = c(20, 30, NA, 80))
+dbWriteTable(con_testdb, "Plots", plots, append = TRUE)
+
 dbDisconnect(con_testdb)

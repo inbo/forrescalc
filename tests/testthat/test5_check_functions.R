@@ -122,3 +122,52 @@ describe("check_data_herblayer", {
       )
     )
   })
+})
+
+describe("check_data_plotdetails", {
+  check_plotdetails <- check_data_plotdetails(path_to_testdb)
+  check_plotdetails <- check_plotdetails[check_plotdetails$period == 1, ]
+  it("check missing data CP", {
+    expect_equal(
+      check_plotdetails[check_plotdetails$plot_id == 20, ],
+      tibble(
+        plot_id = 20,
+        period = 1,
+        aberrant_field =
+          c("forest_reserve", "date_dendro", "fieldteam",
+            "ra1", "ra2", "ra3", "ra4", "area_ha"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check missing data CA", {
+    expect_equal(
+      check_plotdetails[check_plotdetails$plot_id == 30, ],
+      tibble(
+        plot_id = 30,
+        period = 1,
+        aberrant_field =
+          c("forest_reserve", "date_dendro", "fieldteam",
+            "length_core_area_m", "width_core_area_m", "area_ha"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+})
+
+describe("check_data_plots", {
+  check_plots <- check_data_plots(path_to_testdb)
+  it("check plottype_id", {
+    expect_equal(
+      check_plots[check_plots$plot_id == c(40, 50), ],
+      tibble(
+        plot_id = c(40, 50),
+        aberrant_field = "plottype_id",
+        anomaly = c("missing", "not in lookuplist"),
+        aberrant_value = c(NA, 80)
+      )
+    )
+  })
+})
