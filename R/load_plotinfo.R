@@ -63,7 +63,7 @@ load_plotinfo <-
       "SELECT pd.ForestReserve AS forest_reserve,
         Plots.ID AS plot_id,
         qPlotType.Value3 AS plottype,
-        99 AS period,  --add column name for right order (to be overwritten)
+        99 AS period,
         99 AS survey_number,
         1234 AS year_dendro,
         pd.Date_Dendro_1986 AS date_dendro,
