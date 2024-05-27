@@ -182,11 +182,11 @@ compare_periods_per_plot <-
       year_diff =
         ifelse(
           .data$measure_var == "n_year",
-          paste(.data$value_2, .data$value_1, sep = " - "),
+          paste(.data$value_1, .data$value_2, sep = " - "),
           ""
         ),
       value_1 = NULL, value_2 = NULL,
-      period_diff = paste(.data$period_2, .data$period_1, sep = "_")
+      period_diff = paste(.data$period_1, .data$period_2, sep = "_")
     ) %>%
     group_by_at(vars(all_of(grouping_vars), "period_1")) %>%
     mutate(

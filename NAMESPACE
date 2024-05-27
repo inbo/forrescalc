@@ -2,7 +2,6 @@
 
 export(add_zeros)
 export(calc_intact_deadwood)
-export(calc_stem_volume)
 export(calc_variables_stem_level)
 export(calc_variables_tree_level)
 export(calculate_das_indicator)

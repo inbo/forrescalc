@@ -39,6 +39,7 @@
 #'
 #' @importFrom assertthat assert_that has_name
 #' @importFrom dplyr select
+#' @importFrom frictionless read_package resources
 #' @importFrom readr read_csv
 #'
 read_forresdat_table <-
@@ -46,6 +47,11 @@ read_forresdat_table <-
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
   path_to_forresdat <- download_forresdat()
+  datapackage <- read_package(file.path(path_to_forresdat, "datapackage.json"))
+  assert_that(
+    tablename %in% resources(datapackage),
+    msg = sprintf("table %s is not present in forresdat", tablename)
+  )
   dataset <- read_csv(file.path(path_to_forresdat, paste0(tablename, ".csv")))
   if (has_name(dataset, "plottype") && var_plottype != "all") {
     dataset <- dataset %>%

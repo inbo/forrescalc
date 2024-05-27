@@ -157,11 +157,11 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           filter(.data$location_shift < 0.2) %>%
           transmute(
             .data$plot_id,
-            period = paste(.data$period.y, .data$period.x, sep = "_"),
+            period = paste(.data$period.x, .data$period.y, sep = "_"),
             tree_measure_id =
-              paste(.data$tree_measure_id.y, .data$tree_measure_id.x,
+              paste(.data$tree_measure_id.x, .data$tree_measure_id.y,
                     sep = "_"),
-            old_id = paste(.data$old_id.y, .data$old_id.x, sep = "_"),
+            old_id = paste(.data$old_id.x, .data$old_id.y, sep = "_"),
             aberrant_field = "old_id",
             anomaly = "on same place but not coupled"
           )
@@ -228,12 +228,12 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       .data$tree_id_earlier != .data$tree_id_later
     ) %>%
     mutate(
-      period = paste(.data$period, .data$period - 1, sep = "_"),
-      tree_id = paste(.data$tree_id_later, .data$tree_id_earlier, sep = "-"),
+      period = paste(.data$period - 1, .data$period, sep = "_"),
+      tree_id = paste(.data$tree_id_earlier, .data$tree_id_later, sep = "-"),
       tree_measure_id =
-        paste(.data$tree_measure_id_later, .data$tree_measure_id_earlier,
+        paste(.data$tree_measure_id_earlier, .data$tree_measure_id_later,
               sep = "-"),
-      species = paste(.data$species_later, .data$species_earlier, sep = "-"),
+      species = paste(.data$species_earlier, .data$species_later, sep = "-"),
       species_diff = .data$species_later - .data$species_earlier,
       x_m_diff = .data$x_m_later - .data$x_m_earlier,
       y_m_diff = .data$y_m_later - .data$y_m_earlier,
@@ -375,8 +375,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       .data$anomaly, .data$location_shift
     ) %>%
     mutate(
-      period_end = as.numeric(substring(.data$period, 1, 1)),
-      period_start = as.numeric(substring(.data$period, 3, 3))
+      period_start = as.numeric(substring(.data$period, 1, 1)),
+      period_end = as.numeric(substring(.data$period, 3, 3))
     ) %>%
     left_join(
       data_trees %>%
@@ -398,20 +398,20 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     mutate(
       period_end = NULL, period_start = NULL,
       tree_measure_id =
-        paste(.data$tree_measure_id_end, .data$tree_measure_id_start,
+        paste(.data$tree_measure_id_start, .data$tree_measure_id_end,
               sep = "_"),
       tree_measure_id_end = NULL, tree_measure_id_start = NULL,
-      species = paste(.data$species_end, .data$species_start, sep = "_"),
+      species = paste(.data$species_start, .data$species_end, sep = "_"),
       species_end = NULL, species_start = NULL,
       alive_dead =
-        paste(.data$alive_dead_end, .data$alive_dead_start, sep = "_"),
+        paste(.data$alive_dead_start, .data$alive_dead_end, sep = "_"),
       alive_dead_end = NULL, alive_dead_start = NULL,
       decay_stage =
-        paste(.data$decay_stage_end, .data$decay_stage_start, sep = "_"),
+        paste(.data$decay_stage_start, .data$decay_stage_end, sep = "_"),
       decay_stage_end = NULL, decay_stage_start = NULL,
-      dbh_mm = paste(.data$dbh_mm_end, .data$dbh_mm_start, sep = "_"),
+      dbh_mm = paste(.data$dbh_mm_start, .data$dbh_mm_end, sep = "_"),
       dbh_mm_end = NULL, dbh_mm_start = NULL,
-      height_m = paste(.data$height_m_end, .data$height_m_start, sep = "_"),
+      height_m = paste(.data$height_m_start, .data$height_m_end, sep = "_"),
       height_m_end = NULL, height_m_start = NULL
     ) %>%
     filter(
