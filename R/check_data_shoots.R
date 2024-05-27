@@ -198,7 +198,8 @@ check_data_shoots <- function(database, forest_reserve = "all") {
           "tree not alive",
           .data$field_decay_stage_shoots
         ),
-      field_iufro_hght = ifelse(is.na(.data$iufro_hght) & .data$alive_dead == 11,
+      field_iufro_hght = ifelse(is.na(.data$iufro_hght) &
+                                  .data$alive_dead == 11 & !period %in% c(0,1),
                                 "missing", NA),
       field_iufro_hght =
         ifelse(
@@ -218,7 +219,8 @@ check_data_shoots <- function(database, forest_reserve = "all") {
             !is.na(.data$iufro_hght),
           "tree alive", .data$field_iufro_hght
         ),
-      field_iufro_vital = ifelse(is.na(.data$iufro_vital) & .data$alive_dead == 11,
+      field_iufro_vital = ifelse(is.na(.data$iufro_vital) &
+                                   .data$alive_dead == 11 & !period %in% c(0,1),
                                  "missing", NA),
       field_iufro_vital =
         ifelse(
@@ -238,7 +240,8 @@ check_data_shoots <- function(database, forest_reserve = "all") {
             !is.na(.data$iufro_vital),
           "tree alive", .data$field_iufro_vital
         ),
-      field_iufro_socia = ifelse(is.na(.data$iufro_socia) & .data$alive_dead == 11,
+      field_iufro_socia = ifelse(is.na(.data$iufro_socia) &
+                                   .data$alive_dead == 11 & !period %in% c(0,1),
                                  "missing", NA),
       field_iufro_socia =
         ifelse(
