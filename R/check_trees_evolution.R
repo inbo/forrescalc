@@ -41,6 +41,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       qPlotType.Value3 AS plottype,
       Trees.X_m AS x_m, Trees.Y_m AS y_m,
       Trees.ID AS tree_measure_id,
+      Trees.StatusRemeasurement AS status_remeasurement,
       Trees.DBH_mm AS dbh_mm,
       Trees.Height_m AS height_m,
       Trees.Species AS species,
@@ -154,7 +155,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
               sqrt((.data$x_m.y - .data$y_m.x) ^ 2 +
                      (.data$y_m.y - .data$y_m.x) ^ 2)
           ) %>%
-          filter(.data$location_shift < 0.2) %>%
+          filter(.data$location_shift < 0.2 &
+                   .data$status_remeasurement.y != 250) %>%
           transmute(
             .data$plot_id,
             period = paste(.data$period.x, .data$period.y, sep = "_"),
