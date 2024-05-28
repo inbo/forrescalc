@@ -143,6 +143,12 @@ load_data_regeneration <-
         ),
       plotarea_ha =
         ifelse(
+          .data$plottype == "CP" & is.na(.data$plotarea_ha),
+          (pi * .data$r_A2 ^ 2) / 10000,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
