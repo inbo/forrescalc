@@ -55,8 +55,7 @@ load_data_regeneration <-
           IIf(Subquery.nr_of_regeneration IS NULL AND
               pd.Survey_Regeneration_YN = 10 AND Subquery.species IS NULL,
               0, Subquery.nr_of_regeneration) AS nr_of_regeneration,
-          IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
-              Subquery.species IS NULL,
+          IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10,
               0, Subquery.rdn) AS rubbing_damage_number,
           0.0 AS rubbing_damage_perc,
           0 AS subcircle,
