@@ -82,9 +82,14 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
     mutate(
       field_heightclass =
         ifelse(
+          is.na(.data$heightclass),
+          "missing", NA
+        ),
+      field_heightclass =
+        ifelse(
           .data$n_height_class > 1,
           paste0(.data$n_height_class, " times the same height class"),
-          NA
+          field_heightclass
         ),
       n_height_class = NULL
     ) %>%
