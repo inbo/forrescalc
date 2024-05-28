@@ -52,7 +52,7 @@ from_forresdat_to_access(
 # if tables don't contain column plot_id, or it is not relevant to add
 # information on the plots, add argument join_plotinfo = FALSE
 from_forresdat_to_access(
-  tables = c("qAliveDead", "qdecaystage"),
+  tables = c("qalive_dead", "qdecaystage"),
   database = path_to_database,
   join_plotinfo = FALSE
 )

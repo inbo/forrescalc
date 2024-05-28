@@ -38,5 +38,6 @@ RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    tibble
 VignetteBuilder: knitr
