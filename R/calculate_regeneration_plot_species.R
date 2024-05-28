@@ -102,8 +102,12 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
       .data$species
     ) %>%
     summarise(
-      plotarea_a1_ha = max(.data$plotarea_ha * (.data$subcircle == "A1")),
-      plotarea_a2_ha = max(.data$plotarea_ha * (.data$subcircle == "A2")),
+      plotarea_a1_ha = ifelse(!is.na(subcircle),
+                              max(.data$plotarea_ha * (.data$subcircle == "A1")),
+                              plotarea_ha),
+      plotarea_a2_ha = ifelse(!is.na(subcircle),
+                              max(.data$plotarea_ha * (.data$subcircle == "A2")),
+                              plotarea_ha),
       established_interval =
         sum_intervals(
           var_min = .data$min_number_established,
