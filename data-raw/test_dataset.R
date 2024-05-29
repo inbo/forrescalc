@@ -72,4 +72,16 @@ regspecies_3eset[
   regspecies_3eset$IDHeightClass_3eSet == 3, "GameDamage_number"] <- 20
 dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
+vegetation <-
+  data.frame(
+    IDPlots = 20, ID = 1:3,
+    Total_moss_cover = c(NA, 15, 20),
+    Total_herb_cover = c(NA, 15, 20),
+    Total_shrub_cover = c(NA, 15, 20),
+    Total_tree_cover = c(NA, 15, 20),
+    Total_waterlayer_cover = c(NA, 15, 20),
+    Total_SoildisturbanceGame = c(NA, 15, 20)
+  )
+dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
+
 dbDisconnect(con_testdb)

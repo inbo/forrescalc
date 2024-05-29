@@ -281,3 +281,56 @@ describe("check_data_regspecies", {
     )
   })
 })
+
+describe("check_data_vegetation", {
+  check_vegetation <- check_data_vegetation(path_to_testdb)
+  check_vegetation <- check_vegetation[check_vegetation$plot_id == 20, ]
+  it("check missing data", {
+    expect_equal(
+      check_vegetation[check_vegetation$subplot_id == 1, ],
+      tibble(
+        plot_id = 20,
+        subplot_id = 1,
+        period = 1,
+        aberrant_field =
+          c("date", "fieldteam",
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
+            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check data not in lookuplist", {
+    expect_equal(
+      check_vegetation[check_vegetation$subplot_id == 2, ],
+      tibble(
+        plot_id = 20,
+        subplot_id = 2,
+        period = 1,
+        aberrant_field =
+          c("date", "fieldteam",
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
+            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+        anomaly = c(rep("missing", 2), rep("not in lookuplist", 6)),
+        aberrant_value = c(rep(NA, 2), rep(15, 6))
+      )
+    )
+  })
+  it("check invalid data", {
+    expect_equal(
+      check_vegetation[check_vegetation$subplot_id == 3, ],
+      tibble(
+        plot_id = 20,
+        subplot_id = 3,
+        period = 1,
+        aberrant_field =
+          c("date", "fieldteam",
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
+            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+        anomaly = c(rep("missing", 2), rep("invalid value", 6)),
+        aberrant_value = c(rep(NA, 2), rep(20, 6))
+      )
+    )
+  })
+})
