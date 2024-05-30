@@ -137,7 +137,7 @@ describe("check_data_plotdetails", {
           c("forest_reserve", "date_dendro", "fieldteam",
             "ra1", "ra2", "ra3", "ra4", "area_ha"),
         anomaly = "missing",
-        aberrant_value = NA_integer_
+        aberrant_value = NA_character_
       )
     )
   })
@@ -151,19 +151,21 @@ describe("check_data_plotdetails", {
           c("forest_reserve", "date_dendro", "fieldteam",
             "length_core_area_m", "width_core_area_m", "area_ha"),
         anomaly = "missing",
-        aberrant_value = NA_integer_
+        aberrant_value = NA_character_
       )
     )
   })
   it("check deviating date", {
     expect_equal(
-      check_plotdetails[check_plotdetails$plot_id == 70, ],
+      check_plotdetails[
+        check_plotdetails$plot_id == 70 &
+          check_plotdetails$anomaly != "missing", ],
       tibble(
         plot_id = 70,
         period = 1,
         aberrant_field = "date_dendro",
         anomaly = "deviating",
-        aberrant_value = "2006-01-31 10:46:40 CET"
+        aberrant_value = "2006-01-31 10:46:40"
       )
     )
   })
@@ -196,7 +198,7 @@ describe("check_data_regeneration", {
         period = 1,
         aberrant_field = c("date", "fieldteam"),
         anomaly = "missing",
-        aberrant_value = NA_integer_
+        aberrant_value = NA_character_
       )
     )
   })
@@ -209,7 +211,7 @@ describe("check_data_regeneration", {
         period = 1,
         aberrant_field = "date",
         anomaly = "deviating",
-        aberrant_value =  "2001-07-14 07:20:00 CEST"
+        aberrant_value =  "2001-07-14 07:20:00"
       )
     )
   })
@@ -323,7 +325,7 @@ describe("check_data_vegetation", {
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
             "waterlayer_cover_id", "total_soildisturbance_game_id"),
         anomaly = "missing",
-        aberrant_value = NA_integer_
+        aberrant_value = NA_character_
       )
     )
   })
@@ -339,7 +341,7 @@ describe("check_data_vegetation", {
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
             "waterlayer_cover_id", "total_soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("not in lookuplist", 6)),
-        aberrant_value = c(rep(NA, 2), rep(15, 6))
+        aberrant_value = c(rep(NA, 2), rep("15", 6))
       )
     )
   })
@@ -355,7 +357,7 @@ describe("check_data_vegetation", {
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
             "waterlayer_cover_id", "total_soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("invalid value", 6)),
-        aberrant_value = c(rep(NA, 2), rep(20, 6))
+        aberrant_value = c(rep(NA, 2), rep("20", 6))
       )
     )
   })
@@ -366,9 +368,9 @@ describe("check_data_vegetation", {
         plot_id = 60,
         subplot_id = 5,
         period = 1,
-        aberrant_field = "date",
-        anomaly = "deviating",
-        aberrant_value = "2005-07-30 11:46:40 CEST"
+        aberrant_field = c("date", "fieldteam"),
+        anomaly = c("deviating", "missing"),
+        aberrant_value = c("2005-07-30 11:46:40", NA)
       )
     )
   })

@@ -21,7 +21,8 @@
 #' @export
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% filter mutate select
+#' @importFrom dplyr %>% group_by filter mutate select ungroup
+#' @importFrom lubridate year
 #' @importFrom tidyr pivot_longer
 #'
 check_data_regeneration <- function(database, forest_reserve = "all") {
@@ -33,6 +34,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
   query_regeneration <-
     "SELECT g.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
+      pd.ForestReserve AS forest_reserve,
       g.ID AS subplot_id,
       g.Date AS date_,
       g.Fieldteam AS fieldteam
@@ -46,8 +48,20 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     query_database(database, query_regeneration, selection = selection)
 
   incorrect_regeneration <- data_regeneration %>%
+    group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
+    mutate(
+      forest_reserve_date = median(.data$date_)
+    ) %>%
+    ungroup() %>%
     mutate(
       field_date = ifelse(is.na(.data$date_), "missing", NA),
+      field_date =
+        ifelse(
+          is.na(.data$field_date) &
+            year(.data$date_) != year(.data$forest_reserve_date),
+          "deviating",
+          .data$field_date
+        ),
       field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA)
     ) %>%
     pivot_longer(
@@ -59,8 +73,10 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
       plottype = NULL,
-      date = as.numeric(.data$date_),
-      date_ = NULL
+      date = as.character(.data$date_),
+      date_ = NULL,
+      forest_reserve_date = NULL,
+      fieldteam = as.character(.data$fieldteam)
     ) %>%
     pivot_longer(
       cols = !c("plot_id", "subplot_id", "period", "aberrant_field", "anomaly"),
