@@ -94,4 +94,20 @@ vegetation <-
   )
 dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
 
+shoots <-
+  data.frame(
+    IDPlots = c(101, 101, 21000, 21000),
+    IDTrees = c(11559, 11557, 55, 55),
+    ID = c(1, 3, 2, 3),
+    XTrees = c(-4.767, -4.767, 153406.01, 153406.01),
+    YTrees = c(3.229, 3.229, 161257.186, 161257.186),
+    DBH_mm = c(2001, 1, NA, NA), Height_m = c(1, 55, NA, NA),
+    IntactSnag = c(12, 11, 10, NA),
+    DecayStage_Shoots = c(17, 11, 16, NA),
+    IUFROHght = c(50, 40, 10, NA),
+    IUFROVital = c(50, 40, 20, NA),
+    IUFROSocia = c(50, 40, 30, NA)
+  )
+dbWriteTable(con_testdb, "Shoots", shoots, append = TRUE)
+
 dbDisconnect(con_testdb)

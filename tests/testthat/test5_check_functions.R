@@ -375,3 +375,94 @@ describe("check_data_vegetation", {
     )
   })
 })
+
+describe("check_data_shoots", {
+  check_shoots <- check_data_shoots(path_to_testdb)
+  check_shoots <- check_shoots[check_shoots$period == 1, ]
+  it("check missing data", {
+    expect_equal(
+      check_shoots[
+        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 3, ],
+      tibble(
+        plot_id = 21000,
+        tree_measure_id = 55,
+        shoot_id = 3,
+        period = 1,
+        aberrant_field =
+          c("dbh_mm", "intact_snag", "decay_stage_shoots",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+    expect_equal(
+      check_shoots[
+        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 2 &
+          check_shoots$anomaly == "missing", ],
+      tibble(
+        plot_id = 21000,
+        tree_measure_id = 55,
+        shoot_id = 2,
+        period = 1,
+        aberrant_field = "dbh_mm",
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check data shoot on no coppice", {
+    expect_equal(
+      check_shoots[check_shoots$tree_measure_id == 11559, ],
+      tibble(
+        plot_id = 101,
+        tree_measure_id = 11559,
+        shoot_id = 1,
+        period = 1,
+        aberrant_field =
+          c("link_to_layer_trees", "ratio_dbh_height", "dbh_mm", "height_m",
+            "intact_snag", "decay_stage_shoots", "iufro_hght", "iufro_vital",
+            "iufro_socia"),
+        anomaly =
+          c("missing", "too high", "too high", "too low",
+            rep("not in lookuplist", 5)),
+        aberrant_value = c(NA, 628.6, 2001, 1, 12, 17, rep(50, 3))
+      )
+    )
+  })
+  it("check data shoot on alive tree", {
+    expect_equal(
+      check_shoots[
+        check_shoots$tree_measure_id == 11557 & check_shoots$shoot_id == 3, ],
+      tibble(
+        plot_id = 101,
+        tree_measure_id = 11557,
+        shoot_id = 3,
+        period = 1,
+        aberrant_field =
+          c("ratio_dbh_height", "height_m", "decay_stage_shoots",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
+        anomaly =
+          c("too low", "too high", rep("tree alive", 4)),
+        aberrant_value = c(0, 55, 11, rep(40, 3))
+      )
+    )
+  })
+  it("check data shoot on dead tree", {
+    expect_equal(
+      check_shoots[
+        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 2, ],
+      tibble(
+        plot_id = 21000,
+        tree_measure_id = 55,
+        shoot_id = 2,
+        period = 1,
+        aberrant_field =
+          c("dbh_mm", "decay_stage_shoots", "iufro_hght", "iufro_vital",
+            "iufro_socia"),
+        anomaly =
+          c("missing", rep("tree not alive", 4)),
+        aberrant_value = c(NA, 16, 10, 20, 30)
+      )
+    )
+  })
+})
