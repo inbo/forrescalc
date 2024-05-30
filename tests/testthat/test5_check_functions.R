@@ -155,6 +155,18 @@ describe("check_data_plotdetails", {
       )
     )
   })
+  it("check deviating date", {
+    expect_equal(
+      check_plotdetails[check_plotdetails$plot_id == 50, ],
+      tibble(
+        plot_id = 50,
+        period = 1,
+        aberrant_field = "date_dendro",
+        anomaly = "deviating",
+        aberrant_value = "2006-01-31 10:46:40 CET"
+      )
+    )
+  })
 })
 
 describe("check_data_plots", {
@@ -185,6 +197,19 @@ describe("check_data_regeneration", {
         aberrant_field = c("date", "fieldteam"),
         anomaly = "missing",
         aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check deviating date", {
+    expect_equal(
+      check_regeneration[check_regeneration$subplot_id == 155513, ],
+      tibble(
+        plot_id = 11000,
+        subplot_id = 155513,
+        period = 1,
+        aberrant_field = "date",
+        anomaly = "deviating",
+        aberrant_value =  "2001-07-14 07:20:00 CEST"
       )
     )
   })
@@ -284,7 +309,8 @@ describe("check_data_regspecies", {
 
 describe("check_data_vegetation", {
   check_vegetation <- check_data_vegetation(path_to_testdb)
-  check_vegetation <- check_vegetation[check_vegetation$plot_id == 20, ]
+  check_vegetation <-
+    check_vegetation[check_vegetation$plot_id %in% c(20, 40), ]
   it("check missing data", {
     expect_equal(
       check_vegetation[check_vegetation$subplot_id == 1, ],
@@ -330,6 +356,19 @@ describe("check_data_vegetation", {
             "waterlayer_cover_id", "total_soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("invalid value", 6)),
         aberrant_value = c(rep(NA, 2), rep(20, 6))
+      )
+    )
+  })
+  it("check deviating date", {
+    expect_equal(
+      check_vegetation[check_vegetation$subplot_id == 5, ],
+      tibble(
+        plot_id = 40,
+        subplot_id = 5,
+        period = 1,
+        aberrant_field = "date",
+        anomaly = "deviating",
+        aberrant_value = "2005-07-30 11:46:40 CEST"
       )
     )
   })

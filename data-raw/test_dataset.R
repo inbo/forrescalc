@@ -43,7 +43,12 @@ herblayer[herblayer$ID == 119, "BrowseIndex"] <- NA
 herblayer[herblayer$ID == 120, "BrowseIndex"] <- 130
 dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
 
-plotdetails_1eset <- data.frame(IDPlots = c(20, 30, 40, 50), ID = 1)
+plotdetails_1eset <-
+  data.frame(
+    IDPlots = c(20, 30, 40, 50), ID = 1,
+    ForestReserve = c(rep(NA, 2), rep("Everzwijnbad", 2)),
+    Date_Dendro_1eSet = c(rep(NA, 2), 1038700800, 1138700800)
+  )
 dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
 
 plots <- data.frame(ID = c(20, 30, 40, 50), Plottype = c(20, 30, NA, 80))
@@ -52,6 +57,7 @@ dbWriteTable(con_testdb, "Plots", plots, append = TRUE)
 regeneration <- dbReadTable(con_testdb, "Regeneration")
 regeneration[regeneration$IDPlots == 101, "Fieldteam"] <- NA
 regeneration[regeneration$IDPlots == 101, "Date"] <- NA
+regeneration[regeneration$ID == 155513, "Date"] <- 995088000
 dbWriteTable(con_testdb, "Regeneration", regeneration, overwrite = TRUE)
 
 heightclass <-              #same HeightClass as ID 142
@@ -74,13 +80,14 @@ dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
   data.frame(
-    IDPlots = 20, ID = 1:3,
-    Total_moss_cover = c(NA, 15, 20),
-    Total_herb_cover = c(NA, 15, 20),
-    Total_shrub_cover = c(NA, 15, 20),
-    Total_tree_cover = c(NA, 15, 20),
-    Total_waterlayer_cover = c(NA, 15, 20),
-    Total_SoildisturbanceGame = c(NA, 15, 20)
+    IDPlots = c(rep(20, 3), rep(40, 2)), ID = 1:5,
+    Total_moss_cover = c(NA, 15, 20, 10, 10),
+    Total_herb_cover = c(NA, 15, 20, 10, 10),
+    Total_shrub_cover = c(NA, 15, 20, 10, 10),
+    Total_tree_cover = c(NA, 15, 20, 10, 10),
+    Total_waterlayer_cover = c(NA, 15, 20, 10, 10),
+    Total_SoildisturbanceGame = c(NA, 15, 20, 10, 10),
+    Date = c(rep(NA, 3), 1022716800, 1122716800)
   )
 dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
 
