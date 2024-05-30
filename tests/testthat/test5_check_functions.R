@@ -157,9 +157,9 @@ describe("check_data_plotdetails", {
   })
   it("check deviating date", {
     expect_equal(
-      check_plotdetails[check_plotdetails$plot_id == 50, ],
+      check_plotdetails[check_plotdetails$plot_id == 70, ],
       tibble(
-        plot_id = 50,
+        plot_id = 70,
         period = 1,
         aberrant_field = "date_dendro",
         anomaly = "deviating",
@@ -310,7 +310,7 @@ describe("check_data_regspecies", {
 describe("check_data_vegetation", {
   check_vegetation <- check_data_vegetation(path_to_testdb)
   check_vegetation <-
-    check_vegetation[check_vegetation$plot_id %in% c(20, 40), ]
+    check_vegetation[check_vegetation$plot_id %in% c(20, 60), ]
   it("check missing data", {
     expect_equal(
       check_vegetation[check_vegetation$subplot_id == 1, ],
@@ -363,7 +363,7 @@ describe("check_data_vegetation", {
     expect_equal(
       check_vegetation[check_vegetation$subplot_id == 5, ],
       tibble(
-        plot_id = 40,
+        plot_id = 60,
         subplot_id = 5,
         period = 1,
         aberrant_field = "date",

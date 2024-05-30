@@ -45,13 +45,16 @@ dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
 
 plotdetails_1eset <-
   data.frame(
-    IDPlots = c(20, 30, 40, 50), ID = 1,
-    ForestReserve = c(rep(NA, 2), rep("Everzwijnbad", 2)),
-    Date_Dendro_1eSet = c(rep(NA, 2), 1038700800, 1138700800)
+    IDPlots = c(20, 30, 40, 50, 60, 70), ID = 1,
+    ForestReserve = c(rep(NA, 4), rep("Everzwijnbad", 2)),
+    Date_Dendro_1eSet = c(rep(NA, 4), 1038700800, 1138700800)
   )
 dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
 
-plots <- data.frame(ID = c(20, 30, 40, 50), Plottype = c(20, 30, NA, 80))
+plots <-
+  data.frame(
+    ID = c(20, 30, 40, 50, 60, 70), Plottype = c(20, 30, NA, 80, 20, 20)
+  )
 dbWriteTable(con_testdb, "Plots", plots, append = TRUE)
 
 regeneration <- dbReadTable(con_testdb, "Regeneration")
@@ -80,7 +83,7 @@ dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
   data.frame(
-    IDPlots = c(rep(20, 3), rep(40, 2)), ID = 1:5,
+    IDPlots = c(rep(20, 3), rep(60, 2)), ID = 1:5,
     Total_moss_cover = c(NA, 15, 20, 10, 10),
     Total_herb_cover = c(NA, 15, 20, 10, 10),
     Total_shrub_cover = c(NA, 15, 20, 10, 10),
