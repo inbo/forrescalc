@@ -110,4 +110,33 @@ shoots <-
   )
 dbWriteTable(con_testdb, "Shoots", shoots, append = TRUE)
 
+trees <- dbReadTable(con_testdb, "Trees")
+trees[trees$ID == 11559, "Y_m"] <- -17.197
+trees[trees$ID == 11554, "DBH_mm"] <- 380
+trees[trees$ID == 4053, "DBH_mm"] <- 80
+trees[trees$ID == 11599, "Y_m"] <- 6
+trees <- trees %>%
+  bind_rows(
+    data.frame(
+      IDPlots = 101,
+      ID = 11600:11604,
+      X_m = c(0, 1, 2, NA, NA),
+      Y_m = c(0, 1, 2, NA, NA),
+      DBH_mm = c(2001, 1, NA, NA, NA),
+      Height_m = c(1, 55, NA, NA, NA),
+      Species = c(87, 16, 28, NA, NA),
+      IntactSnag = c(12, 11, 10, NA, NA),
+      AliveDead = c(13, 12, 11, 12, NA),
+      IndShtCop = c(13, 12, 10, NA, 11),
+      CoppiceID = c(NA, 129, 129, NA, NA),
+      IUFROHght = c(60, 10, 40, NA, 50),
+      IUFROVital = c(60, 20, 40, NA, 50),
+      IUFROSocia = c(60, 30, 40, NA, 50),
+      DecayStage = c(18, 16, 12, NA, 17),
+      TreeNumber = c(0, 1, 2, NA, NA),
+      CommonRemark = c(150, rep(NA, 4))
+    )
+  )
+dbWriteTable(con_testdb, "Trees", trees, overwrite = TRUE)
+
 dbDisconnect(con_testdb)
