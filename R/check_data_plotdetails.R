@@ -22,8 +22,10 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% bind_rows filter mutate select
+#' @importFrom dplyr %>% across bind_rows filter group_by ungroup mutate select
+#' @importFrom lubridate year
 #' @importFrom tidyr pivot_longer
+#' @importFrom tidyselect ends_with starts_with
 #'
 check_data_plotdetails <- function(database, forest_reserve = "all") {
   selection <-
@@ -89,11 +91,23 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
   dbDisconnect(con)
 
   incorrect_plotdetails <- data_plotdetails %>%
+    group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
+    mutate(
+      forest_reserve_date = median(.data$date_dendro)
+    ) %>%
+    ungroup() %>%
     mutate(
       field_forest_reserve =
         ifelse(is.na(.data$forest_reserve), "missing", NA),
       field_date_dendro =
         ifelse(is.na(.data$date_dendro), "missing", NA),
+      field_date_dendro =
+        ifelse(
+          is.na(.data$field_date_dendro) &
+            year(.data$date_dendro) != year(.data$forest_reserve_date),
+          "deviating",
+          .data$field_date_dendro
+        ),
       field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA),
       field_ra1 =
         ifelse(is.na(.data$ra1) & .data$plottype == "CP", "missing", NA),
@@ -124,8 +138,13 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
     mutate(
       aberrant_field = gsub("^field_", "", .data$aberrant_field),
       plottype = NULL,
-      forest_reserve = NA_real_,
-      date_dendro = as.numeric(.data$date_dendro)
+      forest_reserve = NA_character_,
+      date_dendro = as.character(.data$date_dendro),
+      fieldteam = as.character(.data$fieldteam),
+      forest_reserve_date = NULL,
+      across(starts_with("ra"), as.character),
+      across(ends_with("_core_area_m"), as.character),
+      area_ha = as.character(.data$area_ha)
     ) %>%
     pivot_longer(
       cols = !c("plot_id", "period", "aberrant_field", "anomaly"),
