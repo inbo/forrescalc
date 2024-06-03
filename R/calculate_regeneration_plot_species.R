@@ -102,12 +102,11 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
       .data$species
     ) %>%
     summarise(
-      plotarea_a1_ha = ifelse(!is.na(subcircle),
-                              max(.data$plotarea_ha * (.data$subcircle == "A1")),
-                              plotarea_ha),
-      plotarea_a2_ha = ifelse(!is.na(subcircle),
-                              max(.data$plotarea_ha * (.data$subcircle == "A2")),
-                              plotarea_ha),
+      plotarea_a1_ha = max(.data$plotarea_ha *
+                             (.data$subcircle == "A1" | is.na(subcircle))),
+      # "or is.na(subcircle)": to account for plots with no regeneration at all
+      plotarea_a2_ha = max(.data$plotarea_ha *
+                             (.data$subcircle == "A2"| is.na(subcircle))),
       established_interval =
         sum_intervals(
           var_min = .data$min_number_established,
@@ -132,6 +131,14 @@ calculate_regeneration_plot_species <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     mutate(
+      plotarea_a1_ha = ifelse(plotarea_a1_ha == 0,
+                              plotarea_a2_ha,
+                              plotarea_a1_ha),
+      # to account for plots with established regeneration, but no seedlings
+      plotarea_a2_ha = ifelse(plotarea_a2_ha == 0,
+                              plotarea_a1_ha,
+                              plotarea_a2_ha),
+      # to account for plots with seedlings, but no established regeneration
       mean_number_established = .data$established_interval$sum,
       lci_number_established = .data$established_interval$lci,
       uci_number_established = .data$established_interval$uci,
