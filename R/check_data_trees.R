@@ -246,7 +246,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       field_ind_sht_cop =
         ifelse(
           .data$ind_sht_cop %in% c(10, 11) & .data$nr_of_stems > 1 &
-            !is.na(.data$ind_sht_cop) & !is.na(.data$nr_of_stems),
+            is.na(.data$field_ind_sht_cop) & !is.na(.data$nr_of_stems),
           "incorrect", .data$field_ind_sht_cop
         ),
       field_decay_stage =
@@ -362,8 +362,12 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "tree no coppice",
           .data$field_iufro_socia),
       field_nr_of_stems =
-        ifelse(!is.na(.data$nr_of_stems) & .data$nr_of_stems <= 0, "too low",
-               NA),
+        ifelse(
+          !is.na(.data$nr_of_stems) & .data$nr_of_stems <= 0 &
+            is.na(.data$field_nr_of_stems),
+          "too low",
+          .data$field_nr_of_stems
+        ),
       field_coppice_id =
         ifelse(
           !is.na(.data$coppice_id) & .data$ind_sht_cop %in% c(10, 11),

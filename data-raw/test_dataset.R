@@ -43,15 +43,24 @@ herblayer[herblayer$ID == 119, "BrowseIndex"] <- NA
 herblayer[herblayer$ID == 120, "BrowseIndex"] <- 130
 dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
 
-plotdetails_1eset <- data.frame(IDPlots = c(20, 30, 40, 50), ID = 1)
+plotdetails_1eset <-
+  data.frame(
+    IDPlots = c(20, 30, 40, 50, 60, 70), ID = 1,
+    ForestReserve = c(rep(NA, 4), rep("Everzwijnbad", 2)),
+    Date_Dendro_1eSet = c(rep(NA, 4), 1038700800, 1138700800)
+  )
 dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
 
-plots <- data.frame(ID = c(20, 30, 40, 50), Plottype = c(20, 30, NA, 80))
+plots <-
+  data.frame(
+    ID = c(20, 30, 40, 50, 60, 70), Plottype = c(20, 30, NA, 80, 20, 20)
+  )
 dbWriteTable(con_testdb, "Plots", plots, append = TRUE)
 
 regeneration <- dbReadTable(con_testdb, "Regeneration")
 regeneration[regeneration$IDPlots == 101, "Fieldteam"] <- NA
 regeneration[regeneration$IDPlots == 101, "Date"] <- NA
+regeneration[regeneration$ID == 155513, "Date"] <- 995088000
 dbWriteTable(con_testdb, "Regeneration", regeneration, overwrite = TRUE)
 
 heightclass <-              #same HeightClass as ID 142
@@ -71,5 +80,63 @@ regspecies_3eset[
 regspecies_3eset[
   regspecies_3eset$IDHeightClass_3eSet == 3, "GameDamage_number"] <- 20
 dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
+
+vegetation <-
+  data.frame(
+    IDPlots = c(rep(20, 3), rep(60, 2)), ID = 1:5,
+    Total_moss_cover = c(NA, 15, 20, 10, 10),
+    Total_herb_cover = c(NA, 15, 20, 10, 10),
+    Total_shrub_cover = c(NA, 15, 20, 10, 10),
+    Total_tree_cover = c(NA, 15, 20, 10, 10),
+    Total_waterlayer_cover = c(NA, 15, 20, 10, 10),
+    Total_SoildisturbanceGame = c(NA, 15, 20, 10, 10),
+    Date = c(rep(NA, 3), 1022716800, 1122716800)
+  )
+dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
+
+shoots <-
+  data.frame(
+    IDPlots = c(101, 101, 21000, 21000),
+    IDTrees = c(11559, 11557, 55, 55),
+    ID = c(1, 3, 2, 3),
+    XTrees = c(-4.767, -4.767, 153406.01, 153406.01),
+    YTrees = c(3.229, 3.229, 161257.186, 161257.186),
+    DBH_mm = c(2001, 1, NA, NA), Height_m = c(1, 55, NA, NA),
+    IntactSnag = c(12, 11, 10, NA),
+    DecayStage_Shoots = c(17, 11, 16, NA),
+    IUFROHght = c(50, 40, 10, NA),
+    IUFROVital = c(50, 40, 20, NA),
+    IUFROSocia = c(50, 40, 30, NA)
+  )
+dbWriteTable(con_testdb, "Shoots", shoots, append = TRUE)
+
+trees <- dbReadTable(con_testdb, "Trees")
+trees[trees$ID == 11559, "Y_m"] <- -17.197
+trees[trees$ID == 11554, "DBH_mm"] <- 380
+trees[trees$ID == 4053, "DBH_mm"] <- 80
+trees[trees$ID == 11599, "Y_m"] <- 6
+trees <- trees %>%
+  bind_rows(
+    data.frame(
+      IDPlots = 101,
+      ID = 11600:11604,
+      X_m = c(0, 1, 2, NA, NA),
+      Y_m = c(0, 1, 2, NA, NA),
+      DBH_mm = c(2001, 1, NA, NA, NA),
+      Height_m = c(1, 55, NA, NA, NA),
+      Species = c(87, 16, 28, NA, NA),
+      IntactSnag = c(12, 11, 10, NA, NA),
+      AliveDead = c(13, 12, 11, 12, NA),
+      IndShtCop = c(13, 12, 10, NA, 11),
+      CoppiceID = c(NA, 129, 129, NA, NA),
+      IUFROHght = c(60, 10, 40, NA, 50),
+      IUFROVital = c(60, 20, 40, NA, 50),
+      IUFROSocia = c(60, 30, 40, NA, 50),
+      DecayStage = c(18, 16, 12, NA, 17),
+      TreeNumber = c(0, 1, 2, NA, NA),
+      CommonRemark = c(150, rep(NA, 4))
+    )
+  )
+dbWriteTable(con_testdb, "Trees", trees, overwrite = TRUE)
 
 dbDisconnect(con_testdb)

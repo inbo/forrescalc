@@ -22,8 +22,10 @@
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% filter group_by mutate rename select ungroup
+#' @importFrom dplyr %>% across filter group_by mutate rename select ungroup
+#' @importFrom lubridate year
 #' @importFrom tidyr pivot_longer
+#' @importFrom tidyselect contains ends_with
 #'
 check_data_vegetation <- function(database, forest_reserve = "all") {
   selection <-
@@ -34,6 +36,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
   query_vegetation <-
     "SELECT v.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
+      pd.ForestReserve AS forest_reserve,
       v.ID AS subplot_id,
       v.Date AS date_,
       v.Fieldteam AS fieldteam,
@@ -69,8 +72,20 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
         any(!is.na(.data$total_soildisturbance_game_id))
     ) %>%
     ungroup() %>%
+    group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
+    mutate(
+      forrest_reserve_date = median(.data$date)
+    ) %>%
+    ungroup() %>%
     mutate(
       field_date = ifelse(is.na(.data$date), "missing", NA),
+      field_date =
+        ifelse(
+          is.na(.data$field_date) &
+            year(.data$date) != year(.data$forrest_reserve_date),
+          "deviating",
+          .data$field_date
+        ),
       field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA),
       field_moss_cover_id =
         ifelse(is.na(.data$moss_cover_id), "missing", NA),
@@ -167,7 +182,10 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "invalid value",
           .data$field_total_soildisturbance_game_id
         ),
-      date = as.numeric(date)
+      across(ends_with("date"), as.character),
+      fieldteam = as.character(.data$fieldteam),
+      across(ends_with("_cover_id"), as.character),
+      across(contains("soildisturbance_game"), as.character)
     ) %>%
     pivot_longer(
       cols = c(starts_with("field_")),
