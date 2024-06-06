@@ -140,10 +140,13 @@ check_data_shoots <- function(database, forest_reserve = "all") {
     mutate(
       ratio_dbh_height = round(.data$dbh_mm * pi / (.data$height_m * 10), 1),
       field_ratio_dbh_height =
-        ifelse(.data$ratio_dbh_height < 1.5, "too low", NA),
+        ifelse(
+          .data$ratio_dbh_height < 1.5 & .data$intact_snag == 11,
+          "stem too thin and high", NA),
       field_ratio_dbh_height =
         ifelse(
-          .data$ratio_dbh_height > 15, "too high", .data$field_ratio_dbh_height
+          .data$ratio_dbh_height > 15 & .data$intact_snag == 11,
+          "stem too thick and low", .data$field_ratio_dbh_height
         ),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
