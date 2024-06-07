@@ -576,7 +576,6 @@ describe("check_data_trees", {
       tibble(
         plot_id = 101,
         tree_measure_id = "11600",
-        shoot_id = 1,
         period = 1,
         aberrant_field =
           c("intact_snag", "alive_dead", "ind_sht_cop", "decay_stage",

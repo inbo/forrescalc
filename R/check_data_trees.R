@@ -379,7 +379,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_coppice_id =
         ifelse(
-          is.na(.data$coppice_id) & !.data$ind_sht_cop %in% c(10, 11),
+          is.na(.data$coppice_id) & .data$ind_sht_cop == 12 &
+            !is.na(.data$ind_sht_cop),
           "missing",
           .data$field_coppice_id
         ),
