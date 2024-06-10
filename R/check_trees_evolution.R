@@ -242,7 +242,10 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       location_shift = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
       field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
       field_location_shift =
-        ifelse(.data$location_shift > 0.5, "walker coppice_id", NA)
+        ifelse(
+          (.data$location_shift > 1 & str_detect(.data$period, "3")) |
+                 (.data$location_shift > 1.5 & str_detect(.data$period, "1")),
+          "walker coppice_id", NA)
     ) %>%
     filter(!is.na(.data$field_species) | !is.na(.data$field_location_shift)) %>%
     select(
@@ -271,7 +274,12 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           "wrong shift",
           NA
         ),
-      field_location_shift = ifelse(.data$location_shift > 0.2, "walker", NA)
+      field_location_shift =
+        ifelse(
+          (.data$location_shift > 1 & str_detect(.data$period_diff, "3")) |
+            (.data$location_shift > 1.5 & str_detect(.data$period_diff, "1")),
+          "walker",
+          NA)
     ) %>%
     left_join(
       trees_diff %>%

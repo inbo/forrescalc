@@ -434,7 +434,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           field_species =
             ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
           field_location_shift =
-            ifelse(.data$location_shift > 0.5, "walker in coppice tree", NA)
+            ifelse(.data$location_shift > 1, "walker in coppice tree", NA)
         ) %>%
         filter(
           !(is.na(.data$field_species) & is.na(.data$field_location_shift))
