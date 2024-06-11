@@ -66,12 +66,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
   dbDisconnect(con)
 
   incorrect_vegetation <- data_vegetation %>%
-    group_by(.data$plot_id, .data$period) %>%
-    mutate(
-      not_na_soildisturbance_game =
-        any(!is.na(.data$total_soildisturbance_game_id))
-    ) %>%
-    ungroup() %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
       forrest_reserve_date = median(.data$date)
@@ -162,16 +156,10 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
         ),
       field_total_soildisturbance_game_id =
         ifelse(
-          is.na(.data$total_soildisturbance_game_id) &
-            .data$not_na_soildisturbance_game,
-          "missing", NA
-        ),
-      field_total_soildisturbance_game_id =
-        ifelse(
           !is.na(.data$total_soildisturbance_game_id) &
             !.data$total_soildisturbance_game_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_total_soildisturbance_game_id
+          NA
         ),
       field_total_soildisturbance_game_id =
         ifelse(
