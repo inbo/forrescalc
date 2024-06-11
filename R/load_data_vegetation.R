@@ -86,6 +86,16 @@ load_data_vegetation <-
 
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
+    group_by(.data$forest_reserve, .data$period) %>%
+    mutate(
+      not_na_waterlayer_cover =
+        any(!is.na(.data$total_waterlayer_cover_id) &
+              .data$total_waterlayer_cover_id != 20),
+      not_na_soildisturbance_game =
+        any(!is.na(.data$total_soildisturbance_game_id) &
+              .data$total_soildisturbance_game_id != 20)
+    ) %>%
+    ungroup() %>%
     mutate(
       year_main_survey = ifelse(!is.na(.data$date_vegetation)
                                 , as.integer(year(.data$date_vegetation))
@@ -152,6 +162,38 @@ load_data_vegetation <-
       soildisturbance_game_cover_max = "max_cover"
     ) %>%
     mutate(
+      # correct for NA instead of < 1% (waterlayer and soildisturbance only)
+      waterlayer_cover_interval =
+        ifelse(is.na(.data$total_waterlayer_cover_id) &
+                 .data$not_na_waterlayer_cover,
+               "< 1%",
+               .data$waterlayer_cover_interval),
+      waterlayer_cover_min =
+        ifelse(is.na(.data$waterlayer_cover_min) &
+                 .data$not_na_waterlayer_cover,
+               0,
+               .data$waterlayer_cover_min),
+      waterlayer_cover_max =
+        ifelse(is.na(.data$waterlayer_cover_max) &
+                 .data$not_na_waterlayer_cover,
+               1,
+               .data$waterlayer_cover_max),
+      soildisturbance_game_cover_interval =
+        ifelse(is.na(.data$total_soildisturbance_game_id) &
+                 .data$not_na_soildisturbance_game,
+               "< 1%",
+               .data$soildisturbance_game_cover_interval),
+      soildisturbance_game_cover_min =
+        ifelse(is.na(.data$soildisturbance_game_cover_min) &
+                 .data$not_na_soildisturbance_game,
+               0,
+               .data$soildisturbance_game_cover_min),
+      soildisturbance_game_cover_max =
+        ifelse(is.na(.data$soildisturbance_game_cover_max) &
+                 .data$not_na_soildisturbance_game,
+               1,
+               .data$soildisturbance_game_cover_max),
+      # calculate mid-values
       moss_cover_mid = (.data$moss_cover_min + .data$moss_cover_max) / 2,
       herb_cover_mid = (.data$herb_cover_min + .data$herb_cover_max) / 2,
       shrub_cover_mid = (.data$shrub_cover_min + .data$shrub_cover_max) / 2,
