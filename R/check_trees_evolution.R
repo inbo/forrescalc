@@ -264,7 +264,10 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
   incorrect_tree_diff <- trees_diff %>%
     mutate(
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
-      field_alive_dead = ifelse(.data$alive_dead_diff == -1, "zombie", NA),
+      field_alive_dead = ifelse(.data$alive_dead_diff == -1 &
+                                  # coppice can change from dead to alive
+                                  .data$ind_sht_cop == 10,
+                                "zombie", NA),
       field_decay_stage =
         ifelse(
           !(.data$decay_stage_diff >= 0 & .data$decay_stage_diff <= 5) &
