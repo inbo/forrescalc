@@ -29,7 +29,8 @@ approx_rubbing_damage_perc_established, approx_rubbing_damage_perc_seedlings.
 This function calculates for each plot, species and year the number of
 seedlings and established regeneration per ha (or interval with mean
 and confidence interval using a log transformation), and the
-rubbing damage percentage for seedlings and established regeneration.
+approximate rubbing damage percentage for seedlings and
+established regeneration.
 For core area plots, these variables are calculated for each subplot.
 }
 \examples{
