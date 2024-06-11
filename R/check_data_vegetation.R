@@ -45,7 +45,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
       v.Total_shrub_cover as shrub_cover_id,
       v.Total_tree_cover as tree_cover_id,
       v.Total_waterlayer_cover as waterlayer_cover_id,
-      v.Total_SoildisturbanceGame as total_soildisturbance_game_id
+      v.Total_SoildisturbanceGame as soildisturbance_game_id
     FROM ((Plots
         INNER JOIN Vegetation%2$s v ON Plots.ID = v.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID)
@@ -154,20 +154,20 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "invalid value",
           .data$field_waterlayer_cover_id
         ),
-      field_total_soildisturbance_game_id =
+      field_soildisturbance_game_id =
         ifelse(
-          !is.na(.data$total_soildisturbance_game_id) &
-            !.data$total_soildisturbance_game_id %in% data_totalcover$cover_id,
+          !is.na(.data$soildisturbance_game_id) &
+            !.data$soildisturbance_game_id %in% data_totalcover$cover_id,
           "not in lookuplist",
           NA
         ),
-      field_total_soildisturbance_game_id =
+      field_soildisturbance_game_id =
         ifelse(
-          !is.na(.data$total_soildisturbance_game_id) &
-            .data$total_soildisturbance_game_id == 20 & # 20="Not determined"
+          !is.na(.data$soildisturbance_game_id) &
+            .data$soildisturbance_game_id == 20 & # 20="Not determined"
             year(.data$date) >= 2014, # soildisturbance first measured in 2014
           "invalid value",
-          .data$field_total_soildisturbance_game_id
+          .data$field_soildisturbance_game_id
         ),
       across(ends_with("date"), as.character),
       fieldteam = as.character(.data$fieldteam),
