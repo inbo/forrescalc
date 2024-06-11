@@ -148,13 +148,11 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           .data$field_tree_cover_id
         ),
       field_waterlayer_cover_id =
-        ifelse(is.na(.data$waterlayer_cover_id), "missing", NA),
-      field_waterlayer_cover_id =
         ifelse(
           !is.na(.data$waterlayer_cover_id) &
             !.data$waterlayer_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_waterlayer_cover_id
+          NA
         ),
       field_waterlayer_cover_id =
         ifelse(
