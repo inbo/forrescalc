@@ -135,14 +135,6 @@ calculate_regeneration_plot <- function(data_regeneration) {
     ) %>%
     ungroup() %>%
     mutate(
-      plotarea_a1_ha = ifelse(plotarea_a1_ha == 0,
-                              plotarea_a2_ha,
-                              plotarea_a1_ha),
-      # to account for plots with established regeneration, but no seedlings
-      plotarea_a2_ha = ifelse(plotarea_a2_ha == 0,
-                              plotarea_a1_ha,
-                              plotarea_a2_ha),
-      # to account for plots with seedlings, but no established regeneration
       mean_number_established = .data$established_interval$sum,
       lci_number_established = .data$established_interval$lci,
       uci_number_established = .data$established_interval$uci,
