@@ -15,6 +15,7 @@ describe("regeneration_by_plot", {
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
         "approx_rubbing_damage_perc_established",
         "approx_rubbing_damage_perc_seedlings",
+        "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
         "mean_number_established_ha",
         "lci_number_established_ha", "uci_number_established_ha",
         "mean_number_seedlings_ha",
@@ -36,6 +37,7 @@ describe("regeneration_by_plot_height", {
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "number_of_tree_species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
         "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
@@ -50,6 +52,7 @@ describe("regeneration_by_plot_species", {
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
         "approx_rubbing_damage_perc_established",
         "approx_rubbing_damage_perc_seedlings",
+        "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
         "mean_number_established_ha",
         "lci_number_established_ha", "uci_number_established_ha",
         "mean_number_seedlings_ha",
@@ -71,6 +74,7 @@ describe("regeneration_by_plot_height_species", {
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
         "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
@@ -87,6 +91,7 @@ describe("regeneration_by_core_area_species", {
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
         "approx_rubbing_damage_perc_established",
         "approx_rubbing_damage_perc_seedlings",
+        "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
         "mean_number_established_ha",
         "lci_number_established_ha", "uci_number_established_ha",
         "mean_number_seedlings_ha",
@@ -110,8 +115,9 @@ describe("regeneration_by_core_area_height_species", {
       c("plottype", "plot_id", "period", "year", "height_class", "species",
         "nr_of_subplots_with_regeneration",
         "perc_subplots_with_regeneration",
-        "approx_rubbing_damage_perc",
-        "approx_nr_regeneration_ha", "mean_number_of_regeneration_ha",
+        "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
+        "rubbing_damage_number_ha",
+        "mean_number_of_regeneration_ha",
         "lci_number_of_regeneration_ha", "uci_number_of_regeneration_ha")
     )
   })

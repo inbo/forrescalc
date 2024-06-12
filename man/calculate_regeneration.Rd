@@ -18,8 +18,9 @@ List of dataframes that are mentioned in the above description
 \description{
 This function makes aggregations of tree generation data on the levels of
 \itemize{
- \item plot, height class and year (and subplot for core area)
  \item plot and year (and subplot for core area)
+ \item plot, height class and year (and subplot for core area)
+ \item plot, tree species and year (and subplot for core area)
  \item plot, height class, tree species and year (and subplot for core area)
 }
 For core area plots it makes additional aggregations on the levels of

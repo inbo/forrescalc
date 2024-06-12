@@ -55,8 +55,7 @@ load_data_regeneration <-
           IIf(Subquery.nr_of_regeneration IS NULL AND
               pd.Survey_Regeneration_YN = 10 AND Subquery.species IS NULL,
               0, Subquery.nr_of_regeneration) AS nr_of_regeneration,
-          IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10 AND
-              Subquery.species IS NULL,
+          IIf(Subquery.rdn IS NULL AND pd.GameImpactRegObserved = 10,
               0, Subquery.rdn) AS rubbing_damage_number,
           0.0 AS rubbing_damage_perc,
           0 AS subcircle,
@@ -107,7 +106,7 @@ load_data_regeneration <-
           .data$height_class %in% c(3000, 4000, 6000, 7000, 8000),
           "A2",
           ifelse(
-            .data$height_class %in% c(1000, 2000, 5000),
+            .data$height_class %in% c(1000, 2000, 5000, 9000),
             "A1",
             NA_character_
           )
@@ -117,6 +116,12 @@ load_data_regeneration <-
           .data$subcircle == "A2",
           (pi * .data$r_A2 ^ 2) / 10000,
           (pi * .data$r_A1 ^ 2) / 10000
+        ),
+      subcirclearea_ha =
+        ifelse(
+          .data$plottype == "CA",
+          0.01,
+          .data$subcirclearea_ha
         ),
       plotarea_ha =
         ifelse(
@@ -138,12 +143,19 @@ load_data_regeneration <-
         ),
       plotarea_ha =
         ifelse(
+          .data$plottype == "CP" & is.na(.data$plotarea_ha),
+          (pi * .data$r_A2 ^ 2) / 10000,
+          .data$plotarea_ha
+        ),
+      plotarea_ha =
+        ifelse(
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
         ),
-      rubbing_damage_perc =
-        .data$rubbing_damage_number * 100 / .data$nr_of_regeneration
+      rubbing_damage_perc = pmin(
+        .data$rubbing_damage_number * 100 / .data$nr_of_regeneration,
+        100)
     ) %>%
     left_join(
       number_classes %>%

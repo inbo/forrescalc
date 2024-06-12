@@ -2,8 +2,9 @@
 #'
 #' This function calculates for each plot, species and year the number of
 #' seedlings and established regeneration per ha (or interval with mean
-#' and confidence interval using a log transformation), and the number and
-#' percentage of subplots in which the species is regenerating.
+#' and confidence interval using a log transformation), the number and
+#' percentage of subplots in which the species is regenerating and
+#' the approximate rubbing damage percentage per hectare.
 #' This calculation is designed for core areas,that consist of different
 #' subplots.
 #'
@@ -141,15 +142,13 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       uci_number_seedlings = .data$seedlings_interval$uci,
       rubbing_damage_nr_established =
         ifelse(
-          .data$not_na_rubbing_established > 0 &
-            .data$rubbing_damage_nr_established > 0,
+          .data$not_na_rubbing_established > 0,
           .data$rubbing_damage_nr_established,
           NA
         ),
       rubbing_damage_nr_seedlings =
         ifelse(
-          .data$not_na_rubbing_seedlings > 0 &
-            .data$rubbing_damage_nr_seedlings > 0,
+          .data$not_na_rubbing_seedlings > 0,
           .data$rubbing_damage_nr_seedlings,
           NA
         ),
@@ -220,6 +219,10 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
              .data$lci_number_seedlings / .data$plotarea_ha,
            uci_number_seedlings_ha =
              .data$uci_number_seedlings / .data$plotarea_ha,
+           rubbing_damage_nr_established_ha =
+             .data$rubbing_damage_nr_established / .data$plotarea_ha,
+           rubbing_damage_nr_seedlings_ha =
+             .data$rubbing_damage_nr_seedlings / .data$plotarea_ha,
            mean_rubbing_damage_perc_established =
              .data$rubbing_damage_nr_established * 100 /
                .data$mean_number_established,
@@ -242,12 +245,12 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
              .data$approx_nr_established / .data$plotarea_ha,
            approx_nr_seedlings_ha =
              .data$approx_nr_seedlings / .data$plotarea_ha,
-           approx_rubbing_damage_perc_established =
+           approx_rubbing_damage_perc_established = pmin(
              .data$rubbing_damage_nr_established * 100 /
-               .data$approx_nr_established,
-           approx_rubbing_damage_perc_seedlings =
+               .data$approx_nr_established, 100),
+           approx_rubbing_damage_perc_seedlings = pmin(
              .data$rubbing_damage_nr_seedlings * 100 /
-               .data$approx_nr_seedlings
+               .data$approx_nr_seedlings, 100)
     ) %>%
     select(
       "plottype", "plot_id", "period", "year", "species",
@@ -255,6 +258,7 @@ calculate_regeneration_core_area_species <- function(data_regeneration) {
       "approx_nr_established_ha", "approx_nr_seedlings_ha",
       "approx_rubbing_damage_perc_established",
       "approx_rubbing_damage_perc_seedlings",
+      "rubbing_damage_nr_established_ha", "rubbing_damage_nr_seedlings_ha",
       "mean_number_established_ha", "lci_number_established_ha",
       "uci_number_established_ha", "mean_number_seedlings_ha",
       "lci_number_seedlings_ha", "uci_number_seedlings_ha",
