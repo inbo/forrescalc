@@ -55,7 +55,7 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
     FROM RegSpecies%2$s RegSpecies;"
 
   data_regspecies <- query_database(database, query_regspecies) %>%
-    rename(number = .data$number_)
+    rename(number = "number_")
   data_heightclass <-
     query_database(database, query_heightclass, selection = selection)
 
