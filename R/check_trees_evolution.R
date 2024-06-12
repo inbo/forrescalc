@@ -151,7 +151,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
                    is.na(.data$tree_id.x) | is.na(.data$tree_id.y)) %>%
           mutate(
             location_shift =
-              sqrt((.data$x_m.y - .data$y_m.x) ^ 2 +
+              sqrt((.data$x_m.y - .data$x_m.x) ^ 2 +
                      (.data$y_m.y - .data$y_m.x) ^ 2)
           ) %>%
           filter(.data$location_shift < 0.2) %>%
