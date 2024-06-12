@@ -641,7 +641,10 @@ describe("check_data_trees", {
 })
 
 describe("check_trees_evolution", {
-  check_evol <- check_trees_evolution(path_to_testdb)
+  expect_warning(
+    check_evol <- check_trees_evolution(path_to_testdb),
+    "Detected an unexpected many-to-many relationship between `x` and `y`"
+  )
   check_evol <- check_evol[grepl("2$", check_evol$period), ]
   it("check double in old_id", {
     expect_equal(
