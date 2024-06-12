@@ -122,6 +122,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
                  "tree_measure_id", "period")
         ) %>%
         select("plot_id", "XTrees", "YTrees", "tree_measure_id", "period") %>%
+        distinct() %>%
         mutate(
           link_to_layer_trees = "missing"
         ),
