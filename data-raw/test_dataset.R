@@ -115,6 +115,8 @@ trees[trees$ID == 11559, "Y_m"] <- -17.197
 trees[trees$ID == 11554, "DBH_mm"] <- 380
 trees[trees$ID == 4053, "DBH_mm"] <- 80
 trees[trees$ID == 11599, "Y_m"] <- 6
+trees[trees$ID == 13, "AliveDead"] <- 12
+trees[trees$ID == 13, "DecayStage"] <- 12
 trees <- trees %>%
   bind_rows(
     data.frame(
@@ -138,5 +140,31 @@ trees <- trees %>%
     )
   )
 dbWriteTable(con_testdb, "Trees", trees, overwrite = TRUE)
+
+trees_2eset <- dbReadTable(con_testdb, "Trees_2eset")
+trees_2eset[trees_2eset$ID == 42, "AliveDead"] <- 11
+trees_2eset[trees_2eset$ID == 42, "DBH_mm"] <- 520
+trees_2eset[trees_2eset$ID == 11557, "Species"] <- 16
+trees_2eset[trees_2eset$ID == 11557, "X_m"] <- 4.767
+trees_2eset[trees_2eset$ID == 11595, "DBH_mm"] <- 10
+trees_2eset[trees_2eset$ID == 11595, "Height_m"] <- 2
+trees_2eset <- trees_2eset %>%
+  bind_rows(
+    data.frame(
+      IDPlots = c(101, 101, 2006),
+      ID = 11600:11602,
+      X_m = c(rep(-17.197, 2), 0.66),
+      Y_m = c(rep(-17.197, 2), -12.596),
+      DBH_mm = 90,
+      Height_m = 30,
+      Species = c(28, 28, 87),
+      AliveDead = c(11, 11, 12),
+      IndShtCop = 10,
+      CoppiceID = NA,
+      DecayStage = c(17, 17, 13),
+      OldID = c(11559, 1, NA)
+    )
+  )
+dbWriteTable(con_testdb, "Trees_2eSET", trees_2eset, overwrite = TRUE)
 
 dbDisconnect(con_testdb)
