@@ -60,7 +60,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
 
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
-    rename(date = .data$date_)
+    rename(date = "date_")
   con <- connect_to_database(database)
   data_totalcover <- dbGetQuery(con, query_totalcover)
   dbDisconnect(con)

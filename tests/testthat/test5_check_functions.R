@@ -639,3 +639,134 @@ describe("check_data_trees", {
     )
   })
 })
+
+describe("check_trees_evolution", {
+  expect_warning(
+    check_evol <- check_trees_evolution(path_to_testdb),
+    "Detected an unexpected many-to-many relationship between `x` and `y`"
+  )
+  check_evol <- check_evol[grepl("2$", check_evol$period), ]
+  it("check double in old_id", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id %in% c("11600", "11559"), ],
+      tibble(
+        plot_id = 101,
+        period = "2",
+        tree_measure_id = c("11600", "11559"),
+        aberrant_field = "old_id",
+        anomaly = "2 times the same old_id",
+        aberrant_value = "11559",
+        tree_id = NA_character_
+      )
+    )
+  })
+  it("check location", {
+    expect_equal(
+      check_evol[check_evol$plot_id == 2006, ],
+      tibble(
+        plot_id = 2006,
+        period = "1_2",
+        tree_measure_id = "4053_11602",
+        aberrant_field = "old_id",
+        anomaly = "on same place but not coupled",
+        aberrant_value = "NA_NA",
+        tree_id = NA_character_
+      )
+    )
+  })
+  it("check old_id unknown", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id == "11601", ],
+      tibble(
+        plot_id = 101,
+        period = "2",
+        tree_measure_id = "11601",
+        aberrant_field = "old_id",
+        anomaly = "unknown id",
+        aberrant_value = "1",
+        tree_id = NA_character_
+      )
+    )
+  })
+  it("check shifter and walker", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id == "11557_11557", ],
+      tibble(
+        plot_id = 101,
+        period = "1_2",
+        tree_measure_id = "11557_11557",
+        aberrant_field = c("species", "location_shift"),
+        anomaly = c("shifter", "walker"),
+        aberrant_value = c("28_16", "9.53"),
+        tree_id = "1_101_11557"
+      )
+    )
+  })
+  it("check zombie", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id == "88_42", ],
+      tibble(
+        plot_id = 21000,
+        period = "1_2",
+        tree_measure_id = "88_42",
+        aberrant_field = "alive_dead",
+        anomaly = "zombie",
+        aberrant_value = "12_11",
+        tree_id = "1_21000_88"
+      )
+    )
+  })
+  it("check decay stage", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id == "13_91", ],
+      tibble(
+        plot_id = 21000,
+        period = "1_2",
+        tree_measure_id = "13_91",
+        aberrant_field = "decay_stage",
+        anomaly = "wrong shift",
+        aberrant_value = "12_11",
+        tree_id = "1_21000_13"
+      )
+    )
+  })
+  it("check outliers diameter and height", {
+    expect_equal(
+      check_evol[check_evol$tree_measure_id == "11595_11595", ],
+      tibble(
+        plot_id = 101,
+        period = "1_2",
+        tree_measure_id = "11595_11595",
+        aberrant_field = c("dbh_mm", "height_m"),
+        anomaly = c("outlier_diameter", "outlier_height"),
+        aberrant_value = c("880_10", "31_2"),
+        tree_id = "1_101_11595"
+      )
+    )
+  })
+  it("check shifter and walker coppice_id", {
+    expect_equal(
+      check_evol[
+        grep("-11597", check_evol$tree_measure_id),
+        c("plot_id", "period", "tree_measure_id", "aberrant_field", "anomaly",
+          "aberrant_value")
+      ],
+      tibble(
+        plot_id = 101,
+        period = "1_2",
+        tree_measure_id =
+          rep(c(rep("11601-11597", 2), rep("11602-11597", 4)), 2),
+        aberrant_field =
+          rep(
+            c(rep("location_shift", 2), rep(c("species", "location_shift"), 2)),
+            2),
+        anomaly =
+          rep(
+            c(rep("walker coppice_id", 2),
+              rep(c("shifter coppice_id", "walker coppice_id"), 2)),
+            2),
+        aberrant_value = rep(c(rep("3.66", 2), rep(c("28-16", "2.43"), 2)), 2)
+      )
+    )
+  })
+})

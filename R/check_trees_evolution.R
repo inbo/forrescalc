@@ -25,8 +25,9 @@
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom assertthat has_name
 #' @importFrom rlang .data
-#' @importFrom dplyr %>% arrange bind_rows desc distinct filter group_by
-#'   inner_join left_join mutate n reframe select summarise transmute ungroup
+#' @importFrom dplyr %>% anti_join arrange bind_rows desc distinct filter
+#'   group_by inner_join left_join mutate n reframe select summarise transmute
+#'   ungroup
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
 #'
@@ -152,7 +153,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
                    is.na(.data$tree_id.x) | is.na(.data$tree_id.y)) %>%
           mutate(
             location_shift =
-              sqrt((.data$x_m.y - .data$y_m.x) ^ 2 +
+              sqrt((.data$x_m.y - .data$x_m.x) ^ 2 +
                      (.data$y_m.y - .data$y_m.x) ^ 2)
           ) %>%
           filter(.data$location_shift < 0.2 &
@@ -185,7 +186,17 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         )
     )
   data_trees <- data_trees %>%
-    filter(!is.na(.data$tree_id))
+    filter(!is.na(.data$tree_id)) %>%
+    anti_join(
+      incorrect_trees %>%
+        filter(grepl("times the same old_id", .data$anomaly)) %>%
+        mutate(
+          period = as.integer(.data$period),
+          tree_measure_id = as.integer(.data$tree_measure_id)
+        ),
+      by = c("plot_id", "period", "tree_measure_id")
+    ) %>%
+    distinct()
 
   trees_diff <-
     compare_periods_per_plot(
