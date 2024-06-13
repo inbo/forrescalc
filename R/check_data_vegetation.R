@@ -165,7 +165,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
         ifelse(
           !is.na(.data$soildisturbance_game_id) &
             .data$soildisturbance_game_id == 20 & # 20="Not determined"
-            year(.data$date) >= 2014, # soildisturbance first measured in 2014
+            !is.na(.data$date) & year(.data$date) >= 2014, # soildisturbance first measured in 2014
           "invalid value",
           .data$field_soildisturbance_game_id
         ),
