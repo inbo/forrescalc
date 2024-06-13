@@ -30,6 +30,7 @@
 #'   ungroup
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
+#' @importFrom stringr str_split_i
 #'
 check_trees_evolution <- function(database, forest_reserve = "all") {
   selection <-
@@ -241,6 +242,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       .data$tree_id_earlier != .data$tree_id_later
     ) %>%
     mutate(
+      period_tmp = period,
       period = paste(.data$period - 1, .data$period, sep = "_"),
       tree_id = paste(.data$tree_id_earlier, .data$tree_id_later, sep = "-"),
       tree_measure_id =
@@ -254,8 +256,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
       field_location_shift =
         ifelse(
-          (.data$location_shift > 1 & str_detect(.data$period, "3")) |
-                 (.data$location_shift > 1.5 & str_detect(.data$period, "1")),
+          (.data$location_shift > 1 & .data$period_tmp >= 3) |
+                 (.data$location_shift > 1.5 & .data$period_tmp < 3),
           "walker coppice_id", NA)
     ) %>%
     filter(!is.na(.data$field_species) | !is.na(.data$field_location_shift)) %>%
@@ -274,6 +276,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     )
   incorrect_tree_diff <- trees_diff %>%
     mutate(
+      period_tmp = as.numeric(str_split_i(period_diff, "_", 2)),
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
       field_alive_dead = ifelse(.data$alive_dead_diff == -1 &
                                   # coppice can change from dead to alive
@@ -290,8 +293,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ),
       field_location_shift =
         ifelse(
-          (.data$location_shift > 1 & str_detect(.data$period_diff, "3")) |
-            (.data$location_shift > 1.5 & str_detect(.data$period_diff, "1")),
+          (.data$location_shift > 1 & .data$period_tmp >= 3) |
+            (.data$location_shift > 1.5 & .data$period_tmp < 3),
           "walker",
           NA)
     ) %>%
