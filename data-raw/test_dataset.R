@@ -76,9 +76,11 @@ dbWriteTable(con_testdb, "RegSpecies", regspecies, append = TRUE)
 
 regspecies_3eset <- dbReadTable(con_testdb, "RegSpecies_3eSet")
 regspecies_3eset[
-  regspecies_3eset$IDHeightClass_3eSet == 1, "GameDamage_number"] <- 70
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 1,
+  "GameDamage_number"] <- 70
 regspecies_3eset[
-  regspecies_3eset$IDHeightClass_3eSet == 3, "GameDamage_number"] <- 20
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 3,
+  "GameDamage_number"] <- 20
 regspecies_3eset[
   regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 2 &
     regspecies_3eset$ID == 2,
