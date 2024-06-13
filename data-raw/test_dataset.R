@@ -79,6 +79,22 @@ regspecies_3eset[
   regspecies_3eset$IDHeightClass_3eSet == 1, "GameDamage_number"] <- 70
 regspecies_3eset[
   regspecies_3eset$IDHeightClass_3eSet == 3, "GameDamage_number"] <- 20
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 2 &
+    regspecies_3eset$ID == 2,
+  "NumberClass"] <- NA
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 2 &
+    regspecies_3eset$ID == 2,
+  "Number"] <- 1
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 4 &
+    regspecies_3eset$ID == 2,
+  "NumberClass"] <- 2
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 4 &
+    regspecies_3eset$ID == 2,
+  "Number"] <- NA
 dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
