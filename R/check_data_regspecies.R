@@ -89,7 +89,7 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ifelse(
           .data$n_height_class > 1,
           paste0(.data$n_height_class, " times the same height class"),
-          field_heightclass
+          .data$field_heightclass
         ),
       n_height_class = NULL
     ) %>%
