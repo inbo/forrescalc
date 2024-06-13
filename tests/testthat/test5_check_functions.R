@@ -135,7 +135,7 @@ describe("check_data_plotdetails", {
         period = 1,
         aberrant_field =
           c("forest_reserve", "date_dendro", "fieldteam",
-            "ra1", "ra2", "ra3", "ra4", "area_ha"),
+            "ra1", "ra2", "ra3", "ra4"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
