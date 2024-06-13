@@ -1,4 +1,4 @@
-context("test check funtions")
+context("test check functions")
 
 path_to_testdb <-
   system.file("example/testdb/mdb_bosres_test.sqlite", package = "forrescalc")
