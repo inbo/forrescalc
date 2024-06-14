@@ -716,6 +716,20 @@ describe("check_trees_evolution", {
       )
     )
   })
+  it("check zombie coppice", {
+    expect_equal(
+      nrow(check_evol[check_evol$tree_measure_id == "11598_11598", ]),
+      0
+    )
+    expect_equal(
+      nrow(check_evol[check_evol$tree_measure_id == "11609_11609", ]),
+      0
+    )
+    expect_equal(
+      nrow(check_evol[check_evol$tree_measure_id == "11608_11608", ]),
+      0
+    )
+  })
   it("check decay stage", {
     expect_equal(
       check_evol[check_evol$tree_measure_id == "13_91", ],
