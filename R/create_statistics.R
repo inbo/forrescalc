@@ -84,9 +84,9 @@
 #' )
 #' # example on data with confidence interval (number_established_ha and
 #' # number_seedlings_ha)
-#' regeneration_by_plot <-
-#'   read_forresdat_table(tablename = "regeneration_by_plot")
-#' create_statistics(dataset = regeneration_by_plot,
+#' reg_by_plot <-
+#'   read_forresdat_table(tablename = "reg_by_plot")
+#' create_statistics(dataset = reg_by_plot,
 #'   level = c("forest_reserve", "period", "plot_id"),
 #'   variables = c("number_established_ha", "number_seedlings_ha")
 #' )

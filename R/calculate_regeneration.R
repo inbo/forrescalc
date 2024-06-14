@@ -48,12 +48,12 @@ calculate_regeneration <- function(data_regeneration) {
 
   return(
     list(
-      regeneration_by_plot = by_plot,
-      regeneration_by_plot_height = by_plot_height,
-      regeneration_by_plot_species = by_plot_species,
-      regeneration_by_plot_height_species = by_plot_height_species,
-      regeneration_by_core_area_species = by_ca_species,
-      regeneration_by_core_area_height_species = by_ca_height_species
+      reg_by_plot = by_plot,
+      reg_by_plot_height = by_plot_height,
+      reg_by_plot_species = by_plot_species,
+      reg_by_plot_height_species = by_plot_height_species,
+      reg_by_core_area_species = by_ca_species,
+      reg_by_core_area_height_species = by_ca_height_species
     )
   )
 }
