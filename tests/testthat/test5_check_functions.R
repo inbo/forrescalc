@@ -1,6 +1,3 @@
-library(testthat)
-library(forrescalc)
-
 context("test check functions")
 
 path_to_testdb <-
