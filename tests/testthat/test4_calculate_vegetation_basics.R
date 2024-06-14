@@ -7,10 +7,10 @@ data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
 data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
 results_vegetation <- calculate_vegetation(data_vegetation, data_herblayer)
 
-describe("vegetation_by_plot", {
+describe("veg_by_plot", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_vegetation[["vegetation_by_plot"]]),
+      colnames(results_vegetation[["veg_by_plot"]]),
       c("plottype", "plot_id", "subplot_id",
         "period", "year_main_survey", "date_vegetation",
         "number_of_species", "cumm_herb_coverage_class_average_perc",
@@ -27,10 +27,10 @@ describe("vegetation_by_plot", {
   })
 })
 
-describe("vegetation_by_core_area_species", {
+describe("veg_by_core_area_species", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_vegetation[["vegetation_by_core_area_species"]]),
+      colnames(results_vegetation[["veg_by_core_area_species"]]),
       c("plottype", "plot_id", "period", "year", "species",
         "number_of_subplots_with_vegetation", "perc_of_subplots",
         "number_of_subplots_browsed", "number_of_subplots_seriously_browsed",

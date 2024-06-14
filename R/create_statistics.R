@@ -77,8 +77,8 @@
 #'   variables = c("basal_area_alive_m2_ha", "basal_area_dead_m2_ha")
 #' )
 #' #example on interval data (shrub_cover and tree_cover)
-#' vegetation_by_plot <- read_forresdat_table(tablename = "vegetation_by_plot")
-#' create_statistics(dataset = vegetation_by_plot,
+#' veg_by_plot <- read_forresdat_table(tablename = "veg_by_plot")
+#' create_statistics(dataset = veg_by_plot,
 #'   level = c("forest_reserve", "period", "plottype"),
 #'   variables = c("number_of_species", "shrub_cover", "tree_cover")
 #' )
