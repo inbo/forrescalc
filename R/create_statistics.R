@@ -6,7 +6,7 @@
 #' (e.g. forest_reserve, period and species) and for the specified variables
 #' (e.g. basal_area and volume).
 #' Calculated statistics include number of observations, mean, variance
-#' and confidence interval (lci and uci).
+#' and confidence interval with lower and upper limit (lci and uci).
 #'
 #' These summary statistics are calculated on the given data, not taking into
 #' account absence of observations unless explicitly added as a record with
