@@ -1,4 +1,4 @@
-#' check userinput and convert to final part of query
+#' check user input and convert to final part of query
 #'
 #' Internal helper function that checks if the input values are present in the
 #' fieldmap database (with help of function check_input()) and translates
