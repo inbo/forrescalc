@@ -25,8 +25,8 @@
 #' `variables` must contain a name for the output of this variable, and
 #' `interval_information` must contain the variable names for minimum, maximum
 #' and output that should be used.
-#' In `interval_information` it can be specified if a logaritmic transformation
-#' is needed to compensate of inequal interval widths.
+#' In `interval_information` it can be specified if a logarithmic transformation
+#' is needed to compensate of unequal interval widths.
 #' In this case, mean and the confidence interval are transformed back,
 #' but variance is not, as this result would be confusing rather than useful.
 #' For typical forresdat variables, the default value of `interval_information`

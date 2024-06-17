@@ -22,7 +22,7 @@ path_to_fieldmap <- "C:/3BR/2_VisualisatieDataBR/3MDB_BOSRES_selectieEls/FieldMa
 Following the method of Bosch & Partner (2014), selection of forest reserves based on the 3 criteria should be done in 2 steps:
 
 - select the forest reserves that meet these criteria
-- select the plots in het reserves that meet these criteria
+- select the plots in the reserves that meet these criteria
 
 But is it necessary to do this in 2 steps? Is there any difference in selected between doing 2 steps and doing only the last step?
 
