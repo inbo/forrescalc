@@ -141,11 +141,15 @@ data_dendro %>%
 
 ```
 
+<!-- spell-check: ignore:start -->
+
 ## Conclusie
 
 Heirnisse valt weg doordat de gemiddelde diameter van de bomen te laag is.
 
 Ander aandachtspunt voor dit reservaat (moest het wel meegenomen kunnen worden): de plots zijn niet allemaal in dezelfde winter opgemeten. Zijn er nog reservaten waarbij dit het geval is? Hoe gaan we de berekening in dit geval uitvoeren?
+
+<!-- spell-check: ignore:end -->
 
 # Preliminary results on reserve level
 
