@@ -8,7 +8,7 @@
 #' @param extra_variables Should additional variables such as `iufro_hght`,
 #' `iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
 #' Default is FALSE (no).
-#' ATTENTION: some variables as iufro-classes and (common-)remark are
+#' ATTENTION: some variables as IUFRO-classes and (common-)remark are
 #' - for coppice - collected at shoot level.
 #' To include these extra variables, it is necessary to indicate this argument
 #' in both load-functions (`load_data_dendrometry()` and `load_data_shoots()`):
