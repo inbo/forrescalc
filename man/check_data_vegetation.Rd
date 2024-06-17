@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_vegetation.R
 \name{check_data_vegetation}
 \alias{check_data_vegetation}
-\title{check table Vegetation from fieldmap database for inconsistencies}
+\title{check table `Vegetation` from fieldmap database for inconsistencies}
 \usage{
 check_data_vegetation(database, forest_reserve = "all")
 }
@@ -19,7 +19,7 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table Vegetation
+This function retrieves the important fields of table `Vegetation`
 (of all periods) from the given database and
 checks for missing data or wrong input.
 }

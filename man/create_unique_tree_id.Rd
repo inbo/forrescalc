@@ -7,15 +7,16 @@
 create_unique_tree_id(data_dendro)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id,
-plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
-alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,...
-(output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables `plot_id`,
+`plottype`, `tree_measure_id`, `date_dendro`, `dbh_mm`, `height_m`,
+`species`, `alive_dead`, `decaystage`, `period`, `old_id`, `year`,
+`subcircle`, `plotarea_ha`,...
+(output of function `load_data_dendrometry()`)}
 }
 \value{
 a dataset with 1 record per tree measurement, containing the given
-data of each tree in different years (= data_dendro) and a link
-to a unique tree_id.
+data of each tree in different years (= `data_dendro`) and a link
+to a unique `tree_id`.
 }
 \description{
 This function creates a unique ID for each tree, that allows to group

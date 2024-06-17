@@ -22,20 +22,20 @@ combinations of their values should have a record in the dataset.}
 
 \item{grouping_vars}{one or more variables for which the combination of
 values of the variables given in `comb_vars` should be made for each value,
-e.g. if grouping_vars = "forest_reserve" and
-comb_vars = c("plot", "species"),
+e.g. if `grouping_vars = "forest_reserve"` and
+`comb_vars = c("plot", "species")`,
 all combinations of the values in "plot" and "species" are made
 within each value of "forest_reserve".}
 
-\item{add_zero_no_na}{variable indicating which records of the grouping_vars
-should get a zero value (variable should be TRUE) or a NA value (variable
-should be FALSE).
+\item{add_zero_no_na}{variable indicating which records of the
+`grouping_vars` should get a zero value (variable should be TRUE) or a NA
+value (variable should be FALSE).
 E.g. a variable indicating whether or not observations are done.
 If no variable name is given (default NA), all added records get zero values.}
 
-\item{remove_na_records_in_comb_vars}{In which of the given comb_vars should
-records with NA values be removed after adding the records with zero values
-for all combinations?
+\item{remove_na_records_in_comb_vars}{In which of the given `comb_vars`
+should records with NA values be removed after adding the records with zero
+values for all combinations?
 In some cases, e.g. if no species are observed in a plot, the dataset in
 forresdat has records with species NA and zeros for measured variables
 to make sure zero values for all species are added for each plot when using
@@ -70,10 +70,10 @@ Note that if a certain value is not present in the dataset
 (or in one of the subsets defined by `grouping_vars`), it will not be
 added automatically;
 at least one record should be added manually for this value
-(e.g. a plot or diameterclass that doesn't exist in the given dataset,
+(e.g. a plot or `diameterclass` that doesn't exist in the given dataset,
 but has to be included in the output).
 The data in forresdat already contain one record with zeros per plot
-(with NA value for species and/or diameterclass), resulting in records to
+(with NA value for `species` and/or `diameterclass`), resulting in records to
 be added automatically if 'plot_id' is added to `comb_vars`.
 }
 \examples{

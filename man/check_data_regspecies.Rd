@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_regspecies.R
 \name{check_data_regspecies}
 \alias{check_data_regspecies}
-\title{check table RegSpecies from fieldmap database for inconsistencies}
+\title{check table `RegSpecies` from fieldmap database for inconsistencies}
 \usage{
 check_data_regspecies(database, forest_reserve = "all")
 }
@@ -19,8 +19,8 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of tables HeightClass and
-RegSpecies (of all periods) from the given database and
+This function retrieves the important fields of tables `HeightClass` and
+`RegSpecies` (of all periods) from the given database and
 checks for missing data or wrong input.
 }
 \examples{

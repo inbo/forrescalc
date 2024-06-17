@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_plots.R
 \name{check_data_plots}
 \alias{check_data_plots}
-\title{check table plots from fieldmap database for inconsistencies}
+\title{check table `Plots` from fieldmap database for inconsistencies}
 \usage{
 check_data_plots(database, forest_reserve = "all")
 }
@@ -19,7 +19,7 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table plots from the given
+This function retrieves the important fields of table `Plots` from the given
 database and checks for missing data or wrong input.
 }
 \examples{

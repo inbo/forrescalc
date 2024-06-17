@@ -25,8 +25,8 @@ by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 
 \item{extra_variables}{Should additional variables such as
-x_m, y_m, coppice_id, iufro_hght, iufro_vital, iufro_socia,
-remark and common_remark be added?
+`x_m`, `y_m`, `coppice_id`, `iufro_hght`, `iufro_vital`, `iufro_socia`,
+`remark` and `common_remark` be added?
 Default is FALSE (no).}
 
 \item{processed}{Should only processed and surveyed data be added?
@@ -37,7 +37,7 @@ Dataframe with dendrometry data
 }
 \description{
 This function queries the given database to retrieve data on dendrometry
-(ready for use in calculate_dendrometry function).
+(ready for use in `calculate_dendrometry()` function).
 }
 \examples{
 library(forrescalc)

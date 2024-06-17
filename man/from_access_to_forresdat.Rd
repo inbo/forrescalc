@@ -2,7 +2,7 @@
 % Please edit documentation in R/from_access_to_forresdat.R
 \name{from_access_to_forresdat}
 \alias{from_access_to_forresdat}
-\title{copy table(s) from access db to git repository forresdat}
+\title{copy table(s) from access database to git repository forresdat}
 \usage{
 from_access_to_forresdat(
   database,
@@ -26,7 +26,7 @@ results/tables should be saved}
 \item{metadata_path}{path including .xlsx file in which the metadata are
 stored}
 
-\item{push}{push commits directly to the remote on github?
+\item{push}{push commits directly to the remote on Github?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
 \item{strict}{keep default TRUE to update data without structural changes,

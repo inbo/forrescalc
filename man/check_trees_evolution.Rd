@@ -2,7 +2,8 @@
 % Please edit documentation in R/check_trees_evolution.R
 \name{check_trees_evolution}
 \alias{check_trees_evolution}
-\title{check table trees from fieldmap database for inconsistencies between periods}
+\title{check table `Trees` from fieldmap database for inconsistencies between
+periods}
 \usage{
 check_trees_evolution(database, forest_reserve = "all")
 }
@@ -19,9 +20,9 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table Trees (of all periods)
-from the given database and checks for anomalities between periods, such as
-zombies, shifters, outlier_height, outlier_diameter or walkers.
+This function retrieves the important fields of table `Trees` (of all
+periods) from the given database and checks for anomalies between periods,
+such as zombies, shifters, outlier_height, outlier_diameter or walkers.
 }
 \examples{
 library(forrescalc)

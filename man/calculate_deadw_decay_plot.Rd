@@ -7,19 +7,20 @@
 calculate_deadw_decay_plot(plotinfo, data_deadwood = NA, data_dendro_calc = NA)
 }
 \arguments{
-\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
-forest_reserve, survey_trees, survey_deadw, period and year_dendro
-(output of function load_plotinfo())}
+\item{plotinfo}{dataframe on surveyed plots with variables `plot_id`,
+`plottype`, `forest_reserve`, `survey_trees`, `survey_deadw`, `period` and
+`year_dendro`
+(output of function `load_plotinfo()`)}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
-date_dendro, species, decaystage, calc_volume_m3, period and year
-(output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables `plot_id`, `plottype`,
+`date_dendro`, `species`, `decaystage`, `calc_volume_m3`, `period` and `year`
+(output of function `load_data_deadwood()`)}
 
 \item{data_dendro_calc}{dataframe on stems (shoots and trees) as given from
-the function calc_variables_stem_level()}
+the function `calc_variables_stem_level()`}
 }
 \value{
-dataframe with columns plot, year, decaystage, vol_log_m3_ha
+dataframe with columns `plot`, `year`, `decaystage`, `vol_log_m3_ha`
 }
 \description{
 This function calculates for each plot and year the volume logs and standing

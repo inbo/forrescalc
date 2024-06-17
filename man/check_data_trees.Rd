@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_trees.R
 \name{check_data_trees}
 \alias{check_data_trees}
-\title{check table trees from fieldmap database for inconsistencies}
+\title{check table `Trees` from fieldmap database for inconsistencies}
 \usage{
 check_data_trees(database, forest_reserve = "all")
 }
@@ -19,8 +19,8 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table Trees (of all periods)
-from the given database and checks for missing data or wrong input.
+This function retrieves the important fields of table `Trees` (of all
+periods) from the given database and checks for missing data or wrong input.
 }
 \examples{
 library(forrescalc)

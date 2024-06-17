@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_herblayer.R
 \name{check_data_herblayer}
 \alias{check_data_herblayer}
-\title{check table herblayer from fieldmap database for inconsistencies}
+\title{check table `Herblayer` from fieldmap database for inconsistencies}
 \usage{
 check_data_herblayer(database, forest_reserve = "all")
 }
@@ -19,7 +19,7 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table herblayer
+This function retrieves the important fields of table `Herblayer`
 (of all periods) from the given database and
 checks for missing data or wrong input.
 }

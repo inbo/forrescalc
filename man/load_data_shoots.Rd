@@ -10,8 +10,8 @@ load_data_shoots(database, extra_variables = FALSE)
 \item{database}{name of fieldmap/access database (with specific fieldmap
 structure) including path}
 
-\item{extra_variables}{Should additional variables such as iufro_hght,
-iufro_vital, iufro_socia, remark and common_remark be added?
+\item{extra_variables}{Should additional variables such as `iufro_hght`,
+`iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
 Default is FALSE (no).}
 }
 \value{

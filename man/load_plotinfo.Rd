@@ -22,8 +22,8 @@ from all plots are retrieved)}
 Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with columns plot_id, plottype, forest_reserve, period,
-year of dendrometric survey and information on
+Dataframe with columns `plot_id`, `plottype`, `forest_reserve`,
+`period`, `year` of dendrometric survey and information on
 (1) whether there has been a dendro, deadwood, regeneration and/or
 vegetation survey and (2) whether the data have been processed or not.
 }

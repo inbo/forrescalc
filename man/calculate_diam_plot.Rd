@@ -8,21 +8,23 @@ calculate_diam_plot(data_stems_calc, data_deadwood, plotinfo)
 }
 \arguments{
 \item{data_stems_calc}{dataframe on stem level measurements with variables
-plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
-alive_dead, decaystage, period, year, subcircle, plotarea_ha,...
-(output of function calc_variables_stem_level())}
+`plot_id`, `plottype`, `tree_measure_id`, `date_dendro`, `dbh_mm`,
+`height_m`, `species`, `alive_dead`, `decaystage`, `period`, `year`,
+`subcircle`, `plotarea_ha`,...
+(output of function `calc_variables_stem_level()`)}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
-date_dendro, species, decaystage, calc_volume_m3, period and year
-(output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables `plot_id`, `plottype`,
+`date_dendro`, `species`, `decaystage`, `calc_volume_m3`, `period` and `year`
+(output of function `load_data_deadwood()`)}
 
-\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
-forest_reserve, survey_trees, survey_deadw, period and year_dendro
-(output of function load_plotinfo())}
+\item{plotinfo}{dataframe on surveyed plots with variables `plot_id`,
+`plottype`, `forest_reserve`, `survey_trees`, `survey_deadw`, `period` and
+`year_dendro`
+(output of function `load_plotinfo()`)}
 }
 \value{
-dataframe with columns plot, year, dbh_class_5cm, number_of_trees_ha,
-basal_area_m2_ha, volume_m3_ha
+dataframe with columns `plot`, `year`, `dbh_class_5cm`,
+`number_of_trees_ha`, `basal_area_m2_ha`, `volume_m3_ha`
 }
 \description{
 This function calculates for each plot, year and diameter class some values

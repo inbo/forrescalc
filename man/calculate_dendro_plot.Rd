@@ -7,18 +7,20 @@
 calculate_dendro_plot(data_dendro_calc, data_deadwood, plotinfo)
 }
 \arguments{
-\item{data_dendro_calc}{dataframe on tree measures with variables plot_id,
-plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
-alive_dead, decaystage, vol_tot_m3, basal_area_m2, period, OldID, year,
-subcircle, plotarea_ha,... (output of function calc_variables_tree_level())}
+\item{data_dendro_calc}{dataframe on tree measures with variables `plot_id`,
+`plottype`, `tree_measure_id`, `date_dendro`, `dbh_mm`, `height_m`,
+`species`, `alive_dead`, `decaystage`, `vol_tot_m3`, `basal_area_m2`,
+`period`, `old_id`, `year`, `subcircle`, `plotarea_ha`,...
+(output of function `calc_variables_tree_level()`)}
 
-\item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
-date_dendro, species, decaystage, calc_volume_m3, period and year
-(output of function load_data_deadwood())}
+\item{data_deadwood}{dataframe on logs with variables `plot_id`, `plottype`,
+`date_dendro`, `species`, `decaystage`, `calc_volume_m3`, `period` and `year`
+(output of function `load_data_deadwood()`)}
 
-\item{plotinfo}{dataframe on surveyed plots with variables plot_id, plottype,
-forest_reserve, survey_trees, survey_deadw, period and year_dendro
-(output of function load_plotinfo())}
+\item{plotinfo}{dataframe on surveyed plots with variables `plot_id`,
+`plottype`, `forest_reserve`, `survey_trees`, `survey_deadw`, `period` and
+`year_dendro`
+(output of function `load_plotinfo()`)}
 }
 \value{
 dataframe with columns plot, year, number_of_tree_species,

@@ -10,7 +10,7 @@ make_table_wide(table_long, column_to_repeat, columns_for_comparison)
 \item{table_long}{dataframe with data in long format. It is important that
 all columns that are not mentioned in the variables \code{column_to_repeat}
 or \code{columns_for_comparison}, are grouping variables that have the same
-value for each \code{column_to_repeat} (see 2nd example).}
+value for each \code{column_to_repeat} (see second example).}
 
 \item{column_to_repeat}{name of the column of which the values have to be
 added to the column headings}

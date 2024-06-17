@@ -2,7 +2,7 @@
 % Please edit documentation in R/from_forresdat_to_access.R
 \name{from_forresdat_to_access}
 \alias{from_forresdat_to_access}
-\title{copy table(s) from git repository forresdat to access db}
+\title{copy table(s) from git repository forresdat to access database}
 \usage{
 from_forresdat_to_access(
   tables,
@@ -26,13 +26,13 @@ is explicitly put on TRUE.}
 'CP' for Circular plot or 'CA' for Core area
 (the default NA means that data from all plots are retrieved)}
 
-\item{join_plotinfo}{should table plotinfo be joined to the chosen table to
-add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
-FALSE) and data_processed (TRUE or FALSE)?
+\item{join_plotinfo}{should table `plotinfo` be joined to the chosen table to
+add columns `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or
+FALSE) and `data_processed` (TRUE or FALSE)?
 Default is TRUE.
 (This is only possible if the given table contains a column plot_id,
 so this parameter should be put FALSE if this column is absent.)
-Must be FALSE if you want to load the table "plotinfo" itself.}
+Must be FALSE if you want to load the table `plotinfo` itself.}
 }
 \value{
 No value is returned, the tables are saved in the access database.

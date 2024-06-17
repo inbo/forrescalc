@@ -44,9 +44,9 @@ of the Longo scale.)}
 }
 \value{
 dataframe with the columns chosen for level, a column variable with
-the chosen variables, and the columns n_obs, mean, variance,
-lci (lower limit of confidence interval) and
-uci (upper limit of confidence interval)
+the chosen variables, and the columns `n_obs`, `mean`, `variance`,
+`lci` (lower limit of confidence interval) and
+`uci` (upper limit of confidence interval)
 }
 \description{
 This function calculates statistics for the given data
@@ -54,7 +54,7 @@ This function calculates statistics for the given data
 (e.g. forest_reserve, period and species) and for the specified variables
 (e.g. basal_area and volume).
 Calculated statistics include number of observations, mean, variance
-and confidence interval (lci and uci).
+and confidence interval with lower and upper limit (lci and uci).
 
 These summary statistics are calculated on the given data, not taking into
 account absence of observations unless explicitly added as a record with
@@ -73,8 +73,8 @@ For this, `dataset` must contain columns with minimum and maximum values,
 `variables` must contain a name for the output of this variable, and
 `interval_information` must contain the variable names for minimum, maximum
 and output that should be used.
-In `interval_information` it can be specified if a logaritmic transformation
-is needed to compensate of inequal interval widths.
+In `interval_information` it can be specified if a logarithmic transformation
+is needed to compensate of unequal interval widths.
 In this case, mean and the confidence interval are transformed back,
 but variance is not, as this result would be confusing rather than useful.
 For typical forresdat variables, the default value of `interval_information`

@@ -7,21 +7,22 @@
 compose_stem_data(data_dendro, data_shoots, extra_variables = FALSE)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id,
-plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species,
-alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,...
-(output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables `plot_id`,
+`plottype`, `tree_measure_id`, `date_dendro`, `dbh_mm`, `height_m`,
+`species`, `alive_dead`, `decaystage`, `period`, `old_id`, `year`,
+`subcircle`, `plotarea_ha`,...
+(output of function `load_data_dendrometry()`)}
 
 \item{data_shoots}{dataframe on shoots as given from the function
-load_data_shoots()}
+`load_data_shoots()`}
 
-\item{extra_variables}{Should additional variables such as iufro_hght,
-iufro_vital, iufro_socia, remark and common_remark be added?
+\item{extra_variables}{Should additional variables such as `iufro_hght`,
+`iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
 Default is FALSE (no).
-ATTENTION: some variables as iufro-classes and (common-)remark are
+ATTENTION: some variables as IUFRO-classes and (common-)remark are
 - for coppice - collected at shoot level.
 To include these extra variables, it is necessary to indicate this argument
-in both load-functions (load_data_dendrometry() and load_data_shoots()):
+in both load-functions (`load_data_dendrometry()` and `load_data_shoots()`):
 extra_variables = TRUE.}
 }
 \value{
@@ -29,9 +30,9 @@ Dataframe with shoot data
 }
 \description{
 This function replaces in the given dendrometric data (result from function
-load_data_dendrometry()) the diameters, height, decaystage and info on
+`load_data_dendrometry()`) the diameters, height, decay stage and info on
 intact/snag from coppice trees by their separate stems given in the shoot
-data (result from function load_data_shoots()).
+data (result from function `load_data_shoots()`).
 }
 \examples{
 library(forrescalc)

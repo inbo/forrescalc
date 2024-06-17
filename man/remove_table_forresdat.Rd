@@ -12,7 +12,7 @@ remove_table_forresdat(tables, repo_path, push = FALSE, branch = "develop")
 \item{repo_path}{name and path of local forresdat repository in which
 results/tables should be saved}
 
-\item{push}{push commits directly to the remote on github?
+\item{push}{push commits directly to the remote on Github?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
 \item{branch}{branch from repository forresdat to which the new version

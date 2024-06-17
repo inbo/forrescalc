@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data_regeneration.R
 \name{check_data_regeneration}
 \alias{check_data_regeneration}
-\title{check table regeneration from fieldmap database for inconsistencies}
+\title{check table `Regeneration` from fieldmap database for inconsistencies}
 \usage{
 check_data_regeneration(database, forest_reserve = "all")
 }
@@ -19,7 +19,7 @@ Dataframe with inconsistent data with ID's and additional columns
 the input)
 }
 \description{
-This function retrieves the important fields of table regeneration
+This function retrieves the important fields of table `Regeneration`
 (of all periods) from the given database and
 checks for missing data or wrong input.
 }

@@ -36,7 +36,7 @@ Dataframe with data on logs
 }
 \description{
 This function queries the given database to retrieve data on deadwood (logs)
-(ready for use in calculate_dendrometry function).
+(ready for use in `calculate_dendrometry()` function).
 }
 \examples{
 library(forrescalc)
