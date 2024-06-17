@@ -7,8 +7,8 @@
 #' @param input value to check if it is present
 #' @param table table name of the fieldmap database
 #' @param column column that mentions all possible values of the variable
-#' @param table2 possibility for 2nd table name (e.g. if data from 2 different
-#' periods are in different tables but the column has the same name)
+#' @param table2 possibility for second table name (e.g. if data from 2
+#' different periods are in different tables but the column has the same name)
 #' @inheritParams load_data_dendrometry
 #'
 #' @noRd

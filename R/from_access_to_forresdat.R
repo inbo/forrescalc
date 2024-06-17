@@ -1,4 +1,4 @@
-#' copy table(s) from access db to git repository forresdat
+#' copy table(s) from access database to git repository forresdat
 #'
 #' This function loads one or more tables from the access database
 #' (or an SQLite database) and saves them in the git repository forresdat.
