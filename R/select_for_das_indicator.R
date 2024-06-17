@@ -7,14 +7,14 @@
 #'
 #' @template selection_criteria_for_DAS
 #'
-#' @param data_to_select dataframe with at least all grouping_vars and the
-#' variables dbh_mm, species, basal_area_alive_m2_ha, and as records preferably
-#' only living trees (they are not filtered out here but they should not be
-#' in here to meet the requirements of the DAS indicator)
+#' @param data_to_select dataframe with at least all `grouping_vars` and the
+#' variables `dbh_mm`, `species`, `basal_area_alive_m2_ha`, and as records
+#' preferably only living trees (they are not filtered out here but they should
+#' not be in here to meet the requirements of the DAS indicator)
 #' @param grouping_vars vector with variables that should be grouped on during
 #' the selection steps.
 #'
-#' @return dataframe with the grouping vars in which records are removed that
+#' @return dataframe with the `grouping_vars` in which records are removed that
 #' do not meet the above described criteria
 #'
 #' @examples

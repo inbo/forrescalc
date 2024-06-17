@@ -7,8 +7,8 @@
 #' structure) including path
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with columns plot_id, plottype, forest_reserve, period,
-#' year of dendrometric survey and information on
+#' @return Dataframe with columns `plot_id`, `plottype`, `forest_reserve`,
+#' `period`, `year` of dendrometric survey and information on
 #' (1) whether there has been a dendro, deadwood, regeneration and/or
 #' vegetation survey and (2) whether the data have been processed or not.
 #'

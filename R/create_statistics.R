@@ -57,9 +57,9 @@
 #' of the Longo scale.)
 #'
 #' @return dataframe with the columns chosen for level, a column variable with
-#' the chosen variables, and the columns n_obs, mean, variance,
-#' lci (lower limit of confidence interval) and
-#' uci (upper limit of confidence interval)
+#' the chosen variables, and the columns `n_obs`, `mean`, `variance`,
+#' `lci` (lower limit of confidence interval) and
+#' `uci` (upper limit of confidence interval)
 #'
 #' @examples
 #' library(forrescalc)

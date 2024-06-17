@@ -8,8 +8,8 @@
 #' @inheritParams calculate_dendrometry
 #' @inheritParams calc_variables_tree_level
 #'
-#' @return dataframe with columns plot, year, tree_species, dbh_class_5cm,
-#' basal_area_m2_ha, volume_m3_ha
+#' @return dataframe with columns `plot`, `year`, `tree_species`,
+#' `dbh_class_5cm`, `basal_area_m2_ha`, `volume_m3_ha`
 #'
 #' @examples
 #' library(forrescalc)

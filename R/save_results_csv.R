@@ -1,4 +1,4 @@
-#' save results of calculations as csv-files
+#' save results of calculations as `.csv`-files
 #'
 #' This function saves the results from calculations in the forrescalc package
 #' (or any other named list with dataframes) in a predefined folder.

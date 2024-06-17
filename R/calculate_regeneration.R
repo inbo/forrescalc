@@ -22,9 +22,9 @@
 #' calculate_regeneration(data_regeneration)
 #'
 #' @param data_regeneration dataframe on tree regeneration with variables
-#' plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
-#' rubbing_damage_number, period, year, subcircle, plotarea_ha,
-#' min_number_of_regeneration and max_number_of_regeneration.
+#' `plot_id`, `plottype`, `subplot_id`, `height_class`, `species`,
+#' `nr_of_regeneration`, `rubbing_damage_number`, `period`, `year`, `subcircle`,
+#' `plotarea_ha`, `min_number_of_regeneration` and `max_number_of_regeneration`.
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'

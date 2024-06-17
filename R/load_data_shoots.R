@@ -5,8 +5,8 @@
 #'
 #' @param database name of fieldmap/access database (with specific fieldmap
 #' structure) including path
-#' @param extra_variables Should additional variables such as iufro_hght,
-#' iufro_vital, iufro_socia, remark and common_remark be added?
+#' @param extra_variables Should additional variables such as `iufro_hght`,
+#' `iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
 #' Default is FALSE (no).
 #'
 #' @return Dataframe with shoot data

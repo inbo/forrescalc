@@ -8,18 +8,18 @@
 #' This calculation is designed for core areas, that consist of different
 #' subplots.
 #' Year refers to year of recording of that specific species
-#' (source is table "data_herblayer"), and is possibly different for
+#' (source is table `data_herblayer`), and is possibly different for
 #' spring flora than for other species in the same subplot.
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, species, year (year of recording of
-#' specific species, possibly different for spring flora),
-#' number_of_subplots (= number of subplots where the species occurs),
-#' perc_of_subplots (= percentage of subplots with species),
-#' number_of_subplots_browsed, perc_of_subplots_browsed,
-#' number_of_subplots_seriously_browsed, perc_of_subplots_seriously_browsed
-#' and mean_coverage_class_average_perc
+#' @return dataframe with columns `plot`, `species`, `year` (year of recording
+#' of specific species, possibly different for spring flora),
+#' `number_of_subplots` (= number of subplots where the species occurs),
+#' `perc_of_subplots` (= percentage of subplots with species),
+#' `number_of_subplots_browsed`, `perc_of_subplots_browsed`,
+#' `number_of_subplots_seriously_browsed`, `perc_of_subplots_seriously_browsed`
+#' and `mean_coverage_class_average_perc`
 #'
 #' @examples
 #' library(forrescalc)

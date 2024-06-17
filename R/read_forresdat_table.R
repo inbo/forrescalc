@@ -1,6 +1,6 @@
 #' load tables from git repository forresdat
 #'
-#' This function reads a table in csv format from git repository forresdat
+#' This function reads a table in `.csv` format from git repository forresdat
 #' (and saves the forresdat data to a local temp directory to avoid unneeded
 #' downloading in the future).
 #' Data available in forresdat only contains observations, so no records with
@@ -8,23 +8,23 @@
 #' hence absent.
 #' These zero value records can easily be added by using the function
 #' `add_zeros()`.
-#' To load table plotinfo, set argument `join_plotinfo = FALSE`.
+#' To load table `plotinfo`, set argument `join_plotinfo = FALSE`.
 #'
 #' @param tablename name of the table that should be read
-#' @param join_plotinfo should table plotinfo be joined to the chosen table to
-#' add columns forest_reserve, survey_dendro/deadw/reg/veg (TRUE or
-#' FALSE) and data_processed (TRUE or FALSE)?
+#' @param join_plotinfo should table `plotinfo` be joined to the chosen table to
+#' add columns `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or
+#' FALSE) and `data_processed` (TRUE or FALSE)?
 #' Default is TRUE.
 #' (This is only possible if the given table contains a column plot_id,
 #' so this parameter should be put FALSE if this column is absent.)
-#' Must be FALSE if you want to load the table "plotinfo" itself.
-#' @param plottype Data of which 'plottype' (used method) should be retrieved?
+#' Must be FALSE if you want to load the table `plotinfo` itself.
+#' @param plottype Data of which `plottype` (used method) should be retrieved?
 #' Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
 #' (retrieve both circle plots and core areas) could be chosen.
 #'
-#' @return A dataframe with the specified table, default columns plottype,
-#' forest_reserve, survey_dendro/deadw/reg/veg (TRUE or FALSE) and
-#' data_processed (TRUE or FALSE).
+#' @return A dataframe with the specified table, default columns `plottype`,
+#' `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or FALSE) and
+#' `data_processed` (TRUE or FALSE).
 #' To be able to recall the version of the data, this dataframe contains
 #' an attribute with the version number of the release of forresdat from which
 #' the data are taken.

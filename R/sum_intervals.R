@@ -7,10 +7,10 @@
 #' @param var_min minimum of intervals to be summed up
 #' @param var_max maximum of intervals to be summed up
 #' @param transformation "log" if log transformation has to be performed on data
-#' @param na_rm should NA in var_min and var_max be ignored?
+#' @param na_rm should NA in `var_min` and `var_max` be ignored?
 #'
-#' @return dataframe with one record with columns n_obs, sum, lci (lower limit
-#' of confidence interval) and uci (upper limit of confidence interval)
+#' @return dataframe with one record with columns `n_obs`, `sum`, `lci` (lower
+#' limit of confidence interval) and `uci` (upper limit of confidence interval)
 #'
 #' @examples
 #' #see code of calculate_regeneration_plot_height()

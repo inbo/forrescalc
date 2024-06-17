@@ -12,10 +12,10 @@
 #'
 #' @param data_stems dataframe on stems (shoots and trees) as given from the
 #' first part of the function `compose_stem_data()`,
-#' with variables plot_id, tree_measure_id, period, species,
-#' dbh_mm, height_m, intact_snag, calc_height_m
+#' with variables `plot_id`, `tree_measure_id`, `period`, `species`,
+#' `dbh_mm`, `height_m`, `intact_snag`, `calc_height_m`
 #'
-#' @return Dataframe of stem data with vol_bole_m3 and vol_crown_m3 as
+#' @return Dataframe of stem data with `vol_bole_m3` and `vol_crown_m3` as
 #' extra variables
 #'
 #' @noRd

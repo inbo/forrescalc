@@ -6,7 +6,7 @@
 #' final part of a query.  This query can contain a join!
 #'
 #' @inheritParams load_data_dendrometry
-#' @param survey_name column name in table PlotDetails_xeSet that indicates if
+#' @param survey_name column name in table `PlotDetails_xeSet` that indicates if
 #' survey is done
 #'
 #' @importFrom assertthat assert_that

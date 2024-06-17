@@ -1,8 +1,8 @@
 #' check tables from fieldmap database for inconsistencies
 #'
-#' This function retrieves the important fields of tables Trees, Shoots,
-#' Deadwood, Regeneration, Regspecies, Vegetation, Herblayer, Plots and
-#' Plotdetails (of all periods) from the given database and
+#' This function retrieves the important fields of tables `Trees`, `Shoots`,
+#' `Deadwood`, `Regeneration`, `Regspecies`, `Vegetation`, `Herblayer`, `Plots`
+#' and `Plotdetails` (of all periods) from the given database and
 #' checks for missing data or wrong input.
 #'
 #' @inheritParams check_data_trees

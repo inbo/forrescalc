@@ -8,11 +8,11 @@
 #'
 #' @inheritParams calculate_vegetation
 #'
-#' @return dataframe with columns plot, subplot, date, year (year of main
-#' vegetation survey, possible deviating year of spring survey not taken into
-#' account), number_of_tree_species and min/max/mid cover of the different
-#' vegetation layers (moss, herb, shrub, tree), the waterlayer and since 2015
-#' also of the soildisturbance by game.
+#' @return dataframe with columns `plot`, `subplot`, `date`, `year` (year of
+#' main vegetation survey, possible deviating year of spring survey not taken
+#' into account), `number_of_tree_species` and min/max/mid cover of the
+#' different vegetation layers (moss, herb, shrub, tree), the `waterlayer` and
+#' since 2015 also of the `soildisturbance` by game.
 #'
 #' @examples
 #' library(forrescalc)

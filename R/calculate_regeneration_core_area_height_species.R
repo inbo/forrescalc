@@ -10,11 +10,11 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, species, year, height,
-#' nr_of_subplots_with_regeneration, perc_subplots_with_regeneration,
-#' approx_rubbing_damage_perc, mean_number_of_regeneration_ha,
-#' lci_number_of_regeneration_ha, uci_number_of_regeneration_ha and
-#' approx_nr_regeneration_ha.
+#' @return dataframe with columns `plot`, `species`, `year`, `height`,
+#' `nr_of_subplots_with_regeneration`, `perc_subplots_with_regeneration`,
+#' `approx_rubbing_damage_perc`, `mean_number_of_regeneration_ha`,
+#' `lci_number_of_regeneration_ha`, `uci_number_of_regeneration_ha` and
+#' `approx_nr_regeneration_ha.`
 #'
 #' @examples
 #' library(forrescalc)

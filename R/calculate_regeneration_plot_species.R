@@ -9,17 +9,19 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns plot, subplot, species, year, period,
-#' mean_number_established_ha, lci_number_established_ha,
-#' uci_number_established_ha,
-#' mean_number_seedlings_ha, lci_number_seedlings_ha,
-#' uci_number_seedlings_ha,
-#' mean_rubbing_damage_perc_established, lci_rubbing_damage_perc_established,
-#' uci_rubbing_damage_perc_established,
-#' mean_rubbing_damage_perc_seedlings, lci_rubbing_damage_perc_seedlings,
-#' uci_rubbing_damage_perc_seedlings,
-#' approx_nr_established_ha, approx_nr_seedlings_ha,
-#' approx_rubbing_damage_perc_established, approx_rubbing_damage_perc_seedlings.
+#' @return dataframe with columns `plot`, `subplot`, `species`, `year`,
+#' `period`, `mean_number_established_ha`, `lci_number_established_ha`,
+#' `uci_number_established_ha`,
+#' `mean_number_seedlings_ha`, `lci_number_seedlings_ha`,
+#' `uci_number_seedlings_ha`,
+#' `mean_rubbing_damage_perc_established`,
+#' `lci_rubbing_damage_perc_established`,
+#' `uci_rubbing_damage_perc_established`,
+#' `mean_rubbing_damage_perc_seedlings`, `lci_rubbing_damage_perc_seedlings`,
+#' `uci_rubbing_damage_perc_seedlings`,
+#' `approx_nr_established_ha`, `approx_nr_seedlings_ha`,
+#' `approx_rubbing_damage_perc_established`,
+#' `approx_rubbing_damage_perc_seedlings`.
 #'
 #' @examples
 #' library(forrescalc)
