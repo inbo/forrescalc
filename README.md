@@ -11,4 +11,4 @@ To install `forrescalc` from Github, start a new R session and run this code (be
 remotes::install_github("inbo/forrescalc", build_vignettes = TRUE)
 ```
 
-Some functions require local access to the github repository [forresdat](https://github.com/inbo/forresdat).
+Some functions require local access to the Github repository [forresdat](https://github.com/inbo/forresdat).

@@ -11,7 +11,7 @@
 #' results/tables should be saved
 #' @param metadata_path path including .xlsx file in which the metadata are
 #' stored
-#' @param push push commits directly to the remote on github?
+#' @param push push commits directly to the remote on Github?
 #' Default is FALSE (no). (This option can only be used with SSH.)
 #' @param strict keep default TRUE to update data without structural changes,
 #' change to FALSE only if tables are structurally changed

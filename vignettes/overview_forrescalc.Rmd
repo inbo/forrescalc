@@ -32,7 +32,7 @@ Installation of the package:
 remotes::install_github("inbo/forrescalc", build_vignettes = TRUE)
 ```
 
-Some functions require local access to the github repository [forresdat](https://github.com/inbo/forresdat).
+Some functions require local access to the Github repository [forresdat](https://github.com/inbo/forresdat).
 
 # Recommended use of the package
 
@@ -77,7 +77,7 @@ And there are also some functions that we thought to be useful (or user request 
 
 ## Save and retrieve data
 
-_NOTE: to be able to save/retrieve data to/from `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its github page](https://github.com/inbo/forresdat)._
+_NOTE: to be able to save/retrieve data to/from `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its Github page](https://github.com/inbo/forresdat)._
 
 With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_forresdat()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_forresdat()` (and other functions related to git) use the functionality of the [git2rdata](https://ropensci.github.io/git2rdata/) package.
 
