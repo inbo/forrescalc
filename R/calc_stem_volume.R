@@ -4,11 +4,11 @@
 #' in functions `calc_variables_stem_level()` and `calc_intact_deadwood()`.
 #' The volume of snags is calculated as a cilinder. This is a temporary
 #' solution, as the goal is to incorporate taper functions cfr FM-IA.
-#' Volume calculation as a truncated cone (1/3 x π x h x ( R² + R x r + r² ))
+#' Volume calculation as a truncated cone
+#' (\eqn{1/3 x π x h x ( R² + R x r + r² )})
 #' appears to be less accurate.
-#' (upper_diam_snag_mm = dbh_mm * (calc_height_m - height_m) / calc_height_m)
-#' (volume truncated cone = pi x height_m x
-#' (dbh_mm^2 + dbh_mm x upper_diam_snag_mm + upper_diam_snag_mm^2)/(3 x 2000^2))
+#' (\eqn{upper_diam_snag_mm = dbh_mm * (calc_height_m - height_m) / calc_height_m})
+#' (\eqn{volume truncated cone = pi x height_m x (dbh_mm^2 + dbh_mm x upper_diam_snag_mm + upper_diam_snag_mm^2)/(3 x 2000^2)})
 #'
 #' @param data_stems dataframe on stems (shoots and trees) as given from the
 #' first part of the function `compose_stem_data()`,
