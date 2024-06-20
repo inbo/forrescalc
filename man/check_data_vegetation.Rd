@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_vegetation.R
 \name{check_data_vegetation}
 \alias{check_data_vegetation}
-\title{check table `Vegetation` from fieldmap database for inconsistencies}
+\title{check table `Vegetation` from `Fieldmap` database for inconsistencies}
 \usage{
 check_data_vegetation(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the

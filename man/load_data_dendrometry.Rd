@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_dendrometry.R
 \name{load_data_dendrometry}
 \alias{load_data_dendrometry}
-\title{retrieve dendrometry data from fieldmap database}
+\title{retrieve dendrometry data from `Fieldmap` database}
 \usage{
 load_data_dendrometry(
   database,
@@ -13,7 +13,7 @@ load_data_dendrometry(
 )
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.

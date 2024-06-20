@@ -2,12 +2,12 @@
 % Please edit documentation in R/load_plotinfo.R
 \name{load_plotinfo}
 \alias{load_plotinfo}
-\title{retrieve generic plot data from fieldmap database}
+\title{retrieve generic plot data from `Fieldmap` database}
 \usage{
 load_plotinfo(database, plottype = NA, forest_reserve = NA, processed = TRUE)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -29,7 +29,7 @@ vegetation survey and (2) whether the data have been processed or not.
 }
 \description{
 This function queries the given database to retrieve additional data on plots
-to save in forresdat and link with the datasets that are saved there.
+to save in `forresdat` and link with the datasets that are saved there.
 }
 \examples{
 library(forrescalc)

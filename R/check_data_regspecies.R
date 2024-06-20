@@ -1,4 +1,4 @@
-#' check table `RegSpecies` from fieldmap database for inconsistencies
+#' check table `RegSpecies` from `Fieldmap` database for inconsistencies
 #'
 #' This function retrieves the important fields of tables `HeightClass` and
 #' `RegSpecies` (of all periods) from the given database and

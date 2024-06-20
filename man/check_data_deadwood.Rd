@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_deadwood.R
 \name{check_data_deadwood}
 \alias{check_data_deadwood}
-\title{check table Deadwood from fieldmap database for inconsistencies}
+\title{check table Deadwood from `Fieldmap` database for inconsistencies}
 \usage{
 check_data_deadwood(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the

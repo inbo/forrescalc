@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_herblayer.R
 \name{load_data_herblayer}
 \alias{load_data_herblayer}
-\title{retrieve species specific vegetation data from fieldmap database}
+\title{retrieve species specific vegetation data from `Fieldmap` database}
 \usage{
 load_data_herblayer(
   database,
@@ -12,7 +12,7 @@ load_data_herblayer(
 )
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.

@@ -1,9 +1,9 @@
-#' retrieve dendrometry data from fieldmap database
+#' retrieve dendrometry data from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve data on dendrometry
 #' (ready for use in `calculate_dendrometry()` function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
 #' @param plottype possibility to select only data for a certain plot type, e.g.
 #' 'CP' for Circular plot or 'CA' for Core area

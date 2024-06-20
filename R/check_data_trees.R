@@ -1,9 +1,9 @@
-#' check table `Trees` from fieldmap database for inconsistencies
+#' check table `Trees` from `Fieldmap` database for inconsistencies
 #'
 #' This function retrieves the important fields of table `Trees` (of all
 #' periods) from the given database and checks for missing data or wrong input.
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
 #' @param forest_reserve name of forest reserve for which the records in the
 #' database should be checked (defaults to "all")

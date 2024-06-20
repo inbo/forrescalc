@@ -2,13 +2,13 @@
 % Please edit documentation in R/check_trees_evolution.R
 \name{check_trees_evolution}
 \alias{check_trees_evolution}
-\title{check table `Trees` from fieldmap database for inconsistencies between
+\title{check table `Trees` from `Fieldmap` database for inconsistencies between
 periods}
 \usage{
 check_trees_evolution(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the

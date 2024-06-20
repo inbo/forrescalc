@@ -1,4 +1,4 @@
-#' check tables from fieldmap database for inconsistencies
+#' check tables from `Fieldmap` database for inconsistencies
 #'
 #' This function retrieves the important fields of tables `Trees`, `Shoots`,
 #' `Deadwood`, `Regeneration`, `Regspecies`, `Vegetation`, `Herblayer`, `Plots`

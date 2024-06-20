@@ -16,7 +16,7 @@ create_statistics(
 }
 \arguments{
 \item{dataset}{dataset with data to be summarised with at least columns year
-and period, e.g. table from git repository forresdat}
+and period, e.g. table from git repository `forresdat`}
 
 \item{level}{grouping variables that determine on which level the values
 should be calculated (e.g. forest_reserve, year and species), given as a
@@ -35,7 +35,7 @@ If TRUE, levels without any non NA data are kept (resulting in NA values).}
 including columns `var_name` (= name for output), `var_min` and `var_max`
 (= names for minimum and maximum value in input dataset), and
 `preferred_transformation` (= "log" if log-transformation is desired).
-Defaults to a table containing all interval variables in forresdat,
+Defaults to a table containing all interval variables in `forresdat`,
 where log transformation is applied in variables where class widths differ.
 (In cover data in the Longo scale, log transformation is only applied in
 variables where most observations have a low coverage, e.g. moss cover,
@@ -50,7 +50,7 @@ the chosen variables, and the columns `n_obs`, `mean`, `variance`,
 }
 \description{
 This function calculates statistics for the given data
-(e.g. from the git-repository forresdat) on the specified level
+(e.g. from the git-repository `forresdat`) on the specified level
 (e.g. forest_reserve, period and species) and for the specified variables
 (e.g. basal_area and volume).
 Calculated statistics include number of observations, mean, variance
@@ -77,9 +77,9 @@ In `interval_information` it can be specified if a logarithmic transformation
 is needed to compensate of unequal interval widths.
 In this case, mean and the confidence interval are transformed back,
 but variance is not, as this result would be confusing rather than useful.
-For typical forresdat variables, the default value of `interval_information`
+For typical `forresdat` variables, the default value of `interval_information`
 can be used and in this case, the variable mentioned in `variables` should
-be named after the values in forresdat, omitting `min_`, `_min`, `max_` or
+be named after the values in `forresdat`, omitting `min_`, `_min`, `max_` or
 `_max` (see example on interval data).
 }
 \examples{

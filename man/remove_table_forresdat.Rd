@@ -2,20 +2,20 @@
 % Please edit documentation in R/remove_table_forresdat.R
 \name{remove_table_forresdat}
 \alias{remove_table_forresdat}
-\title{remove table(s) from data package forresdat}
+\title{remove table(s) from data package `forresdat`}
 \usage{
 remove_table_forresdat(tables, repo_path, push = FALSE, branch = "develop")
 }
 \arguments{
 \item{tables}{vector with table names of tables that should be removed}
 
-\item{repo_path}{name and path of local forresdat repository in which
+\item{repo_path}{name and path of local `forresdat` repository in which
 results/tables should be saved}
 
-\item{push}{push commits directly to the remote on Github?
+\item{push}{push commits directly to the remote on GitHub?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
-\item{branch}{branch from repository forresdat to which the new version
+\item{branch}{branch from repository `forresdat` to which the new version
 should be committed.
 Default is 'develop'.}
 }
@@ -23,7 +23,7 @@ Default is 'develop'.}
 No value is returned, the tables are removed from the git repository.
 }
 \description{
-This function removes one or more tables from the data package forresdat
+This function removes one or more tables from the data package `forresdat`
 by making a commit on a local clone of the git repository.
 While removing the table(s), it also updates the metadata (`.json` file)
 }

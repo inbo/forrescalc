@@ -2,12 +2,12 @@
 % Please edit documentation in R/load_data_shoots.R
 \name{load_data_shoots}
 \alias{load_data_shoots}
-\title{retrieve data on shoots from fieldmap database}
+\title{retrieve data on shoots from `Fieldmap` database}
 \usage{
 load_data_shoots(database, extra_variables = FALSE)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{extra_variables}{Should additional variables such as `iufro_hght`,

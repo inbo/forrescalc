@@ -2,7 +2,7 @@
 % Please edit documentation in R/from_forresdat_to_access.R
 \name{from_forresdat_to_access}
 \alias{from_forresdat_to_access}
-\title{copy table(s) from git repository forresdat to access database}
+\title{copy table(s) from git repository `forresdat` to access database}
 \usage{
 from_forresdat_to_access(
   tables,
@@ -38,7 +38,7 @@ Must be FALSE if you want to load the table `plotinfo` itself.}
 No value is returned, the tables are saved in the access database.
 }
 \description{
-This function loads one or more tables from git repository forresdat
+This function loads one or more tables from git repository `forresdat`
 and saves them in an Access (or SQLite) database.
 }
 \examples{

@@ -1,11 +1,11 @@
-#' check table `Trees` from fieldmap database for inconsistencies between
+#' check table `Trees` from `Fieldmap` database for inconsistencies between
 #' periods
 #'
 #' This function retrieves the important fields of table `Trees` (of all
 #' periods) from the given database and checks for anomalies between periods,
 #' such as zombies, shifters, outlier_height, outlier_diameter or walkers.
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
 #' @inheritParams check_data_trees
 #'

@@ -1,4 +1,4 @@
-#' retrieves data on logs from fieldmap database
+#' retrieves data on logs from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve data on deadwood (logs)
 #' (ready for use in `calculate_dendrometry()` function).

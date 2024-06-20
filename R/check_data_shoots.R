@@ -1,4 +1,4 @@
-#' check table `Shoots` from fieldmap database for inconsistencies
+#' check table `Shoots` from `Fieldmap` database for inconsistencies
 #'
 #' This function retrieves the important fields of table `Shoots` (of all
 #' periods) from the given database and checks for missing data or wrong input.

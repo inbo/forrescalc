@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_deadwood.R
 \name{load_data_deadwood}
 \alias{load_data_deadwood}
-\title{retrieves data on logs from fieldmap database}
+\title{retrieves data on logs from `Fieldmap` database}
 \usage{
 load_data_deadwood(
   database,
@@ -13,7 +13,7 @@ load_data_deadwood(
 )
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.

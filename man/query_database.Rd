@@ -14,7 +14,7 @@ query_database(
 )
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
 structure) including path}
 
 \item{query}{query that is adapted to be used in different periods,

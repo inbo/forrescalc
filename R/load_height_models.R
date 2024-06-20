@@ -1,7 +1,8 @@
-#' retrieve height model data from git repository forresheights
+#' retrieve height model data from git repository `forresheights`
 #'
 #' This function groups the information on height models from the `.csv` files
-#' in the git repository [forresheights](https://github.com/inbo/forresheights)
+#' in the git repository
+#' [`forresheights`](https://github.com/inbo/forresheights)
 #' together in one dataframe.
 #'
 #' @return Dataframe with height model data

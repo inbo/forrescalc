@@ -1,16 +1,16 @@
-#' Download datapackage forresdat to local temp
+#' Download data package `forresdat` to local temp
 #'
 #' This internal helper function checks first if the local temp folder already
-#' contains a downloaded version of forresdat,
+#' contains a downloaded version of `forresdat`,
 #' and if this version is still the same as the latest release version on
 #' GitHub.
-#' If this is not the case, it downloads the latest version of datapackage
-#' forresdat.
+#' If this is not the case, it downloads the latest version of data package
+#' `forresdat`.
 #' This function is used in `read_forresdat()` and `read_forresdat_table()`
 #' to avoid unnecessarily downloading and to keep the path (and preparation
 #' steps) in one function.
 #'
-#' @return The path to the local version of the datapackage forresdat as a
+#' @return The path to the local version of the data package `forresdat` as a
 #' string, with attribute 'version' giving the version number of the release.
 #'
 #' @noRd

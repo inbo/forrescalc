@@ -2,8 +2,8 @@
 #'
 #' This function calculates the bole and crown volume to be used
 #' in functions `calc_variables_stem_level()` and `calc_intact_deadwood()`.
-#' solution, as the goal is to incorporate taper functions cfr FM-IA.
 #' The volume of snags is calculated as a cylinder. This is a temporary
+#' solution, as the goal is to incorporate taper functions cfr. FM-IA.
 #' Volume calculation as a truncated cone
 #' (\eqn{1/3 x π x h x ( R² + R x r + r² )})
 #' appears to be less accurate.

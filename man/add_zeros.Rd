@@ -37,7 +37,7 @@ If no variable name is given (default NA), all added records get zero values.}
 should records with NA values be removed after adding the records with zero
 values for all combinations?
 In some cases, e.g. if no species are observed in a plot, the dataset in
-forresdat has records with species NA and zeros for measured variables
+`forresdat` has records with species NA and zeros for measured variables
 to make sure zero values for all species are added for each plot when using
 this function.
 But after adding zero records for all missing species, the records with
@@ -72,7 +72,7 @@ added automatically;
 at least one record should be added manually for this value
 (e.g. a plot or `diameterclass` that doesn't exist in the given dataset,
 but has to be included in the output).
-The data in forresdat already contain one record with zeros per plot
+The data in `forresdat` already contain one record with zeros per plot
 (with NA value for `species` and/or `diameterclass`), resulting in records to
 be added automatically if 'plot_id' is added to `comb_vars`.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_forresdat_table.R
 \name{read_forresdat_table}
 \alias{read_forresdat_table}
-\title{load tables from git repository forresdat}
+\title{load tables from git repository `forresdat`}
 \usage{
 read_forresdat_table(
   tablename,
@@ -30,14 +30,14 @@ A dataframe with the specified table, default columns `plottype`,
 `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or FALSE) and
 `data_processed` (TRUE or FALSE).
 To be able to recall the version of the data, this dataframe contains
-an attribute with the version number of the release of forresdat from which
+an attribute with the version number of the release of `forresdat` from which
 the data are taken.
 }
 \description{
-This function reads a table in `.csv` format from git repository forresdat
-(and saves the forresdat data to a local temp directory to avoid unneeded
+This function reads a table in `.csv` format from git repository `forresdat`
+(and saves the `forresdat` data to a local temp directory to avoid unneeded
 downloading in the future).
-Data available in forresdat only contains observations, so no records with
+Data available in `forresdat` only contains observations, so no records with
 zero values are added for for instance species that were not observed and
 hence absent.
 These zero value records can easily be added by using the function

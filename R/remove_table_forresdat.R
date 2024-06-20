@@ -1,11 +1,11 @@
-#' remove table(s) from data package forresdat
+#' remove table(s) from data package `forresdat`
 #'
-#' This function removes one or more tables from the data package forresdat
+#' This function removes one or more tables from the data package `forresdat`
 #' by making a commit on a local clone of the git repository.
 #' While removing the table(s), it also updates the metadata (`.json` file)
 #'
 #' @param tables vector with table names of tables that should be removed
-#' @param repo_path name and path of local forresdat repository in which
+#' @param repo_path name and path of local `forresdat` repository in which
 #' results/tables should be saved
 #' @inheritParams save_results_forresdat
 #'
