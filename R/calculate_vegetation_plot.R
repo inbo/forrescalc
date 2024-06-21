@@ -21,7 +21,7 @@
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
 #' data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
-#' calc_vegetation_plot(data_vegetation, data_herblayer)
+#' calc_veg_plot(data_vegetation, data_herblayer)
 #'
 #' @export
 #'
@@ -29,7 +29,7 @@
 #' summarise ungroup
 #' @importFrom rlang .data
 #'
-calc_vegetation_plot <- function(data_vegetation, data_herblayer) {
+calc_veg_plot <- function(data_vegetation, data_herblayer) {
   attributes <-
     compare_attributes(
       data_vegetation, data_herblayer, "data_vegetation", "data_herblayer"
