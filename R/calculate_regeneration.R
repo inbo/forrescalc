@@ -41,8 +41,7 @@ calculate_regeneration <- function(data_regeneration) {
   data_regeneration_ca <- data_regeneration %>%
     filter(.data$plottype == "CA")
   by_ca_species <- calc_reg_core_area_species(data_regeneration_ca)
-  by_ca_height_species <-
-    calc_reg_core_area_height_species(data_regeneration_ca)
+  by_ca_height_species <- calc_reg_core_area_height_spec(data_regeneration_ca)
 
   return(
     list(
