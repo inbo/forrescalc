@@ -7,8 +7,8 @@
 select_for_das_indicator(data_to_select, grouping_vars)
 }
 \arguments{
-\item{data_to_select}{dataframe with at least all `grouping_vars` and the
-variables `dbh_mm`, `species`, `basal_area_alive_m2_ha`, and as records
+\item{data_to_select}{dataframe with at least all \code{grouping_vars} and the
+variables \code{dbh_mm}, \code{species}, \code{basal_area_alive_m2_ha}, and as records
 preferably only living trees (they are not filtered out here but they should
 not be in here to meet the requirements of the DAS indicator)}
 
@@ -16,7 +16,7 @@ not be in here to meet the requirements of the DAS indicator)}
 the selection steps.}
 }
 \value{
-dataframe with the `grouping_vars` in which records are removed that
+dataframe with the \code{grouping_vars} in which records are removed that
 do not meet the above described criteria
 }
 \description{
@@ -25,9 +25,9 @@ namely selecting the relevant forest reserves or plots based on
 the following criteria:
 
 \itemize{
- \item test for development stages: average diameter (`DBH`) between 200 and 700 mm
- \item test for desired tree species: > 5 \% of the proportion of the basal area should contain trees from the species groups beech, oak, ash/maple or pioneers (birch, willow, esp or rowan)
- \item exclude homogeneous stands: basal area proportion of each tree species group < 98 \%
+\item test for development stages: average diameter (\code{DBH}) between 200 and 700 mm
+\item test for desired tree species: > 5 \\% of the proportion of the basal area should contain trees from the species groups beech, oak, ash/maple or pioneers (birch, willow, esp or rowan)
+\item exclude homogeneous stands: basal area proportion of each tree species group < 98 \\%
 }
 }
 \examples{

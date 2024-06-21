@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_dendrometry.R
 \name{load_data_dendrometry}
 \alias{load_data_dendrometry}
-\title{retrieve dendrometry data from `Fieldmap` database}
+\title{retrieve dendrometry data from \code{Fieldmap} database}
 \usage{
 load_data_dendrometry(
   database,
@@ -13,7 +13,7 @@ load_data_dendrometry(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -25,8 +25,8 @@ by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
 
 \item{extra_variables}{Should additional variables such as
-`x_m`, `y_m`, `coppice_id`, `iufro_hght`, `iufro_vital`, `iufro_socia`,
-`remark` and `common_remark` be added?
+\code{x_m}, \code{y_m}, \code{coppice_id}, \code{iufro_hght}, \code{iufro_vital}, \code{iufro_socia},
+\code{remark} and \code{common_remark} be added?
 Default is FALSE (no).}
 
 \item{processed}{Should only processed and surveyed data be added?
@@ -37,7 +37,7 @@ Dataframe with dendrometry data
 }
 \description{
 This function queries the given database to retrieve data on dendrometry
-(ready for use in `calculate_dendrometry()` function).
+(ready for use in \code{calculate_dendrometry()} function).
 }
 \examples{
 library(forrescalc)

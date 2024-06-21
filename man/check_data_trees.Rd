@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_trees.R
 \name{check_data_trees}
 \alias{check_data_trees}
-\title{check table `Trees` from `Fieldmap` database for inconsistencies}
+\title{check table \code{Trees} from \code{Fieldmap} database for inconsistencies}
 \usage{
 check_data_trees(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the
@@ -15,11 +15,11 @@ database should be checked (defaults to "all")}
 }
 \value{
 Dataframe with inconsistent data with ID's and additional columns
-`aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
+\code{aberrant_field} (which column is wrong) and \code{anomaly} (what is wrong with
 the input)
 }
 \description{
-This function retrieves the important fields of table `Trees` (of all
+This function retrieves the important fields of table \code{Trees} (of all
 periods) from the given database and checks for missing data or wrong input.
 }
 \examples{

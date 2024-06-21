@@ -14,24 +14,24 @@ query_database(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{query}{query that is adapted to be used in different periods,
 in which the following parameters can be used: \itemize{
-  \item `\%1$d` : replaced by the period number,
-  \item `\%2$s` : replaced by an empty string in period 1 and by `_?eSet`
-  in all other periods (with ? the period)
-  \item `\%3$s` : replaced by the string given in argument `selection`
-  \item `\%4$s` : replaced by the string given in argument `add_fields`
-  \item `\%5$s` : replaced by the string given in argument `conjunction`
+\item \verb{\\\%1$d} : replaced by the period number,
+\item \verb{\\\%2$s} : replaced by an empty string in period 1 and by \verb{_?eSet}
+in all other periods (with ? the period)
+\item \verb{\\\%3$s} : replaced by the string given in argument \code{selection}
+\item \verb{\\\%4$s} : replaced by the string given in argument \code{add_fields}
+\item \verb{\\\%5$s} : replaced by the string given in argument \code{conjunction}
 }}
 
-\item{selection}{string that will be added to `\%3$s` in the query}
+\item{selection}{string that will be added to \verb{\\\%3$s} in the query}
 
-\item{add_fields}{string that will be added to `\%4$s` in the query}
+\item{add_fields}{string that will be added to \verb{\\\%4$s} in the query}
 
-\item{conjunction}{string that will be added to `\%5$s` in the query}
+\item{conjunction}{string that will be added to \verb{\\\%5$s} in the query}
 
 \item{n_periods}{highest period number that is present in the database
 (change default here when a new period is added to the database)}

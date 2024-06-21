@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_fmdb.R
 \name{check_data_fmdb}
 \alias{check_data_fmdb}
-\title{check tables from `Fieldmap` database for inconsistencies}
+\title{check tables from \code{Fieldmap} database for inconsistencies}
 \usage{
 check_data_fmdb(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the
@@ -16,13 +16,13 @@ database should be checked (defaults to "all")}
 \value{
 Dataframe with inconsistent data with layer, ID's and
 additional columns
-`aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
+\code{aberrant_field} (which column is wrong) and \code{anomaly} (what is wrong with
 the input)
 }
 \description{
-This function retrieves the important fields of tables `Trees`, `Shoots`,
-`Deadwood`, `Regeneration`, `Regspecies`, `Vegetation`, `Herblayer`, `Plots`
-and `Plotdetails` (of all periods) from the given database and
+This function retrieves the important fields of tables \code{Trees}, \code{Shoots},
+\code{Deadwood}, \code{Regeneration}, \code{Regspecies}, \code{Vegetation}, \code{Herblayer}, \code{Plots}
+and \code{Plotdetails} (of all periods) from the given database and
 checks for missing data or wrong input.
 }
 \examples{

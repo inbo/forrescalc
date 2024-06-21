@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_deadwood.R
 \name{load_data_deadwood}
 \alias{load_data_deadwood}
-\title{retrieves data on logs from `Fieldmap` database}
+\title{retrieves data on logs from \code{Fieldmap} database}
 \usage{
 load_data_deadwood(
   database,
@@ -13,7 +13,7 @@ load_data_deadwood(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -36,7 +36,7 @@ Dataframe with data on logs
 }
 \description{
 This function queries the given database to retrieve data on deadwood (logs)
-(ready for use in `calculate_dendrometry()` function).
+(ready for use in \code{calculate_dendrometry()} function).
 }
 \examples{
 library(forrescalc)

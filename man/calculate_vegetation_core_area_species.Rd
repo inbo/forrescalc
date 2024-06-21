@@ -11,13 +11,13 @@ calculate_vegetation_core_area_species(data_herblayer)
 ('herb layer') with variables ...}
 }
 \value{
-dataframe with columns `plot`, `species`, `year` (year of recording
+dataframe with columns \code{plot}, \code{species}, \code{year} (year of recording
 of specific species, possibly different for spring flora),
-`number_of_subplots` (= number of subplots where the species occurs),
-`perc_of_subplots` (= percentage of subplots with species),
-`number_of_subplots_browsed`, `perc_of_subplots_browsed`,
-`number_of_subplots_seriously_browsed`, `perc_of_subplots_seriously_browsed`
-and `mean_coverage_class_average_perc`
+\code{number_of_subplots} (= number of subplots where the species occurs),
+\code{perc_of_subplots} (= percentage of subplots with species),
+\code{number_of_subplots_browsed}, \code{perc_of_subplots_browsed},
+\code{number_of_subplots_seriously_browsed}, \code{perc_of_subplots_seriously_browsed}
+and \code{mean_coverage_class_average_perc}
 }
 \description{
 This function calculates for each plot, species and year the percentage of
@@ -28,7 +28,7 @@ seriously browsed, which is reported if the damage is more than 1/20.
 This calculation is designed for core areas, that consist of different
 subplots.
 Year refers to year of recording of that specific species
-(source is table `data_herblayer`), and is possibly different for
+(source is table \code{data_herblayer}), and is possibly different for
 spring flora than for other species in the same subplot.
 }
 \examples{

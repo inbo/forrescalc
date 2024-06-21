@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_regspecies.R
 \name{check_data_regspecies}
 \alias{check_data_regspecies}
-\title{check table `RegSpecies` from `Fieldmap` database for inconsistencies}
+\title{check table \code{RegSpecies} from \code{Fieldmap} database for inconsistencies}
 \usage{
 check_data_regspecies(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the
@@ -15,12 +15,12 @@ database should be checked (defaults to "all")}
 }
 \value{
 Dataframe with inconsistent data with ID's and additional columns
-`aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
+\code{aberrant_field} (which column is wrong) and \code{anomaly} (what is wrong with
 the input)
 }
 \description{
-This function retrieves the important fields of tables `HeightClass` and
-`RegSpecies` (of all periods) from the given database and
+This function retrieves the important fields of tables \code{HeightClass} and
+\code{RegSpecies} (of all periods) from the given database and
 checks for missing data or wrong input.
 }
 \examples{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_results_forresdat.R
 \name{save_results_forresdat}
 \alias{save_results_forresdat}
-\title{save results of calculations in git repository `forresdat`}
+\title{save results of calculations in git repository \code{forresdat}}
 \usage{
 save_results_forresdat(
   results,
@@ -17,7 +17,7 @@ save_results_forresdat(
 \item{results}{results from calculations in package forrescalc as a
 named list of dataframes}
 
-\item{repo_path}{name and path of local `forresdat` repository in which
+\item{repo_path}{name and path of local \code{forresdat} repository in which
 results/tables should be saved}
 
 \item{metadata_path}{path including .xlsx file in which the metadata are
@@ -30,7 +30,7 @@ Default is FALSE (no). (This option can only be used with SSH.)}
 change to FALSE only if tables are structurally changed
 (e.g. additional column, change in sorting order,...)}
 
-\item{branch}{branch from repository `forresdat` to which the new version
+\item{branch}{branch from repository \code{forresdat} to which the new version
 should be committed.
 Default is 'develop'.}
 }
@@ -39,7 +39,7 @@ No value is returned, data are saved in the specified git repository
 }
 \description{
 This function saves the results from calculations by the forrescalc package
-(or any other named list with dataframes) in git repository `forresdat`.
+(or any other named list with dataframes) in git repository \code{forresdat}.
 List item names will be used to name each of the tables, which contain
 as a content the different dataframes.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_forresdat_table.R
 \name{read_forresdat_table}
 \alias{read_forresdat_table}
-\title{load tables from git repository `forresdat`}
+\title{load tables from git repository \code{forresdat}}
 \usage{
 read_forresdat_table(
   tablename,
@@ -13,36 +13,36 @@ read_forresdat_table(
 \arguments{
 \item{tablename}{name of the table that should be read}
 
-\item{join_plotinfo}{should table `plotinfo` be joined to the chosen table to
-add columns `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or
-FALSE) and `data_processed` (TRUE or FALSE)?
+\item{join_plotinfo}{should table \code{plotinfo} be joined to the chosen table to
+add columns \code{forest_reserve}, \code{survey_dendro}/\code{deadw}/\code{reg}/\code{veg} (TRUE or
+FALSE) and \code{data_processed} (TRUE or FALSE)?
 Default is TRUE.
 (This is only possible if the given table contains a column plot_id,
 so this parameter should be put FALSE if this column is absent.)
-Must be FALSE if you want to load the table `plotinfo` itself.}
+Must be FALSE if you want to load the table \code{plotinfo} itself.}
 
-\item{plottype}{Data of which `plottype` (used method) should be retrieved?
+\item{plottype}{Data of which \code{plottype} (used method) should be retrieved?
 Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
 (retrieve both circle plots and core areas) could be chosen.}
 }
 \value{
-A dataframe with the specified table, default columns `plottype`,
-`forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or FALSE) and
-`data_processed` (TRUE or FALSE).
+A dataframe with the specified table, default columns \code{plottype},
+\code{forest_reserve}, \code{survey_dendro}/\code{deadw}/\code{reg}/\code{veg} (TRUE or FALSE) and
+\code{data_processed} (TRUE or FALSE).
 To be able to recall the version of the data, this dataframe contains
-an attribute with the version number of the release of `forresdat` from which
+an attribute with the version number of the release of \code{forresdat} from which
 the data are taken.
 }
 \description{
-This function reads a table in `.csv` format from git repository `forresdat`
-(and saves the `forresdat` data to a local temp directory to avoid unneeded
+This function reads a table in \code{.csv} format from git repository \code{forresdat}
+(and saves the \code{forresdat} data to a local temp directory to avoid unneeded
 downloading in the future).
-Data available in `forresdat` only contains observations, so no records with
+Data available in \code{forresdat} only contains observations, so no records with
 zero values are added for for instance species that were not observed and
 hence absent.
 These zero value records can easily be added by using the function
-`add_zeros()`.
-To load table `plotinfo`, set argument `join_plotinfo = FALSE`.
+\code{add_zeros()}.
+To load table \code{plotinfo}, set argument \code{join_plotinfo = FALSE}.
 }
 \examples{
 library(forrescalc)

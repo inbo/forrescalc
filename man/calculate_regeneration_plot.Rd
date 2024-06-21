@@ -8,25 +8,25 @@ calculate_regeneration_plot(data_regeneration)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
-`plot_id`, `plottype`, `subplot_id`, `height_class`, `species`,
-`nr_of_regeneration`, `rubbing_damage_number`, `period`, `year`, `subcircle`,
-`plotarea_ha`, `min_number_of_regeneration` and `max_number_of_regeneration`.}
+\code{plot_id}, \code{plottype}, \code{subplot_id}, \code{height_class}, \code{species},
+\code{nr_of_regeneration}, \code{rubbing_damage_number}, \code{period}, \code{year}, \code{subcircle},
+\code{plotarea_ha}, \code{min_number_of_regeneration} and \code{max_number_of_regeneration}.}
 }
 \value{
-dataframe with columns `plot`, `subplot`, `year`, `period`,
-`number_of_tree_species`, `nr_of_tree_species_established`,
-`mean_number_established_ha`, `lci_number_established_ha`,
-`uci_number_established_ha`,
-`mean_number_seedlings_ha`, `lci_number_seedlings_ha`,
-`uci_number_seedlings_ha`,
-`mean_rubbing_damage_perc_established`,
-`lci_rubbing_damage_perc_established`,
-`uci_rubbing_damage_perc_established`,
-`mean_rubbing_damage_perc_seedlings`, `lci_rubbing_damage_perc_seedlings`,
-`uci_rubbing_damage_perc_seedlings`,
-`approx_nr_established_ha`, `approx_nr_seedlings_ha`,
-`approx_rubbing_damage_perc_established`,
-`approx_rubbing_damage_perc_seedlings`.
+dataframe with columns \code{plot}, \code{subplot}, \code{year}, \code{period},
+\code{number_of_tree_species}, \code{nr_of_tree_species_established},
+\code{mean_number_established_ha}, \code{lci_number_established_ha},
+\code{uci_number_established_ha},
+\code{mean_number_seedlings_ha}, \code{lci_number_seedlings_ha},
+\code{uci_number_seedlings_ha},
+\code{mean_rubbing_damage_perc_established},
+\code{lci_rubbing_damage_perc_established},
+\code{uci_rubbing_damage_perc_established},
+\code{mean_rubbing_damage_perc_seedlings}, \code{lci_rubbing_damage_perc_seedlings},
+\code{uci_rubbing_damage_perc_seedlings},
+\code{approx_nr_established_ha}, \code{approx_nr_seedlings_ha},
+\code{approx_rubbing_damage_perc_established},
+\code{approx_rubbing_damage_perc_seedlings}.
 }
 \description{
 This function calculates for each plot and year the number of species, total

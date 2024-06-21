@@ -7,16 +7,16 @@
 compare_periods_per_plot(dataset, measure_vars, replace_na_in_vars = NA)
 }
 \arguments{
-\item{dataset}{dataframe with values for each `period`, `plot` and `year`,
-in addition to grouping variables and `measure_vars`}
+\item{dataset}{dataframe with values for each \code{period}, \code{plot} and \code{year},
+in addition to grouping variables and \code{measure_vars}}
 
 \item{measure_vars}{column names of variables that should be compared
 between periods (including year)}
 
-\item{replace_na_in_vars}{column names of variables (`measure_vars`)
+\item{replace_na_in_vars}{column names of variables (\code{measure_vars})
 in which NA should be replaced by 0 in case at least one record is measured
-in the same `plot_id` in the same `period`.
-Similar to function `add_zeros()`, this argument allows to add zeros to
+in the same \code{plot_id} in the same \code{period}.
+Similar to function \code{add_zeros()}, this argument allows to add zeros to
 end up with records for all species or heights in which measures were taken,
 even if this specific species or height was absent in the period (and thus
 the tree volume or number of trees being 0 for all periods and plots
@@ -28,20 +28,20 @@ records) or id's referring to coded tables.
 It is useless to use this argument if only one result per plot is given.}
 }
 \value{
-dataframe with columns `plot`, `year_diff`, `n_years`, grouping
-variables and differences between periods for each column of `measure_vars`
+dataframe with columns \code{plot}, \code{year_diff}, \code{n_years}, grouping
+variables and differences between periods for each column of \code{measure_vars}
 }
 \description{
 This function compares for each plot (and other provided variables) the
 differences between periods/years for the column names given in parameter
-`measure_vars`. It gives results for differences between subsequent measures
-(based on `period`) and between the last and the first measure.
+\code{measure_vars}. It gives results for differences between subsequent measures
+(based on \code{period}) and between the last and the first measure.
 All column names of the dataset that are not added to parameter
-`measure_vars`,
-are considered as grouping variables, except for `period`.
+\code{measure_vars},
+are considered as grouping variables, except for \code{period}.
 If the result is not as expected,
 please verify that the dataset only consists of grouping variables,
-variables added to `measure_vars` and `period`.
+variables added to \code{measure_vars} and \code{period}.
 }
 \examples{
 library(forrescalc)

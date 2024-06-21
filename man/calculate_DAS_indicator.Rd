@@ -7,14 +7,14 @@
 calculate_das_indicator(data_dendro_calc, na_rm = FALSE)
 }
 \arguments{
-\item{data_dendro_calc}{dataframe on tree measures with variables `plot_id`,
-`plottype`, `tree_measure_id`, `date_dendro`, `dbh_mm`, `height_m`,
-`species`, `alive_dead`, `decaystage`, `vol_tot_m3`, `basal_area_m2`,
-`period`, `old_id`, `year`, `subcircle`, `plotarea_ha`,...
-(output of function `calc_variables_tree_level()`)}
+\item{data_dendro_calc}{dataframe on tree measures with variables \code{plot_id},
+\code{plottype}, \code{tree_measure_id}, \code{date_dendro}, \code{dbh_mm}, \code{height_m},
+\code{species}, \code{alive_dead}, \code{decaystage}, \code{vol_tot_m3}, \code{basal_area_m2},
+\code{period}, \code{old_id}, \code{year}, \code{subcircle}, \code{plotarea_ha},...
+(output of function \code{calc_variables_tree_level()})}
 
 \item{na_rm}{Ignore records with no value? Default is FALSE, so no records
-will be ignored unless it is explicitly mentioned by `na.rm = TRUE`}
+will be ignored unless it is explicitly mentioned by \code{na.rm = TRUE}}
 }
 \value{
 dataframe with results for DAS indicator on forest level (?)
@@ -27,9 +27,9 @@ First the relevant forest reserves are selected based on the following
 criteria:
 
 \itemize{
- \item test for development stages: average diameter (`DBH`) between 200 and 700 mm
- \item test for desired tree species: > 5 \% of the proportion of the basal area should contain trees from the species groups beech, oak, ash/maple or pioneers (birch, willow, esp or rowan)
- \item exclude homogeneous stands: basal area proportion of each tree species group < 98 \%
+\item test for development stages: average diameter (\code{DBH}) between 200 and 700 mm
+\item test for desired tree species: > 5 \\% of the proportion of the basal area should contain trees from the species groups beech, oak, ash/maple or pioneers (birch, willow, esp or rowan)
+\item exclude homogeneous stands: basal area proportion of each tree species group < 98 \\%
 }
 
 Second, within the forest reserves, relevant plots are selected following the above criteria (so same criteria but different level).
@@ -38,9 +38,11 @@ And finally, forest reserves with a total studied area of less than 0.3 ha are r
 
 For the selected forest reserves and plots, the following calculations are made:
 \itemize{
- \item arithmetic average of basal area and basal area proportion of the tree species groups for each forest reserve
- \item yearly change of basal area for each forest reserve: $d = (BA_t1 / BA_t0)^(1 / (t1 - t0)) - 1$ with \eqn{d} = yearly change in \%, \eqn{BA_t1} = average basal area at time 1, \eqn{BA_t0} = average basal area at time 0 and \eqn{t1 - t0} = number of years between time 1 and time 0
- \item yearly change of basal area proportion for each forest reserve: \eqn{d = (pBA_t1 / pBA_t0)^(1 / (t1 - t0)) - 1} with \eqn{d} = yearly change in \%, \eqn{pBA_t1} = average proportional basal area at time 1, \eqn{BA_t0} = average proportional basal area at time 0 and \eqn{t1 - t0} = number of years between time 1 and time 0
+\item arithmetic average of basal area and basal area proportion of the tree species groups for each forest reserve
+\item yearly change of basal area for each forest reserve: \eqn{d = (BA_t1 / BA_t0)^(1 / (t1 - t0)) - 1}
+with \eqn{d} = yearly change in \%, \eqn{BA_t1} = average basal area at time 1, \eqn{BA_t0} = average basal area at time 0 and \eqn{t1 - t0} = number of years between time 1 and time 0
+\item yearly change of basal area proportion for each forest reserve: \eqn{d = (pBA_t1 / pBA_t0)^(1 / (t1 - t0)) - 1}
+with \eqn{d} = yearly change in \%, \eqn{pBA_t1} = average proportional basal area at time 1, \eqn{BA_t0} = average proportional basal area at time 0 and \eqn{t1 - t0} = number of years between time 1 and time 0
 }
 }
 \examples{

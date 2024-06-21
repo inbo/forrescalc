@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_regeneration.R
 \name{load_data_regeneration}
 \alias{load_data_regeneration}
-\title{retrieve regeneration data from `Fieldmap` database}
+\title{retrieve regeneration data from \code{Fieldmap} database}
 \usage{
 load_data_regeneration(
   database,
@@ -12,7 +12,7 @@ load_data_regeneration(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -31,7 +31,7 @@ Dataframe with regeneration data
 }
 \description{
 This function queries the given database to retrieve data on regeneration
-(ready for use in `calculate_regeneration()` function).
+(ready for use in \code{calculate_regeneration()} function).
 }
 \examples{
 library(forrescalc)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/remove_last_commit_forresdat.R
 \name{remove_last_commit_forresdat}
 \alias{remove_last_commit_forresdat}
-\title{remove last local change from git repository `forresdat`}
+\title{remove last local change from git repository \code{forresdat}}
 \usage{
 remove_last_commit_forresdat(repo_path)
 }
@@ -18,7 +18,7 @@ This function removes the last commit from the active branch of the
 specified git repository. ONLY USE THIS FUNCTION IF YOUR COMMIT IS
 NOT YET PUSHED TO THE REMOTE!!! This function is meant for users that
 are not familiar with Git to easily remove an automatically generated
-commit in `forresdat` after they discovered mistakes in it.
+commit in \code{forresdat} after they discovered mistakes in it.
 }
 \examples{
 \dontrun{

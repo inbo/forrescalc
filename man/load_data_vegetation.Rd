@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_vegetation.R
 \name{load_data_vegetation}
 \alias{load_data_vegetation}
-\title{retrieve vegetation data from `Fieldmap` database}
+\title{retrieve vegetation data from \code{Fieldmap} database}
 \usage{
 load_data_vegetation(
   database,
@@ -12,7 +12,7 @@ load_data_vegetation(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -28,10 +28,10 @@ Defaults to TRUE (yes).}
 }
 \value{
 Dataframe with vegetation data, containing columns as
-`total_herb_cover`, `total_shrub_cover`, `total_tree_cover`,
-`total_soildisturbance_game`,
-`date_vegetation` (= date of vegetation survey),
-`year_main_survey` (= year of vegetation survey), ....
+\code{total_herb_cover}, \code{total_shrub_cover}, \code{total_tree_cover},
+\code{total_soildisturbance_game},
+\code{date_vegetation} (= date of vegetation survey),
+\code{year_main_survey} (= year of vegetation survey), ....
 }
 \description{
 This function queries the given database to retrieve data on vegetation

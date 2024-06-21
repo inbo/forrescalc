@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_results_csv.R
 \name{save_results_csv}
 \alias{save_results_csv}
-\title{save results of calculations as `.csv`-files}
+\title{save results of calculations as \code{.csv}-files}
 \usage{
 save_results_csv(results, output_dir)
 }

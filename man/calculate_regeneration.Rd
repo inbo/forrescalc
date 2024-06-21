@@ -8,9 +8,9 @@ calculate_regeneration(data_regeneration)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
-`plot_id`, `plottype`, `subplot_id`, `height_class`, `species`,
-`nr_of_regeneration`, `rubbing_damage_number`, `period`, `year`, `subcircle`,
-`plotarea_ha`, `min_number_of_regeneration` and `max_number_of_regeneration`.}
+\code{plot_id}, \code{plottype}, \code{subplot_id}, \code{height_class}, \code{species},
+\code{nr_of_regeneration}, \code{rubbing_damage_number}, \code{period}, \code{year}, \code{subcircle},
+\code{plotarea_ha}, \code{min_number_of_regeneration} and \code{max_number_of_regeneration}.}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -18,15 +18,15 @@ List of dataframes that are mentioned in the above description
 \description{
 This function makes aggregations of tree generation data on the levels of
 \itemize{
- \item plot and year (and subplot for core area)
- \item plot, height class and year (and subplot for core area)
- \item plot, tree species and year (and subplot for core area)
- \item plot, height class, tree species and year (and subplot for core area)
+\item plot and year (and subplot for core area)
+\item plot, height class and year (and subplot for core area)
+\item plot, tree species and year (and subplot for core area)
+\item plot, height class, tree species and year (and subplot for core area)
 }
 For core area plots it makes additional aggregations on the levels of
 \itemize{
- \item core area, tree species and year
- \item core area, height class, tree species and year
+\item core area, tree species and year
+\item core area, height class, tree species and year
 }
 }
 \examples{

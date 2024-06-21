@@ -2,16 +2,16 @@
 % Please edit documentation in R/load_data_shoots.R
 \name{load_data_shoots}
 \alias{load_data_shoots}
-\title{retrieve data on shoots from `Fieldmap` database}
+\title{retrieve data on shoots from \code{Fieldmap} database}
 \usage{
 load_data_shoots(database, extra_variables = FALSE)
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
-\item{extra_variables}{Should additional variables such as `iufro_hght`,
-`iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
+\item{extra_variables}{Should additional variables such as \code{iufro_hght},
+\code{iufro_vital}, \code{iufro_socia}, \code{remark} and \code{common_remark} be added?
 Default is FALSE (no).}
 }
 \value{

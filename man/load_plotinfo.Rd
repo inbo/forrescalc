@@ -2,12 +2,12 @@
 % Please edit documentation in R/load_plotinfo.R
 \name{load_plotinfo}
 \alias{load_plotinfo}
-\title{retrieve generic plot data from `Fieldmap` database}
+\title{retrieve generic plot data from \code{Fieldmap} database}
 \usage{
 load_plotinfo(database, plottype = NA, forest_reserve = NA, processed = TRUE)
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -22,14 +22,14 @@ from all plots are retrieved)}
 Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with columns `plot_id`, `plottype`, `forest_reserve`,
-`period`, `year` of dendrometric survey and information on
+Dataframe with columns \code{plot_id}, \code{plottype}, \code{forest_reserve},
+\code{period}, \code{year} of dendrometric survey and information on
 (1) whether there has been a dendro, deadwood, regeneration and/or
 vegetation survey and (2) whether the data have been processed or not.
 }
 \description{
 This function queries the given database to retrieve additional data on plots
-to save in `forresdat` and link with the datasets that are saved there.
+to save in \code{forresdat} and link with the datasets that are saved there.
 }
 \examples{
 library(forrescalc)

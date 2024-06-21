@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_data_herblayer.R
 \name{load_data_herblayer}
 \alias{load_data_herblayer}
-\title{retrieve species specific vegetation data from `Fieldmap` database}
+\title{retrieve species specific vegetation data from \code{Fieldmap} database}
 \usage{
 load_data_herblayer(
   database,
@@ -12,7 +12,7 @@ load_data_herblayer(
 )
 }
 \arguments{
-\item{database}{name of `Fieldmap`/Access database (with specific `Fieldmap`
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{plottype}{possibility to select only data for a certain plot type, e.g.
@@ -35,11 +35,11 @@ different for spring flora and other flora), ....
 }
 \description{
 This function queries the given database to retrieve data on vegetation
-(ready for use in `calculate_vegetation()` function).
-`year_main_survey` refers to year of the main vegetation survey
-(source is table `vegetation`),
-while `year` refers to year of recording of that specific species
-(possibly different for spring flora; source is table `herblayer`)
+(ready for use in \code{calculate_vegetation()} function).
+\code{year_main_survey} refers to year of the main vegetation survey
+(source is table \code{vegetation}),
+while \code{year} refers to year of recording of that specific species
+(possibly different for spring flora; source is table \code{herblayer})
 }
 \examples{
 library(forrescalc)

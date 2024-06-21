@@ -9,16 +9,16 @@ calculate_regeneration_core_area_height_species(data_regeneration)
 }
 \arguments{
 \item{data_regeneration}{dataframe on tree regeneration with variables
-`plot_id`, `plottype`, `subplot_id`, `height_class`, `species`,
-`nr_of_regeneration`, `rubbing_damage_number`, `period`, `year`, `subcircle`,
-`plotarea_ha`, `min_number_of_regeneration` and `max_number_of_regeneration`.}
+\code{plot_id}, \code{plottype}, \code{subplot_id}, \code{height_class}, \code{species},
+\code{nr_of_regeneration}, \code{rubbing_damage_number}, \code{period}, \code{year}, \code{subcircle},
+\code{plotarea_ha}, \code{min_number_of_regeneration} and \code{max_number_of_regeneration}.}
 }
 \value{
-dataframe with columns `plot`, `species`, `year`, `height`,
-`nr_of_subplots_with_regeneration`, `perc_subplots_with_regeneration`,
-`approx_rubbing_damage_perc`, `mean_number_of_regeneration_ha`,
-`lci_number_of_regeneration_ha`, `uci_number_of_regeneration_ha` and
-`approx_nr_regeneration_ha.`
+dataframe with columns \code{plot}, \code{species}, \code{year}, \code{height},
+\code{nr_of_subplots_with_regeneration}, \code{perc_subplots_with_regeneration},
+\code{approx_rubbing_damage_perc}, \code{mean_number_of_regeneration_ha},
+\code{lci_number_of_regeneration_ha}, \code{uci_number_of_regeneration_ha} and
+\code{approx_nr_regeneration_ha.}
 }
 \description{
 This function calculates for each plot, height, species and year the number
