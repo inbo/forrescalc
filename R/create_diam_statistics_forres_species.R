@@ -17,7 +17,7 @@
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' create_diam_statistics_forres_species(data_stems)
+#' calc_diam_statistics_species(data_stems)
 #'
 #' @export
 #'
@@ -25,7 +25,7 @@
 #' @importFrom rlang .data
 #' @importFrom stats median quantile
 #'
-create_diam_statistics_forres_species <- function(data_stems) {
+calc_diam_statistics_species <- function(data_stems) {
   diam_by_forres_species <- data_stems %>%
     group_by(
       .data$forest_reserve, .data$year, .data$period, .data$species
