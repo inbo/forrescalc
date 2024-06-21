@@ -9,7 +9,7 @@
 #'
 #' @template selection_criteria_for_DAS
 #'
-#' @template calculate_das_indicator_explanation_part2
+#' @template calc_das_indicator_explanation_part2
 #'
 #' @inheritParams calc_dendro_plot
 #' @param na_rm Ignore records with no value? Default is FALSE, so no records
