@@ -27,7 +27,7 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_dendro_plot(data_dendro_calc, data_deadwood, plotinfo)
+#' calc_dendro_plot(data_dendro_calc, data_deadwood, plotinfo)
 #'
 #' @export
 #'
@@ -35,7 +35,7 @@
 #'   select summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
+calc_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
   attributes <-
     compare_attributes(
       data_dendro_calc, data_deadwood, "data_dendro_calc", "data_deadwood"

@@ -13,7 +13,7 @@
 #' limit of confidence interval) and `uci` (upper limit of confidence interval)
 #'
 #' @examples
-#' #see code of calculate_regeneration_plot_height()
+#' #see code of calc_regeneration_plot_height()
 #'
 #' @noRd
 #'

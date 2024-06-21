@@ -27,14 +27,14 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_herblayer_CA <- load_data_herblayer(path_to_fieldmapdb, plottype = "CA")
-#' calculate_vegetation_core_area_species(data_herblayer_CA)
+#' calc_vegetation_core_area_species(data_herblayer_CA)
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% group_by n_distinct summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_vegetation_core_area_species <- function(data_herblayer) {
+calc_vegetation_core_area_species <- function(data_herblayer) {
   check_forrescalc_version_attr(data_herblayer)
   by_core_area_species <- data_herblayer %>%
     group_by(.data$plot_id, .data$period) %>%

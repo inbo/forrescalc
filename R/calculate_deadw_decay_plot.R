@@ -23,14 +23,14 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_deadw_decay_plot(plotinfo, data_deadwood, data_dendro_calc)
+#' calc_deadw_decay_plot(plotinfo, data_deadwood, data_dendro_calc)
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% group_by select summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_deadw_decay_plot <-
+calc_deadw_decay_plot <-
   function(plotinfo, data_deadwood = NA, data_dendro_calc = NA) {
 
     if (is.data.frame(data_deadwood)) {

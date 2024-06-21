@@ -59,11 +59,11 @@ The calculations, which are in fact aggregations of very detailed data on tree l
 - `calculate_regeneration()`
 - `calculate_vegetation()`
 
-Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calculate_dendro_plot()`, `calculate_dendro_plot_species()` and `create_unique_tree_id()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
+Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calc_dendro_plot()`, `calc_dendro_plot_species()` and `create_unique_tree_id()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
 
 ### Subfunctions
 
-Subfunctions that aggregate data, have a name starting with the above mentioned high level functions or their abbreviation (`calculate_dendro`, `calculate_regeneration` or `calculate_vegetation`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calculate_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calculate_dendro_plot`).
+Subfunctions that aggregate data, have a name starting with the above mentioned high level functions or their abbreviation (`calc_dendro`, `calc_regeneration` or `calc_vegetation`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calc_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calc_dendro_plot`).
 
 Subfunctions that not typically aggregate data, can have other names:
 

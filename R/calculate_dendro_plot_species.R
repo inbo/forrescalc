@@ -3,7 +3,7 @@
 #' This function calculates for each plot, tree species and year some values
 #' per hectare: number of trees, basal area and volume.
 #'
-#' @inheritParams calculate_dendro_plot
+#' @inheritParams calc_dendro_plot
 #'
 #' @return dataframe with columns plot, year, tree_species, number_of_trees_ha,
 #' basal_area_m2_ha, volume_m3_ha
@@ -22,7 +22,7 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_dendro_plot_species(data_dendro_calc, data_deadwood, plotinfo)
+#' calc_dendro_plot_species(data_dendro_calc, data_deadwood, plotinfo)
 #'
 #' @export
 #'
@@ -30,7 +30,7 @@
 #'   summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_dendro_plot_species <-
+calc_dendro_plot_species <-
   function(data_dendro_calc, data_deadwood, plotinfo) {
   attributes <-
     compare_attributes(

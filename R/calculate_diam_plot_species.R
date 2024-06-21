@@ -24,7 +24,7 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
+#' calc_diam_plot_species(data_stems_calc, data_deadwood, plotinfo)
 #'
 #' @export
 #'
@@ -32,8 +32,7 @@
 #'   summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_diam_plot_species <-
-  function(data_stems_calc, data_deadwood, plotinfo) {
+calc_diam_plot_species <- function(data_stems_calc, data_deadwood, plotinfo) {
   attributes <-
     compare_attributes(
       data_stems_calc, data_deadwood, "data_stems_calc", "data_deadwood"

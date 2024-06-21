@@ -4,7 +4,7 @@
 #' logs and standing dead wood per hectare and per decay stage.
 #'
 #' @inheritParams calculate_dendrometry
-#' @inheritParams calculate_deadw_decay_plot
+#' @inheritParams calc_deadw_decay_plot
 #'
 #' @return dataframe with columns `plot`, `year`, `tree_species`, `decaystage`,
 #' `vol_log_m3_ha`
@@ -23,14 +23,14 @@
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
-#' calculate_deadw_decay_plot_species(plotinfo, data_deadwood, data_dendro_calc)
+#' calc_deadw_decay_plot_species(plotinfo, data_deadwood, data_dendro_calc)
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% group_by select summarise ungroup
 #' @importFrom rlang .data
 #'
-calculate_deadw_decay_plot_species <-
+calc_deadw_decay_plot_species <-
   function(plotinfo, data_deadwood = NA, data_dendro_calc = NA) {
 
   if (is.data.frame(data_deadwood)) {

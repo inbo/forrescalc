@@ -11,7 +11,7 @@
 #'
 #' @template calculate_das_indicator_explanation_part2
 #'
-#' @inheritParams calculate_dendro_plot
+#' @inheritParams calc_dendro_plot
 #' @param na_rm Ignore records with no value? Default is FALSE, so no records
 #' will be ignored unless it is explicitly mentioned by `na.rm = TRUE`
 #'
@@ -30,7 +30,7 @@
 #' height_model <- load_height_models()
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
-#' calculate_das_indicator(data_dendro_calc)
+#' calc_das_indicator(data_dendro_calc)
 #' }
 #'
 #' @export
@@ -42,7 +42,7 @@
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider
 #'
-calculate_das_indicator <- function(data_dendro_calc, na_rm = FALSE) {
+calc_das_indicator <- function(data_dendro_calc, na_rm = FALSE) {
   #only consider living trees
   data_dendro_calc <- data_dendro_calc %>%
     filter(.data$alive_dead == 11)
