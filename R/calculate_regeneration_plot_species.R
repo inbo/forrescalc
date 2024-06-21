@@ -29,7 +29,7 @@
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
-#' calc_regeneration_plot_species(data_regeneration)
+#' calc_reg_plot_species(data_regeneration)
 #'
 #' @export
 #'
@@ -37,7 +37,7 @@
 #'   select summarise ungroup
 #' @importFrom rlang .data
 #'
-calc_regeneration_plot_species <- function(data_regeneration) {
+calc_reg_plot_species <- function(data_regeneration) {
   check_forrescalc_version_attr(data_regeneration)
   no_subcircle <- data_regeneration %>%
     filter(

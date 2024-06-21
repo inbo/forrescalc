@@ -32,7 +32,7 @@
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_regeneration_CA <-
 #'   load_data_regeneration(path_to_fieldmapdb, plottype = "CA")
-#' calc_regeneration_core_area_species(data_regeneration_CA)
+#' calc_reg_core_area_species(data_regeneration_CA)
 #'
 #' @export
 #'
@@ -40,7 +40,7 @@
 #'   ungroup
 #' @importFrom rlang .data
 #'
-calc_regeneration_core_area_species <- function(data_regeneration) {
+calc_reg_core_area_species <- function(data_regeneration) {
   check_forrescalc_version_attr(data_regeneration)
   no_subcircle <- data_regeneration %>%
     filter(

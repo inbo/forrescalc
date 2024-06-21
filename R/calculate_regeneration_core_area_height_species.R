@@ -23,14 +23,14 @@
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' data_regeneration_CA <-
 #'   load_data_regeneration(path_to_fieldmapdb, plottype = "CA")
-#' calc_regeneration_core_area_height_species(data_regeneration_CA)
+#' calc_reg_core_area_height_species(data_regeneration_CA)
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% group_by n_distinct select summarise ungroup
 #' @importFrom rlang .data
 #'
-calc_regeneration_core_area_height_species <- function(data_regeneration) {
+calc_reg_core_area_height_species <- function(data_regeneration) {
   check_forrescalc_version_attr(data_regeneration)
   by_plot_species <- data_regeneration %>%
     mutate(
