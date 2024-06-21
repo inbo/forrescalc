@@ -32,11 +32,11 @@ But is it necessary to do this in 2 steps? Is there any difference in selected b
 data_dendro <- load_data_dendrometry(path_to_fieldmap) %>%
   filter(alive_dead == 11)
 selection_2steps <- data_dendro %>%
-  select_for_DAS_indicator(
+  select_for_das_indicator(
     grouping_vars = c("forest_reserve", "year", "period")
   ) %>%
   inner_join(data_dendro, by = c("forest_reserve", "year", "period")) %>%
-  select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
+  select_for_das_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
   inner_join(
     data_dendro %>%
       select(plot_id, year, period, forest_reserve) %>%
@@ -76,7 +76,7 @@ selection_2steps %>%
 
 ```{r results="asis"}
 selection_1step <- data_dendro %>%
-  select_for_DAS_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
+  select_for_das_indicator(grouping_vars = c("plot_id", "year", "period")) %>%
   inner_join(
     data_dendro %>%
       select(plot_id, year, period, forest_reserve) %>%
@@ -156,14 +156,14 @@ Ander aandachtspunt voor dit reservaat (moest het wel meegenomen kunnen worden):
 Yearly change of basal area for the studied forest reserves
 
 ```{r}
-calc_DAS_indicator(data_dendro) %>%
+calc_das_indicator(data_dendro) %>%
   ggplot(aes(x = forest_reserve, y = d_res)) + geom_bar(stat = "identity")
 ```
 
 Yearly proportional change of the basal area for each species group.
 
 ```{r}
-calc_DAS_indicator(data_dendro) %>%
+calc_das_indicator(data_dendro) %>%
   ggplot(aes(x = forest_reserve, y = d_group, fill = group)) +
   geom_bar(stat = "identity", position = "dodge")
 ```
