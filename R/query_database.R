@@ -25,6 +25,8 @@
 #' @return Dataframe containing the result of the query and an additional column
 #' period
 #'
+#' @noRd
+#'
 #' @importFrom DBI dbDisconnect dbGetQuery
 #' @importFrom dplyr %>% across bind_rows mutate
 #' @importFrom rlang .data
