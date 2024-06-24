@@ -15,7 +15,8 @@ Description: The package contains functions to aggregate individual tree
     vegetation on plot level (and higher levels). (Results are stocked in
     data repository forresdat to allow for further analysis.)
 License: GPL-3
-URL: https://inbo.github.io/forrescalc/, https://github.com/inbo/forrescalc
+URL: https://inbo.github.io/forrescalc/,
+    https://github.com/inbo/forrescalc
 BugReports: https://github.com/inbo/forrescalc/issues
 Imports:
     assertthat,
