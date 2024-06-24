@@ -8,7 +8,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3481-5684")),
     person("Anja", "Leyman", , "anja.leyman@inbo.be", role = "aut",
            comment = c(ORCID = "0000-0002-0292-6582")),
-    person(, "Research Institute for Nature and Forest (INBO)", , "info@inbo.be", role = "cph")
+    person("Research Institute for Nature and Forest (INBO)", , , "info@inbo.be", role = "cph")
   )
 Description: The package contains functions to aggregate individual tree
     measures to aggregated values of dendrometry, regeneration and
