@@ -14,7 +14,8 @@ library(knitr)
 library(kableExtra)
 library(readr)
 library(ggplot2)
-path_to_fieldmap <- "C:/3BR/2_VisualisatieDataBR/3MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb"
+path_to_fieldmap <-
+  "C:/3BR/2_VisualisatieDataBR/3MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb" #nolint: line_length_linter
 ```
 
 # Selection of forest reserves and plots
