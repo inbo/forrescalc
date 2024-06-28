@@ -77,7 +77,8 @@ In \code{interval_information} it can be specified if a logarithmic transformati
 is needed to compensate of unequal interval widths.
 In this case, mean and the confidence interval are transformed back,
 but variance is not, as this result would be confusing rather than useful.
-For typical \code{forresdat} variables, the default value of \code{interval_information}
+For typical \code{forresdat} variables,
+the default value of \code{interval_information}
 can be used and in this case, the variable mentioned in \code{variables} should
 be named after the values in \code{forresdat}, omitting \code{min_}, \verb{_min}, \code{max_} or
 \verb{_max} (see example on interval data).
