@@ -29,7 +29,8 @@
 #' is needed to compensate of unequal interval widths.
 #' In this case, mean and the confidence interval are transformed back,
 #' but variance is not, as this result would be confusing rather than useful.
-#' For typical `forresdat` variables, the default value of `interval_information`
+#' For typical `forresdat` variables,
+#' the default value of `interval_information`
 #' can be used and in this case, the variable mentioned in `variables` should
 #' be named after the values in `forresdat`, omitting `min_`, `_min`, `max_` or
 #' `_max` (see example on interval data).
