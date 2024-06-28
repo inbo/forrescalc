@@ -45,4 +45,4 @@ commit1 <- commit(
 branch_create(commit1, name = "develop")
 
 # After this setup is done, the package can be used following examples in
-# the documentation (or Main script)
+# the documentation (or main script)

@@ -89,4 +89,4 @@ Functions `save_results_forresdat()` and `from_access_to_forresdat()` save table
 
 ## Update `forresdat`
 
-To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `Main.R` that is in the root of the installed package (and in the `inst` folder of the git repository of the package `forrescalc`). In this script, paths to the `Fieldmap` database and the git repository should be adapted to the local situation. Evidently changes in the commits should be checked before pushing them to the remote, as is described above.
+To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `main.R` that is in the root of the installed package (and in the `inst` folder of the git repository of the package `forrescalc`). In this script, paths to the `Fieldmap` database and the git repository should be adapted to the local situation. Evidently changes in the commits should be checked before pushing them to the remote, as is described above.

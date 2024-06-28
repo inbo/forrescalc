@@ -7,7 +7,7 @@
 #' First the relevant forest reserves are selected based on the following
 #' criteria:
 #'
-#' @template selection_criteria_for_DAS
+#' @template selection_criteria_for_das
 #'
 #' @template calc_das_indicator_explanation_part2
 #'
@@ -90,7 +90,7 @@ calc_das_indicator <- function(data_dendro_calc, na_rm = FALSE) {
                                         , "period")) %>%
     left_join(
       read_delim(
-        system.file("extdata/DAS_tree_groups.csv", package = "forrescalc"),
+        system.file("extdata/das_tree_groups.csv", package = "forrescalc"),
         delim = ";", col_types = "cd"
       ),
       by = "species"

@@ -5,7 +5,7 @@
 #' namely selecting the relevant forest reserves or plots based on
 #' the following criteria:
 #'
-#' @template selection_criteria_for_DAS
+#' @template selection_criteria_for_das
 #'
 #' @param data_to_select dataframe with at least all `grouping_vars` and the
 #' variables `dbh_mm`, `species`, `basal_area_alive_m2_ha`, and as records
@@ -47,7 +47,7 @@ select_for_das_indicator <- function(data_to_select, grouping_vars) {
     inner_join(data_to_select, by = grouping_vars) %>%
     left_join(
       read_delim(
-        system.file("extdata/DAS_tree_groups.csv", package = "forrescalc"),
+        system.file("extdata/das_tree_groups.csv", package = "forrescalc"),
         delim = ";", col_types = "cd"
       ),
       by = "species"

@@ -122,7 +122,7 @@ data_dendro %>%
   ungroup() %>%
   left_join(data_dendro, by = c("forest_reserve", "year", "period")) %>%
   left_join(
-    read_csv2(system.file("./extdata/DAS_tree_groups.csv",
+    read_csv2(system.file("./extdata/das_tree_groups.csv",
                           package = "forrescalc")),
     by = "species"
   ) %>%
