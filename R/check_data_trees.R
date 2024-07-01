@@ -255,7 +255,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       field_decay_stage =
         ifelse(
           is.na(.data$decay_stage) & .data$alive_dead == 12 &
-            .data$ind_sht_cop %in% c(10, 11),
+            (.data$ind_sht_cop %in% c(10, 11) | is.na(.data$ind_sht_cop)),
           "missing", NA
         ),
       field_decay_stage =
