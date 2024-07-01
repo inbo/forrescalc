@@ -263,21 +263,6 @@ describe("check_data_regspecies", {
       0
     )
     expect_equal(
-      check_regspecies1[
-        check_regspecies1$plot_id == 151 &
-          check_regspecies1$aberrant_field == "number_and_numberclass", ],
-      tibble(
-        plot_id = 101,
-        subplot_id = 1,
-        heightclass_id = 144,
-        period = 1,
-        regspecies_id = 151,
-        aberrant_field = "number_and_numberclass",
-        anomaly = "missing",
-        aberrant_value = NA_integer_
-      )
-    )
-    expect_equal(
       check_regspecies3[
         check_regspecies3$plot_id == 101 &
           check_regspecies3$aberrant_field == "number", ],
@@ -311,6 +296,23 @@ describe("check_data_regspecies", {
         period = 3,
         regspecies_id = 2,
         aberrant_field = "number_class",
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check number_and_numberclass", {
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$plot_id == 151 &
+          check_regspecies1$aberrant_field == "number_and_numberclass", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = 144,
+        period = 1,
+        regspecies_id = 151,
+        aberrant_field = "number_and_numberclass",
         anomaly = "missing",
         aberrant_value = NA_integer_
       )
