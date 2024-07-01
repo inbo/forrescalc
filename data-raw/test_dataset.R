@@ -130,6 +130,16 @@ shoots <-
   )
 dbWriteTable(con_testdb, "Shoots", shoots, append = TRUE)
 
+shoots_3eset <-
+  data.frame(
+    IDPlots = 101,
+    IDTrees_3eSET = 12,
+    ID = 3,
+    XTrees_3eSET = -4.767,
+    YTrees_3eSET = 3.229
+  )
+dbWriteTable(con_testdb, "Shoots_3eSET", shoots_3eset, append = TRUE)
+
 trees <- dbReadTable(con_testdb, "Trees")
 trees[trees$ID == 11559, "Y_m"] <- -17.197
 trees[trees$ID == 11554, "DBH_mm"] <- 380
@@ -186,5 +196,13 @@ trees_2eset <- trees_2eset %>%
     )
   )
 dbWriteTable(con_testdb, "Trees_2eSET", trees_2eset, overwrite = TRUE)
+
+trees_3eset <-
+  data.frame(
+    IDPlots = 101,
+    ID = 11603,
+    AliveDead = 12
+  )
+dbWriteTable(con_testdb, "Trees_3eSET", trees_3eset, append = TRUE)
 
 dbDisconnect(con_testdb)
