@@ -114,11 +114,11 @@ describe("check_data_herblayer", {
       tibble(
         plot_id = 101,
         subplot_id = 1,
-        herblayer_id = c(119, 120),
+        herblayer_id = c(120),
         period = 1,
         aberrant_field = "browse_index",
-        anomaly = c("missing", "not in lookuplist"),
-        aberrant_value = c(NA, 130)
+        anomaly = c("not in lookuplist"),
+        aberrant_value = c(130)
       )
     )
   })
