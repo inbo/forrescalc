@@ -338,7 +338,7 @@ describe("check_data_vegetation", {
         aberrant_field =
           c("date", "fieldteam",
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "waterlayer_cover_id", "soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("not in lookuplist", 6)),
         aberrant_value = c(rep(NA, 2), rep("15", 6))
       )
@@ -354,7 +354,7 @@ describe("check_data_vegetation", {
         aberrant_field =
           c("date", "fieldteam",
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "waterlayer_cover_id", "soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("invalid value", 6)),
         aberrant_value = c(rep(NA, 2), rep("20", 6))
       )
