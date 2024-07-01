@@ -114,11 +114,11 @@ describe("check_data_herblayer", {
       tibble(
         plot_id = 101,
         subplot_id = 1,
-        herblayer_id = c(119, 120),
+        herblayer_id = c(120),
         period = 1,
         aberrant_field = "browse_index",
-        anomaly = c("missing", "not in lookuplist"),
-        aberrant_value = c(NA, 130)
+        anomaly = c("not in lookuplist"),
+        aberrant_value = c(130)
       )
     )
   })
@@ -351,8 +351,7 @@ describe("check_data_vegetation", {
         period = 1,
         aberrant_field =
           c("date", "fieldteam",
-            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
@@ -368,7 +367,7 @@ describe("check_data_vegetation", {
         aberrant_field =
           c("date", "fieldteam",
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "waterlayer_cover_id", "soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("not in lookuplist", 6)),
         aberrant_value = c(rep(NA, 2), rep("15", 6))
       )
@@ -384,7 +383,7 @@ describe("check_data_vegetation", {
         aberrant_field =
           c("date", "fieldteam",
             "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "waterlayer_cover_id", "soildisturbance_game_id"),
         anomaly = c(rep("missing", 2), rep("invalid value", 6)),
         aberrant_value = c(rep(NA, 2), rep("20", 6))
       )
@@ -467,7 +466,7 @@ describe("check_data_shoots", {
             "intact_snag", "decay_stage_shoots", "iufro_hght", "iufro_vital",
             "iufro_socia"),
         anomaly =
-          c("missing", "too high", "too high", "too low",
+          c("missing", "stem too thick and low", "too high", "too low",
             rep("not in lookuplist", 5)),
         aberrant_value = c(NA, 628.6, 2001, 1, 12, 17, rep(50, 3))
       )
@@ -486,7 +485,7 @@ describe("check_data_shoots", {
           c("ratio_dbh_height", "height_m", "decay_stage_shoots",
             "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("too low", "too high", rep("tree alive", 4)),
+          c("stem too thin and high", "too high", rep("tree alive", 4)),
         aberrant_value = c(0, 55, 11, rep(40, 3))
       )
     )
@@ -620,8 +619,8 @@ describe("check_data_trees", {
           c("nr_of_stems", "ratio_dbh_height", "dbh_mm", "height_m",
             "ratio_dbh_height", "height_m"),
         anomaly =
-          c("too low", "too high", "too high", "too low", "too low",
-            "too high"),
+          c("too low", "tree too thick and low", "too high", "too low",
+            "tree too thin and high", "too high"),
         aberrant_value = c("0", "628.6", "2001", "1", "0", "55")
       )
     )
@@ -680,7 +679,7 @@ describe("check_data_trees", {
   it("check data on coppice and dead", {
     expect_equal(
       check_trees1[grepl("11601", check_trees1$tree_measure_id)  &
-                    !grepl("^too ", check_trees1$anomaly), ],
+                    !grepl(" high$", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
         tree_measure_id = c(rep("11601", 5), rep("11601_11602_11597", 2)),
