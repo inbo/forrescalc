@@ -322,8 +322,7 @@ describe("check_data_vegetation", {
         period = 1,
         aberrant_field =
           c("date", "fieldteam",
-            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id", "total_soildisturbance_game_id"),
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
