@@ -204,11 +204,13 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       data_trees %>%
         select(
           "period", "plot_id", "tree_id",
-          "species", "alive_dead", "decay_stage", "x_m", "y_m", "dbh_mm",
+          "species", "alive_dead", "decay_stage", "ind_sht_cop",
+          "x_m", "y_m", "dbh_mm",
           "height_m"
         ),
       measure_vars =
-        c("species", "alive_dead", "decay_stage", "x_m", "y_m", "dbh_mm",
+        c("species", "alive_dead", "decay_stage", "ind_sht_cop",
+          "x_m", "y_m", "dbh_mm",
           "height_m")
     ) %>%
     mutate(
