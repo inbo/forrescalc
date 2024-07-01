@@ -64,13 +64,15 @@ regeneration[regeneration$ID == 155513, "Date"] <- 995088000
 dbWriteTable(con_testdb, "Regeneration", regeneration, overwrite = TRUE)
 
 heightclass <-              #same HeightClass as ID 142
-  data.frame(IDPlots = 101, IDRegeneration = 1, ID = 143, HeightClass = 3000)
+  data.frame(
+    IDPlots = 101, IDRegeneration = 1, ID = 143:144, HeightClass = c(3000, 2000)
+  )
 dbWriteTable(con_testdb, "HeightClass", heightclass, append = TRUE)
 
 regspecies <-
   data.frame(
-    IDPlots = 101, IDRegeneration = 1, IDHeightClass = 143, ID = 150,
-    Species = 39, NumberClass = 1
+    IDPlots = 101, IDRegeneration = 1, IDHeightClass = 143:144, ID = 150:151,
+    Species = c(39, 63), NumberClass = c(1, NA)
   )
 dbWriteTable(con_testdb, "RegSpecies", regspecies, append = TRUE)
 
