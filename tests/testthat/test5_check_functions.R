@@ -432,7 +432,7 @@ describe("check_data_shoots", {
         shoot_id = 3,
         period = 3,
         aberrant_field =
-          c("dbh_mm", "intact_snag", "decay_stage_shoots",
+          c("dbh_mm", "intact_snag",
             "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly = "missing",
         aberrant_value = NA_integer_
