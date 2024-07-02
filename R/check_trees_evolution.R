@@ -158,7 +158,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
                      (.data$y_m.y - .data$y_m.x) ^ 2)
           ) %>%
           filter(.data$location_shift < 0.2 &
-                   .data$status_remeasurement.y != 250) %>%
+                   (.data$status_remeasurement.y != 250 |
+                      is.na(.data$status_remeasurement.y))) %>%
           transmute(
             .data$plot_id,
             period = paste(.data$period.x, .data$period.y, sep = "_"),
