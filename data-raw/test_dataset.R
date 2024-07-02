@@ -64,21 +64,41 @@ regeneration[regeneration$ID == 155513, "Date"] <- 995088000
 dbWriteTable(con_testdb, "Regeneration", regeneration, overwrite = TRUE)
 
 heightclass <-              #same HeightClass as ID 142
-  data.frame(IDPlots = 101, IDRegeneration = 1, ID = 143, HeightClass = 3000)
+  data.frame(
+    IDPlots = 101, IDRegeneration = 1, ID = 143:144, HeightClass = c(3000, 2000)
+  )
 dbWriteTable(con_testdb, "HeightClass", heightclass, append = TRUE)
 
 regspecies <-
   data.frame(
-    IDPlots = 101, IDRegeneration = 1, IDHeightClass = 143, ID = 150,
-    Species = 39, NumberClass = 1
+    IDPlots = 101, IDRegeneration = 1, IDHeightClass = 143:144, ID = 150:151,
+    Species = c(39, 63), NumberClass = c(1, NA)
   )
 dbWriteTable(con_testdb, "RegSpecies", regspecies, append = TRUE)
 
 regspecies_3eset <- dbReadTable(con_testdb, "RegSpecies_3eSet")
 regspecies_3eset[
-  regspecies_3eset$IDHeightClass_3eSet == 1, "GameDamage_number"] <- 70
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 1,
+  "GameDamage_number"] <- 70
 regspecies_3eset[
-  regspecies_3eset$IDHeightClass_3eSet == 3, "GameDamage_number"] <- 20
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 3,
+  "GameDamage_number"] <- 20
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 2 &
+    regspecies_3eset$ID == 2,
+  "NumberClass"] <- NA
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 2 &
+    regspecies_3eset$ID == 2,
+  "Number"] <- 1
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 4 &
+    regspecies_3eset$ID == 2,
+  "NumberClass"] <- 2
+regspecies_3eset[
+  regspecies_3eset$IDPlots == 101 & regspecies_3eset$IDHeightClass_3eSet == 4 &
+    regspecies_3eset$ID == 2,
+  "Number"] <- NA
 dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
@@ -90,7 +110,7 @@ vegetation <-
     Total_tree_cover = c(NA, 15, 20, 10, 10),
     Total_waterlayer_cover = c(NA, 15, 20, 10, 10),
     Total_SoildisturbanceGame = c(NA, 15, 20, 10, 10),
-    Date = c(rep(NA, 3), 1022716800, 1122716800)
+    Date = c(rep(NA, 2), 1436233600, 1022716800, 1122716800)
   )
 dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
 
@@ -109,6 +129,16 @@ shoots <-
     IUFROSocia = c(50, 40, 30, NA)
   )
 dbWriteTable(con_testdb, "Shoots", shoots, append = TRUE)
+
+shoots_3eset <-
+  data.frame(
+    IDPlots = 101,
+    IDTrees_3eSET = 12,
+    ID = 3,
+    XTrees_3eSET = -4.767,
+    YTrees_3eSET = 3.229
+  )
+dbWriteTable(con_testdb, "Shoots_3eSET", shoots_3eset, append = TRUE)
 
 trees <- dbReadTable(con_testdb, "Trees")
 trees[trees$ID == 11559, "Y_m"] <- -17.197
@@ -166,5 +196,13 @@ trees_2eset <- trees_2eset %>%
     )
   )
 dbWriteTable(con_testdb, "Trees_2eSET", trees_2eset, overwrite = TRUE)
+
+trees_3eset <-
+  data.frame(
+    IDPlots = 101,
+    ID = 11603,
+    AliveDead = 12
+  )
+dbWriteTable(con_testdb, "Trees_3eSET", trees_3eset, append = TRUE)
 
 dbDisconnect(con_testdb)

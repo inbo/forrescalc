@@ -257,15 +257,21 @@ describe("check_data_regspecies", {
   })
   it("check number", {
     expect_equal(
-      check_regspecies1[
+      nrow(check_regspecies1[
         check_regspecies1$regspecies_id == 150 &
-          check_regspecies1$aberrant_field == "number", ],
+          check_regspecies1$aberrant_field == "number", ]),
+      0
+    )
+    expect_equal(
+      check_regspecies3[
+        check_regspecies3$plot_id == 101 &
+          check_regspecies3$aberrant_field == "number", ],
       tibble(
         plot_id = 101,
         subplot_id = 1,
-        heightclass_id = 143,
-        period = 1,
-        regspecies_id = 150,
+        heightclass_id = 4,
+        period = 3,
+        regspecies_id = 2,
         aberrant_field = "number",
         anomaly = "missing",
         aberrant_value = NA_integer_
@@ -274,16 +280,39 @@ describe("check_data_regspecies", {
   })
   it("check number_class", {  #error from original FM -> check if still wrong
     expect_equal(
-      check_regspecies1[
+      nrow(check_regspecies1[
         check_regspecies1$regspecies_id == 141 &
-          check_regspecies1$aberrant_field == "number_class", ],
+          check_regspecies1$aberrant_field == "number_class", ]),
+      0
+    )
+    expect_equal(
+      check_regspecies3[
+        check_regspecies3$plot_id == 101 &
+          check_regspecies3$aberrant_field == "number_class", ],
       tibble(
         plot_id = 101,
         subplot_id = 1,
-        heightclass_id = 141,
-        period = 1,
-        regspecies_id = 141,
+        heightclass_id = 2,
+        period = 3,
+        regspecies_id = 2,
         aberrant_field = "number_class",
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+  })
+  it("check number_and_numberclass", {
+    expect_equal(
+      check_regspecies1[
+        check_regspecies1$plot_id == 151 &
+          check_regspecies1$aberrant_field == "number_and_numberclass", ],
+      tibble(
+        plot_id = 101,
+        subplot_id = 1,
+        heightclass_id = 144,
+        period = 1,
+        regspecies_id = 151,
+        aberrant_field = "number_and_numberclass",
         anomaly = "missing",
         aberrant_value = NA_integer_
       )
@@ -377,16 +406,31 @@ describe("check_data_vegetation", {
 
 describe("check_data_shoots", {
   check_shoots <- check_data_shoots(path_to_testdb)
-  check_shoots <- check_shoots[check_shoots$period == 1, ]
+  check_shoots1 <- check_shoots[check_shoots$period == 1, ]
+  check_shoots3 <- check_shoots[check_shoots$period == 3, ]
   it("check missing data", {
     expect_equal(
-      check_shoots[
-        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 3, ],
+      check_shoots1[
+        check_shoots1$tree_measure_id == 55 & check_shoots1$shoot_id == 3, ],
       tibble(
         plot_id = 21000,
         tree_measure_id = 55,
         shoot_id = 3,
         period = 1,
+        aberrant_field =
+          c("dbh_mm", "intact_snag", "decay_stage_shoots"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
+    )
+    expect_equal(
+      check_shoots3[
+        check_shoots3$tree_measure_id == 12 & check_shoots3$shoot_id == 3, ],
+      tibble(
+        plot_id = 101,
+        tree_measure_id = 12,
+        shoot_id = 3,
+        period = 3,
         aberrant_field =
           c("dbh_mm", "intact_snag", "decay_stage_shoots",
             "iufro_hght", "iufro_vital", "iufro_socia"),
@@ -395,9 +439,9 @@ describe("check_data_shoots", {
       )
     )
     expect_equal(
-      check_shoots[
-        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 2 &
-          check_shoots$anomaly == "missing", ],
+      check_shoots1[
+        check_shoots1$tree_measure_id == 55 & check_shoots1$shoot_id == 2 &
+          check_shoots1$anomaly == "missing", ],
       tibble(
         plot_id = 21000,
         tree_measure_id = 55,
@@ -411,7 +455,7 @@ describe("check_data_shoots", {
   })
   it("check data shoot on no coppice", {
     expect_equal(
-      check_shoots[check_shoots$tree_measure_id == 11559, ],
+      check_shoots1[check_shoots1$tree_measure_id == 11559, ],
       tibble(
         plot_id = 101,
         tree_measure_id = 11559,
@@ -430,8 +474,8 @@ describe("check_data_shoots", {
   })
   it("check data shoot on alive tree", {
     expect_equal(
-      check_shoots[
-        check_shoots$tree_measure_id == 11557 & check_shoots$shoot_id == 3, ],
+      check_shoots1[
+        check_shoots1$tree_measure_id == 11557 & check_shoots1$shoot_id == 3, ],
       tibble(
         plot_id = 101,
         tree_measure_id = 11557,
@@ -448,8 +492,8 @@ describe("check_data_shoots", {
   })
   it("check data shoot on dead tree", {
     expect_equal(
-      check_shoots[
-        check_shoots$tree_measure_id == 55 & check_shoots$shoot_id == 2, ],
+      check_shoots1[
+        check_shoots1$tree_measure_id == 55 & check_shoots1$shoot_id == 2, ],
       tibble(
         plot_id = 21000,
         tree_measure_id = 55,
@@ -468,10 +512,11 @@ describe("check_data_shoots", {
 
 describe("check_data_trees", {
   check_trees <- check_data_trees(path_to_testdb)
-  check_trees <- check_trees[check_trees$period == 1, ]
+  check_trees1 <- check_trees[check_trees$period == 1, ]
+  check_trees3 <- check_trees[check_trees$period == 3, ]
   it("check location", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id %in% c(11559, 11554, 4053), ],
+      check_trees1[check_trees1$tree_measure_id %in% c(11559, 11554, 4053), ],
       tibble(
         plot_id = c(101, 101, 2006),
         tree_measure_id = c("11559", "11554", "4053"),
@@ -485,8 +530,8 @@ describe("check_data_trees", {
   })
   it("check shoots linked with trees", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11599 &
-                    check_trees$aberrant_field == "link_to_layer_shoots", ],
+      check_trees1[check_trees1$tree_measure_id == 11599 &
+                    check_trees1$aberrant_field == "link_to_layer_shoots", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11599",
@@ -499,8 +544,8 @@ describe("check_data_trees", {
   })
   it("check number of stems", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11557 &
-                    check_trees$aberrant_field == "nr_of_stems", ],
+      check_trees1[check_trees1$tree_measure_id == 11557 &
+                    check_trees1$aberrant_field == "nr_of_stems", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11557",
@@ -513,11 +558,23 @@ describe("check_data_trees", {
   })
   it("check missing data", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11603, ],
+      check_trees1[check_trees1$tree_measure_id == 11603, ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11603",
         period = 1,
+        aberrant_field =
+          c("dbh_mm", "species", "intact_snag", "ind_sht_cop", "decay_stage"),
+        anomaly = "missing",
+        aberrant_value = NA_character_
+      )
+    )
+    expect_equal(
+      check_trees3[check_trees3$tree_measure_id == 11603, ],
+      tibble(
+        plot_id = 101,
+        tree_measure_id = "11603",
+        period = 3,
         aberrant_field =
           c("dbh_mm", "species", "intact_snag", "ind_sht_cop", "decay_stage",
             "iufro_hght", "iufro_vital", "iufro_socia"),
@@ -526,8 +583,8 @@ describe("check_data_trees", {
       )
     )
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11604 &
-                    check_trees$anomaly == "missing", ],
+      check_trees1[check_trees1$tree_measure_id == 11604 &
+                    check_trees1$anomaly == "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11604",
@@ -538,8 +595,8 @@ describe("check_data_trees", {
       )
     )
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11602 &
-                    check_trees$anomaly == "missing", ],
+      check_trees1[check_trees1$tree_measure_id == 11602 &
+                    check_trees1$anomaly == "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11602",
@@ -552,8 +609,8 @@ describe("check_data_trees", {
   })
   it("check dbh and height", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id %in% c(11600, 11601) &
-                    grepl("^too ", check_trees$anomaly), ],
+      check_trees1[check_trees1$tree_measure_id %in% c(11600, 11601) &
+                    grepl("^too ", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
         tree_measure_id = c(rep("11600", 4), rep("11601", 2)),
@@ -570,8 +627,8 @@ describe("check_data_trees", {
   })
   it("check not in lookuplist", {
     expect_equal(
-      check_trees[check_trees$tree_measure_id == 11600 &
-                    !grepl("^too ", check_trees$anomaly), ],
+      check_trees1[check_trees1$tree_measure_id == 11600 &
+                    !grepl("^too ", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11600",
@@ -586,8 +643,8 @@ describe("check_data_trees", {
   })
   it("check data on no coppice (& alive)", {
     expect_equal(
-      check_trees[grepl("11602", check_trees$tree_measure_id) &
-                    check_trees$anomaly != "missing", ],
+      check_trees1[grepl("11602", check_trees1$tree_measure_id) &
+                    check_trees1$anomaly != "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id =
@@ -606,8 +663,8 @@ describe("check_data_trees", {
       )
     )
     expect_equal(
-      check_trees[check_trees$tree_measure_id ==  11604 &
-                    check_trees$anomaly != "missing", ],
+      check_trees1[check_trees1$tree_measure_id ==  11604 &
+                    check_trees1$anomaly != "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11604",
@@ -621,8 +678,8 @@ describe("check_data_trees", {
   })
   it("check data on coppice and dead", {
     expect_equal(
-      check_trees[grepl("11601", check_trees$tree_measure_id)  &
-                    !grepl(" high$", check_trees$anomaly), ],
+      check_trees1[grepl("11601", check_trees1$tree_measure_id)  &
+                    !grepl(" high$", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
         tree_measure_id = c(rep("11601", 5), rep("11601_11602_11597", 2)),
