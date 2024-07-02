@@ -110,7 +110,7 @@ vegetation <-
     Total_tree_cover = c(NA, 15, 20, 10, 10),
     Total_waterlayer_cover = c(NA, 15, 20, 10, 10),
     Total_SoildisturbanceGame = c(NA, 15, 20, 10, 10),
-    Date = c(rep(NA, 2), 1436233600, 1022716800, 1122716800)
+    Date = c(rep(NA, 3), 1022716800, 1122716800)
   )
 dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
 
