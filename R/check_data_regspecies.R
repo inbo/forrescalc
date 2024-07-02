@@ -105,21 +105,21 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
     mutate(
       field_number_class =
         ifelse(
-          is.na(.data$number_class) & period >= 3 &
+          is.na(.data$number_class) & .data$period >= 3 &
             .data$heightclass %in% c(1000, 2000, 5000, 6000),
           "missing", NA
         ),
       field_number =
         ifelse(
-          is.na(.data$number) & period >= 3 &
+          is.na(.data$number) & .data$period >= 3 &
             .data$heightclass %in% c(3000, 4000, 7000, 8000),
           "missing", NA
         ),
       field_number =
         ifelse(
           is.na(.data$number) & is.na(.data$number_class) &
-            period < 3,
-          "missing 2 times", NA
+            .data$period < 3,
+          "missing 2 times", .data$field_number
         ),
       field_game_damage_number =
         ifelse(.data$game_impact_reg == 10 & !is.na(.data$number) &
