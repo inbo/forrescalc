@@ -304,16 +304,16 @@ describe("check_data_regspecies", {
   it("check number_and_numberclass", {
     expect_equal(
       check_regspecies1[
-        check_regspecies1$plot_id == 151 &
-          check_regspecies1$aberrant_field == "number_and_numberclass", ],
+        check_regspecies1$regspecies_id == 151 &
+          check_regspecies1$aberrant_field == "number", ],
       tibble(
         plot_id = 101,
         subplot_id = 1,
         heightclass_id = 144,
         period = 1,
         regspecies_id = 151,
-        aberrant_field = "number_and_numberclass",
-        anomaly = "missing",
+        aberrant_field = "number",
+        anomaly = "missing 2 times",
         aberrant_value = NA_integer_
       )
     )
