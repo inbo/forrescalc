@@ -90,12 +90,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "not in lookuplist",
           .data$field_moss_cover_id
         ),
-      field_moss_cover_id =
-        ifelse(
-          !is.na(.data$moss_cover_id) & .data$moss_cover_id == 20,
-          "invalid value",
-          .data$field_moss_cover_id
-        ),
       field_herb_cover_id =
         ifelse(is.na(.data$herb_cover_id), "missing", NA),
       field_herb_cover_id =
@@ -103,12 +97,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           !is.na(.data$herb_cover_id) &
             !.data$herb_cover_id %in% data_totalcover$cover_id,
           "not in lookuplist",
-          .data$field_herb_cover_id
-        ),
-      field_herb_cover_id =
-        ifelse(
-          !is.na(.data$herb_cover_id) & .data$herb_cover_id == 20,
-          "invalid value",
           .data$field_herb_cover_id
         ),
       field_shrub_cover_id =
@@ -120,12 +108,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "not in lookuplist",
           .data$field_shrub_cover_id
         ),
-      field_shrub_cover_id =
-        ifelse(
-          !is.na(.data$shrub_cover_id) & .data$shrub_cover_id == 20,
-          "invalid value",
-          .data$field_shrub_cover_id
-        ),
       field_tree_cover_id =
         ifelse(is.na(.data$tree_cover_id), "missing", NA),
       field_tree_cover_id =
@@ -135,12 +117,6 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "not in lookuplist",
           .data$field_tree_cover_id
         ),
-      field_tree_cover_id =
-        ifelse(
-          !is.na(.data$tree_cover_id) & .data$tree_cover_id == 20,
-          "invalid value",
-          .data$field_tree_cover_id
-        ),
       field_waterlayer_cover_id =
         ifelse(
           !is.na(.data$waterlayer_cover_id) &
@@ -148,26 +124,13 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
           "not in lookuplist",
           NA
         ),
-      field_waterlayer_cover_id =
-        ifelse(
-          !is.na(.data$waterlayer_cover_id) & .data$waterlayer_cover_id == 20,
-          "invalid value",
-          .data$field_waterlayer_cover_id
-        ),
       field_soildisturbance_game_id =
         ifelse(
           !is.na(.data$soildisturbance_game_id) &
-            !.data$soildisturbance_game_id %in% data_totalcover$cover_id,
+            !.data$soildisturbance_game_id %in% data_totalcover$cover_id &
+            !is.na(.data$date) & year(.data$date) >= 2014, # soildisturbance first measured in 2014
           "not in lookuplist",
           NA
-        ),
-      field_soildisturbance_game_id =
-        ifelse(
-          !is.na(.data$soildisturbance_game_id) &
-            .data$soildisturbance_game_id == 20 & # 20="Not determined"
-            !is.na(.data$date) & year(.data$date) >= 2014, # soildisturbance first measured in 2014
-          "invalid value",
-          .data$field_soildisturbance_game_id
         ),
       across(ends_with("date"), as.character),
       fieldteam = as.character(.data$fieldteam),
