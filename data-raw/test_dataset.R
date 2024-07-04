@@ -157,7 +157,7 @@ trees <- trees %>%
       DBH_mm = c(2001, 1, NA, NA, NA),
       Height_m = c(1, 55, NA, NA, NA),
       Species = c(87, 16, 28, NA, NA),
-      IntactSnag = c(12, 11, 10, NA, NA),
+      IntactSnag = c(11, 11, 10, 12, NA),
       AliveDead = c(13, 12, 11, 12, NA),
       IndShtCop = c(13, 12, 10, NA, 11),
       CoppiceID = c(NA, 129, 129, NA, NA),
