@@ -122,7 +122,7 @@ shoots <-
     XTrees = c(-4.767, -4.767, 153406.01, 153406.01),
     YTrees = c(3.229, 3.229, 161257.186, 161257.186),
     DBH_mm = c(2001, 1, NA, NA), Height_m = c(1, 55, NA, NA),
-    IntactSnag = c(12, 11, 10, NA),
+    IntactSnag = c(11, 11, 10, 12),
     DecayStage_Shoots = c(17, 11, 16, NA),
     IUFROHght = c(50, 40, 10, NA),
     IUFROVital = c(50, 40, 20, NA),

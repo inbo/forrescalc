@@ -403,8 +403,8 @@ describe("check_data_shoots", {
         period = 1,
         aberrant_field =
           c("dbh_mm", "intact_snag", "decay_stage_shoots"),
-        anomaly = "missing",
-        aberrant_value = NA_integer_
+        anomaly = c("missing", "not in lookuplist", "missing"),
+        aberrant_value = c(NA, 12, NA)
       )
     )
     expect_equal(
@@ -447,12 +447,12 @@ describe("check_data_shoots", {
         period = 1,
         aberrant_field =
           c("link_to_layer_trees", "ratio_dbh_height", "dbh_mm", "height_m",
-            "intact_snag", "decay_stage_shoots", "iufro_hght", "iufro_vital",
+            "decay_stage_shoots", "iufro_hght", "iufro_vital",
             "iufro_socia"),
         anomaly =
           c("missing", "stem too thick and low", "too high", "too low",
-            rep("not in lookuplist", 5)),
-        aberrant_value = c(NA, 628.6, 2001, 1, 12, 17, rep(50, 3))
+            rep("not in lookuplist", 4)),
+        aberrant_value = c(NA, 628.6, 2001, 1, 17, rep(50, 3))
       )
     )
   })
