@@ -39,6 +39,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       pd.rA3 AS r_a3, pd.rA4 AS r_a4,
+      pd.TresHoldDBH_Trees_A4_alive AS treshold_alive,
+      pd.TresHoldDBH_Trees_A4_dead AS treshold_dead,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -78,6 +80,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       pd.rA3 AS r_a3, pd.rA4 AS r_a4,
+      pd.TresHoldDBH_Trees_A4_alive AS treshold_alive,
+      pd.TresHoldDBH_Trees_A4_dead AS treshold_dead,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -149,7 +153,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       location =
         ifelse(
-          .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
+          .data$plottype == "CP" & .data$alive_dead == 11 &
+            .data$dbh_mm < treshold_alive &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
             is.na(.data$location),
           "tree not in A3",
@@ -157,7 +162,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       location =
         ifelse(
-          .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
+          .data$plottype == "CP" & .data$alive_dead == 12 &
+            .data$dbh_mm < treshold_dead &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
             is.na(.data$location),
           "tree not in A3",
