@@ -305,7 +305,7 @@ describe("check_data_regspecies", {
     expect_equal(
       check_regspecies1[
         check_regspecies1$regspecies_id == 151 &
-          check_regspecies1$aberrant_field == "number", ],
+          check_regspecies1$aberrant_field == "number_and_numberclass", ],
       tibble(
         plot_id = 101,
         subplot_id = 1,
