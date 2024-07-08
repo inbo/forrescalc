@@ -134,7 +134,7 @@ load_data_vegetation <-
         ifelse(is.na(.data$total_soildisturbance_game_id) &
                  .data$not_na_soildisturbance_game,
                1,
-               total_soildisturbance_game_id)
+               .data$total_soildisturbance_game_id)
     ) %>%
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(
