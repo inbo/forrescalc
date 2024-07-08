@@ -129,7 +129,7 @@ load_data_vegetation <-
         ifelse(is.na(.data$total_waterlayer_cover_id) &
                  .data$not_na_waterlayer_cover,
                1,
-               total_waterlayer_cover_id),
+               .data$total_waterlayer_cover_id),
       total_soildisturbance_game_id =
         ifelse(is.na(.data$total_soildisturbance_game_id) &
                  .data$not_na_soildisturbance_game,
