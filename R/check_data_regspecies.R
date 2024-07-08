@@ -115,7 +115,8 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
             .data$heightclass %in% c(3000, 4000, 7000, 8000),
           "missing", NA
         ),
-      field_number =
+      number_and_numberclass = NA,
+      field_number_and_numberclass =
         ifelse(
           is.na(.data$number) & is.na(.data$number_class) &
             .data$period < 3,
