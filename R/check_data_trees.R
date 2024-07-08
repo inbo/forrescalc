@@ -154,7 +154,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       location =
         ifelse(
           .data$plottype == "CP" & .data$alive_dead == 11 &
-            .data$dbh_mm < treshold_alive &
+            .data$dbh_mm < .data$treshold_alive &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
             is.na(.data$location),
           "tree not in A3",
