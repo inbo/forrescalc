@@ -245,7 +245,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       .data$tree_id_earlier != .data$tree_id_later
     ) %>%
     mutate(
-      period_end = period,
+      period_end = .data$period,
       period = paste(.data$period - 1, .data$period, sep = "_"),
       tree_id = paste(.data$tree_id_earlier, .data$tree_id_later, sep = "-"),
       tree_measure_id =
