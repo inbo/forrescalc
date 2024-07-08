@@ -184,7 +184,7 @@ load_data_vegetation <-
            .data$soildisturbance_game_cover_max) / 2
     ) %>%
     relocate(contains("core_area_"), .after = last_col()) %>%
-    select(-not_na_soildisturbance_game, -not_na_waterlayer_cover)
+    select(-"not_na_soildisturbance_game", -"not_na_waterlayer_cover")
 
   attr(data_vegetation, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
