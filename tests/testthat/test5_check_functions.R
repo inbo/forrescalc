@@ -312,8 +312,8 @@ describe("check_data_regspecies", {
         heightclass_id = 144,
         period = 1,
         regspecies_id = 151,
-        aberrant_field = "number",
-        anomaly = "missing 2 times",
+        aberrant_field = "number_and_numberclass",
+        anomaly = "missing",
         aberrant_value = NA_integer_
       )
     )
