@@ -117,7 +117,7 @@ describe("check_data_herblayer", {
         herblayer_id = c(120),
         period = 1,
         aberrant_field = "browse_index",
-        anomaly = c("not in lookuplist"),
+        anomaly = "not in lookuplist",
         aberrant_value = 130
       )
     )
