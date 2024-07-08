@@ -288,8 +288,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
             .data$ind_sht_cop %in% c(10, 11),
           "tree no coppice",
           .data$field_decay_stage),
-      field_iufro_hght = ifelse(is.na(.data$iufro_hght) & !period %in% c(0,1),
-                                "missing", NA),
+      field_iufro_hght =
+        ifelse(is.na(.data$iufro_hght) & !.data$period %in% c(0,1),
+                 "missing", NA),
       field_iufro_hght =
         ifelse(
           !is.na(.data$iufro_hght) &
