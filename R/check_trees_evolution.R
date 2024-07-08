@@ -279,7 +279,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     )
   incorrect_tree_diff <- trees_diff %>%
     mutate(
-      period_end = as.numeric(str_split_i(period_diff, "_", 2)),
+      period_end = as.numeric(str_split_i(.data$period_diff, "_", 2)),
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
       field_alive_dead = ifelse(.data$alive_dead_diff == -1 &
                                   # coppice can change from dead to alive
