@@ -225,9 +225,11 @@ check_data_shoots <- function(database, forest_reserve = "all") {
             !is.na(.data$iufro_hght),
           "tree alive", .data$field_iufro_hght
         ),
-      field_iufro_vital = ifelse(is.na(.data$iufro_vital) &
-                                   .data$alive_dead == 11 & !period %in% c(0,1),
-                                 "missing", NA),
+      field_iufro_vital =
+        ifelse(
+          is.na(.data$iufro_vital) & .data$alive_dead == 11 &
+            !.data$period %in% c(0,1),
+          "missing", NA),
       field_iufro_vital =
         ifelse(
           !.data$iufro_vital %in% c(10, 20, 30, 40) & !is.na(.data$iufro_vital),
