@@ -345,8 +345,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "tree no coppice",
           .data$field_iufro_vital
         ),
-      field_iufro_socia = ifelse(is.na(.data$iufro_socia) & !period %in% c(0,1),
-                                 "missing", NA),
+      field_iufro_socia =
+        ifelse(is.na(.data$iufro_socia) & !.data$period %in% c(0,1),
+                 "missing", NA),
       field_iufro_socia =
         ifelse(
           !.data$iufro_socia %in% c(10, 20, 30, 40, 50) &
