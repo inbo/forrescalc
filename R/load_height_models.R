@@ -48,7 +48,7 @@ load_height_models <- function() {
     mutate(
       data = map(.data$path_file, add_models)
     ) %>%
-    unnest(cols = c(data)) %>%
+    unnest(cols = c("data")) %>%
     select(-"filename", -"path_file") %>%
     distinct() %>%
     relocate("forest_reserve", .before = "plottype")
