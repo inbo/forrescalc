@@ -205,7 +205,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
       field_iufro_hght =
         ifelse(
           is.na(.data$iufro_hght) & .data$alive_dead == 11 &
-            !.data$period %in% c(0,1),
+            !.data$period %in% c(0, 1),
           "missing", NA),
       field_iufro_hght =
         ifelse(
@@ -228,7 +228,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
       field_iufro_vital =
         ifelse(
           is.na(.data$iufro_vital) & .data$alive_dead == 11 &
-            !.data$period %in% c(0,1),
+            !.data$period %in% c(0, 1),
           "missing", NA),
       field_iufro_vital =
         ifelse(
@@ -250,7 +250,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
         ),
       field_iufro_socia =
         ifelse(is.na(.data$iufro_socia) & .data$alive_dead == 11 &
-          !.data$period %in% c(0,1),
+          !.data$period %in% c(0, 1),
         "missing", NA),
       field_iufro_socia =
         ifelse(

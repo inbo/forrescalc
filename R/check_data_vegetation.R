@@ -128,7 +128,8 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
         ifelse(
           !is.na(.data$soildisturbance_game_id) &
             !.data$soildisturbance_game_id %in% data_totalcover$cover_id &
-            !is.na(.data$date) & year(.data$date) >= 2014, # soildisturbance first measured in 2014
+            # soildisturbance first measured in 2014
+            !is.na(.data$date) & year(.data$date) >= 2014,
           "not in lookuplist",
           NA
         ),
