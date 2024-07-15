@@ -21,7 +21,7 @@ library(forrescalc)
 
 # Introduction
 
-The package `forrescalc` is developed to analyse tree measure data that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the git repository `forresdat`, which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
+The package `forrescalc` is developed to analyse tree measure data that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the [git repository `forresdat`](https://github.com/inbo/forresdat), which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
 
 # Installation
 
@@ -41,13 +41,18 @@ The package `forrescalc` can be used for different reasons:
 - keep the data repository `forresdat` up-to-date
 - load data from the `Fieldmap` database or `forresdat` to do visualisations or analyses
 - do similar aggregations on your own data
+- validate data from the `Fieldmap` database
 - ...
 
-The next part shortly describes some common tasks and mentions the functions that are useful for these tasks. For detailed information on the use of specific functions (including an example), we refer to the help of the function (accessible in R by typing the function name preceded by a `?`, for instance `?load_data_dendrometry`). Updating `forresdat` should be done following a strict routine, for other tasks it is up to the user to cherry-pick the desired functions.
+The next part shortly describes some common tasks and mentions the functions that are useful for these tasks. For detailed information on the use of specific functions (including an example), we refer to [the help of the function](https://inbo.github.io/forrescalc/reference/index.html) (accessible in R by typing the function name preceded by a `?`, for instance `?load_data_dendrometry`). Updating `forresdat` should be done following a strict routine, for other tasks it is up to the user to cherry-pick the desired functions.
 
 ## Load data from `Fieldmap` database
 
-With the calculations for `forresdat` in mind, we developed some functions to load specific data from the `Fieldmap` database: `load_data_dendrometry()`, `load_data_deadwood()`, `load_data_regeneration()` and `load_data_vegetation()`. After retrieving data from the database, they might calculate some additional variables that are needed for further analysis (e.g. they calculate `year` starting from the observation date). The output of these functions is ready to be used in the calculation functions.
+With the calculations for `forresdat` in mind, we developed some functions to load specific data from the `Fieldmap` database: `load_plotinfo()`, `load_data_dendrometry()`, `load_data_shoots()`, `load_data_deadwood()`, `load_data_regeneration()`, `load_data_vegetation()` and `load_data_herblayer()`. After retrieving data from the database, they might calculate some additional variables that are needed for further analysis (e.g. they calculate `year` starting from the observation date). The output of these functions is ready to be used in the calculation functions.
+
+To be able to calculate tree volumes starting from tree and shoot data, height models are available from git repository [`forresheights`](https://github.com/inbo/forresheights) using function `load_height_models()`.
+
+To validate the `Fieldmap` database, package `forrescalc` also contains 'check'-functions for different tables of the database, and an umbrella function `check_data_fmdb()` that runs all these functions and lists all missing data and wrong input.
 
 ## Calculations (aggregations)
 
@@ -59,15 +64,19 @@ The calculations, which are in fact aggregations of very detailed data on tree l
 - `calculate_regeneration()`
 - `calculate_vegetation()`
 
-Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calc_dendro_plot()`, `calc_dendro_plot_species()` and `create_unique_tree_id()`. The result of `calculate_dendrometry()` is a list of 3 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
+Each of these functions bundles different subfunctions for the same dataset(s), but with a result on a different level. `calculate_dendrometry()` performs for instance the subfunctions `calc_dendro_plot()`, `calc_dendro_plot_species()`, `calc_deadw_decay_plot()`, `calc_deadw_decay_plot_species()`, `calc_diam_plot()` and `calc_diam_plot_species()` (after calculating tree volumes using functions `compose_stem_data()`, `calc_variables_stem_level()`, `calc_variables_tree_level()` and `calc_intact_deadwood()`). The result of `calculate_dendrometry()` is a list of 6 dataframes, each being the result of one of the subfunctions. To update `forresdat`, all subfunctions have to be executed, so here it is easier to use these bundled functions. Users that only need one subfunction, can also use these subfunctions.
 
 ### Subfunctions
 
-Subfunctions that aggregate data, have a name starting with the above mentioned high level functions or their abbreviation (`calc_dendro`, `calc_regeneration` or `calc_vegetation`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calc_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calc_dendro_plot`).
+Subfunctions that aggregate data, have a name starting with the abbreviation of the above mentioned high level functions (`calc_dendro_`, `calc_regeneration_` or `calc_vegetation_`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calc_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calc_dendro_plot`).
 
 Subfunctions that not typically aggregate data, can have other names:
 
-- `create_unique_tree_id` brings data from individual trees over different years together
+- `create_unique_tree_id()` brings data from individual trees over different years together
+- `add_zeros()`: as absence is not reported explicitly, this function allows to add records with zero values for missing species, missing height classes,... 
+- `compare_periods_per_plot()` compares parameters between periods (years that parameters are measured)
+- `create_statistics()` gives summary statistics for the specified variables on the specified level
+- `calc_diam_statistics_species()` gives the diameter distribution on the level of forest reserve, species and year 
 
 ### Additional functions
 
@@ -77,16 +86,19 @@ And there are also some functions that we thought to be useful (or user request 
 
 ## Save and retrieve data
 
-_NOTE: to be able to save/retrieve data to/from `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its GitHub page](https://github.com/inbo/forresdat)._
+_NOTE: to be able to save data to `forresdat` or another git repository, one should first clone the repository to a local RStudio project. This can be done following the 4 steps described [here](https://inbo.github.io/git-course/course_rstudio.html#23_clone_a_repo_to_work_locally) (see also the 2 figures below the text). The https link to `forresdat` can be copied from [its GitHub page](https://github.com/inbo/forresdat)._
 
-With the workflow for the update of `forresdat` in mind, we developed 2 functions to save the results from the umbrella functions: `save_results_forresdat()` (to save the tables in `forresdat` or another git repository) and `save_results_access()` (equivalent function to save the tables in an Access database). Both functions save the dataframes from the list as separate tables. `save_results_forresdat()` (and other functions related to git) use the functionality of the [`git2rdata`](https://ropensci.github.io/git2rdata/) package.
+With the workflow for the update of `forresdat` in mind, we developed 3 functions to save the results from the umbrella functions: `save_results_forresdat()` (to save the tables in `forresdat` or another git repository), `save_results_access()` (equivalent function to save the tables in an Access database) and `save_results_csv()` (equivalent function to save the tables as `.csv`). All three functions save the dataframes from the list as separate tables. They use the functionality of the [`git2rdata`](https://ropensci.github.io/git2rdata/) package.
 
-Tables from git can be loaded again in R with the function `read_forresdat_table()`.
+Tables from git can be loaded again in R with the function `read_forresdat_table()`, and the whole 'data package' `forresdat` can be loaded using `read_forresdat()`.
+The result of the latter is in the `frictionless` data package format and it can be treated using the [`frictionless` package](https://docs.ropensci.org/frictionless/).
 
 Two other functions allow to copy tables from an Access database to a git repository and visa versa (`from_access_to_forresdat()` and `from_forresdat_to_access()`). The first one allows to add lookup tables to `forresdat` and the second one might be useful to copy tables from `forresdat` to a personal analysis database in Access.
 
-Functions `save_results_forresdat()` and `from_access_to_forresdat()` save tables in your local copy of the git repository (grouped as 1 commit for each function). Changes can be checked in the local repository (project `forresdat`, tab _Git_, button _History_) and _pushed_ to the _remote_ repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function `remove_last_commit_forresdat()`, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.
+Functions `save_results_forresdat()` and `from_access_to_forresdat()` save tables in your local copy of the git repository (grouped as 1 commit for each function, and with adapting the `.json` file that allows it to be used as a `frictionless` data package). Changes can be checked in the local repository (project `forresdat`, tab _Git_, button _History_) and _pushed_ to the _remote_ repository on GitHub. If you are not satisfied with the changes, you can remove the last commit with the function `remove_last_commit_forresdat()`, but only BEFORE YOU PUSHED THIS COMMIT TO THE REMOTE.
 
 ## Update `forresdat`
 
 To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `main.R` that is in the root of the installed package (and in the `inst` folder of the git repository of the package `forrescalc`). In this script, paths to the `Fieldmap` database and the git repository should be adapted to the local situation. Evidently changes in the commits should be checked before pushing them to the remote, as is described above.
+
+When removing a table from `forresdat`, this should only be done using function `remove_table_forresdat()` to make sure the `.json` file (that makes it a `frictionless` data package) is updated correctly.
