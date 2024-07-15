@@ -28,7 +28,7 @@ The package `forrescalc` is developed to analyse tree measure data that are save
 Installation of the package:
 
 ```{r eval = FALSE}
-# install.packages("remotes")
+install.packages("remotes")
 remotes::install_github("inbo/forrescalc", build_vignettes = TRUE)
 ```
 
