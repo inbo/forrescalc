@@ -36,8 +36,8 @@ calculate_vegetation <- function(data_vegetation, data_herblayer) {
 
   return(
     list(
-      vegetation_by_plot = by_plot,
-      vegetation_by_core_area_species = by_core_area_species
+      veg_by_plot = by_plot,
+      veg_by_core_area_species = by_core_area_species
     )
   )
 }

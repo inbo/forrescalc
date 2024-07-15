@@ -6,10 +6,10 @@ path_to_fieldmapdb <-
 data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
 results_regeneration <- calculate_regeneration(data_regeneration)
 
-describe("regeneration_by_plot", {
+describe("reg_by_plot", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_regeneration[["regeneration_by_plot"]]),
+      colnames(results_regeneration[["reg_by_plot"]]),
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "number_of_tree_species", "nr_of_tree_species_established",
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
@@ -30,10 +30,10 @@ describe("regeneration_by_plot", {
   })
 })
 
-describe("regeneration_by_plot_height", {
+describe("reg_by_plot_height", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_regeneration[["regeneration_by_plot_height"]]),
+      colnames(results_regeneration[["reg_by_plot_height"]]),
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "number_of_tree_species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
@@ -44,10 +44,10 @@ describe("regeneration_by_plot_height", {
   })
 })
 
-describe("regeneration_by_plot_species", {
+describe("reg_by_plot_species", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_regeneration[["regeneration_by_plot_species"]]),
+      colnames(results_regeneration[["reg_by_plot_species"]]),
       c("plottype", "plot_id", "subplot_id", "period", "year", "species",
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
         "approx_rubbing_damage_perc_established",
@@ -67,10 +67,10 @@ describe("regeneration_by_plot_species", {
   })
 })
 
-describe("regeneration_by_plot_height_species", {
+describe("reg_by_plot_height_species", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_regeneration[["regeneration_by_plot_height_species"]]),
+      colnames(results_regeneration[["reg_by_plot_height_species"]]),
       c("plottype", "plot_id", "subplot_id", "period", "year",
         "height_class", "species",
         "approx_nr_regeneration_ha", "approx_rubbing_damage_perc",
@@ -81,10 +81,10 @@ describe("regeneration_by_plot_height_species", {
   })
 })
 
-describe("regeneration_by_core_area_species", {
+describe("reg_by_core_area_species", {
   it("output columns are correct", {
     expect_equal(
-      colnames(results_regeneration[["regeneration_by_core_area_species"]]),
+      colnames(results_regeneration[["reg_by_core_area_species"]]),
       c("plottype", "plot_id", "period", "year", "species",
         "nr_of_subplots_with_regeneration",
         "perc_subplots_with_regeneration",
@@ -106,11 +106,11 @@ describe("regeneration_by_core_area_species", {
   })
 })
 
-describe("regeneration_by_core_area_height_species", {
+describe("reg_by_core_area_height_species", {
   it("output columns are correct", {
     expect_equal(
       colnames(
-        results_regeneration[["regeneration_by_core_area_height_species"]]
+        results_regeneration[["reg_by_core_area_height_species"]]
       ),
       c("plottype", "plot_id", "period", "year", "height_class", "species",
         "nr_of_subplots_with_regeneration",

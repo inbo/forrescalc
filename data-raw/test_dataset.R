@@ -147,6 +147,13 @@ trees[trees$ID == 4053, "DBH_mm"] <- 80
 trees[trees$ID == 11599, "Y_m"] <- 6
 trees[trees$ID == 13, "AliveDead"] <- 12
 trees[trees$ID == 13, "DecayStage"] <- 12
+trees[trees$ID == 11598, "AliveDead"] <- 12
+trees[trees$ID == 11609, "AliveDead"] <- 12
+trees[trees$ID == 11609, "IndShtCop"] <- 10
+trees[trees$ID == 11609, "CoppiceID"] <- NA
+trees[trees$ID == 11608, "AliveDead"] <- 12
+trees[trees$ID == 11608, "IndShtCop"] <- 12
+trees[trees$ID == 11608, "CoppiceID"] <- 1
 trees <- trees %>%
   bind_rows(
     data.frame(
@@ -178,6 +185,8 @@ trees_2eset[trees_2eset$ID == 11557, "Species"] <- 16
 trees_2eset[trees_2eset$ID == 11557, "X_m"] <- 4.767
 trees_2eset[trees_2eset$ID == 11595, "DBH_mm"] <- 10
 trees_2eset[trees_2eset$ID == 11595, "Height_m"] <- 2
+trees_2eset[trees_2eset$ID == 11598, "AliveDead"] <- 11
+trees_2eset[trees_2eset$ID == 11609, "AliveDead"] <- 11
 trees_2eset <- trees_2eset %>%
   bind_rows(
     data.frame(
