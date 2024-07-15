@@ -320,7 +320,7 @@ dbWriteTable(
 )
 dbWriteTable(packagedb, "qPlotType", qplottype)
 dbWriteTable(packagedb, "qspecies", qspecies)
-dbWriteTable(packagedb, "qtotalCover", qtotalCover)
+dbWriteTable(packagedb, "qtotalCover", qtotalcover)
 dbWriteTable(packagedb, "qYesNo", q_yes_no)
 dbWriteTable(packagedb, "Regeneration", regeneration)
 dbWriteTable(packagedb, "Regeneration_2eSet", regeneration_2eset)

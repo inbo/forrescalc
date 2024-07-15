@@ -27,7 +27,10 @@
 #'
 check_data_fmdb <- function(database, forest_reserve = "all") {
   incorrect_data <- check_data_trees(database, forest_reserve) %>%
-    mutate(layer = "Trees") %>%
+    mutate(
+      layer = "Trees",
+      aberrant_value = as.character(.data$aberrant_value)
+    ) %>%
     bind_rows(
       check_data_shoots(database, forest_reserve) %>%
         mutate(
