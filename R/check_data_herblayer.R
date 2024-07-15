@@ -68,11 +68,6 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       n_records = n()
     ) %>%
     ungroup() %>%
-    group_by(.data$plot_id, .data$period) %>%
-    mutate(
-      not_na_browse_index = any(!is.na(.data$browse_index))
-    ) %>%
-    ungroup() %>%
     mutate(
       field_coverage_id =
         ifelse(is.na(.data$coverage_id), "missing", NA),
@@ -92,14 +87,10 @@ check_data_herblayer <- function(database, forest_reserve = "all") {
       n_records = NULL,
       field_browse_index =
         ifelse(
-          is.na(.data$browse_index) & .data$not_na_browse_index, "missing", NA
-        ),
-      field_browse_index =
-        ifelse(
           !is.na(.data$browse_index) &
             !.data$browse_index %in% data_browseindex$browse_index_id,
           "not in lookuplist",
-          .data$field_browse_index
+          NA
         )
     ) %>%
     pivot_longer(

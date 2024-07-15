@@ -30,6 +30,7 @@
 #'   ungroup
 #' @importFrom tidyr pivot_longer
 #' @importFrom graphics boxplot
+#' @importFrom stringr str_split_i
 #'
 check_trees_evolution <- function(database, forest_reserve = "all") {
   selection <-
@@ -42,6 +43,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       qPlotType.Value3 AS plottype,
       Trees.X_m AS x_m, Trees.Y_m AS y_m,
       Trees.ID AS tree_measure_id,
+      Trees.StatusRemeasurement AS status_remeasurement,
       Trees.DBH_mm AS dbh_mm,
       Trees.Height_m AS height_m,
       Trees.Species AS species,
@@ -155,7 +157,9 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
               sqrt((.data$x_m.y - .data$x_m.x) ^ 2 +
                      (.data$y_m.y - .data$y_m.x) ^ 2)
           ) %>%
-          filter(.data$location_shift < 0.2) %>%
+          filter(.data$location_shift < 0.2 &
+                   (.data$status_remeasurement.y != 250 |
+                      is.na(.data$status_remeasurement.y))) %>%
           transmute(
             .data$plot_id,
             period = paste(.data$period.x, .data$period.y, sep = "_"),
@@ -201,11 +205,13 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       data_trees %>%
         select(
           "period", "plot_id", "tree_id",
-          "species", "alive_dead", "decay_stage", "x_m", "y_m", "dbh_mm",
+          "species", "alive_dead", "decay_stage", "ind_sht_cop",
+          "x_m", "y_m", "dbh_mm",
           "height_m"
         ),
       measure_vars =
-        c("species", "alive_dead", "decay_stage", "x_m", "y_m", "dbh_mm",
+        c("species", "alive_dead", "decay_stage", "ind_sht_cop",
+          "x_m", "y_m", "dbh_mm",
           "height_m")
     ) %>%
     mutate(
@@ -239,6 +245,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       .data$tree_id_earlier != .data$tree_id_later
     ) %>%
     mutate(
+      period_end = .data$period,
       period = paste(.data$period - 1, .data$period, sep = "_"),
       tree_id = paste(.data$tree_id_earlier, .data$tree_id_later, sep = "-"),
       tree_measure_id =
@@ -251,7 +258,10 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       location_shift = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
       field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
       field_location_shift =
-        ifelse(.data$location_shift > 0.5, "walker coppice_id", NA)
+        ifelse(
+          (.data$location_shift > 1 & .data$period_end >= 3) |
+                 (.data$location_shift > 1.5 & .data$period_end < 3),
+          "walker coppice_id", NA)
     ) %>%
     filter(!is.na(.data$field_species) | !is.na(.data$field_location_shift)) %>%
     select(
@@ -269,8 +279,13 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     )
   incorrect_tree_diff <- trees_diff %>%
     mutate(
+      period_end = as.numeric(str_split_i(.data$period_diff, "_", 2)),
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
-      field_alive_dead = ifelse(.data$alive_dead_diff == -1, "zombie", NA),
+      field_alive_dead = ifelse(.data$alive_dead_diff == -1 &
+                                  # coppice can change from dead to alive
+                                  .data$ind_sht_cop == 10 &
+                                  .data$ind_sht_cop_diff == 0,
+                                "zombie", NA),
       field_decay_stage =
         ifelse(
           !(.data$decay_stage_diff >= 0 & .data$decay_stage_diff <= 5) &
@@ -280,7 +295,12 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
           "wrong shift",
           NA
         ),
-      field_location_shift = ifelse(.data$location_shift > 0.2, "walker", NA)
+      field_location_shift =
+        ifelse(
+          (.data$location_shift > 1 & .data$period_end >= 3) |
+            (.data$location_shift > 1.5 & .data$period_end < 3),
+          "walker",
+          NA)
     ) %>%
     left_join(
       trees_diff %>%

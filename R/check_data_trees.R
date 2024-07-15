@@ -39,6 +39,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       pd.rA3 AS r_a3, pd.rA4 AS r_a4,
+      pd.TresHoldDBH_Trees_A4_alive AS treshold_alive,
+      pd.TresHoldDBH_Trees_A4_dead AS treshold_dead,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -78,6 +80,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
     "SELECT Trees.IDPlots AS plot_id,
       qPlotType.Value3 AS plottype,
       pd.rA3 AS r_a3, pd.rA4 AS r_a4,
+      pd.TresHoldDBH_Trees_A4_alive AS treshold_alive,
+      pd.TresHoldDBH_Trees_A4_dead AS treshold_dead,
       Trees.X_m, Trees.Y_m,
       Trees.ID AS tree_measure_id,
       Trees.DBH_mm AS dbh_mm,
@@ -149,7 +153,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       location =
         ifelse(
-          .data$plottype == "CP" & .data$alive_dead == 11 & .data$dbh_mm < 400 &
+          .data$plottype == "CP" & .data$alive_dead == 11 &
+            .data$dbh_mm < .data$treshold_alive &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
             is.na(.data$location),
           "tree not in A3",
@@ -157,7 +162,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       location =
         ifelse(
-          .data$plottype == "CP" & .data$alive_dead == 12 & .data$dbh_mm < 100 &
+          .data$plottype == "CP" & .data$alive_dead == 12 &
+            .data$dbh_mm < .data$treshold_dead &
             sqrt(.data$X_m ^ 2 + .data$Y_m ^ 2) > .data$r_a3 &
             is.na(.data$location),
           "tree not in A3",
@@ -198,13 +204,16 @@ check_data_trees <- function(database, forest_reserve = "all") {
       by = c("plot_id", "tree_measure_id", "period")
     ) %>%
     mutate(
-      # ratio D/H
+      # ratio D/H - geen snags
       ratio_dbh_height = round(.data$dbh_mm * pi / (.data$height_m * 10), 1),
       field_ratio_dbh_height =
-        ifelse(.data$ratio_dbh_height < 1.5, "too low", NA),
+        ifelse(
+          .data$ratio_dbh_height < 1.35 & .data$intact_snag == 11,
+          "tree too thin and high", NA),
       field_ratio_dbh_height =
         ifelse(
-          .data$ratio_dbh_height > 15, "too high", .data$field_ratio_dbh_height
+          .data$ratio_dbh_height > 16.5 & .data$intact_snag == 11,
+          "tree too thick and low", .data$field_ratio_dbh_height
         ),
       field_dbh_mm = ifelse(is.na(.data$dbh_mm), "missing", NA),
       field_dbh_mm =
@@ -251,7 +260,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_decay_stage =
         ifelse(
-          is.na(.data$decay_stage) & .data$alive_dead == 12, "missing", NA
+          is.na(.data$decay_stage) & .data$alive_dead == 12 &
+            (.data$ind_sht_cop %in% c(10, 11) | is.na(.data$ind_sht_cop)),
+          "missing", NA
         ),
       field_decay_stage =
         ifelse(
@@ -261,7 +272,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_decay_stage),
       field_decay_stage =
         ifelse(
-          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15, 17) &
+          .data$decay_stage %in% c(10, 11, 12, 13, 14, 15) &
             .data$alive_dead == 11 & !is.na(.data$decay_stage),
           "tree alive",
           .data$field_decay_stage),
@@ -277,7 +288,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
             .data$ind_sht_cop %in% c(10, 11),
           "tree no coppice",
           .data$field_decay_stage),
-      field_iufro_hght = ifelse(is.na(.data$iufro_hght), "missing", NA),
+      field_iufro_hght =
+        ifelse(is.na(.data$iufro_hght) & !.data$period %in% c(0, 1),
+                 "missing", NA),
       field_iufro_hght =
         ifelse(
           !is.na(.data$iufro_hght) &
@@ -286,7 +299,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_hght =
         ifelse(
-          .data$iufro_hght %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_hght %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_hght),
           "tree not alive",
           .data$field_iufro_hght),
@@ -302,7 +315,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
             !is.na(.data$iufro_hght),
           "tree no coppice", .data$field_iufro_hght
         ),
-      field_iufro_vital = ifelse(is.na(.data$iufro_vital), "missing", NA),
+      field_iufro_vital =
+        ifelse(is.na(.data$iufro_vital) & !.data$period %in% c(0, 1),
+                 "missing", NA),
       field_iufro_vital =
         ifelse(
           !.data$iufro_vital %in% c(10, 20, 30, 40, 50) &
@@ -311,7 +326,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       field_iufro_vital =
         ifelse(
-          .data$iufro_vital %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_vital %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_vital),
           "tree not alive",
           .data$field_iufro_vital
@@ -330,7 +345,9 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "tree no coppice",
           .data$field_iufro_vital
         ),
-      field_iufro_socia = ifelse(is.na(.data$iufro_socia), "missing", NA),
+      field_iufro_socia =
+        ifelse(is.na(.data$iufro_socia) & !.data$period %in% c(0, 1),
+                 "missing", NA),
       field_iufro_socia =
         ifelse(
           !.data$iufro_socia %in% c(10, 20, 30, 40, 50) &
@@ -339,7 +356,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_iufro_socia),
       field_iufro_socia =
         ifelse(
-          .data$iufro_socia %in% c(10, 20, 30, 50) & .data$alive_dead == 12 &
+          .data$iufro_socia %in% c(10, 20, 30) & .data$alive_dead == 12 &
             !is.na(.data$iufro_socia),
           "tree not alive",
           .data$field_iufro_socia),
@@ -426,7 +443,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
           field_species =
             ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
           field_location_shift =
-            ifelse(.data$location_shift > 0.5, "walker in coppice tree", NA)
+            ifelse(.data$location_shift > 1, "walker in coppice tree", NA)
         ) %>%
         filter(
           !(is.na(.data$field_species) & is.na(.data$field_location_shift))

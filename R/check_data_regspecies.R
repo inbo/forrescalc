@@ -82,19 +82,19 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
     mutate(
       field_heightclass =
         ifelse(
+          is.na(.data$heightclass),
+          "missing", NA
+        ),
+      field_heightclass =
+        ifelse(
           .data$n_height_class > 1,
           paste0(.data$n_height_class, " times the same height class"),
-          NA
+          .data$field_heightclass
         ),
       n_height_class = NULL
     ) %>%
     left_join(
-      data_regspecies %>%
-        group_by(.data$plot_id, .data$period) %>%
-        mutate(
-          not_na_game_damage_number = any(!is.na(.data$game_damage_number))
-        ) %>%
-        ungroup(),
+      data_regspecies,
       by = c("plot_id", "subplot_id", "heightclass_id", "period")
     ) %>%
     left_join(
@@ -105,27 +105,27 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
     mutate(
       field_number_class =
         ifelse(
-          is.na(.data$number_class) &
-            .data$heightclass %in% c(1000, 2000, 5000),
+          is.na(.data$number_class) & .data$period >= 3 &
+            .data$heightclass %in% c(1000, 2000, 5000, 6000),
           "missing", NA
         ),
       field_number =
         ifelse(
-          is.na(.data$number) &
-            .data$heightclass %in% c(3000, 4000, 6000, 7000, 8000, 9000),
+          is.na(.data$number) & .data$period >= 3 &
+            .data$heightclass %in% c(3000, 4000, 7000, 8000),
+          "missing", NA
+        ),
+      number_and_numberclass = NA,
+      field_number_and_numberclass =
+        ifelse(
+          is.na(.data$number) & is.na(.data$number_class) &
+            .data$period < 3,
           "missing", NA
         ),
       field_game_damage_number =
-        ifelse(
-          is.na(.data$game_damage_number) & .data$game_impact_reg == 10 &
-            .data$not_na_game_damage_number,
-          "missing", NA
-        ),
-      field_game_damage_number =
-        ifelse(
-          is.na(.data$field_game_damage_number) & .data$game_impact_reg == 10 &
-            !is.na(.data$number) & .data$game_damage_number > .data$number,
-          "higher than total number", .data$field_game_damage_number
+        ifelse(.data$game_impact_reg == 10 & !is.na(.data$number) &
+                 .data$game_damage_number > .data$number,
+          "higher than total number", NA
         ),
       field_game_damage_number =
         ifelse(

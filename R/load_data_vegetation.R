@@ -86,6 +86,16 @@ load_data_vegetation <-
 
   data_vegetation <-
     query_database(database, query_vegetation, selection = selection) %>%
+    group_by(.data$forest_reserve, .data$period) %>%
+    mutate(
+      not_na_waterlayer_cover =
+        any(!is.na(.data$total_waterlayer_cover_id) &
+              .data$total_waterlayer_cover_id != 20),
+      not_na_soildisturbance_game =
+        any(!is.na(.data$total_soildisturbance_game_id) &
+              .data$total_soildisturbance_game_id != 20)
+    ) %>%
+    ungroup() %>%
     mutate(
       year_main_survey = ifelse(!is.na(.data$date_vegetation)
                                 , as.integer(year(.data$date_vegetation))
@@ -113,7 +123,18 @@ load_data_vegetation <-
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
-        )
+        ),
+      # correct for NA instead of < 1% (waterlayer and soildisturbance only)
+      total_waterlayer_cover_id =
+        ifelse(is.na(.data$total_waterlayer_cover_id) &
+                 .data$not_na_waterlayer_cover,
+               1,
+               .data$total_waterlayer_cover_id),
+      total_soildisturbance_game_id =
+        ifelse(is.na(.data$total_soildisturbance_game_id) &
+                 .data$not_na_soildisturbance_game,
+               1,
+               .data$total_soildisturbance_game_id)
     ) %>%
     left_join(total_cover, by = c("total_moss_cover_id" = "id")) %>%
     rename(
@@ -162,7 +183,8 @@ load_data_vegetation <-
         (.data$soildisturbance_game_cover_min +
            .data$soildisturbance_game_cover_max) / 2
     ) %>%
-    relocate(contains("core_area_"), .after = last_col())
+    relocate(contains("core_area_"), .after = last_col()) %>%
+    select(-"not_na_soildisturbance_game", -"not_na_waterlayer_cover")
 
   attr(data_vegetation, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
