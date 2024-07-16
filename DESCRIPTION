@@ -47,6 +47,9 @@ Suggests:
     tibble
 VignetteBuilder: 
     knitr
+Config/checklist/communities: inbo
+Config/checklist/keywords: forest reserve; dendrometry; regeneration;
+    vegetation
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
