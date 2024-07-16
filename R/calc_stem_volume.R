@@ -1,3 +1,4 @@
+# nolint start
 #' Calculate stem volume including bole and crown volume
 #'
 #' This function calculates the bole and crown volume to be used
@@ -24,6 +25,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate select
 #'
+# nolint end
 calc_stem_volume <- function(data_stems) {
 
   check_forrescalc_version_attr(data_stems)
