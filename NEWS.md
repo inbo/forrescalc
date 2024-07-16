@@ -1,3 +1,3 @@
-# forrescalc 0.0.0.9000
+# forrescalc 0.0.1
 
 * Initial version

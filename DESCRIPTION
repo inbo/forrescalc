@@ -2,7 +2,7 @@ Package: forrescalc
 Title: Calculation of agregated values on dendrometry, regeneration and
     vegetation of forests, starting from individual tree measures from
     Fieldmap
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: c(
     person("Els", "Lommelen", , "els.lommelen@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3481-5684")),
