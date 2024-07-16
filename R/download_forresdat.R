@@ -33,7 +33,9 @@ download_forresdat <- function() {
     GET("https://api.github.com/repos/inbo/forresdat/releases/latest")
   version_latest <- (content(latest_release))$tag_name
   path_to_forresdat <- file.path(datadir, "forresdat", "datapackage")
-  attr(path_to_forresdat, "version") <- version_latest
+  if (!is.null(version_latest)) {
+    attr(path_to_forresdat, "version") <- version_latest
+  }
 
   # check what is already present in the local system temp and react accordingly
   if (!file.exists(file.path(datadir, "forresdat"))) {
@@ -42,7 +44,7 @@ download_forresdat <- function() {
   } else {
     version_local <-
       readLines(file.path(datadir, "forresdat", "version.txt"))
-    if (version_latest == version_local) {
+    if (is.null(version_latest) || version_latest == version_local) {
       return(path_to_forresdat)
     } else {
       unlink(path_to_forresdat, recursive = TRUE)
