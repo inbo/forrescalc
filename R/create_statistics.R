@@ -125,8 +125,8 @@ create_statistics <-
     msg = "Dataset should contain all columns that are mentioned as level."
   )
 
-  for (var in variables) {
-    if (!has_name(dataset, var)) {
+  for (variab in variables) {
+    if (!has_name(dataset, variab)) {
       assert_that(is.data.frame(interval_information))
       assert_that(
         has_name(
@@ -135,19 +135,19 @@ create_statistics <-
         )
       )
       var_info <- interval_information %>%
-        filter(.data$var_name == var) %>%
+        filter(.data$var_name == variab) %>%
         distinct()
       assert_that(
         nrow(var_info) > 0,
         msg = paste0(
-          "The variable '", var, "' is not present in the given dataset ",
+          "The variable '", variab, "' is not present in the given dataset ",
           "and not declared in 'interval_information'.",
         )
       )
       assert_that(
         nrow(var_info) == 1,
         msg = paste0(
-          "The variable '", var, "' is declared more than once in ",
+          "The variable '", variab, "' is declared more than once in ",
           "'interval_information' with different parameters. ",
           "Please add each 'var_name' only once in 'interval_information'."
         )
@@ -171,17 +171,17 @@ create_statistics <-
               ((!!var_max - !!var_min) / (2 * 1.96)) ^ 2
             )
         ) %>%
-        nest("{var}" := c(.data$value, .data$variance, .data$logaritmic)) %>%
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic)) %>%
         select(-!!var_min, -!!var_max)
     } else {
       dataset <- dataset %>%
         mutate(
           logaritmic = FALSE,
-          value = !!sym(var),
+          value = !!sym(variab),
           variance = NA
         ) %>%
-        select(-!!sym(var)) %>%
-        nest("{var}" := c(.data$value, .data$variance, .data$logaritmic))
+        select(-!!sym(variab)) %>%
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic))
     }
   }
 
