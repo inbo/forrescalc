@@ -27,7 +27,7 @@
 #' select_for_das_indicator(data_dendro)
 #' }
 #'
-#' @export
+#' @noRd
 #'
 #' @importFrom dplyr %>% distinct filter group_by_at inner_join left_join
 #' @importFrom dplyr mutate select_at summarise ungroup

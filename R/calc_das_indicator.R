@@ -33,7 +33,7 @@
 #' calc_das_indicator(data_dendro_calc)
 #' }
 #'
-#' @export
+#' @noRd
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n
