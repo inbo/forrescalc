@@ -181,7 +181,7 @@ create_statistics <-
           variance = NA
         ) %>%
         select(-!!sym(variab)) %>%
-        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic))
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic))  # nolint: object_name_linter
     }
   }
 
