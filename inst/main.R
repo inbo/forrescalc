@@ -1,9 +1,25 @@
+# This script shows how data can be loaded from the Fieldmap database,
+# aggregated to the plot level and saved to a local version of forresdat.
+# The path to Fieldmap given here is to the example database in forresdat
+# (replace by path to own local database to use all data)
+# and the path to a local version is taken from an environmental variable.
+# This variable can be generated on the level of your RStudio project by
+# adding a text file named .Renviron to the root of your project folder and
+# add text 'path_to_git_forresdat="your/path"' as content.
+# (To add more variables, use 1 line for each variable, and no separation
+# symbols, just an enter to start a new line.)
+# This variable can also be set on the level of a RStudio user by adding the
+# file .Renviron in the folder given by Sys.getenv("R_USER")
+# And it can be set on the level of the computer by adding an environmental
+# variable to the system (to have it also available in software other than R).
+# (After setting, restart RStudio to make the environmental variable available!)
+
 library(tidyverse)
 library(forrescalc)
 
 path_to_fieldmap <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
-path_to_git_forresdat <- "C:/R/bosreservatendb/forresdat"
+path_to_git_forresdat <- Sys.getenv("path_to_git_forresdat")
 
 # only when q-tables in Fieldmap have changed
 # (and only mention the changed table)
