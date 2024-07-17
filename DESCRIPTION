@@ -11,8 +11,9 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", , , "info@inbo.be", role = c("cph", "fnd"))
   )
 Description: A collection of functions to load and aggregate measurements
-    related to dendrometry, rejuvenation and vegetation, and to access plot
-    level results from Flemish forest reserves in data package forresdat.
+    related to dendrometry, rejuvenation and vegetation, and to access
+    plot level results from Flemish forest reserves in data package
+    forresdat.
 License: GPL-3
 URL: https://inbo.github.io/forrescalc/,
     https://github.com/inbo/forrescalc

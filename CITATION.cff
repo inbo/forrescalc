@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
-title: "forrescalc: Calculation of agregated values on dendrometry, regeneration and
-  vegetation of forests, starting from individual tree measures from Fieldmap"
+title: "forrescalc: Calculation of Aggregated Values on Dendrometry, Regeneration
+  and Vegetation of Forests, Starting from Individual Tree Measures from Fieldmap"
 authors:
 - given-names: Els
   family-names: Lommelen
@@ -32,10 +32,9 @@ doi: ~
 license: GPL-3.0
 repository-code: https://github.com/inbo/forrescalc/
 type: software
-abstract: "The package contains functions to aggregate individual tree measures to
-  aggregated values of dendrometry, regeneration and vegetation on plot level (and
-  higher levels). (Results are stocked in data repository forresdat to allow for further
-  analysis.)"
+abstract: "A collection of functions to load and aggregate measurements related to
+  dendrometry, rejuvenation and vegetation, and to access plot level results from
+  Flemish forest reserves in data package forresdat."
 identifiers:
 - type: url
   value: https://inbo.github.io/forrescalc/
