@@ -48,8 +48,9 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/checklist/communities: inbo
-Config/checklist/keywords: forest reserve; dendrometry; regeneration;
-    vegetation
+Config/checklist/keywords: strict forest reserves; monitoring; forestry;
+    Flanders; Belgium; dendrometry; rejuvenation; carbon; temperate
+    deciduous forests; regeneration; vegetation
 Encoding: UTF-8
 Language: en-GB
 LazyData: true

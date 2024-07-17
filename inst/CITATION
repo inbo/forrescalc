@@ -8,6 +8,6 @@ bibentry(
   url = "https://inbo.github.io/forrescalc/",
   abstract = "The package contains functions to aggregate individual tree measures to aggregated values of dendrometry, regeneration and vegetation on plot level (and higher levels). (Results are stocked in data repository forresdat to allow for further analysis.)",
   textVersion = "Lommelen, Els; Leyman, Anja (2024) forrescalc: Calculation of agregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Fieldmap. Version 0.0.1. https://inbo.github.io/forrescalc/",
-  keywords = "forest reserve; dendrometry; regeneration; vegetation",
+  keywords = "strict forest reserves; monitoring; forestry; Flanders; Belgium; dendrometry; rejuvenation; carbon; temperate deciduous forests; regeneration; vegetation",
 )
 # end checklist entry
