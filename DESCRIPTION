@@ -1,6 +1,6 @@
 Package: forrescalc
-Title: Calculation of agregated values on dendrometry, regeneration and
-    vegetation of forests, starting from individual tree measures from
+Title: Calculation of Aggregated Values on Dendrometry, Regeneration and
+    Vegetation of Forests, Starting from Individual Tree Measures from
     Fieldmap
 Version: 0.0.1
 Authors@R: c(
