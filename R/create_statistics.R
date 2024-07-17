@@ -171,7 +171,7 @@ create_statistics <-
               ((!!var_max - !!var_min) / (2 * 1.96)) ^ 2
             )
         ) %>%
-        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic)) %>%
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic)) %>%  # nolint: object_name_linter
         select(-!!var_min, -!!var_max)
     } else {
       dataset <- dataset %>%
