@@ -2,11 +2,11 @@
 #'
 #' @description
 #' This function calculates statistics for the given data
-#' (e.g. from the git-repository forresdat) on the specified level
+#' (e.g. from the git-repository `forresdat`) on the specified level
 #' (e.g. forest_reserve, period and species) and for the specified variables
 #' (e.g. basal_area and volume).
 #' Calculated statistics include number of observations, mean, variance
-#' and confidence interval (lci and uci).
+#' and confidence interval with lower and upper limit (lci and uci).
 #'
 #' These summary statistics are calculated on the given data, not taking into
 #' account absence of observations unless explicitly added as a record with
@@ -25,17 +25,18 @@
 #' `variables` must contain a name for the output of this variable, and
 #' `interval_information` must contain the variable names for minimum, maximum
 #' and output that should be used.
-#' In `interval_information` it can be specified if a logaritmic transformation
-#' is needed to compensate of inequal interval widths.
+#' In `interval_information` it can be specified if a logarithmic transformation
+#' is needed to compensate of unequal interval widths.
 #' In this case, mean and the confidence interval are transformed back,
 #' but variance is not, as this result would be confusing rather than useful.
-#' For typical forresdat variables, the default value of `interval_information`
+#' For typical `forresdat` variables,
+#' the default value of `interval_information`
 #' can be used and in this case, the variable mentioned in `variables` should
-#' be named after the values in forresdat, omitting `min_`, `_min`, `max_` or
+#' be named after the values in `forresdat`, omitting `min_`, `_min`, `max_` or
 #' `_max` (see example on interval data).
 #'
 #' @param dataset dataset with data to be summarised with at least columns year
-#' and period, e.g. table from git repository forresdat
+#' and period, e.g. table from git repository `forresdat`
 #' @param level grouping variables that determine on which level the values
 #' should be calculated (e.g. forest_reserve, year and species), given as a
 #' string or a vector of strings. Defaults to forest_reserve & period.
@@ -49,7 +50,7 @@
 #' including columns `var_name` (= name for output), `var_min` and `var_max`
 #' (= names for minimum and maximum value in input dataset), and
 #' `preferred_transformation` (= "log" if log-transformation is desired).
-#' Defaults to a table containing all interval variables in forresdat,
+#' Defaults to a table containing all interval variables in `forresdat`,
 #' where log transformation is applied in variables where class widths differ.
 #' (In cover data in the Longo scale, log transformation is only applied in
 #' variables where most observations have a low coverage, e.g. moss cover,
@@ -57,9 +58,9 @@
 #' of the Longo scale.)
 #'
 #' @return dataframe with the columns chosen for level, a column variable with
-#' the chosen variables, and the columns n_obs, mean, variance,
-#' lci (lower limit of confidence interval) and
-#' uci (upper limit of confidence interval)
+#' the chosen variables, and the columns `n_obs`, `mean`, `variance`,
+#' `lci` (lower limit of confidence interval) and
+#' `uci` (upper limit of confidence interval)
 #'
 #' @examples
 #' library(forrescalc)
@@ -124,8 +125,8 @@ create_statistics <-
     msg = "Dataset should contain all columns that are mentioned as level."
   )
 
-  for (var in variables) {
-    if (!has_name(dataset, var)) {
+  for (variab in variables) {
+    if (!has_name(dataset, variab)) {
       assert_that(is.data.frame(interval_information))
       assert_that(
         has_name(
@@ -134,19 +135,19 @@ create_statistics <-
         )
       )
       var_info <- interval_information %>%
-        filter(.data$var_name == var) %>%
+        filter(.data$var_name == variab) %>%
         distinct()
       assert_that(
         nrow(var_info) > 0,
         msg = paste0(
-          "The variable '", var, "' is not present in the given dataset ",
+          "The variable '", variab, "' is not present in the given dataset ",
           "and not declared in 'interval_information'.",
         )
       )
       assert_that(
         nrow(var_info) == 1,
         msg = paste0(
-          "The variable '", var, "' is declared more than once in ",
+          "The variable '", variab, "' is declared more than once in ",
           "'interval_information' with different parameters. ",
           "Please add each 'var_name' only once in 'interval_information'."
         )
@@ -170,17 +171,17 @@ create_statistics <-
               ((!!var_max - !!var_min) / (2 * 1.96)) ^ 2
             )
         ) %>%
-        nest("{var}" := c(.data$value, .data$variance, .data$logaritmic)) %>%
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic)) %>%  # nolint: object_name_linter
         select(-!!var_min, -!!var_max)
     } else {
       dataset <- dataset %>%
         mutate(
           logaritmic = FALSE,
-          value = !!sym(var),
+          value = !!sym(variab),
           variance = NA
         ) %>%
-        select(-!!sym(var)) %>%
-        nest("{var}" := c(.data$value, .data$variance, .data$logaritmic))
+        select(-!!sym(variab)) %>%
+        nest("{variab}" := c(.data$value, .data$variance, .data$logaritmic))  # nolint: object_name_linter
     }
   }
 

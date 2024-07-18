@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_results_csv.R
 \name{save_results_csv}
 \alias{save_results_csv}
-\title{save results of calculations as csv-files}
+\title{save results of calculations as \code{.csv}-files}
 \usage{
 save_results_csv(results, output_dir)
 }
@@ -32,7 +32,7 @@ regeneration <- calculate_regeneration(data_regeneration)
 save_results_csv(results = regeneration, output_dir = path_to_plotlevel_csv)
 
 files <- list.files()
-files <- files[grepl("^regeneration_by.*\\\\.csv$", files)]
+files <- files[grepl("^reg_by.*\\\\.csv$", files)]
 file.remove(files)
 
 }

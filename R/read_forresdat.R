@@ -1,21 +1,21 @@
-#' @title load datapackage from git repository forresdat
+#' @title load data package from git repository `forresdat`
 #'
 #' @description
-#' This function reads the datapackage from git repository forresdat
-#' (and saves the forresdat data to a local temp directory to avoid unneeded
+#' This function reads the data package from git repository `forresdat`
+#' (and saves the `forresdat` data to a local temp directory to avoid unneeded
 #' downloading in the future).
-#' This datapackage contains both data and metadata and can be explored using
+#' This data package contains both data and metadata and can be explored using
 #' functions of the [frictionless](https://docs.ropensci.org/frictionless/)
 #' package.
 #'
-#' Data available in forresdat only contain observations, so no records with
+#' Data available in `forresdat` only contain observations, so no records with
 #' zero values are added for for instance species that were not observed and
 #' hence absent.
 #' These zero value records can easily be added by using the function
 #' `add_zeros()`.
 #'
 #' The different tables of this dataset contain data that are collected
-#' using 2 different methods (plottypes):
+#' using 2 different methods (plot types):
 #' circular plots (CP) and core areas (CA).
 #' It is advised to only use one of them for analyses, as the data are likely
 #' to differ due to method related differences.
@@ -24,11 +24,11 @@
 #' which can easily be joined to other tables on `plot_id` and `period`
 #' (or only `plot_id` if `period` is absent).
 #'
-#' @return A frictionless datapackage with all tables and metadata from GitHub
-#' repository forresdat, which can be explored using package
-#' [frictionless](https://docs.ropensci.org/frictionless/).
-#' To be able to recall the version of the data, this datapackage contains
-#' an attribute with the version number of the release of forresdat from which
+#' @return A `frictionless` data package with all tables and metadata from
+#' GitHub repository `forresdat`, which can be explored using package
+#' [`frictionless`](https://docs.ropensci.org/frictionless/).
+#' To be able to recall the version of the data, this data package contains
+#' an attribute with the version number of the release of `forresdat` from which
 #' the data are taken.
 #'
 #' @examples

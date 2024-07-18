@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+title: "forrescalc: Calculation of Aggregated Values on Dendrometry, Regeneration
+  and Vegetation of Forests, Starting from Individual Tree Measures from Fieldmap"
+authors:
+- given-names: Els
+  family-names: Lommelen
+  affiliation: Research Institute for Nature and Forest (INBO)
+  orcid: 0000-0002-3481-5684
+- given-names: Anja
+  family-names: Leyman
+  affiliation: Research Institute for Nature and Forest (INBO)
+  orcid: 0000-0002-0292-6582
+keywords:
+- strict forest reserves
+- monitoring
+- forestry
+- Flanders
+- Belgium
+- dendrometry
+- rejuvenation
+- carbon
+- temperate deciduous forests
+- regeneration
+- vegetation
+contact:
+- given-names: Els
+  family-names: Lommelen
+  affiliation: Research Institute for Nature and Forest (INBO)
+  orcid: 0000-0002-3481-5684
+doi: ~
+license: GPL-3.0
+repository-code: https://github.com/inbo/forrescalc/
+type: software
+abstract: "A collection of functions to load and aggregate measurements related to
+  dendrometry, rejuvenation and vegetation, and to access plot level results from
+  Flemish forest reserves in data package forresdat."
+identifiers:
+- type: url
+  value: https://inbo.github.io/forrescalc/
+version: 0.0.1

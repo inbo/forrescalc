@@ -7,21 +7,21 @@
 calc_intact_deadwood(data_deadwood)
 }
 \arguments{
-\item{data_deadwood}{dataframe on logs with variables plot_id, plottype,
-date_dendro, species, decaystage, intact_fragm, calc_volume_m3, period and
-year (output of function `load_data_deadwood()`), in which calc_volume_m3
-should be replaced by a more precise calculation}
+\item{data_deadwood}{dataframe on logs with variables \code{plot_id}, \code{plottype},
+\code{date_dendro}, \code{species}, \code{decaystage}, \code{intact_fragm}, \code{calc_volume_m3},
+\code{period} and \code{year} (output of function \code{load_data_deadwood()}), in which
+\code{calc_volume_m3} should be replaced by a more precise calculation}
 }
 \value{
 A similar dataframe (data_deadwood) in which the volume of intact
 deadwood is replaced by a volume calculated based on tariffs.
-Intermediate results `vol_crown_m3` and `vol_bole_m3` are added as columns
+Intermediate results \code{vol_crown_m3} and \code{vol_bole_m3} are added as columns
 (which are NA in case of deadwood fragments).
 }
 \description{
 In Core Areas, some lying deadwood is marked as 'complete tree' by giving
-variable intact_fragm value 10 (intact) instead of 20 (fragment) to save time
-(while in general all fragments are measured separately).
+variable \code{intact_fragm} value 10 (intact) instead of 20 (fragment) to save
+time (while in general all fragments are measured separately).
 This function calculates the total volume (sum of bole and crown volume) for
 this intact deadwood and keeps the initial volume in case of fragments.
 }

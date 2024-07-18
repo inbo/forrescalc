@@ -1,7 +1,8 @@
-#' retrieve height model data from git repository forresheights
+#' retrieve height model data from git repository `forresheights`
 #'
 #' This function groups the information on height models from the `.csv` files
-#' in the git repository [forresheights](https://github.com/inbo/forresheights)
+#' in the git repository
+#' [`forresheights`](https://github.com/inbo/forresheights)
 #' together in one dataframe.
 #'
 #' @return Dataframe with height model data
@@ -47,7 +48,7 @@ load_height_models <- function() {
     mutate(
       data = map(.data$path_file, add_models)
     ) %>%
-    unnest(cols = c(data)) %>%
+    unnest(cols = c("data")) %>%
     select(-"filename", -"path_file") %>%
     distinct() %>%
     relocate("forest_reserve", .before = "plottype")

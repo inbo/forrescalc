@@ -8,8 +8,8 @@
 #' @inheritParams calc_variables_tree_level
 #'
 #' @return a dataset with 1 record per tree measurement, containing the given
-#' data of each tree in different years (= data_dendro) and a link
-#' to a unique tree_id.
+#' data of each tree in different years (= `data_dendro`) and a link
+#' to a unique `tree_id`.
 #'
 #' @examples
 #' library(forrescalc)

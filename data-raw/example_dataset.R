@@ -1,9 +1,9 @@
 # This file generates (or updates) a minimal example dataset that is added to
 # the package to provide working examples and for testing reasons.
 # It should be updated after structural changes are made in the FM database.
+# (Set environment variable path_to_fieldmap, see main script for explanation)
 
-path_to_fieldmap <-
-  "C:/R/bosreservatendb/MDB_BOSRES_selectieEls/FieldMapData_dB_Els_deel2.accdb"
+path_to_fieldmap <- Sys.getenv("path_to_fieldmap")
 
 library(DBI)
 library(dplyr)

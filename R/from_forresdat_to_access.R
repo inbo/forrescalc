@@ -1,6 +1,6 @@
-#' copy table(s) from git repository forresdat to access db
+#' copy table(s) from git repository `forresdat` to access database
 #'
-#' This function loads one or more tables from git repository forresdat
+#' This function loads one or more tables from git repository `forresdat`
 #' and saves them in an Access (or SQLite) database.
 #'
 #' @inheritParams save_results_access

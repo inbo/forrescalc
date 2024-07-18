@@ -1,22 +1,22 @@
-#' save results of calculations in git repository forresdat
+#' save results of calculations in git repository `forresdat`
 #'
 #' This function saves the results from calculations by the forrescalc package
-#' (or any other named list with dataframes) in git repository forresdat.
+#' (or any other named list with dataframes) in git repository `forresdat`.
 #' List item names will be used to name each of the tables, which contain
 #' as a content the different dataframes.
 #'
 #' @param results results from calculations in package forrescalc as a
 #' named list of dataframes
-#' @param repo_path name and path of local forresdat repository in which
+#' @param repo_path name and path of local `forresdat` repository in which
 #' results/tables should be saved
 #' @param metadata_path path including .xlsx file in which the metadata are
 #' stored
-#' @param push push commits directly to the remote on github?
+#' @param push push commits directly to the remote on GitHub?
 #' Default is FALSE (no). (This option can only be used with SSH.)
 #' @param strict keep default TRUE to update data without structural changes,
 #' change to FALSE only if tables are structurally changed
 #' (e.g. additional column, change in sorting order,...)
-#' @param branch branch from repository forresdat to which the new version
+#' @param branch branch from repository `forresdat` to which the new version
 #' should be committed.
 #' Default is 'develop'.
 #'
@@ -115,7 +115,7 @@ save_results_forresdat <-
       )
     } else {
       metadata_columns <- read_xlsx(metadata_path, sheet = tablename)
-      metadata_columns_ordered <-
+      metadata_columns_ordered <- # nolint: object_usage_linter
         bind_rows(
           imap(
             schema_results$fields, ~data.frame(index = .y, name = .x[["name"]])

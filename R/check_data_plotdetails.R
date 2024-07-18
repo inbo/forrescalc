@@ -1,6 +1,6 @@
-#' check table plotdetails from fieldmap database for inconsistencies
+#' check table `Plotdetails` from `Fieldmap` database for inconsistencies
 #'
-#' This function retrieves the important fields of table plotdetails
+#' This function retrieves the important fields of table `Plotdetails`
 #' (of all periods) from the given database and
 #' checks for missing data or wrong input.
 #'

@@ -1,16 +1,16 @@
-#' Download datapackage forresdat to local temp
+#' Download data package `forresdat` to local temp
 #'
 #' This internal helper function checks first if the local temp folder already
-#' contains a downloaded version of forresdat,
+#' contains a downloaded version of `forresdat`,
 #' and if this version is still the same as the latest release version on
 #' GitHub.
-#' If this is not the case, it downloads the latest version of datapackage
-#' forresdat.
+#' If this is not the case, it downloads the latest version of data package
+#' `forresdat`.
 #' This function is used in `read_forresdat()` and `read_forresdat_table()`
 #' to avoid unnecessarily downloading and to keep the path (and preparation
 #' steps) in one function.
 #'
-#' @return The path to the local version of the datapackage forresdat as a
+#' @return The path to the local version of the data package `forresdat` as a
 #' string, with attribute 'version' giving the version number of the release.
 #'
 #' @noRd
@@ -33,7 +33,9 @@ download_forresdat <- function() {
     GET("https://api.github.com/repos/inbo/forresdat/releases/latest")
   version_latest <- (content(latest_release))$tag_name
   path_to_forresdat <- file.path(datadir, "forresdat", "datapackage")
-  attr(path_to_forresdat, "version") <- version_latest
+  if (!is.null(version_latest)) {
+    attr(path_to_forresdat, "version") <- version_latest
+  }
 
   # check what is already present in the local system temp and react accordingly
   if (!file.exists(file.path(datadir, "forresdat"))) {
@@ -42,7 +44,7 @@ download_forresdat <- function() {
   } else {
     version_local <-
       readLines(file.path(datadir, "forresdat", "version.txt"))
-    if (version_latest == version_local) {
+    if (is.null(version_latest) || version_latest == version_local) {
       return(path_to_forresdat)
     } else {
       unlink(path_to_forresdat, recursive = TRUE)

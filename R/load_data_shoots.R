@@ -1,12 +1,12 @@
-#' retrieve data on shoots from fieldmap database
+#' retrieve data on shoots from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve additional data on
 #' shoots to use with dendrometry data.
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
-#' @param extra_variables Should additional variables such as iufro_hght,
-#' iufro_vital, iufro_socia, remark and common_remark be added?
+#' @param extra_variables Should additional variables such as `iufro_hght`,
+#' `iufro_vital`, `iufro_socia`, `remark` and `common_remark` be added?
 #' Default is FALSE (no).
 #'
 #' @return Dataframe with shoot data

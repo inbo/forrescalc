@@ -8,6 +8,8 @@
 #'
 #' @return DBI connection that can be used to connect to the database
 #'
+#' @noRd
+#'
 #' @importFrom DBI dbConnect
 #' @importFrom odbc odbc
 #' @importFrom RSQLite SQLite

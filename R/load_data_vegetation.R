@@ -1,4 +1,4 @@
-#' retrieve vegetation data from fieldmap database
+#' retrieve vegetation data from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve data on vegetation
 #' (ready for use in calculate_vegetation function).
@@ -6,9 +6,10 @@
 #' @inheritParams load_data_dendrometry
 #'
 #' @return Dataframe with vegetation data, containing columns as
-#' total_herb_cover, total_shrub_cover, total_tree_cover,
-#' total_soildisturbance_game, date_vegetation (= date of vegetation survey),
-#' year_main_survey (= year of vegetation survey), ....
+#' `total_herb_cover`, `total_shrub_cover`, `total_tree_cover`,
+#' `total_soildisturbance_game`,
+#' `date_vegetation` (= date of vegetation survey),
+#' `year_main_survey` (= year of vegetation survey), ....
 #'
 #'
 #' @examples

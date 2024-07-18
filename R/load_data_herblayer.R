@@ -1,10 +1,11 @@
-#' retrieve species specific vegetation data from fieldmap database
+#' retrieve species specific vegetation data from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve data on vegetation
-#' (ready for use in calculate_vegetation function). Year_main_survey refers
-#' to year of the main vegetation survey (source is table "vegetation"),
-#' while year refers to year of recording of that specific species
-#' (possibly different for spring flora; source is table "herblayer")
+#' (ready for use in `calculate_vegetation()` function).
+#' `year_main_survey` refers to year of the main vegetation survey
+#' (source is table `vegetation`),
+#' while `year` refers to year of recording of that specific species
+#' (possibly different for spring flora; source is table `herblayer`)
 #'
 #'
 #' @inheritParams load_data_dendrometry

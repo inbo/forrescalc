@@ -1,9 +1,9 @@
-#' retrieve dendrometry data from fieldmap database
+#' retrieve dendrometry data from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve data on dendrometry
-#' (ready for use in calculate_dendrometry function).
+#' (ready for use in `calculate_dendrometry()` function).
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
 #' @param plottype possibility to select only data for a certain plot type, e.g.
 #' 'CP' for Circular plot or 'CA' for Core area
@@ -12,8 +12,8 @@
 #' by giving the name of the forest reserve (the default NA means that data
 #' from all plots are retrieved)
 #' @param extra_variables Should additional variables such as
-#' x_m, y_m, coppice_id, iufro_hght, iufro_vital, iufro_socia,
-#' remark and common_remark be added?
+#' `x_m`, `y_m`, `coppice_id`, `iufro_hght`, `iufro_vital`, `iufro_socia`,
+#' `remark` and `common_remark` be added?
 #' Default is FALSE (no).
 #' @param processed Should only processed and surveyed data be added?
 #' Defaults to TRUE (yes).

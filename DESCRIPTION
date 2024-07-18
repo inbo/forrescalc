@@ -1,43 +1,58 @@
 Package: forrescalc
-Title: Calculation of agregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Fieldmap
-Version: 0.0.0.9000
+Title: Calculation of Aggregated Values on Dendrometry, Regeneration and
+    Vegetation of Forests, Starting from Individual Tree Measures from
+    Fieldmap
+Version: 0.0.1
 Authors@R: c(
-  person("Els", "Lommelen", email = "els.lommelen@inbo.be",
-    comment = c(ORCID = "0000-0002-3481-5684"), role = c("aut", "cre")),
-  person("Anja", "Leyman", email = "anja.leyman@inbo.be",
-    comment = c(ORCID = "0000-0002-0292-6582"), role = c("aut")),
-  person(family = "Research Institute for Nature and Forest (INBO)",
-    email = "info@inbo.be", role = "cph"))
-Description: The package contains functions to aggregate individual tree measures to aggregated values of dendrometry, regeneration and vegetation on plot level (and higher levels). (Results are stocked in data repository forresdat to allow for further analysis.)
+    person("Els", "Lommelen", , "els.lommelen@inbo.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3481-5684", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Anja", "Leyman", , "anja.leyman@inbo.be", role = "aut",
+           comment = c(ORCID = "0000-0002-0292-6582", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Research Institute for Nature and Forest (INBO)", , , "info@inbo.be", role = c("cph", "fnd"))
+  )
+Description: A collection of functions to load and aggregate measurements
+    related to dendrometry, rejuvenation and vegetation, and to access
+    plot level results from Flemish forest reserves in data package
+    forresdat.
 License: GPL-3
-Encoding: UTF-8
-LazyData: true
+URL: https://inbo.github.io/forrescalc/,
+    https://github.com/inbo/forrescalc
+BugReports: https://github.com/inbo/forrescalc/issues
 Imports:
-  assertthat,
-  DBI,
-  dplyr,
-  frictionless,
-  fs,
-  git2r,
-  httr,
-  jsonlite,
-  lubridate,
-  odbc,
-  plyr,
-  purrr,
-  readr,
-  readxl,
-  rlang,
-  RSQLite,
-  stats,
-  stringr,
-  tidyr (>= 1.0.0),
-  tidyselect (>= 1.0.0),
-  tools
-RoxygenNote: 7.3.1
+    assertthat,
+    DBI,
+    dplyr,
+    frictionless,
+    fs,
+    git2r,
+    httr,
+    jsonlite,
+    lubridate,
+    odbc,
+    plyr,
+    purrr,
+    readr,
+    readxl,
+    rlang,
+    RSQLite,
+    stats,
+    stringr,
+    tidyr (>= 1.0.0),
+    tidyselect (>= 1.0.0),
+    tools
 Suggests: 
     knitr,
     rmarkdown,
     testthat,
     tibble
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Config/checklist/communities: inbo
+Config/checklist/keywords: strict forest reserves; monitoring; forestry;
+    Flanders; Belgium; dendrometry; rejuvenation; carbon; temperate
+    deciduous forests; regeneration; vegetation
+Encoding: UTF-8
+Language: en-GB
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

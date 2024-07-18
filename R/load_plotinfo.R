@@ -1,14 +1,14 @@
-#' retrieve generic plot data from fieldmap database
+#' retrieve generic plot data from `Fieldmap` database
 #'
 #' This function queries the given database to retrieve additional data on plots
-#' to save in forresdat and link with the datasets that are saved there.
+#' to save in `forresdat` and link with the datasets that are saved there.
 #'
-#' @param database name of fieldmap/access database (with specific fieldmap
+#' @param database name of `Fieldmap`/Access database (with specific `Fieldmap`
 #' structure) including path
 #' @inheritParams load_data_dendrometry
 #'
-#' @return Dataframe with columns plot_id, plottype, forest_reserve, period,
-#' year of dendrometric survey and information on
+#' @return Dataframe with columns `plot_id`, `plottype`, `forest_reserve`,
+#' `period`, `year` of dendrometric survey and information on
 #' (1) whether there has been a dendro, deadwood, regeneration and/or
 #' vegetation survey and (2) whether the data have been processed or not.
 #'

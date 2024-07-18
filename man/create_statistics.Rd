@@ -16,7 +16,7 @@ create_statistics(
 }
 \arguments{
 \item{dataset}{dataset with data to be summarised with at least columns year
-and period, e.g. table from git repository forresdat}
+and period, e.g. table from git repository \code{forresdat}}
 
 \item{level}{grouping variables that determine on which level the values
 should be calculated (e.g. forest_reserve, year and species), given as a
@@ -32,10 +32,10 @@ on a given column year in dataset?  Defaults to FALSE.}
 If TRUE, levels without any non NA data are kept (resulting in NA values).}
 
 \item{interval_information}{overview of names for interval data,
-including columns `var_name` (= name for output), `var_min` and `var_max`
+including columns \code{var_name} (= name for output), \code{var_min} and \code{var_max}
 (= names for minimum and maximum value in input dataset), and
-`preferred_transformation` (= "log" if log-transformation is desired).
-Defaults to a table containing all interval variables in forresdat,
+\code{preferred_transformation} (= "log" if log-transformation is desired).
+Defaults to a table containing all interval variables in \code{forresdat},
 where log transformation is applied in variables where class widths differ.
 (In cover data in the Longo scale, log transformation is only applied in
 variables where most observations have a low coverage, e.g. moss cover,
@@ -44,17 +44,17 @@ of the Longo scale.)}
 }
 \value{
 dataframe with the columns chosen for level, a column variable with
-the chosen variables, and the columns n_obs, mean, variance,
-lci (lower limit of confidence interval) and
-uci (upper limit of confidence interval)
+the chosen variables, and the columns \code{n_obs}, \code{mean}, \code{variance},
+\code{lci} (lower limit of confidence interval) and
+\code{uci} (upper limit of confidence interval)
 }
 \description{
 This function calculates statistics for the given data
-(e.g. from the git-repository forresdat) on the specified level
+(e.g. from the git-repository \code{forresdat}) on the specified level
 (e.g. forest_reserve, period and species) and for the specified variables
 (e.g. basal_area and volume).
 Calculated statistics include number of observations, mean, variance
-and confidence interval (lci and uci).
+and confidence interval with lower and upper limit (lci and uci).
 
 These summary statistics are calculated on the given data, not taking into
 account absence of observations unless explicitly added as a record with
@@ -69,18 +69,19 @@ be added using the function add_zeros().
 In case of intervals, the variance and confidence interval are calculated
 based on the minimum and maximum values of the intervals of the individual
 records (which is considered a CI, so lci and uci can serve as min and max).
-For this, `dataset` must contain columns with minimum and maximum values,
-`variables` must contain a name for the output of this variable, and
-`interval_information` must contain the variable names for minimum, maximum
+For this, \code{dataset} must contain columns with minimum and maximum values,
+\code{variables} must contain a name for the output of this variable, and
+\code{interval_information} must contain the variable names for minimum, maximum
 and output that should be used.
-In `interval_information` it can be specified if a logaritmic transformation
-is needed to compensate of inequal interval widths.
+In \code{interval_information} it can be specified if a logarithmic transformation
+is needed to compensate of unequal interval widths.
 In this case, mean and the confidence interval are transformed back,
 but variance is not, as this result would be confusing rather than useful.
-For typical forresdat variables, the default value of `interval_information`
-can be used and in this case, the variable mentioned in `variables` should
-be named after the values in forresdat, omitting `min_`, `_min`, `max_` or
-`_max` (see example on interval data).
+For typical \code{forresdat} variables,
+the default value of \code{interval_information}
+can be used and in this case, the variable mentioned in \code{variables} should
+be named after the values in \code{forresdat}, omitting \code{min_}, \verb{_min}, \code{max_} or
+\verb{_max} (see example on interval data).
 }
 \examples{
 library(forrescalc)

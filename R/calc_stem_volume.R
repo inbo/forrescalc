@@ -1,21 +1,22 @@
+# nolint start
 #' Calculate stem volume including bole and crown volume
 #'
 #' This function calculates the bole and crown volume to be used
 #' in functions `calc_variables_stem_level()` and `calc_intact_deadwood()`.
-#' The volume of snags is calculated as a cilinder. This is a temporary
-#' solution, as the goal is to incorporate taper functions cfr FM-IA.
-#' Volume calculation as a truncated cone (1/3 x π x h x ( R² + R x r + r² ))
+#' The volume of snags is calculated as a cylinder. This is a temporary
+#' solution, as the goal is to incorporate taper functions cfr. FM-IA.
+#' Volume calculation as a truncated cone
+#' (\eqn{1/3 x π x h x ( R² + R x r + r² )})
 #' appears to be less accurate.
-#' (upper_diam_snag_mm = dbh_mm * (calc_height_m - height_m) / calc_height_m)
-#' (volume truncated cone = pi x height_m x
-#' (dbh_mm^2 + dbh_mm x upper_diam_snag_mm + upper_diam_snag_mm^2)/(3 x 2000^2))
+#' (\eqn{upper_diam_snag_mm = dbh_mm * (calc_height_m - height_m) / calc_height_m})
+#' (\eqn{volume truncated cone = pi x height_m x (dbh_mm^2 + dbh_mm x upper_diam_snag_mm + upper_diam_snag_mm^2)/(3 x 2000^2)})
 #'
 #' @param data_stems dataframe on stems (shoots and trees) as given from the
 #' first part of the function `compose_stem_data()`,
-#' with variables plot_id, tree_measure_id, period, species,
-#' dbh_mm, height_m, intact_snag, calc_height_m
+#' with variables `plot_id`, `tree_measure_id`, `period`, `species`,
+#' `dbh_mm`, `height_m`, `intact_snag`, `calc_height_m`
 #'
-#' @return Dataframe of stem data with vol_bole_m3 and vol_crown_m3 as
+#' @return Dataframe of stem data with `vol_bole_m3` and `vol_crown_m3` as
 #' extra variables
 #'
 #' @noRd
@@ -24,6 +25,7 @@
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% left_join mutate select
 #'
+# nolint end
 calc_stem_volume <- function(data_stems) {
 
   check_forrescalc_version_attr(data_stems)

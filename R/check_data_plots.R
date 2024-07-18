@@ -1,6 +1,6 @@
-#' check table plots from fieldmap database for inconsistencies
+#' check table `Plots` from `Fieldmap` database for inconsistencies
 #'
-#' This function retrieves the important fields of table plots from the given
+#' This function retrieves the important fields of table `Plots` from the given
 #' database and checks for missing data or wrong input.
 #'
 #' @inheritParams check_data_trees

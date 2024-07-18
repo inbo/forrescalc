@@ -1,6 +1,6 @@
-#' check table herblayer from fieldmap database for inconsistencies
+#' check table `Herblayer` from `Fieldmap` database for inconsistencies
 #'
-#' This function retrieves the important fields of table herblayer
+#' This function retrieves the important fields of table `Herblayer`
 #' (of all periods) from the given database and
 #' checks for missing data or wrong input.
 #'

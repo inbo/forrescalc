@@ -165,7 +165,8 @@ describe("check_data_plotdetails", {
         period = 1,
         aberrant_field = "date_dendro",
         anomaly = "deviating",
-        aberrant_value = "2006-01-31 10:46:40"
+        aberrant_value =
+          as.character(as.POSIXct(1138700800, origin = "1970-01-01"))
       )
     )
   })
@@ -211,7 +212,8 @@ describe("check_data_regeneration", {
         period = 1,
         aberrant_field = "date",
         anomaly = "deviating",
-        aberrant_value =  "2001-07-14 07:20:00"
+        aberrant_value =
+          as.character(as.POSIXct(995088000, origin = "1970-01-01"))
       )
     )
   })
@@ -383,7 +385,8 @@ describe("check_data_vegetation", {
         period = 1,
         aberrant_field = c("date", "fieldteam"),
         anomaly = c("deviating", "missing"),
-        aberrant_value = c("2005-07-30 11:46:40", NA)
+        aberrant_value =
+          c(as.character(as.POSIXct(1122716800), origin = "1970-01-01"), NA)
       )
     )
   })

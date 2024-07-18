@@ -22,9 +22,9 @@
 #' calculate_regeneration(data_regeneration)
 #'
 #' @param data_regeneration dataframe on tree regeneration with variables
-#' plot_id, plottype, subplot_id, height_class, species, nr_of_regeneration,
-#' rubbing_damage_number, period, year, subcircle, plotarea_ha,
-#' min_number_of_regeneration and max_number_of_regeneration.
+#' `plot_id`, `plottype`, `subplot_id`, `height_class`, `species`,
+#' `nr_of_regeneration`, `rubbing_damage_number`, `period`, `year`, `subcircle`,
+#' `plotarea_ha`, `min_number_of_regeneration` and `max_number_of_regeneration`.
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
@@ -34,17 +34,14 @@
 #' @export
 #'
 calculate_regeneration <- function(data_regeneration) {
-  by_plot <- calculate_regeneration_plot(data_regeneration)
-  by_plot_height <- calculate_regeneration_plot_height(data_regeneration)
-  by_plot_species <- calculate_regeneration_plot_species(data_regeneration)
-  by_plot_height_species <-
-    calculate_regeneration_plot_height_species(data_regeneration)
+  by_plot <- calc_reg_plot(data_regeneration)
+  by_plot_height <- calc_reg_plot_height(data_regeneration)
+  by_plot_species <- calc_reg_plot_species(data_regeneration)
+  by_plot_height_species <- calc_reg_plot_height_species(data_regeneration)
   data_regeneration_ca <- data_regeneration %>%
     filter(.data$plottype == "CA")
-  by_ca_species <-
-    calculate_regeneration_core_area_species(data_regeneration_ca)
-  by_ca_height_species <-
-    calculate_regeneration_core_area_height_species(data_regeneration_ca)
+  by_ca_species <- calc_reg_core_area_species(data_regeneration_ca)
+  by_ca_height_species <- calc_reg_core_area_height_spec(data_regeneration_ca)
 
   return(
     list(

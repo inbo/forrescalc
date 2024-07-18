@@ -2,12 +2,12 @@
 % Please edit documentation in R/check_data_deadwood.R
 \name{check_data_deadwood}
 \alias{check_data_deadwood}
-\title{check table Deadwood from fieldmap database for inconsistencies}
+\title{check table Deadwood from \code{Fieldmap} database for inconsistencies}
 \usage{
 check_data_deadwood(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{forest_reserve}{name of forest reserve for which the records in the
@@ -15,7 +15,7 @@ database should be checked (defaults to "all")}
 }
 \value{
 Dataframe with inconsistent data with ID's and additional columns
-`aberrant_field` (which column is wrong) and `anomaly` (what is wrong with
+\code{aberrant_field} (which column is wrong) and \code{anomaly} (what is wrong with
 the input)
 }
 \description{

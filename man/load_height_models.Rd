@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_height_models.R
 \name{load_height_models}
 \alias{load_height_models}
-\title{retrieve height model data from git repository forresheights}
+\title{retrieve height model data from git repository \code{forresheights}}
 \usage{
 load_height_models()
 }
@@ -10,8 +10,9 @@ load_height_models()
 Dataframe with height model data
 }
 \description{
-This function groups the information on height models from the `.csv` files
-in the git repository [forresheights](https://github.com/inbo/forresheights)
+This function groups the information on height models from the \code{.csv} files
+in the git repository
+\href{https://github.com/inbo/forresheights}{\code{forresheights}}
 together in one dataframe.
 }
 \examples{

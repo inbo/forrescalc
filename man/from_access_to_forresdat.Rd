@@ -2,7 +2,7 @@
 % Please edit documentation in R/from_access_to_forresdat.R
 \name{from_access_to_forresdat}
 \alias{from_access_to_forresdat}
-\title{copy table(s) from access db to git repository forresdat}
+\title{copy table(s) from access database to git repository \code{forresdat}}
 \usage{
 from_access_to_forresdat(
   database,
@@ -15,25 +15,25 @@ from_access_to_forresdat(
 )
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
 \item{tables}{vector with table names of tables that should be moved}
 
-\item{repo_path}{name and path of local forresdat repository in which
+\item{repo_path}{name and path of local \code{forresdat} repository in which
 results/tables should be saved}
 
 \item{metadata_path}{path including .xlsx file in which the metadata are
 stored}
 
-\item{push}{push commits directly to the remote on github?
+\item{push}{push commits directly to the remote on GitHub?
 Default is FALSE (no). (This option can only be used with SSH.)}
 
 \item{strict}{keep default TRUE to update data without structural changes,
 change to FALSE only if tables are structurally changed
 (e.g. additional column, change in sorting order,...)}
 
-\item{branch}{branch from repository forresdat to which the new version
+\item{branch}{branch from repository \code{forresdat} to which the new version
 should be committed.
 Default is 'develop'.}
 }
@@ -42,9 +42,9 @@ No value is returned, the tables are saved in the git repository.
 }
 \description{
 This function loads one or more tables from the access database
-(or an SQLite database) and saves them in the git repository forresdat.
-Table names in camelcase in the database are renamed to snakecase before
-saving in forresdat.
+(or an SQLite database) and saves them in the git repository \code{forresdat}.
+Table names in camel case in the database are renamed to snake case before
+saving in \code{forresdat}.
 }
 \examples{
 \dontrun{

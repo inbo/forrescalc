@@ -1,9 +1,9 @@
-#' copy table(s) from access db to git repository forresdat
+#' copy table(s) from access database to git repository `forresdat`
 #'
 #' This function loads one or more tables from the access database
-#' (or an SQLite database) and saves them in the git repository forresdat.
-#' Table names in camelcase in the database are renamed to snakecase before
-#' saving in forresdat.
+#' (or an SQLite database) and saves them in the git repository `forresdat`.
+#' Table names in camel case in the database are renamed to snake case before
+#' saving in `forresdat`.
 #'
 #' @param tables vector with table names of tables that should be moved
 #' @inheritParams load_data_dendrometry
@@ -104,7 +104,7 @@ from_access_to_forresdat <-
       )
     } else {
       metadata_columns <- read_xlsx(metadata_path, sheet = tablename_fd)
-      metadata_columns_ordered <-
+      metadata_columns_ordered <- # nolint: object_usage_linter
         bind_rows(
           imap(
             schema_table$fields, ~data.frame(index = .y, name = .x[["name"]])
