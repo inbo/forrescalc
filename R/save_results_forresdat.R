@@ -115,7 +115,7 @@ save_results_forresdat <-
       )
     } else {
       metadata_columns <- read_xlsx(metadata_path, sheet = tablename)
-      metadata_columns_ordered <-
+      metadata_columns_ordered <- # nolint: object_usage_linter
         bind_rows(
           imap(
             schema_results$fields, ~data.frame(index = .y, name = .x[["name"]])
