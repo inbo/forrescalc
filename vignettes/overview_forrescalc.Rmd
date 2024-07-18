@@ -25,7 +25,22 @@ The package `forrescalc` is developed to analyse tree measure data that are save
 
 # Installation
 
-Installation of the package:
+To install `forrescalc` from the [INBO universe](https://inbo.r-universe.dev/builds),
+start a new R session and run this code (before loading any packages):
+
+```{r eval = FALSE}
+# Enable the INBO universe
+# (not needed for INBO employees, as this is the default setting)
+options(
+  repos = c(
+    inbo = "https://inbo.r-universe.dev", CRAN = "https://cloud.r-project.org"
+  )
+)
+# Install the package
+install.packages("forrescalc")
+```
+
+To install `forrescalc` from GitHub, start a new R session and run this code (before loading any packages):
 
 ```{r eval = FALSE}
 install.packages("remotes")

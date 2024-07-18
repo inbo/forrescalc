@@ -23,7 +23,21 @@ size](https://img.shields.io/github/repo-size/inbo/forrescalc.svg)
 Calculation of aggregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from `Fieldmap`.
 
 # Installation
-  
+
+To install `forrescalc` from the [INBO universe](https://inbo.r-universe.dev/builds),
+start a new R session and run this code (before loading any packages):
+
+```r
+# Enable the INBO universe (not needed for INBO employees, as this is the default setting)
+options(
+  repos = c(
+    inbo = "https://inbo.r-universe.dev", CRAN = "https://cloud.r-project.org"
+  )
+)
+# Install the package
+install.packages("forrescalc")
+```
+
 To install `forrescalc` from GitHub, start a new R session and run this code (before loading any packages):
 
 ```r
