@@ -5,6 +5,11 @@
 #' [`forresheights`](https://github.com/inbo/forresheights)
 #' together in one dataframe.
 #'
+#' @param example_dataset Should a (limited) example dataset be loaded?
+#'   Defaults to FALSE, loading the whole dataset from the git repository.
+#'   If TRUE, only height models needed for the example database will be loaded
+#'   (to be used in the examples).
+#'
 #' @return Dataframe with height model data
 #'
 #' @importFrom dplyr %>% distinct mutate relocate select transmute
@@ -18,12 +23,26 @@
 #' @importFrom utils packageVersion
 #'
 #' @examples
+#' \dontrun{
+#' # example ignored during checks due to high elapsed time
 #' library(forrescalc)
 #' load_height_models()
+#' }
 #'
 #' @export
 #'
-load_height_models <- function() {
+load_height_models <- function(example_dataset = FALSE) {
+  if (example_dataset == TRUE) {
+    height_models <-
+      suppressMessages(
+        read_csv2(
+          system.file(
+            "example/database/height_models.csv", package = "forrescalc"
+          )
+        )
+      )
+    return(height_models)
+  }
   req <-
     GET(
       "https://api.github.com/repos/inbo/forresheights/git/trees/main?recursive=1" #nolint: line_length_linter

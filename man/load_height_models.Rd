@@ -4,7 +4,13 @@
 \alias{load_height_models}
 \title{retrieve height model data from git repository \code{forresheights}}
 \usage{
-load_height_models()
+load_height_models(example_dataset = FALSE)
+}
+\arguments{
+\item{example_dataset}{Should a (limited) example dataset be loaded?
+Defaults to FALSE, loading the whole dataset from the git repository.
+If TRUE, only height models needed for the example database will be loaded
+(to be used in the examples).}
 }
 \value{
 Dataframe with height model data
@@ -16,7 +22,10 @@ in the git repository
 together in one dataframe.
 }
 \examples{
+\dontrun{
+# example ignored during checks due to high elapsed time
 library(forrescalc)
 load_height_models()
+}
 
 }

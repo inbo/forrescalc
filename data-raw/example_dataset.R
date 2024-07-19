@@ -341,3 +341,41 @@ dbWriteTable(packagedb, "Vegetation_2eSet", vegetation_2eset)
 dbWriteTable(packagedb, "Vegetation_3eSet", vegetation_3eset)
 
 dbDisconnect(packagedb)
+
+
+# Height model for example dataset (added in package because downloading from
+# Github needs too much time for examples)
+# !!! After updating the example dataset, build the package first before running
+# this script!!!
+
+library(forrescalc)
+
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+height_models_complete <- load_height_models()
+height_models_needed <-
+  compose_stem_data(
+    load_data_dendrometry(path_to_fieldmapdb),
+    load_data_shoots(path_to_fieldmapdb)
+  ) %>%
+  distinct(species, forest_reserve, period, plottype)
+height_models1 <- height_models_needed %>%
+  left_join(
+    height_models_complete,
+    by = c("species", "forest_reserve", "period", "plottype")
+  )
+height_models2 <- height_models1 %>%
+  filter(!is.na(.data$model)) %>%
+  bind_rows(
+    height_models1 %>%
+      filter(is.na(.data$model)) %>%
+      select(-"model", -"P1", -"P2") %>%
+      left_join(
+        height_models_complete %>%
+          filter(is.na(.data$species)) %>%
+          select(-"species"),
+        by = c("forest_reserve", "period", "plottype")
+      )
+  )
+write.csv2(
+  height_models2, "inst/example/database/height_models.csv", row.names = FALSE)
