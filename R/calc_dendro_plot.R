@@ -23,7 +23,8 @@
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' data_stems <- compose_stem_data(data_dendro, data_shoots)
-#' height_model <- load_height_models()
+#' # omit argument 'example_dataset = TRUE' below to use all height models
+#' height_model <- load_height_models(example_dataset = TRUE)
 #' data_stems_calc <- calc_variables_stem_level(data_stems, height_model)
 #' data_dendro_calc <- calc_variables_tree_level(data_dendro, data_stems_calc)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)

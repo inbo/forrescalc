@@ -45,7 +45,8 @@
 #' data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
 #' data_deadwood <- load_data_deadwood(path_to_fieldmapdb)
 #' data_shoots <- load_data_shoots(path_to_fieldmapdb)
-#' height_model <- load_height_models()
+#' # omit argument 'example_dataset = TRUE' below to use all height models
+#' height_model <- load_height_models(example_dataset = TRUE)
 #' plotinfo <- load_plotinfo(path_to_fieldmapdb)
 #' calculate_dendrometry(
 #'   data_dendro, data_deadwood, data_shoots, height_model, plotinfo)
