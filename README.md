@@ -22,7 +22,7 @@ size](https://img.shields.io/github/repo-size/inbo/forrescalc.svg)
 
 Calculation of aggregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Vandekerkhove et al. (2021) that are saved in a `Fieldmap` database.
 
-Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Lommelen E., Esprit M. and Goessens S., 2021. Monitoring programme on strict forest reserves in flanders (Belgium): Methods and operational protocols: With an overview of the intensive monitoring sites. (Rapporten van het Instituut voor Natuur- en Bosonderzoek; Nr. 28). Instituut voor Natuur- en Bosonderzoek. https://doi.org/10.21436/inbor.38677490
+Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Lommelen E., Esprit M. and Goessens S., 2021. Monitoring programme on strict forest reserves in Flanders (Belgium): Methods and operational protocols: With an overview of the intensive monitoring sites. Reports of the Research Institute for Nature and Forest 2021(28). Research Institute for Nature and Forest, Brussels. https://doi.org/10.21436/inbor.38677490
 
 # Installation
 
