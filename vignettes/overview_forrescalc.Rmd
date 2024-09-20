@@ -21,7 +21,7 @@ library(forrescalc)
 
 # Introduction
 
-The package `forrescalc` is developed to analyse tree measure data that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the [git repository `forresdat`](https://github.com/inbo/forresdat), which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
+The package `forrescalc` is developed to analyse tree measure data from Vandekerkhove et al. (2021) that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the [git repository `forresdat`](https://github.com/inbo/forresdat), which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
 
 # Installation
 
@@ -117,3 +117,7 @@ Functions `save_results_forresdat()` and `from_access_to_forresdat()` save table
 To guarantee consistency, the data repository `forresdat` should be updated using a strict routine. This routine is written in a script called `main.R` that is in the root of the installed package (and in the `inst` folder of the git repository of the package `forrescalc`). In this script, paths to the `Fieldmap` database and the git repository should be adapted to the local situation. Evidently changes in the commits should be checked before pushing them to the remote, as is described above.
 
 When removing a table from `forresdat`, this should only be done using function `remove_table_forresdat()` to make sure the `.json` file (that makes it a `frictionless` data package) is updated correctly.
+
+# References
+
+Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Lommelen E., Esprit M. and Goessens S., 2021. Monitoring programme on strict forest reserves in flanders (Belgium): Methods and operational protocols: With an overview of the intensive monitoring sites. (Rapporten van het Instituut voor Natuur- en Bosonderzoek; Nr. 28). Instituut voor Natuur- en Bosonderzoek. https://doi.org/10.21436/inbor.38677490
