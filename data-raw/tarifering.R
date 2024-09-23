@@ -1,11 +1,12 @@
 # This script downloads data on 'tarifering' and saves them in the package
 # for use during calculations in calc_variables_tree_level()
 # !!! rebuild the package to use the newly generated tables in your calculations
+# (Set environment variable db_externe_data, see main script for explanation)
 
-library(RODBC)
+library(DBI)
 library(readr)
 
-dbExterneData <- "C:/3BR/1_DataVerwerkingBR/Data/BR_ExterneData.accdb"
+db_externe_data <- Sys.getenv("db_externe_data")
 
 query_tariffs2entries <-
   "SELECT tgbs.ID AS species
@@ -50,15 +51,24 @@ query_tariffs1entry_crown <-
   FROM tblTariefgroepBoomsoort tgbs
     LEFT JOIN tblTarieven_1ingKroon t1k ON tgbs.TariefID = t1k.groepID;"
 
-con <- odbcConnectAccess2007(dbExterneData)
+query_coef_convert_perimeter <-
+  "SELECT IDTreeSp AS species, A, B
+  FROM tblCoefOmzetOmtrek"
 
-tariffs2entr <- sqlQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
-tariffs1entr <- sqlQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
+con <- forrescalc:::connect_to_database(db_externe_data)
+
+tariffs2entr <- dbGetQuery(con, query_tariffs2entries, stringsAsFactors = TRUE)
+tariffs1entr <- dbGetQuery(con, query_tariffs1entry, stringsAsFactors = TRUE)
 tariffs1entr_crown <-
-  sqlQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
+  dbGetQuery(con, query_tariffs1entry_crown, stringsAsFactors = TRUE)
+convert_perimeter <-
+  dbGetQuery(con, query_coef_convert_perimeter, stringsAsFactors = TRUE)
 
-odbcClose(con)
+dbDisconnect(con)
+
+colnames(convert_perimeter) <- tolower(colnames(convert_perimeter))
 
 write_csv2(tariffs2entr, "inst/extdata/tariffs2entries.csv")
 write_csv2(tariffs1entr, "inst/extdata/tariffs1entry.csv")
 write_csv2(tariffs1entr_crown, "inst/extdata/tariffs1entry_crown.csv")
+write_csv2(convert_perimeter, "inst/extdata/convert_perimeter.csv")

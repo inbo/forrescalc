@@ -2,25 +2,32 @@
 % Please edit documentation in R/check_data_trees.R
 \name{check_data_trees}
 \alias{check_data_trees}
-\title{check table trees from fieldmap database for inconsistencies}
+\title{check table \code{Trees} from \code{Fieldmap} database for inconsistencies}
 \usage{
-check_data_trees(database)
+check_data_trees(database, forest_reserve = "all")
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
+structure) including path}
+
+\item{forest_reserve}{name of forest reserve for which the records in the
+database should be checked (defaults to "all")}
 }
 \value{
-Dataframe with inconsistent data (FOR NOW ALL DATA WITH EXTRA COLUMN 'PROBLEM')
+Dataframe with inconsistent data with ID's and additional columns
+\code{aberrant_field} (which column is wrong) and \code{anomaly} (what is wrong with
+the input)
 }
 \description{
-STILL UNDER CONSTRUCTION!!!
-This function retrieves the important fields of table Trees (and Trees_2eSET) from the given database and checks for lacking data or wrong input.
+This function retrieves the important fields of table \code{Trees} (of all
+periods) from the given database and checks for missing data or wrong input.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-check_data_trees("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+check_data_trees(path_to_fieldmapdb)
+check_data_trees(path_to_fieldmapdb, forest_reserve = "Everzwijnbad")
 
 }

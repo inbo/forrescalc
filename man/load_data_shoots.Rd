@@ -2,24 +2,30 @@
 % Please edit documentation in R/load_data_shoots.R
 \name{load_data_shoots}
 \alias{load_data_shoots}
-\title{retrieve data on shoots from fieldmap database}
+\title{retrieve data on shoots from \code{Fieldmap} database}
 \usage{
-load_data_shoots(database)
+load_data_shoots(database, extra_variables = FALSE)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap structure) including path}
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
+structure) including path}
+
+\item{extra_variables}{Should additional variables such as \code{iufro_hght},
+\code{iufro_vital}, \code{iufro_socia}, \code{remark} and \code{common_remark} be added?
+Default is FALSE (no).}
 }
 \value{
 Dataframe with shoot data
 }
 \description{
-This function queries the given database to retrieve additional data on shoots to use with dendrometry data.
+This function queries the given database to retrieve additional data on
+shoots to use with dendrometry data.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+load_data_shoots(path_to_fieldmapdb)
 
 }

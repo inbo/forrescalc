@@ -3,7 +3,7 @@
 #' This function returns a factor with diameter classes of 5 cm for a given
 #' vector with diameter data in mm.
 #'
-#' @param diameterdata vector with diameter data in millimeter
+#' @param diameterdata vector with diameter data in millimetre
 #'
 #' @return vector with factors in diameter classes of 5 cm
 #'

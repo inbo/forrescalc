@@ -1,0 +1,51 @@
+{
+  "title": "forrescalc: Calculation of Aggregated Values on Dendrometry, Regeneration and Vegetation of Forests, Starting from Individual Tree Measures from Fieldmap",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "upload_type": "software",
+  "description": "<p>A collection of functions to load and aggregate measurements related to dendrometry, rejuvenation and vegetation, and to access plot level results from Flemish forest reserves in data package forresdat.<\/p>",
+  "keywords": [
+    "strict forest reserves",
+    "monitoring",
+    "forestry",
+    "Flanders",
+    "Belgium",
+    "dendrometry",
+    "rejuvenation",
+    "carbon",
+    "temperate deciduous forests",
+    "regeneration",
+    "vegetation"
+  ],
+  "access_right": "open",
+  "language": "eng",
+  "contributors": [
+    {
+      "name": "Lommelen, Els",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0002-3481-5684",
+      "type": "contactperson"
+    },
+    {
+      "name": "Research Institute for Nature and Forest (INBO)",
+      "type": "rightsholder"
+    }
+  ],
+  "creators": [
+    {
+      "name": "Lommelen, Els",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0002-3481-5684"
+    },
+    {
+      "name": "Leyman, Anja",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0002-0292-6582"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "inbo"
+    }
+  ]
+}

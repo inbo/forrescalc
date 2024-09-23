@@ -7,7 +7,10 @@
 calculate_regeneration(data_regeneration)
 }
 \arguments{
-\item{data_regeneration}{dataframe on tree regeneration with variables ...}
+\item{data_regeneration}{dataframe on tree regeneration with variables
+\code{plot_id}, \code{plottype}, \code{subplot_id}, \code{height_class}, \code{species},
+\code{nr_of_regeneration}, \code{rubbing_damage_number}, \code{period}, \code{year}, \code{subcircle},
+\code{plotarea_ha}, \code{min_number_of_regeneration} and \code{max_number_of_regeneration}.}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -15,23 +18,23 @@ List of dataframes that are mentioned in the above description
 \description{
 This function makes aggregations of tree generation data on the levels of
 \itemize{
- \item plot, height class and year
- \item plot and year
- \item plot, height class, tree species and year
+\item plot and year (and subplot for core area)
+\item plot, height class and year (and subplot for core area)
+\item plot, tree species and year (and subplot for core area)
+\item plot, height class, tree species and year (and subplot for core area)
 }
 For core area plots it makes additional aggregations on the levels of
 \itemize{
- \item core area, tree species and year
- \item core area, height class, tree species and year
+\item core area, tree species and year
+\item core area, height class, tree species and year
 }
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_regeneration <-
-  load_data_regeneration("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_regeneration <- load_data_regeneration(path_to_fieldmapdb)
 calculate_regeneration(data_regeneration)
-}
 
 }

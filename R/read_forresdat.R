@@ -1,43 +1,55 @@
-#' load tables from git repository forresdat
+#' @title load data package from git repository `forresdat`
 #'
-#' This function reads a table in git2rdata format from git repository forresdat
-#' (or another git repository dependent on the given repo path).
+#' @description
+#' This function reads the data package from git repository `forresdat`
+#' (and saves the `forresdat` data to a local temp directory to avoid unneeded
+#' downloading in the future).
+#' This data package contains both data and metadata and can be explored using
+#' functions of the [frictionless](https://docs.ropensci.org/frictionless/)
+#' package.
 #'
-#' @param tablename name of the table that should be read
-#' @param repo_path name and path of local git repository from which data should be retrieved
-#' @param join_plotinfo should table plotinfo be joined to the chosen table to
-#' add columns plottype and forest_reserve?  Default is TRUE.  (This is only
-#' possible if the given table contains a column plot_id, so this parameter
-#' should be put FALSE if this column is absent.)
+#' Data available in `forresdat` only contain observations, so no records with
+#' zero values are added for for instance species that were not observed and
+#' hence absent.
+#' These zero value records can easily be added by using the function
+#' `add_zeros()`.
 #'
-#' @return A dataframe with the specified table, default columns plottype and forest_reserve.
+#' The different tables of this dataset contain data that are collected
+#' using 2 different methods (plot types):
+#' circular plots (CP) and core areas (CA).
+#' It is advised to only use one of them for analyses, as the data are likely
+#' to differ due to method related differences.
+#'
+#' General information on the plot level is available in table `plotinfo`,
+#' which can easily be joined to other tables on `plot_id` and `period`
+#' (or only `plot_id` if `period` is absent).
+#'
+#' @return A `frictionless` data package with all tables and metadata from
+#' GitHub repository `forresdat`, which can be explored using package
+#' [`frictionless`](https://docs.ropensci.org/frictionless/).
+#' To be able to recall the version of the data, this data package contains
+#' an attribute with the version number of the release of `forresdat` from which
+#' the data are taken.
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
-#' }
+#' datapackage <- read_forresdat()
+#' frictionless::resources(datapackage)
+#' attr(datapackage, "forresdat")
 #'
 #' @export
 #'
-#' @importFrom git2rdata pull read_vc repository
-#' @importFrom assertthat assert_that has_name
+#' @importFrom frictionless read_package
 #'
-read_forresdat <- function(tablename, repo_path, join_plotinfo = TRUE) {
-  repo <- repository(repo_path)
-  pull(repo, credentials = get_cred(repo))
-  dataset <- read_vc(file = paste0("data/", tablename), root = repo)
-  if (join_plotinfo) {
-    assert_that(
-      has_name(dataset, "plot_id"),
-      msg = "No column 'plot_id' in the requested table, please add 'join_plotinfo = FALSE'"
-    )
-    dataset <- dataset %>%
-      left_join(
-        read_vc(file = "data/plotinfo", root = repo),
-        by = "plot_id"
-      )
-  }
+read_forresdat <- function() {
+  path_to_forresdat <- download_forresdat()
+  dataset <- read_package(file.path(path_to_forresdat, "datapackage.json"))
+
+  warning("Tables contain data of 2 different methods (plottypes, CP and CA): select only one of them to do reliable analyses") #nolint: line_lenght_linter
+  warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint: line_length_linter
+
+  attr(dataset, "forresdat") <-
+    paste("forresdat release", attr(path_to_forresdat, "version"))
+
   return(dataset)
 }

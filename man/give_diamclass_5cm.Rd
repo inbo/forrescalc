@@ -7,7 +7,7 @@
 give_diamclass_5cm(diameterdata)
 }
 \arguments{
-\item{diameterdata}{vector with diameter data in millimeter}
+\item{diameterdata}{vector with diameter data in millimetre}
 }
 \value{
 vector with factors in diameter classes of 5 cm
