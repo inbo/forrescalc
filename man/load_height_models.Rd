@@ -2,25 +2,30 @@
 % Please edit documentation in R/load_height_models.R
 \name{load_height_models}
 \alias{load_height_models}
-\title{retrieve height model data from xlsx files}
+\title{retrieve height model data from git repository \code{forresheights}}
 \usage{
-load_height_models(path_to_height_models)
+load_height_models(example_dataset = FALSE)
 }
 \arguments{
-\item{path_to_height_models}{path to folder where height models are stored}
+\item{example_dataset}{Should a (limited) example dataset be loaded?
+Defaults to FALSE, loading the whole dataset from the git repository.
+If TRUE, only height models needed for the example database will be loaded
+(to be used in the examples).}
 }
 \value{
 Dataframe with height model data
 }
 \description{
-This function groups the information on height models from the `.xlsx` files
-in the given folder together in one dataframe.
+This function groups the information on height models from the \code{.csv} files
+in the git repository
+\href{https://github.com/inbo/forresheights}{\code{forresheights}}
+together in one dataframe.
 }
 \examples{
 \dontrun{
-#change path before running
+# example ignored during checks due to high elapsed time
 library(forrescalc)
-load_height_models("C:/bosreservaten/Hoogtemodellen/")
+load_height_models()
 }
 
 }

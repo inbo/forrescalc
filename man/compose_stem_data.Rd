@@ -4,30 +4,52 @@
 \alias{compose_stem_data}
 \title{Combine dendro data and shoot data to give detailed stem data}
 \usage{
-compose_stem_data(data_dendro, data_shoots)
+compose_stem_data(data_dendro, data_shoots, extra_variables = FALSE)
 }
 \arguments{
-\item{data_dendro}{dataframe on tree measures with variables plot_id, plottype, tree_measure_id, date_dendro, dbh_mm, height_m, species, alive_dead, decaystage, period, OldID, year, subcircle, plotarea_ha,... (output of function load_data_dendrometry())}
+\item{data_dendro}{dataframe on tree measures with variables \code{plot_id},
+\code{plottype}, \code{tree_measure_id}, \code{date_dendro}, \code{dbh_mm}, \code{height_m},
+\code{species}, \code{alive_dead}, \code{decaystage}, \code{period}, \code{old_id}, \code{year},
+\code{subcircle}, \code{plotarea_ha},...
+(output of function \code{load_data_dendrometry()})}
 
-\item{data_shoots}{dataframe on shoots as given from the function load_data_shoots()}
+\item{data_shoots}{dataframe on shoots as given from the function
+\code{load_data_shoots()}}
+
+\item{extra_variables}{Should additional variables such as \code{iufro_hght},
+\code{iufro_vital}, \code{iufro_socia}, \code{remark} and \code{common_remark} be added?
+Default is FALSE (no).
+ATTENTION: some variables as IUFRO-classes and (common-)remark are
+\itemize{
+\item for coppice - collected at shoot level.
+To include these extra variables, it is necessary to indicate this argument
+in both load-functions (\code{load_data_dendrometry()} and \code{load_data_shoots()}):
+extra_variables = TRUE.
+}}
 }
 \value{
 Dataframe with shoot data
 }
 \description{
-This function replaces in the given dendrometric data (result from function load_data_dendrometry())
-the diameters, height, decaystage and info on intact/snag from coppice trees
-by their separate stems given in the shoot data (result from function load_data_shoots()).
+This function replaces in the given dendrometric data (result from function
+\code{load_data_dendrometry()}) the diameters, height, decay stage and info on
+intact/snag from coppice trees by their separate stems given in the shoot
+data (result from function \code{load_data_shoots()}).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_dendro <-
-  load_data_dendrometry("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_shoots <-
-  load_data_shoots("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_dendro <- load_data_dendrometry(path_to_fieldmapdb)
+data_shoots <- load_data_shoots(path_to_fieldmapdb)
 compose_stem_data(data_dendro, data_shoots)
-}
+
+#to include iufro-classes and other additional variables:
+data_dendro <-
+  load_data_dendrometry(path_to_fieldmapdb, extra_variables = TRUE)
+data_shoots <-
+  load_data_shoots(path_to_fieldmapdb, extra_variables = TRUE)
+compose_stem_data(data_dendro, data_shoots, extra_variables = TRUE)
 
 }

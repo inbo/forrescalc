@@ -2,40 +2,105 @@
 % Please edit documentation in R/add_zeros.R
 \name{add_zeros}
 \alias{add_zeros}
-\title{Add records with value zero for missing variable combinations in a given dataset}
+\title{Add records with value zero for missing variable combinations in a
+given dataset}
 \usage{
-add_zeros(dataset, comb_vars, grouping_vars)
+add_zeros(
+  dataset,
+  comb_vars,
+  grouping_vars,
+  add_zero_no_na = NA,
+  remove_na_records_in_comb_vars = NA,
+  defaults_to_na = NA
+)
 }
 \arguments{
 \item{dataset}{data.frame in which records should be added}
 
-\item{comb_vars}{variables (given as a vector of strings) of which all combinations of their values should have a record in the dataset.}
+\item{comb_vars}{variables (given as a vector of strings) of which all
+combinations of their values should have a record in the dataset.}
 
-\item{grouping_vars}{one or more variables for which the combination of values of the variables given in `comb_vars` should be made for each value, e.g. if grouping_vars = "forest_reserve" and comb_vars = c("plot", "species"), all combinations of the values in "plot" and "species" are made within each value of "forest_reserve".}
+\item{grouping_vars}{one or more variables for which the combination of
+values of the variables given in \code{comb_vars} should be made for each value,
+e.g. if \code{grouping_vars = "forest_reserve"} and
+\code{comb_vars = c("plot", "species")},
+all combinations of the values in "plot" and "species" are made
+within each value of "forest_reserve".}
+
+\item{add_zero_no_na}{variable indicating which records of the
+\code{grouping_vars} should get a zero value (variable should be TRUE) or a NA
+value (variable should be FALSE).
+E.g. a variable indicating whether or not observations are done.
+If no variable name is given (default NA), all added records get zero values.}
+
+\item{remove_na_records_in_comb_vars}{In which of the given \code{comb_vars}
+should records with NA values be removed after adding the records with zero
+values for all combinations?
+In some cases, e.g. if no species are observed in a plot, the dataset in
+\code{forresdat} has records with species NA and zeros for measured variables
+to make sure zero values for all species are added for each plot when using
+this function.
+But after adding zero records for all missing species, the records with
+species NA have become superfluous.
+They can be removed by adding argument
+\code{remove_na_records_in_comb_vars = "species"}.
+This argument defaults to NA (= no NA records are removed).}
+
+\item{defaults_to_na}{Columns in which the function should add NA instead of
+zero in the records that are added to complete the dataset.}
 }
 \value{
-dataframe based on `dataset` to which records are added with value 0 (zero) for each measurement.
+dataframe based on \code{dataset} to which records are added with
+value 0 (zero) for each measurement.
 }
 \description{
-Datasets for which this package has been developed, typically contain measurements of observations.
-Absence is often not reported explicitly (e.g. there exists no record of a species that is not observed in a plot), while it can be important to include these zero values in an analysis (e.g. mean coverage per species in a certain forest reserve; mean stem number per diameter class in a forest reserve).
-This function automatically adds missing combinations with value zero to the dataset for each combination of values of the variables given in `comb_vars` (within each value of `grouping_vars`).
-All variables that are not mentioned in `comb_vars` or `grouping_vars`, are considered to be numerical variables and will get value 0 (zero).
-Note that if a certain value is not present in the dataset (or in one of the subsets defined by `grouping_vars`), it will not be added automatically; at least one record should be added manually for this value (e.g. a plot or diameterclass that doesn't exist in the given dataset, but has to be included in the output).
+Datasets for which this package has been developed, typically contain
+measurements of observations.
+Absence is often not reported explicitly (e.g. there exists no record of
+a species that is not observed in a plot),
+while it can be important to include these zero values in an analysis
+(e.g. mean coverage per species in a certain forest reserve; mean stem number
+per diameter class in a forest reserve).
+This function automatically adds missing combinations with value zero to
+the dataset for each combination of values of the variables given
+in \code{comb_vars} (within each value of \code{grouping_vars}).
+All variables that are not mentioned in \code{comb_vars} or \code{grouping_vars},
+are considered to be numerical variables and will get value 0 (zero).
+Note that if a certain value is not present in the dataset
+(or in one of the subsets defined by \code{grouping_vars}), it will not be
+added automatically;
+at least one record should be added manually for this value
+(e.g. a plot or \code{diameterclass} that doesn't exist in the given dataset,
+but has to be included in the output).
+The data in \code{forresdat} already contain one record with zeros per plot
+(with NA value for \code{species} and/or \code{diameterclass}), resulting in records to
+be added automatically if 'plot_id' is added to \code{comb_vars}.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-library(tidyverse)
+library(dplyr)
 dendro_by_plot_species <-
-  read_forresdat(tablename = "dendro_by_plot_species", repo_path = "C:/gitrepo/forresdat") \%>\%
-  select(-year, -plottype)
+  read_forresdat_table(tablename = "dendro_by_plot_species") \%>\%
+  select(
+    -year, -plottype, -starts_with("survey_"), -data_processed,
+    -starts_with("game_")
+  )
 add_zeros(
   dataset = dendro_by_plot_species,
-  comb_vars = c("plot_id", "species"),
-  grouping_vars = c("forest_reserve", "period")
+  comb_vars = c("plot_id", "period", "species"),
+  grouping_vars = c("forest_reserve")
 )
-}
+add_zeros(
+  dataset = dendro_by_plot_species,
+  comb_vars = c("plot_id", "period", "species"),
+  grouping_vars = c("forest_reserve"),
+  remove_na_records_in_comb_vars = "species"
+)
+add_zeros(
+  dataset = dendro_by_plot_species,
+  comb_vars = c("plot_id", "period", "species"),
+  grouping_vars = c("forest_reserve"),
+  defaults_to_na = "stems_per_tree"
+)
 
 }

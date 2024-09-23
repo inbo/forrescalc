@@ -9,7 +9,8 @@ calculate_vegetation(data_vegetation, data_herblayer)
 \arguments{
 \item{data_vegetation}{dataframe on vegetation with variables ...}
 
-\item{data_herblayer}{dataframe on vegetation in the species level ('herb layer') with variables ...}
+\item{data_herblayer}{dataframe on vegetation in the species level
+('herb layer') with variables ...}
 }
 \value{
 List of dataframes that are mentioned in the above description
@@ -17,20 +18,18 @@ List of dataframes that are mentioned in the above description
 \description{
 This function makes aggregations of vegetation data on the levels of
 \itemize{
- \item plot and year
- \item subplot and year (only for plot type 'core area')
- \item plot, species and year (only for plot type 'core area')
+\item plot and year
+\item subplot and year (only for plot type 'core area')
+\item plot, species and year (only for plot type 'core area')
 }
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-data_vegetation <-
-  load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-data_herblayer <-
-  load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
+data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
 calculate_vegetation(data_vegetation, data_herblayer)
-}
 
 }

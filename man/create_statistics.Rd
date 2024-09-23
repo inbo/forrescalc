@@ -8,50 +8,109 @@ create_statistics(
   dataset,
   level = c("period", "forest_reserve"),
   variables,
-  include_year_range = FALSE
+  include_year_range = FALSE,
+  na_rm = FALSE,
+  interval_information = suppressMessages(read_csv2(system.file("extdata/class_data.csv",
+    package = "forrescalc")))
 )
 }
 \arguments{
-\item{dataset}{dataset with data to be summarised with at least columns year and period, e.g. table from git repository forresdat}
+\item{dataset}{dataset with data to be summarised with at least columns year
+and period, e.g. table from git repository \code{forresdat}}
 
-\item{level}{grouping variables that determine on which level the values should be calculated (e.g. forest_reserve, year and species), given as a string or a vector of strings. Defaults to forest_reserve & period.}
+\item{level}{grouping variables that determine on which level the values
+should be calculated (e.g. forest_reserve, year and species), given as a
+string or a vector of strings. Defaults to forest_reserve & period.}
 
-\item{variables}{variable(s) of which summary statistics should be calculated (given as a string or a vector of strings)}
+\item{variables}{variable(s) of which summary statistics should be
+calculated (given as a string or a vector of strings)}
 
-\item{include_year_range}{Should min_year and max_year be calculated based on a given column year in dataset?  Defaults to FALSE.}
+\item{include_year_range}{Should min_year and max_year be calculated based
+on a given column year in dataset?  Defaults to FALSE.}
+
+\item{na_rm}{Should NA values in the dataset be ignored?  Defaults to FALSE.
+If TRUE, levels without any non NA data are kept (resulting in NA values).}
+
+\item{interval_information}{overview of names for interval data,
+including columns \code{var_name} (= name for output), \code{var_min} and \code{var_max}
+(= names for minimum and maximum value in input dataset), and
+\code{preferred_transformation} (= "log" if log-transformation is desired).
+Defaults to a table containing all interval variables in \code{forresdat},
+where log transformation is applied in variables where class widths differ.
+(In cover data in the Longo scale, log transformation is only applied in
+variables where most observations have a low coverage, e.g. moss cover,
+in congruence with the fact that class widths only differ in the lower part
+of the Longo scale.)}
 }
 \value{
-dataframe with the columns chosen for level, a column variable with the chosen variables, and the columns n_obs, mean, variance, lci (lower limit of confidence interval) and uci (upper limit of confidence interval)
+dataframe with the columns chosen for level, a column variable with
+the chosen variables, and the columns \code{n_obs}, \code{mean}, \code{variance},
+\code{lci} (lower limit of confidence interval) and
+\code{uci} (upper limit of confidence interval)
 }
 \description{
-This function calculates statistics for the given data (e.g. from the git-repository forresdat) on the specified level (e.g. forest_reserve, period and species) and for the specified variables (e.g. basal_area and volume). Calculated statistics include number of observations, mean, variance and confidence interval (lci and uci).
+This function calculates statistics for the given data
+(e.g. from the git-repository \code{forresdat}) on the specified level
+(e.g. forest_reserve, period and species) and for the specified variables
+(e.g. basal_area and volume).
+Calculated statistics include number of observations, mean, variance
+and confidence interval with lower and upper limit (lci and uci).
 
-These summary statistics are calculated on the given data, not taking into account absence of observations unless explicitly added as a record with value zero.
-E.g. if a certain species only occurs in 3 plots out of 10 and no records are added for the 7 remaining plots, the summary statistics (e.g. mean coverage) are calculated on 3 plots.
-Records with value zero for certain variables (e.g. coverage of a certain species or number of trees for a certain diameter class) can automatically be added using the function add_zeros().
+These summary statistics are calculated on the given data, not taking into
+account absence of observations unless explicitly added as a record with
+value zero.
+E.g. if a certain species only occurs in 3 plots out of 10 and no records are
+added for the 7 remaining plots, the summary statistics (e.g. mean coverage)
+are calculated on 3 plots.
+Records with value zero for certain variables (e.g. coverage of a certain
+species or number of trees for a certain diameter class) can automatically
+be added using the function add_zeros().
+
+In case of intervals, the variance and confidence interval are calculated
+based on the minimum and maximum values of the intervals of the individual
+records (which is considered a CI, so lci and uci can serve as min and max).
+For this, \code{dataset} must contain columns with minimum and maximum values,
+\code{variables} must contain a name for the output of this variable, and
+\code{interval_information} must contain the variable names for minimum, maximum
+and output that should be used.
+In \code{interval_information} it can be specified if a logarithmic transformation
+is needed to compensate of unequal interval widths.
+In this case, mean and the confidence interval are transformed back,
+but variance is not, as this result would be confusing rather than useful.
+For typical \code{forresdat} variables,
+the default value of \code{interval_information}
+can be used and in this case, the variable mentioned in \code{variables} should
+be named after the values in \code{forresdat}, omitting \code{min_}, \verb{_min}, \code{max_} or
+\verb{_max} (see example on interval data).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-dendro_by_plot <-
-  read_forresdat(tablename = "dendro_by_plot", repo_path = "C:/gitrepo/forresdat")
+dendro_by_plot <- read_forresdat_table(tablename = "dendro_by_plot")
 create_statistics(
   dataset = dendro_by_plot,
   level = c("forest_reserve", "period"),
   variables = "vol_alive_m3_ha"
 )
 dendro_by_diam_plot_species <-
-  read_forresdat(tablename = "dendro_by_diam_plot_species", repo_path = "C:/gitrepo/forresdat")
+  read_forresdat_table(tablename = "dendro_by_diam_plot_species")
 create_statistics(
   dataset = dendro_by_diam_plot_species,
   level = c("forest_reserve", "year", "species", "dbh_class_5cm"),
   variables = c("basal_area_alive_m2_ha", "basal_area_dead_m2_ha")
 )
-vegetation_by_plot <-
-  read_forresdat(tablename = "vegetation_by_plot", repo_path = "C:/gitrepo/forresdat")
-create_statistics(dataset = vegetation_by_plot, level = c("forest_reserve", "period"),
-  variables = c("number_of_species", "cumm_herb_coverage_class_average_perc"))
-}
+#example on interval data (shrub_cover and tree_cover)
+veg_by_plot <- read_forresdat_table(tablename = "veg_by_plot")
+create_statistics(dataset = veg_by_plot,
+  level = c("forest_reserve", "period", "plottype"),
+  variables = c("number_of_species", "shrub_cover", "tree_cover")
+)
+# example on data with confidence interval (number_established_ha and
+# number_seedlings_ha)
+reg_by_plot <-
+  read_forresdat_table(tablename = "reg_by_plot")
+create_statistics(dataset = reg_by_plot,
+  level = c("forest_reserve", "period", "plot_id"),
+  variables = c("number_established_ha", "number_seedlings_ha")
+)
 
 }

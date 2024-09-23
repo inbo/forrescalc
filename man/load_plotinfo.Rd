@@ -2,26 +2,40 @@
 % Please edit documentation in R/load_plotinfo.R
 \name{load_plotinfo}
 \alias{load_plotinfo}
-\title{retrieve generic plot data from fieldmap database}
+\title{retrieve generic plot data from \code{Fieldmap} database}
 \usage{
-load_plotinfo(database)
+load_plotinfo(database, plottype = NA, forest_reserve = NA, processed = TRUE)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
+
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
+
+\item{forest_reserve}{possibility to select only data for 1 forest reserve
+by giving the name of the forest reserve (the default NA means that data
+from all plots are retrieved)}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with columns plot_id, plottype and forest_reserve
+Dataframe with columns \code{plot_id}, \code{plottype}, \code{forest_reserve},
+\code{period}, \code{year} of dendrometric survey and information on
+(1) whether there has been a dendro, deadwood, regeneration and/or
+vegetation survey and (2) whether the data have been processed or not.
 }
 \description{
 This function queries the given database to retrieve additional data on plots
-to save in forresdat and link with the datasets that are saved there.
+to save in \code{forresdat} and link with the datasets that are saved there.
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-load_plotinfo("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+load_plotinfo(path_to_fieldmapdb)
 
 }

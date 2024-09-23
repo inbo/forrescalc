@@ -8,18 +8,17 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' #change path before running
 #' library(forrescalc)
-#' data_vegetation <-
-#'   load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-#' data_herblayer <-
-#'   load_data_herblayer("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
+#' # (add path to your own fieldmap database here)
+#' path_to_fieldmapdb <-
+#'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+#' data_vegetation <- load_data_vegetation(path_to_fieldmapdb)
+#' data_herblayer <- load_data_herblayer(path_to_fieldmapdb)
 #' calculate_vegetation(data_vegetation, data_herblayer)
-#' }
 #'
 #' @param data_vegetation dataframe on vegetation with variables ...
-#' @param data_herblayer dataframe on vegetation in the species level ('herb layer') with variables ...
+#' @param data_herblayer dataframe on vegetation in the species level
+#' ('herb layer') with variables ...
 #'
 #' @return List of dataframes that are mentioned in the above description
 #'
@@ -29,15 +28,15 @@
 #' @importFrom rlang .data
 #'
 calculate_vegetation <- function(data_vegetation, data_herblayer) {
-  by_plot <- calculate_vegetation_plot(data_vegetation, data_herblayer)
-  data_herblayer_CA <- data_herblayer %>%
-    filter(.data$plottype == 30)
-  by_core_area_species <- calculate_vegetation_core_area_species(data_herblayer_CA)
+  by_plot <- calc_veg_plot(data_vegetation, data_herblayer)
+  data_herblayer_ca <- data_herblayer %>%
+    filter(.data$plottype == "CA")
+  by_core_area_species <- calc_veg_core_area_species(data_herblayer_ca)
 
   return(
     list(
-      vegetation_by_plot = by_plot,
-      vegetation_by_core_area_species = by_core_area_species
+      veg_by_plot = by_plot,
+      veg_by_core_area_species = by_core_area_species
     )
   )
 }

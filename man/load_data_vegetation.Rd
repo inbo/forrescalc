@@ -2,32 +2,46 @@
 % Please edit documentation in R/load_data_vegetation.R
 \name{load_data_vegetation}
 \alias{load_data_vegetation}
-\title{retrieve vegetation data from fieldmap database}
+\title{retrieve vegetation data from \code{Fieldmap} database}
 \usage{
-load_data_vegetation(database, plottype = NA, forest_reserve = NA)
+load_data_vegetation(
+  database,
+  plottype = NA,
+  forest_reserve = NA,
+  processed = TRUE
+)
 }
 \arguments{
-\item{database}{name of fieldmap/access database (with specific fieldmap
+\item{database}{name of \code{Fieldmap}/Access database (with specific \code{Fieldmap}
 structure) including path}
 
-\item{plottype}{possibility to select only data for a certain plot type, e.g. 'Circular plot'
-or 'Core area' (the default NA means that data from all plots are retrieved)}
+\item{plottype}{possibility to select only data for a certain plot type, e.g.
+'CP' for Circular plot or 'CA' for Core area
+(the default NA means that data from all plots are retrieved)}
 
 \item{forest_reserve}{possibility to select only data for 1 forest reserve
 by giving the name of the forest reserve (the default NA means that data
 from all plots are retrieved)}
+
+\item{processed}{Should only processed and surveyed data be added?
+Defaults to TRUE (yes).}
 }
 \value{
-Dataframe with vegetation data, containing columns as total_herb_cover, total_shrub_cover, total_tree_cover, total_soildisturbance_game, date_vegetation (= date of vegetation survey), year_record (= year of vegetation survey), year (= year of vegetation survey, derived from date_vegetation if available, otherwise from year_record), ....
+Dataframe with vegetation data, containing columns as
+\code{total_herb_cover}, \code{total_shrub_cover}, \code{total_tree_cover},
+\code{total_soildisturbance_game},
+\code{date_vegetation} (= date of vegetation survey),
+\code{year_main_survey} (= year of vegetation survey), ....
 }
 \description{
-This function queries the given database to retrieve data on vegetation (ready for use in calculate_vegetation function).
+This function queries the given database to retrieve data on vegetation
+(ready for use in calculate_vegetation function).
 }
 \examples{
-\dontrun{
-#change path before running
 library(forrescalc)
-load_data_vegetation("C:/MDB_BOSRES_selectieEls/FieldMapData_MDB_BOSRES_selectieEls.accdb")
-}
+# (add path to your own fieldmap database here)
+path_to_fieldmapdb <-
+  system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
+load_data_vegetation(path_to_fieldmapdb)
 
 }
