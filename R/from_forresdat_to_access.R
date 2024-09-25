@@ -40,6 +40,7 @@ from_forresdat_to_access <-
     plottype <- "all"
   }
   con <- connect_to_database(database)
+  options(odbc.batch_rows = 1)
   for (tablename in tables) {
     dataset <-
       read_forresdat_table(
