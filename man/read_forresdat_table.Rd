@@ -7,7 +7,9 @@
 read_forresdat_table(
   tablename,
   join_plotinfo = TRUE,
-  plottype = c("CP", "CA", "all")
+  plottype = c("CP", "CA", "all"),
+  git_ref_type = c("release", "branch", "commit"),
+  git_reference = "latest"
 )
 }
 \arguments{
@@ -24,6 +26,15 @@ Must be FALSE if you want to load the table \code{plotinfo} itself.}
 \item{plottype}{Data of which \code{plottype} (used method) should be retrieved?
 Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
 (retrieve both circle plots and core areas) could be chosen.}
+
+\item{git_ref_type}{Which type of reference is given in \code{git_reference}, a
+release, a branch or a commit (hash)?
+Defaults to "release".}
+
+\item{git_reference}{The forresdat version (release), branch or commit
+(give hash) that should be given.
+Make sure git_ref_type mentions the reference type that has been given.
+Defaults to "latest" (release).}
 }
 \value{
 A dataframe with the specified table, default columns \code{plottype},

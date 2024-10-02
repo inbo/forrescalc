@@ -10,6 +10,8 @@
 #' `add_zeros()`.
 #' To load table `plotinfo`, set argument `join_plotinfo = FALSE`.
 #'
+#' @inheritParams read_forresdat
+#'
 #' @param tablename name of the table that should be read
 #' @param join_plotinfo should table `plotinfo` be joined to the chosen table to
 #' add columns `forest_reserve`, `survey_dendro`/`deadw`/`reg`/`veg` (TRUE or
@@ -43,10 +45,16 @@
 #' @importFrom readr read_csv
 #'
 read_forresdat_table <-
-  function(tablename, join_plotinfo = TRUE, plottype = c("CP", "CA", "all")) {
+  function(
+    tablename, join_plotinfo = TRUE, plottype = c("CP", "CA", "all"),
+    git_ref_type = c("release", "branch", "commit"), git_reference = "latest") {
+
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
-  path_to_forresdat <- download_forresdat()
+  path_to_forresdat <-
+    download_forresdat(
+      git_ref_type = git_ref_type, git_reference = git_reference
+    )
   datapackage <- read_package(file.path(path_to_forresdat, "datapackage.json"))
   assert_that(
     tablename %in% resources(datapackage),
@@ -93,7 +101,7 @@ read_forresdat_table <-
   warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint: line_length_linter
 
   attr(dataset, "forresdat") <-
-    paste("forresdat release", attr(path_to_forresdat, "version"))
+    paste("forresdat", attr(path_to_forresdat, "version"))
 
   return(dataset)
 }

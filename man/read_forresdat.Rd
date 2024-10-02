@@ -4,7 +4,20 @@
 \alias{read_forresdat}
 \title{load data package from git repository \code{forresdat}}
 \usage{
-read_forresdat()
+read_forresdat(
+  git_ref_type = c("release", "branch", "commit"),
+  git_reference = "latest"
+)
+}
+\arguments{
+\item{git_ref_type}{Which type of reference is given in \code{git_reference}, a
+release, a branch or a commit (hash)?
+Defaults to "release".}
+
+\item{git_reference}{The forresdat version (release), branch or commit
+(give hash) that should be given.
+Make sure git_ref_type mentions the reference type that has been given.
+Defaults to "latest" (release).}
 }
 \value{
 A \code{frictionless} data package with all tables and metadata from

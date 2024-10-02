@@ -24,6 +24,14 @@
 #' which can easily be joined to other tables on `plot_id` and `period`
 #' (or only `plot_id` if `period` is absent).
 #'
+#' @param git_ref_type Which type of reference is given in `git_reference`, a
+#' release, a branch or a commit (hash)?
+#' Defaults to "release".
+#' @param git_reference The forresdat version (release), branch or commit
+#' (give hash) that should be given.
+#' Make sure git_ref_type mentions the reference type that has been given.
+#' Defaults to "latest" (release).
+#'
 #' @return A `frictionless` data package with all tables and metadata from
 #' GitHub repository `forresdat`, which can be explored using package
 #' [`frictionless`](https://docs.ropensci.org/frictionless/).
@@ -41,15 +49,21 @@
 #'
 #' @importFrom frictionless read_package
 #'
-read_forresdat <- function() {
-  path_to_forresdat <- download_forresdat()
+read_forresdat <-
+  function(
+    git_ref_type = c("release", "branch", "commit"), git_reference = "latest") {
+
+  path_to_forresdat <-
+    download_forresdat(
+      git_ref_type = git_ref_type, git_reference = git_reference
+    )
   dataset <- read_package(file.path(path_to_forresdat, "datapackage.json"))
 
   warning("Tables contain data of 2 different methods (plottypes, CP and CA): select only one of them to do reliable analyses") #nolint: line_lenght_linter
   warning("The dataset only contains presence data and lacks zero observations (except for 1 observation per plot_id and period to indicate that observations are done).  Please use function add_zeros() to add zero observations when needed.") #nolint: line_length_linter
 
   attr(dataset, "forresdat") <-
-    paste("forresdat release", attr(path_to_forresdat, "version"))
+    paste("forresdat", attr(path_to_forresdat, "version"))
 
   return(dataset)
 }

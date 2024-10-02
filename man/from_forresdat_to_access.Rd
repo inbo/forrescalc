@@ -9,7 +9,9 @@ from_forresdat_to_access(
   database,
   remove_tables = FALSE,
   plottype = NA,
-  join_plotinfo = TRUE
+  join_plotinfo = TRUE,
+  git_ref_type = c("release", "branch", "commit"),
+  git_reference = "latest"
 )
 }
 \arguments{
@@ -33,6 +35,15 @@ Default is TRUE.
 (This is only possible if the given table contains a column plot_id,
 so this parameter should be put FALSE if this column is absent.)
 Must be FALSE if you want to load the table \code{plotinfo} itself.}
+
+\item{git_ref_type}{Which type of reference is given in \code{git_reference}, a
+release, a branch or a commit (hash)?
+Defaults to "release".}
+
+\item{git_reference}{The forresdat version (release), branch or commit
+(give hash) that should be given.
+Make sure git_ref_type mentions the reference type that has been given.
+Defaults to "latest" (release).}
 }
 \value{
 No value is returned, the tables are saved in the access database.
