@@ -53,6 +53,7 @@ read_forresdat <-
   function(
     git_ref_type = c("release", "branch", "commit"), git_reference = "latest") {
 
+  git_ref_type <- match.arg(git_ref_type)
   path_to_forresdat <-
     download_forresdat(
       git_ref_type = git_ref_type, git_reference = git_reference

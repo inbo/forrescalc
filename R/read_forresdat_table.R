@@ -51,6 +51,7 @@ read_forresdat_table <-
 
   assert_that(is.logical(join_plotinfo))
   var_plottype <- match.arg(plottype)
+  git_ref_type <- match.arg(git_ref_type)
   path_to_forresdat <-
     download_forresdat(
       git_ref_type = git_ref_type, git_reference = git_reference

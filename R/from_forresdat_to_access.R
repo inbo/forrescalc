@@ -42,6 +42,7 @@ from_forresdat_to_access <-
   if (is.na(plottype)) {
     plottype <- "all"
   }
+  git_ref_type <- match.arg(git_ref_type)
   con <- connect_to_database(database)
   options(odbc.batch_rows = 1)
   for (tablename in tables) {
