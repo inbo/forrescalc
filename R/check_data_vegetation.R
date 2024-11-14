@@ -68,6 +68,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
 
   incorrect_vegetation <- data_vegetation %>%
     filter(survey_veg == 10) %>%
+    select(-survey_veg) %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
       forrest_reserve_date = median(.data$date)
