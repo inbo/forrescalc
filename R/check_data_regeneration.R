@@ -35,6 +35,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     "SELECT g.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
+      pd.Survey_Regeneration_YN AS survey_reg,
       g.ID AS subplot_id,
       g.Date AS date_,
       g.Fieldteam AS fieldteam
@@ -48,6 +49,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     query_database(database, query_regeneration, selection = selection)
 
   incorrect_regeneration <- data_regeneration %>%
+    filter(survey_reg == 10) %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
       forest_reserve_date = median(.data$date_)
