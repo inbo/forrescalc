@@ -119,7 +119,7 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
       field_number_and_numberclass =
         ifelse(
           is.na(.data$number) & is.na(.data$number_class) &
-            .data$period < 3,
+            !is.na(.data$species) & .data$period < 3,
           "missing", NA
         ),
       field_game_damage_number =
