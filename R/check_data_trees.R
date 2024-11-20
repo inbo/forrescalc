@@ -399,11 +399,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "missing",
           .data$field_coppice_id
         ),
-      field_commonremark =
-        ifelse(
-          .data$commonremark == 150 & .data$alive_dead != 11,
-          "tree not alive", NA
-        ),
       tree_measure_id = as.character(.data$tree_measure_id),
       species = as.character(.data$species)
     ) %>%
