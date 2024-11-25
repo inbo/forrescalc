@@ -306,7 +306,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
     left_join(
       trees_diff %>%
         filter(
-          .data$species != 51,
+          !.data$species %in% c(51, 3),
           .data$alive_dead == 11,
           .data$ind_sht_cop %in% c(10, 11)
         ) %>%
@@ -350,7 +350,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       left_join(
         trees_diff %>%
           filter(
-            .data$species != 51,
+            !.data$species %in% c(51, 3),
             .data$alive_dead == 11,
             .data$ind_sht_cop %in% c(10, 11)
           ) %>%
