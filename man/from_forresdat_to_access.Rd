@@ -40,7 +40,7 @@ Must be FALSE if you want to load the table \code{plotinfo} itself.}
 release, a branch or a commit (hash)?
 Defaults to "release".}
 
-\item{git_reference}{The forresdat version (release), branch or commit
+\item{git_reference}{The \code{forresdat} version (release), branch or commit
 (give hash) that should be given.
 Make sure git_ref_type mentions the reference type that has been given.
 Defaults to "latest" (release).}

@@ -31,7 +31,7 @@ Default is 'CP' or 'circle plot', alternatively 'CA' or 'core area', or 'all'
 release, a branch or a commit (hash)?
 Defaults to "release".}
 
-\item{git_reference}{The forresdat version (release), branch or commit
+\item{git_reference}{The \code{forresdat} version (release), branch or commit
 (give hash) that should be given.
 Make sure git_ref_type mentions the reference type that has been given.
 Defaults to "latest" (release).}

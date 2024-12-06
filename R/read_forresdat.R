@@ -27,7 +27,7 @@
 #' @param git_ref_type Which type of reference is given in `git_reference`, a
 #' release, a branch or a commit (hash)?
 #' Defaults to "release".
-#' @param git_reference The forresdat version (release), branch or commit
+#' @param git_reference The `forresdat` version (release), branch or commit
 #' (give hash) that should be given.
 #' Make sure git_ref_type mentions the reference type that has been given.
 #' Defaults to "latest" (release).
