@@ -28,7 +28,10 @@
 #' @importFrom tools R_user_dir
 #' @importFrom utils download.file unzip
 #'
-download_forresdat <- function(git_ref_type = c("release", "branch", "commit"), git_reference = "latest") {
+download_forresdat <-
+  function(
+    git_ref_type = c("release", "branch", "commit"), git_reference = "latest"
+  ) {
 
   match.arg(git_ref_type)
 
@@ -69,7 +72,8 @@ download_forresdat <- function(git_ref_type = c("release", "branch", "commit"), 
     version_map <- "commit"
   }
 
-  path_to_forresdat <- file.path(datadir, "forresdat", version_map, "datapackage")
+  path_to_forresdat <-
+    file.path(datadir, "forresdat", version_map, "datapackage")
   if (!is.null(version_download)) {
     attr(path_to_forresdat, "version") <- paste(version_map, version_download)
   }
@@ -92,7 +96,10 @@ download_forresdat <- function(git_ref_type = c("release", "branch", "commit"), 
   }
 
   # write or overwrite the version number in the txt
-  writeLines(version_download, file.path(datadir, "forresdat", version_map, "version.txt"))
+  writeLines(
+    version_download,
+    file.path(datadir, "forresdat", version_map, "version.txt")
+  )
 
   # download the datapackage and move to the right folder
   # (move is to avoid an automatically generated folder name that differs)
