@@ -51,6 +51,16 @@ load_height_models <- function(example_dataset = FALSE) {
   filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = FALSE)
   tablelist <-
     sub("data/(.*)\\.csv", "\\1", filelist[grepl("data/.*\\.csv", filelist)])
+  invalid <- tablelist[!grepl("^HeightParams_.*_C[AP]_\\d$", tablelist)]
+  if(length(invalid) > 0) {
+    stop(
+      paste0(
+        "The following filename(s) in forresheights is (/are) invalid: ",
+        paste(invalid, collapse = ", "),
+        ". Please contact the package maintainer."
+      )
+    )
+  }
   path_to_height_models <-
     "https://raw.githubusercontent.com/inbo/forresheights/main/data/%s.csv"
   heightmodels <-
