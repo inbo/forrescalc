@@ -52,7 +52,7 @@ load_height_models <- function(example_dataset = FALSE) {
   tablelist <-
     sub("data/(.*)\\.csv", "\\1", filelist[grepl("data/.*\\.csv", filelist)])
   invalid <- tablelist[!grepl("^HeightParams_.*_C[AP]_\\d$", tablelist)]
-  if(length(invalid) > 0) {
+  if (length(invalid) > 0) {
     stop(
       paste0(
         "The following filename(s) in forresheights is (/are) invalid: ",
