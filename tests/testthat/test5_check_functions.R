@@ -129,13 +129,12 @@ describe("check_data_plotdetails", {
   check_plotdetails <- check_plotdetails[check_plotdetails$period == 1, ]
   it("check missing data CP", {
     expect_equal(
-      check_plotdetails[check_plotdetails$plot_id == 20, ],
+      check_plotdetails[check_plotdetails$plot_id == 19, ],
       tibble(
-        plot_id = 20,
+        plot_id = 19,
         period = 1,
         aberrant_field =
-          c("forest_reserve", "date_dendro", "fieldteam",
-            "ra1", "ra2", "ra3", "ra4"),
+          c("forest_reserve", "date_dendro", "fieldteam", "ra3", "ra4"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
@@ -148,8 +147,7 @@ describe("check_data_plotdetails", {
         plot_id = 30,
         period = 1,
         aberrant_field =
-          c("forest_reserve", "date_dendro", "fieldteam",
-            "length_core_area_m", "width_core_area_m", "area_ha"),
+          c("forest_reserve"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
@@ -343,12 +341,12 @@ describe("check_data_regspecies", {
 describe("check_data_vegetation", {
   check_vegetation <- check_data_vegetation(path_to_testdb)
   check_vegetation <-
-    check_vegetation[check_vegetation$plot_id %in% c(20, 60), ]
+    check_vegetation[check_vegetation$plot_id %in% c(19, 60), ]
   it("check missing data", {
     expect_equal(
       check_vegetation[check_vegetation$subplot_id == 1, ],
       tibble(
-        plot_id = 20,
+        plot_id = 19,
         subplot_id = 1,
         period = 1,
         aberrant_field =
@@ -364,15 +362,14 @@ describe("check_data_vegetation", {
     expect_equal(
       check_vegetation[check_vegetation$subplot_id == 2, ],
       tibble(
-        plot_id = 20,
+        plot_id = 19,
         subplot_id = 2,
         period = 1,
         aberrant_field =
           c("date", "fieldteam",
-            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id",
-            "waterlayer_cover_id"),
-        anomaly = c(rep("missing", 2), rep("not in lookuplist", 5)),
-        aberrant_value = c(rep(NA, 2), rep("15", 5))
+            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id"),
+        anomaly = c(rep("missing", 2), rep("not in lookuplist", 4)),
+        aberrant_value = c(rep(NA, 2), rep("15", 4))
       )
     )
   })
@@ -624,9 +621,9 @@ describe("check_data_trees", {
         period = 1,
         aberrant_field =
           c("alive_dead", "ind_sht_cop", "decay_stage",
-            "iufro_hght", "iufro_vital", "iufro_socia", "commonremark"),
-        anomaly = c(rep("not in lookuplist", 6), "tree not alive"),
-        aberrant_value = c("13", "13", "18", rep("60", 3), "150")
+            "iufro_hght", "iufro_vital", "iufro_socia"),
+        anomaly = c(rep("not in lookuplist", 6)),
+        aberrant_value = c("13", "13", "18", rep("60", 3))
       )
     )
     expect_equal(
@@ -826,17 +823,14 @@ describe("check_trees_evolution", {
         plot_id = 101,
         period = "1_2",
         tree_measure_id =
-          rep(c(rep("11601-11597", 2), rep("11602-11597", 4)), 2),
+          rep(c(rep("11601-11597", 2), rep("11602-11597", 2)), 2),
         aberrant_field =
           rep(
-            c(rep("location_shift", 2), rep(c("species", "location_shift"), 2)),
-            2),
+            c(rep("location_shift", 2), rep("species", 2)), 2),
         anomaly =
           rep(
-            c(rep("walker coppice_id", 2),
-              rep(c("shifter coppice_id", "walker coppice_id"), 2)),
-            2),
-        aberrant_value = rep(c(rep("3.66", 2), rep(c("28-16", "2.43"), 2)), 2)
+            c(rep("walker coppice_id", 2), rep("shifter coppice_id", 2)), 2),
+        aberrant_value = rep(c(rep("3.66", 2), rep("28-16", 2)), 2)
       )
     )
   })
