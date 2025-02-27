@@ -109,7 +109,7 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
         ifelse(is.na(.data$forest_reserve), "missing", NA),
       field_date_dendro =
         ifelse(is.na(.data$date_dendro) &
-                 (survey_trees == 10 | survey_deadw == 10)
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
                , "missing", NA),
       field_date_dendro =
         ifelse(
@@ -119,42 +119,42 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
           .data$field_date_dendro
         ),
       field_fieldteam = ifelse(is.na(.data$fieldteam) &
-                                 (survey_trees == 10 | survey_deadw == 10)
+                                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
                                , "missing", NA),
       field_ra1 =
-        ifelse(is.na(.data$ra1) & .data$plottype == "CP" & survey_reg == 10
+        ifelse(is.na(.data$ra1) & .data$plottype == "CP" & .data$survey_reg == 10
                , "missing", NA),
       field_ra2 =
-        ifelse(is.na(.data$ra2) & .data$plottype == "CP" & survey_reg == 10
+        ifelse(is.na(.data$ra2) & .data$plottype == "CP" & .data$survey_reg == 10
                , "missing", NA),
       field_ra3 =
         ifelse(is.na(.data$ra3) & .data$plottype == "CP" &
-                 (survey_trees == 10 | survey_deadw == 10)
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
                , "missing", NA),
       field_ra4 =
         ifelse(is.na(.data$ra4) & .data$plottype == "CP" &
-                 (survey_trees == 10 | survey_deadw == 10)
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
                , "missing", NA),
       field_length_core_area_m =
         ifelse(
           is.na(.data$length_core_area_m) & .data$plottype == "CA" &
-            (survey_trees == 10 | survey_deadw == 10
-             | survey_reg == 10 | survey_veg == 10)
+            (.data$survey_trees == 10 | .data$survey_deadw == 10
+             | .data$survey_reg == 10 | .data$survey_veg == 10)
           , "missing",
           NA
         ),
       field_width_core_area_m =
         ifelse(
           is.na(.data$width_core_area_m) & .data$plottype == "CA" &
-            (survey_trees == 10 | survey_deadw == 10
-             | survey_reg == 10 | survey_veg == 10)
+            (.data$survey_trees == 10 | .data$survey_deadw == 10
+             | .data$survey_reg == 10 | .data$survey_veg == 10)
           , "missing",
           NA
         ),
       field_area_ha =
         ifelse(is.na(.data$area_ha) & .data$plottype == "CA" &
-                 (survey_trees == 10 | survey_deadw == 10
-                  | survey_reg == 10 | survey_veg == 10)
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10
+                  | .data$survey_reg == 10 | .data$survey_veg == 10)
                , "missing", NA)
     ) %>%
     select(-survey_trees, -survey_deadw, -survey_reg, -survey_veg) %>%
