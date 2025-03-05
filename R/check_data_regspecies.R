@@ -111,7 +111,8 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ),
       field_number_class =
         ifelse(
-          is.na(.data$number_class) & .data$period >= 3 & !is.na(species) &
+          is.na(.data$number_class) & .data$period >= 3 &
+            !is.na(.data$species) &
             .data$heightclass %in% c(1000, 2000, 5000),
           "missing", NA
         ),
@@ -159,7 +160,7 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ifelse(
           .data$n_species > 1,
           paste0(.data$n_species, " times the same species"),
-          field_species
+          .data$field_species
         )
     ) %>%
     pivot_longer(

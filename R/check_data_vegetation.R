@@ -67,7 +67,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
   dbDisconnect(con)
 
   incorrect_vegetation <- data_vegetation %>%
-    filter(survey_veg == 10) %>%
+    filter(.data$survey_veg == 10) %>%
     select(-"survey_veg") %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
