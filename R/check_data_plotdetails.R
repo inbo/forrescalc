@@ -160,7 +160,7 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
                   | .data$survey_reg == 10 | .data$survey_veg == 10)
                , "missing", NA)
     ) %>%
-    select(-survey_trees, -survey_deadw, -survey_reg, -survey_veg) %>%
+    select(-"survey_trees", -"survey_deadw", -"survey_reg", -"survey_veg") %>%
     pivot_longer(
       cols = c(starts_with("field_")),
       names_to = "aberrant_field",
