@@ -48,8 +48,9 @@ plotdetails_1eset <-
     IDPlots = c(19, 20, 30, 40, 50, 60, 70), ID = 1,
     ForestReserve = c(rep(NA, 5), rep("Everzwijnbad", 2)),
     Date_Dendro_1eSet = c(rep(NA, 5), 1038700800, 1138700800),
-    Survey_Trees_YN = c(10, rep(NA, 6)),
-    Survey_Vegetation_YN = c(10, rep(NA, 4), 10, NA)
+    Survey_Trees_YN = c(10, NA, 10, rep(NA, 4)),
+    Survey_Vegetation_YN = c(10, rep(NA, 4), 10, NA),
+    Survey_Regeneration_YN = c(10, rep(NA, 6))
   )
 dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
 

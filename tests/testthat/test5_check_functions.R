@@ -134,7 +134,8 @@ describe("check_data_plotdetails", {
         plot_id = 19,
         period = 1,
         aberrant_field =
-          c("forest_reserve", "date_dendro", "fieldteam", "ra3", "ra4"),
+          c("forest_reserve", "date_dendro", "fieldteam",
+            "ra1", "ra2", "ra3", "ra4"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
@@ -147,7 +148,8 @@ describe("check_data_plotdetails", {
         plot_id = 30,
         period = 1,
         aberrant_field =
-          c("forest_reserve"),
+          c("forest_reserve", "date_dendro", "fieldteam",
+            "length_core_area_m", "width_core_area_m", "area_ha"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
