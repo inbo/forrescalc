@@ -49,7 +49,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
     query_database(database, query_regeneration, selection = selection)
 
   incorrect_regeneration <- data_regeneration %>%
-    filter(survey_reg == 10) %>%
+    filter(.data$survey_reg == 10) %>%
     select(-survey_reg) %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
