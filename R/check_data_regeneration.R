@@ -50,7 +50,7 @@ check_data_regeneration <- function(database, forest_reserve = "all") {
 
   incorrect_regeneration <- data_regeneration %>%
     filter(.data$survey_reg == 10) %>%
-    select(-survey_reg) %>%
+    select(-"survey_reg") %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
       forest_reserve_date = median(.data$date_)
