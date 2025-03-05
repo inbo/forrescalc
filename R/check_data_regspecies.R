@@ -103,23 +103,30 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
       by = c("number_class" = "id")
     ) %>%
     mutate(
+      field_species =
+        ifelse(
+          is.na(.data$species) &
+            (!is.na(.data$number_class) | !is.na(.data$number)),
+          "missing", NA
+        ),
       field_number_class =
         ifelse(
           is.na(.data$number_class) & .data$period >= 3 &
-            .data$heightclass %in% c(1000, 2000, 5000, 6000),
+            !is.na(.data$species) &
+            .data$heightclass %in% c(1000, 2000, 5000),
           "missing", NA
         ),
       field_number =
         ifelse(
-          is.na(.data$number) & .data$period >= 3 &
-            .data$heightclass %in% c(3000, 4000, 7000, 8000),
+          is.na(.data$number) & .data$period >= 3 & !is.na(.data$species) &
+            .data$heightclass %in% c(3000, 4000, 6000, 7000, 8000),
           "missing", NA
         ),
       number_and_numberclass = NA,
       field_number_and_numberclass =
         ifelse(
           is.na(.data$number) & is.na(.data$number_class) &
-            .data$period < 3,
+            !is.na(.data$species) & .data$period < 3,
           "missing", NA
         ),
       field_game_damage_number =
@@ -153,7 +160,7 @@ check_data_regspecies <- function(database, forest_reserve = "all") {
         ifelse(
           .data$n_species > 1,
           paste0(.data$n_species, " times the same species"),
-          NA
+          .data$field_species
         )
     ) %>%
     pivot_longer(

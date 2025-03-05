@@ -278,9 +278,15 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_decay_stage),
       field_decay_stage =
         ifelse(
-          (.data$decay_stage == 16 | is.na(.data$decay_stage)) &
+          .data$decay_stage == 16 &
             .data$alive_dead == 12 & is.na(.data$field_decay_stage),
           "tree not alive",
+          .data$field_decay_stage),
+      field_decay_stage =
+        ifelse(
+          is.na(.data$decay_stage) & .data$ind_sht_cop %in% c(10, 11) &
+            .data$alive_dead == 12 & is.na(.data$field_decay_stage),
+          "missing",
           .data$field_decay_stage),
       field_decay_stage =
         ifelse(
@@ -392,11 +398,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
             !is.na(.data$ind_sht_cop),
           "missing",
           .data$field_coppice_id
-        ),
-      field_commonremark =
-        ifelse(
-          .data$commonremark == 150 & .data$alive_dead != 11,
-          "tree not alive", NA
         ),
       tree_measure_id = as.character(.data$tree_measure_id),
       species = as.character(.data$species)

@@ -45,15 +45,18 @@ dbWriteTable(con_testdb, "Herblayer", herblayer, overwrite = TRUE)
 
 plotdetails_1eset <-
   data.frame(
-    IDPlots = c(20, 30, 40, 50, 60, 70), ID = 1,
-    ForestReserve = c(rep(NA, 4), rep("Everzwijnbad", 2)),
-    Date_Dendro_1eSet = c(rep(NA, 4), 1038700800, 1138700800)
+    IDPlots = c(19, 20, 30, 40, 50, 60, 70), ID = 1,
+    ForestReserve = c(rep(NA, 5), rep("Everzwijnbad", 2)),
+    Date_Dendro_1eSet = c(rep(NA, 5), 1038700800, 1138700800),
+    Survey_Trees_YN = c(10, NA, 10, rep(NA, 4)),
+    Survey_Vegetation_YN = c(10, rep(NA, 4), 10, NA),
+    Survey_Regeneration_YN = c(10, rep(NA, 6))
   )
 dbWriteTable(con_testdb, "Plotdetails_1eSet", plotdetails_1eset, append = TRUE)
 
 plots <-
   data.frame(
-    ID = c(20, 30, 40, 50, 60, 70), Plottype = c(20, 30, NA, 80, 20, 20)
+    ID = c(19, 20, 30, 40, 50, 60, 70), Plottype = c(20, 20, 30, NA, 80, 20, 20)
   )
 dbWriteTable(con_testdb, "Plots", plots, append = TRUE)
 
@@ -103,14 +106,14 @@ dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
   data.frame(
-    IDPlots = c(rep(20, 3), rep(60, 2)), ID = 1:5,
-    Total_moss_cover = c(NA, 15, 20, 10, 10),
-    Total_herb_cover = c(NA, 15, 20, 10, 10),
-    Total_shrub_cover = c(NA, 15, 20, 10, 10),
-    Total_tree_cover = c(NA, 15, 20, 10, 10),
-    Total_waterlayer_cover = c(NA, 15, 20, 10, 10),
-    Total_SoildisturbanceGame = c(NA, 15, 20, 10, 10),
-    Date = c(rep(NA, 2), 1436233600, 1022716800, 1122716800)
+    IDPlots = c(rep(19, 2), rep(20, 3), rep(60, 2)), ID = c(1, 2, 1:5),
+    Total_moss_cover = c(NA, 15, NA, 15, 20, 10, 10),
+    Total_herb_cover = c(NA, 15, NA, 15, 20, 10, 10),
+    Total_shrub_cover = c(NA, 15, NA, 15, 20, 10, 10),
+    Total_tree_cover = c(NA, 15, NA, 15, 20, 10, 10),
+    Total_waterlayer_cover = c(NA, NA, NA, 15, 20, 10, 10),
+    Total_SoildisturbanceGame = c(NA, NA, NA, 15, 20, 10, 10),
+    Date = c(rep(NA, 4), 1436233600, 1022716800, 1122716800)
   )
 dbWriteTable(con_testdb, "Vegetation", vegetation, append = TRUE)
 

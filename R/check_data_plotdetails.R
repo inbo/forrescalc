@@ -37,6 +37,10 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
     "SELECT pd.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.Survey_Vegetation_YN AS survey_veg,
       pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.FieldTeam_Dendro_%1$deSet AS fieldteam,
       pd.rA1 AS ra1,
@@ -55,6 +59,10 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
     "SELECT pd.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
+      pd.Survey_Trees_YN AS survey_trees,
+      pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.Survey_Regeneration_YN AS survey_reg,
+      pd.Survey_Vegetation_YN AS survey_veg,
       pd.Date_Dendro_1986 AS date_dendro,
       pd.FieldTeam_Dendro_1eSet AS fieldteam,
       pd.rA1 AS ra1,
@@ -100,7 +108,9 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
       field_forest_reserve =
         ifelse(is.na(.data$forest_reserve), "missing", NA),
       field_date_dendro =
-        ifelse(is.na(.data$date_dendro), "missing", NA),
+        ifelse(is.na(.data$date_dendro) &
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
+               , "missing", NA),
       field_date_dendro =
         ifelse(
           is.na(.data$field_date_dendro) &
@@ -108,28 +118,49 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
           "deviating",
           .data$field_date_dendro
         ),
-      field_fieldteam = ifelse(is.na(.data$fieldteam), "missing", NA),
+      field_fieldteam = ifelse(is.na(.data$fieldteam) &
+                                 (.data$survey_trees == 10 |
+                                    .data$survey_deadw == 10)
+                               , "missing", NA),
       field_ra1 =
-        ifelse(is.na(.data$ra1) & .data$plottype == "CP", "missing", NA),
+        ifelse(is.na(.data$ra1) & .data$plottype == "CP" &
+                 .data$survey_reg == 10
+               , "missing", NA),
       field_ra2 =
-        ifelse(is.na(.data$ra2) & .data$plottype == "CP", "missing", NA),
+        ifelse(is.na(.data$ra2) & .data$plottype == "CP" &
+                 .data$survey_reg == 10
+               , "missing", NA),
       field_ra3 =
-        ifelse(is.na(.data$ra3) & .data$plottype == "CP", "missing", NA),
+        ifelse(is.na(.data$ra3) & .data$plottype == "CP" &
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
+               , "missing", NA),
       field_ra4 =
-        ifelse(is.na(.data$ra4) & .data$plottype == "CP", "missing", NA),
+        ifelse(is.na(.data$ra4) & .data$plottype == "CP" &
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
+               , "missing", NA),
       field_length_core_area_m =
         ifelse(
-          is.na(.data$length_core_area_m) & .data$plottype == "CA", "missing",
+          is.na(.data$length_core_area_m) & .data$plottype == "CA" &
+            (.data$survey_trees == 10 | .data$survey_deadw == 10
+             | .data$survey_reg == 10 | .data$survey_veg == 10)
+          , "missing",
           NA
         ),
       field_width_core_area_m =
         ifelse(
-          is.na(.data$width_core_area_m) & .data$plottype == "CA", "missing",
+          is.na(.data$width_core_area_m) & .data$plottype == "CA" &
+            (.data$survey_trees == 10 | .data$survey_deadw == 10
+             | .data$survey_reg == 10 | .data$survey_veg == 10)
+          , "missing",
           NA
         ),
       field_area_ha =
-        ifelse(is.na(.data$area_ha) & .data$plottype == "CA", "missing", NA)
+        ifelse(is.na(.data$area_ha) & .data$plottype == "CA" &
+                 (.data$survey_trees == 10 | .data$survey_deadw == 10
+                  | .data$survey_reg == 10 | .data$survey_veg == 10)
+               , "missing", NA)
     ) %>%
+    select(-"survey_trees", -"survey_deadw", -"survey_reg", -"survey_veg") %>%
     pivot_longer(
       cols = c(starts_with("field_")),
       names_to = "aberrant_field",

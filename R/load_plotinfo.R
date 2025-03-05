@@ -9,7 +9,8 @@
 #'
 #' @return Dataframe with columns `plot_id`, `plottype`, `forest_reserve`,
 #' `period`, `year` of dendrometric survey and information on
-#' (1) whether there has been a dendro, deadwood, regeneration and/or
+#' (1) whether there has been a dendro, deadwood (whether or not using line
+#' intersect sampling), regeneration and/or
 #' vegetation survey and (2) whether the data have been processed or not.
 #'
 #' @examples
@@ -49,6 +50,7 @@ load_plotinfo <-
       pd.Date_Dendro_%1$deSet AS date_dendro,
       pd.Survey_Trees_YN AS survey_trees,
       pd.Survey_Deadwood_YN AS survey_deadw,
+      pd.LineIntersect AS survey_lis,
       pd.Survey_Vegetation_YN AS survey_veg,
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.GameImpactVegObserved AS game_impact_veg,
@@ -69,6 +71,7 @@ load_plotinfo <-
         pd.Date_Dendro_1986 AS date_dendro,
         pd.Survey_Trees_YN AS survey_trees,
         pd.Survey_Deadwood_YN AS survey_deadw,
+        pd.LineIntersect AS survey_lis,
         pd.Survey_Vegetation_YN AS survey_veg,
         pd.Survey_Regeneration_YN AS survey_reg,
         pd.GameImpactVegObserved AS game_impact_veg,
@@ -104,6 +107,7 @@ load_plotinfo <-
     mutate(
       survey_trees = (.data$survey_trees == 10 & !is.na(.data$survey_trees)),
       survey_deadw = (.data$survey_deadw == 10 & !is.na(.data$survey_deadw)),
+      survey_lis = (.data$survey_lis == 10 & !is.na(.data$survey_lis)),
       survey_veg = (.data$survey_veg == 10 & !is.na(.data$survey_veg)),
       survey_reg = (.data$survey_reg == 10 & !is.na(.data$survey_reg)),
       game_impact_veg = (.data$game_impact_veg == 10
