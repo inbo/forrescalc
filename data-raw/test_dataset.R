@@ -105,7 +105,7 @@ dbWriteTable(con_testdb, "RegSpecies_3eSet", regspecies_3eset, overwrite = TRUE)
 
 vegetation <-
   data.frame(
-    IDPlots = c(rep(19, 2), rep(20, 3), rep(60, 2)), ID = c(1,2, 1:5),
+    IDPlots = c(rep(19, 2), rep(20, 3), rep(60, 2)), ID = c(1, 2, 1:5),
     Total_moss_cover = c(NA, 15, NA, 15, 20, 10, 10),
     Total_herb_cover = c(NA, 15, NA, 15, 20, 10, 10),
     Total_shrub_cover = c(NA, 15, NA, 15, 20, 10, 10),
