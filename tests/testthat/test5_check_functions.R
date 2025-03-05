@@ -367,7 +367,8 @@ describe("check_data_vegetation", {
         period = 1,
         aberrant_field =
           c("date", "fieldteam",
-            "moss_cover_id", "herb_cover_id", "shrub_cover_id", "tree_cover_id"),
+            "moss_cover_id", "herb_cover_id",
+            "shrub_cover_id", "tree_cover_id"),
         anomaly = c(rep("missing", 2), rep("not in lookuplist", 4)),
         aberrant_value = c(rep(NA, 2), rep("15", 4))
       )

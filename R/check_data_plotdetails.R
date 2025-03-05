@@ -119,13 +119,16 @@ check_data_plotdetails <- function(database, forest_reserve = "all") {
           .data$field_date_dendro
         ),
       field_fieldteam = ifelse(is.na(.data$fieldteam) &
-                                 (.data$survey_trees == 10 | .data$survey_deadw == 10)
+                                 (.data$survey_trees == 10 |
+                                    .data$survey_deadw == 10)
                                , "missing", NA),
       field_ra1 =
-        ifelse(is.na(.data$ra1) & .data$plottype == "CP" & .data$survey_reg == 10
+        ifelse(is.na(.data$ra1) & .data$plottype == "CP" &
+                 .data$survey_reg == 10
                , "missing", NA),
       field_ra2 =
-        ifelse(is.na(.data$ra2) & .data$plottype == "CP" & .data$survey_reg == 10
+        ifelse(is.na(.data$ra2) & .data$plottype == "CP" &
+                 .data$survey_reg == 10
                , "missing", NA),
       field_ra3 =
         ifelse(is.na(.data$ra3) & .data$plottype == "CP" &
