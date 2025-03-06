@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Release](https://img.shields.io/github/release/inbo/forrescalc.svg)](https://github.com/inbo/forrescalc/releases)
 [![R build
-status](https://github.com/inbo/forrescalc/workflows/check%20package%20on%20main/badge.svg)](https://github.com/inbo/forrescalc/actions)
+status](https://github.com/inbo/forrescalc/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/forrescalc/actions)
 ![r-universe
 name](https://inbo.r-universe.dev/badges/:name?color=c04384)
 [![r-universe package](https://inbo.r-universe.dev/badges/forrescalc)](https://inbo.r-universe.dev/forrescalc)
