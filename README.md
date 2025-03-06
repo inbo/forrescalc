@@ -15,7 +15,7 @@ coverage](https://codecov.io/gh/inbo/forrescalc/branch/main/graph/badge.svg)](ht
 bytes](https://img.shields.io/github/languages/code-size/inbo/forrescalc.svg)
 ![GitHub repo
 size](https://img.shields.io/github/repo-size/inbo/forrescalc.svg)
-<!--[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4028303.svg)](https://doi.org/10.5281/zenodo.4028303)-->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13830851.svg)](https://doi.org/10.5281/zenodo.13830851)
 <!-- badges: end -->
 
 # forrescalc
