@@ -114,7 +114,8 @@ load_data_herblayer <-
         as.numeric(gsub(",", ".", .data$coverage_class_average)) * 100,
       coverage_class_average = NULL
     ) %>%
-    select(-"year_main_survey")
+    select(-"year_main_survey") %>%
+      filter(!is.na(.data$year))
 
   attr(data_herblayer, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
