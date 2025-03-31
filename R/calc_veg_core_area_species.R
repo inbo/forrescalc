@@ -46,9 +46,9 @@ calc_veg_core_area_species <- function(data_herblayer) {
       .data$plottype, .data$plot_id, .data$period, .data$year, .data$species
     ) %>%
     summarise(
-      number_of_subplots_with_vegetation = n_distinct(.data$subplot_id),
+      number_of_subplots_with_species = n_distinct(.data$subplot_id),
       perc_of_subplots =
-        .data$number_of_subplots_with_vegetation * 100 /
+        .data$number_of_subplots_with_species * 100 /
           unique(.data$n_subplots),
       number_of_subplots_browsed =
         ifelse(
@@ -65,10 +65,10 @@ calc_veg_core_area_species <- function(data_herblayer) {
         ),
       perc_of_subplots_browsed =
         .data$number_of_subplots_browsed * 100 /
-          .data$number_of_subplots_with_vegetation,
+          .data$number_of_subplots_with_species,
       perc_of_subplots_seriously_browsed =
         .data$number_of_subplots_seriously_browsed * 100 /
-          .data$number_of_subplots_with_vegetation,
+          .data$number_of_subplots_with_species,
       mean_coverage_class_average_perc = mean(.data$coverage_class_average_perc)
     ) %>%
     ungroup()
