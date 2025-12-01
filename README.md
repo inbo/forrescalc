@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Release](https://img.shields.io/github/release/inbo/forrescalc.svg)](https://github.com/inbo/forrescalc/releases)
 [![R build
-status](https://github.com/inbo/forrescalc/workflows/check%20package%20on%20main/badge.svg)](https://github.com/inbo/forrescalc/actions)
+status](https://github.com/inbo/forrescalc/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/forrescalc/actions)
 ![r-universe
 name](https://inbo.r-universe.dev/badges/:name?color=c04384)
 [![r-universe package](https://inbo.r-universe.dev/badges/forrescalc)](https://inbo.r-universe.dev/forrescalc)
@@ -15,14 +15,14 @@ coverage](https://codecov.io/gh/inbo/forrescalc/branch/main/graph/badge.svg)](ht
 bytes](https://img.shields.io/github/languages/code-size/inbo/forrescalc.svg)
 ![GitHub repo
 size](https://img.shields.io/github/repo-size/inbo/forrescalc.svg)
-<!--[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4028303.svg)](https://doi.org/10.5281/zenodo.4028303)-->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13830851.svg)](https://doi.org/10.5281/zenodo.13830851)
 <!-- badges: end -->
 
 # forrescalc
 
-Calculation of aggregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Vandekerkhove et al. (2021) that are saved in a `Fieldmap` database.
+Calculation of aggregated values on dendrometry, regeneration and vegetation of forests, starting from individual tree measures from Vandekerkhove et al. (2024) that are saved in a `Fieldmap` database.
 
-Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Lommelen E., Esprit M. and Goessens S., 2021. Monitoring programme on strict forest reserves in Flanders (Belgium): Methods and operational protocols: With an overview of the intensive monitoring sites. Reports of the Research Institute for Nature and Forest 2021(28). Research Institute for Nature and Forest, Brussels. https://doi.org/10.21436/inbor.38677490
+Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Thomaes A., Vanhellemont M., Lommelen E., Esprit M. and Goessens S., 2024. Monitoring programme on strict forest reserves in Flanders (Belgium): methods and operational protocols - update 2024 with revised protocol for lying deadwood. With an overview of the intensive monitoring sites. Reports of the Research Institute for Nature and Forest 2024(51). Research Institute for Nature and Forest, Brussels. DOI: https://doi.org/10.21436/inbor.114075052
 
 # Installation
 

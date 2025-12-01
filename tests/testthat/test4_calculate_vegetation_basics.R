@@ -32,7 +32,7 @@ describe("veg_by_core_area_species", {
     expect_equal(
       colnames(results_vegetation[["veg_by_core_area_species"]]),
       c("plottype", "plot_id", "period", "year", "species",
-        "number_of_subplots_with_vegetation", "perc_of_subplots",
+        "number_of_subplots_with_species", "perc_of_subplots",
         "number_of_subplots_browsed", "number_of_subplots_seriously_browsed",
         "perc_of_subplots_browsed", "perc_of_subplots_seriously_browsed",
         "mean_coverage_class_average_perc")
