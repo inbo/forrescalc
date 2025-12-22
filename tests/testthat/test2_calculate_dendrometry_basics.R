@@ -21,7 +21,7 @@ describe("dendro_by_plot", {
         "number_of_tree_species", "number_of_trees_ha", "stem_number_ha",
         "basal_area_alive_m2_ha", "basal_area_dead_m2_ha",
         "vol_alive_m3_ha", "vol_dead_standing_m3_ha", "vol_bole_alive_m3_ha",
-        "vol_bole_dead_m3_ha", "vol_log_m3_ha", "vol_deadw_m3_ha",
+        "vol_bole_dead_m3_ha", "vol_log_m3_ha",
         "stems_per_tree")
     )
   })
@@ -35,7 +35,7 @@ describe("dendro_by_plot_species", {
         "number_of_trees_ha", "stem_number_ha",
         "basal_area_alive_m2_ha", "basal_area_dead_m2_ha",
         "vol_alive_m3_ha", "vol_dead_standing_m3_ha", "vol_bole_alive_m3_ha",
-        "vol_bole_dead_m3_ha", "vol_log_m3_ha", "vol_deadw_m3_ha",
+        "vol_bole_dead_m3_ha", "vol_log_m3_ha",
         "stems_per_tree")
     )
   })
