@@ -107,19 +107,19 @@ calc_deadw_decay_plot <-
         mutate(
           vol_log_m3_ha =
             ifelse(
-              is.na(.data$vol_log_m3_ha) & .data$survey_trees,
+              is.na(.data$vol_log_m3_ha) & .data$survey_deadw,
               0,
               .data$vol_log_m3_ha
             ),
           vol_dead_standing_m3_ha =
             ifelse(
-              is.na(.data$vol_dead_standing_m3_ha) & .data$survey_deadw,
+              is.na(.data$vol_dead_standing_m3_ha) & .data$survey_trees,
               0,
               .data$vol_dead_standing_m3_ha
             ),
           vol_bole_dead_m3_ha =
             ifelse(
-              is.na(.data$vol_bole_dead_m3_ha) & .data$survey_deadw,
+              is.na(.data$vol_bole_dead_m3_ha) & .data$survey_trees,
               0,
               .data$vol_bole_dead_m3_ha
             ),

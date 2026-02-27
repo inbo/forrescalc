@@ -24,7 +24,8 @@ Defaults to TRUE (yes).}
 \value{
 Dataframe with columns \code{plot_id}, \code{plottype}, \code{forest_reserve},
 \code{period}, \code{year} of dendrometric survey and information on
-(1) whether there has been a dendro, deadwood, regeneration and/or
+(1) whether there has been a dendro, deadwood (whether or not using line
+intersect sampling), regeneration and/or
 vegetation survey and (2) whether the data have been processed or not.
 }
 \description{

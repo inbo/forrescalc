@@ -47,7 +47,9 @@ calc_stem_volume <- function(data_stems) {
       vol_bole_t1_m3 =
         .data$a + .data$b * .data$perimeter + .data$c * .data$perimeter ^ 2 +
         .data$d * .data$perimeter ^ 3,
-      vol_bole_t1_m3 = pmax(0, .data$vol_bole_t1_m3)
+        # vol_bole_t1/t2_m3 set to a minimum of 0.001
+        # as every bole (minimum dbh is 5 cm) has a  minimal volume
+      vol_bole_t1_m3 = pmax(0.001, .data$vol_bole_t1_m3)
     ) %>%
     select(
       -"a", -"b", -"c", -"d"
@@ -128,7 +130,7 @@ calc_stem_volume <- function(data_stems) {
                )
              )
         ),
-      vol_bole_t2_m3 = pmax(0, .data$vol_bole_t2_m3),
+      vol_bole_t2_m3 = pmax(0.001, .data$vol_bole_t2_m3),
       vol_bole_m3 =
         ifelse(
           .data$ind_sht_cop == 12 & is.na(.data$vol_bole_t2_m3),

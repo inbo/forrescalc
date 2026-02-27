@@ -37,6 +37,7 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
     "SELECT v.IDPlots As plot_id,
       qPlotType.Value3 AS plottype,
       pd.ForestReserve AS forest_reserve,
+      pd.Survey_Vegetation_YN AS survey_veg,
       v.ID AS subplot_id,
       v.Date AS date_,
       v.Fieldteam AS fieldteam,
@@ -66,6 +67,8 @@ check_data_vegetation <- function(database, forest_reserve = "all") {
   dbDisconnect(con)
 
   incorrect_vegetation <- data_vegetation %>%
+    filter(.data$survey_veg == 10) %>%
+    select(-"survey_veg") %>%
     group_by(.data$forest_reserve, .data$period, .data$plottype) %>%
     mutate(
       forrest_reserve_date = median(.data$date)

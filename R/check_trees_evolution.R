@@ -260,8 +260,8 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
       field_location_shift =
         ifelse(
-          (.data$location_shift > 1 & .data$period_end >= 3) |
-                 (.data$location_shift > 1.5 & .data$period_end < 3),
+          (.data$location_shift > 2 & .data$period_end >= 3) |
+                 (.data$location_shift > 3 & .data$period_end < 3),
           "walker coppice_id", NA)
     ) %>%
     filter(!is.na(.data$field_species) | !is.na(.data$field_location_shift)) %>%
@@ -298,15 +298,15 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ),
       field_location_shift =
         ifelse(
-          (.data$location_shift > 1 & .data$period_end >= 3) |
-            (.data$location_shift > 1.5 & .data$period_end < 3),
+          (.data$location_shift > 2 & .data$period_end >= 3) |
+            (.data$location_shift > 3 & .data$period_end < 3),
           "walker",
           NA)
     ) %>%
     left_join(
       trees_diff %>%
         filter(
-          .data$species != 51,
+          !.data$species %in% c(51, 3),
           .data$alive_dead == 11,
           .data$ind_sht_cop %in% c(10, 11)
         ) %>%
@@ -350,7 +350,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       left_join(
         trees_diff %>%
           filter(
-            .data$species != 51,
+            !.data$species %in% c(51, 3),
             .data$alive_dead == 11,
             .data$ind_sht_cop %in% c(10, 11)
           ) %>%

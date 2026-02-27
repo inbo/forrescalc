@@ -7,6 +7,7 @@
 #' @inheritParams from_access_to_forresdat
 #' @inheritParams load_data_dendrometry
 #' @inheritParams read_forresdat_table
+#' @inheritParams read_forresdat
 #'
 #' @return No value is returned, the tables are saved in the access database.
 #'
@@ -34,16 +35,21 @@
 #'
 from_forresdat_to_access <-
   function(
-    tables, database, remove_tables = FALSE, plottype = NA, join_plotinfo = TRUE
+    tables, database, remove_tables = FALSE, plottype = NA,
+    join_plotinfo = TRUE,
+    git_ref_type = c("release", "branch", "commit"), git_reference = "latest"
   ) {
   if (is.na(plottype)) {
     plottype <- "all"
   }
+  git_ref_type <- match.arg(git_ref_type)
   con <- connect_to_database(database)
+  options(odbc.batch_rows = 1)
   for (tablename in tables) {
     dataset <-
       read_forresdat_table(
-        tablename, join_plotinfo = join_plotinfo, plottype = plottype
+        tablename, join_plotinfo = join_plotinfo, plottype = plottype,
+        git_ref_type = git_ref_type, git_reference = git_reference
       )
     tryCatch(
       dbWriteTable(

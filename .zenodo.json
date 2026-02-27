@@ -1,6 +1,6 @@
 {
   "title": "forrescalc: Calculation of Aggregated Values on Dendrometry, Regeneration and Vegetation of Forests, Starting from Individual Tree Measures from Fieldmap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "GPL-3.0",
   "upload_type": "software",
   "description": "<p>A collection of functions to load and aggregate measurements related to dendrometry, rejuvenation and vegetation, and to access plot level results from Flemish forest reserves in data package forresdat.<\/p>",

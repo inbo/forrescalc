@@ -202,7 +202,8 @@ load_data_regeneration <-
       rubbing_damage_perc =
         ifelse(
           is.na(.data$rubbing_damage_perc),
-          .data$rubbing_damage_number * 100 / .data$approx_nr_regeneration,
+          pmin(.data$rubbing_damage_number * 100 / .data$approx_nr_regeneration
+               , 100),
           .data$rubbing_damage_perc
         )
     ) %>%

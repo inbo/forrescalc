@@ -38,4 +38,4 @@ abstract: "A collection of functions to load and aggregate measurements related 
 identifiers:
 - type: url
   value: https://inbo.github.io/forrescalc/
-version: 0.0.1
+version: 0.0.2

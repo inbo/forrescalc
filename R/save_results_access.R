@@ -54,6 +54,7 @@
 #'
 save_results_access <- function(results, database, remove_tables = FALSE) {
   con <- connect_to_database(database)
+  options(odbc.batch_rows = 1)
   for (tablename in names(results)) {
     tryCatch(
       dbWriteTable(conn = con, name = tablename, value = results[[tablename]],

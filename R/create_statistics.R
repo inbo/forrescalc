@@ -197,9 +197,15 @@ create_statistics <-
       filter(!is.na(.data$value)) %>%
       right_join(
         dataset %>%
-          select(all_of(level), "variable", "logaritmic") %>%
+          select(
+            all_of(level), "variable", "logaritmic",
+            "year"[include_year_range & has_name(dataset, "year")]
+          ) %>%
           distinct(),
-        by = c(level, "variable", "logaritmic")
+        by = c(
+          level, "variable", "logaritmic",
+          "year"[include_year_range & has_name(dataset, "year")]
+        )
       )
   }
 
