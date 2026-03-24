@@ -67,6 +67,8 @@ load_plotinfo <-
       pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
       pd.TresHoldDiam_Deadwood_A4 AS diam_min_a4_logs,
       pd.TresHoldDiam_Deadwood_CoreArea AS diam_min_core_area_logs,
+      pd.TresHoldDBH_LineIntersect AS diam_min_lis,
+      pd.Length_LineIntersect AS length_transect_lis,
       pd.LengthCoreArea_m AS length_core_area_m,
       pd.WidthCoreArea_m AS width_core_area_m,
       pd.Area_ha AS core_area_ha
@@ -100,6 +102,8 @@ load_plotinfo <-
         pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
         pd.TresHoldDiam_Deadwood_A4 AS diam_min_a4_logs,
         pd.TresHoldDiam_Deadwood_CoreArea AS diam_min_core_area_logs,
+        pd.TresHoldDBH_LineIntersect AS diam_min_lis,
+        pd.Length_LineIntersect AS length_transect_lis,
         pd.LengthCoreArea_m AS length_core_area_m,
         pd.WidthCoreArea_m AS width_core_area_m,
         pd.Area_ha AS core_area_ha
