@@ -46,7 +46,7 @@ calc_reg_plot_height <- function(data_regeneration) {
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
       approx_nr_regeneration_ha =
-        sum(.data$approx_nr_regeneration, na.rm = TRUE) / unique(.data$plotarea_ha),
+        sum(.data$approx_nr_regeneration) / unique(.data$plotarea_ha),
       approx_rubbing_damage_perc = pmin(
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
           sum(.data$nr_tmp, na.rm = TRUE), 100),
