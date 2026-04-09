@@ -82,9 +82,9 @@ load_data_dendrometry <-
         0 AS subcircle,
         0.0 AS subcirclearea_ha,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
+        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3_alive,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
-        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4,
+        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4_alive,
         pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
         pd.TresHoldDBH_Trees_CoreArea_alive AS dbh_min_core_area,
         pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
@@ -126,9 +126,9 @@ load_data_dendrometry <-
         0 AS subcircle,
         0.0 AS subcirclearea_ha,
         pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
-        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3,
+        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3_alive,
         pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
-        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4,
+        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4_alive,
         pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
         pd.TresHoldDBH_Trees_CoreArea_alive AS dbh_min_core_area,
         pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
@@ -170,7 +170,7 @@ load_data_dendrometry <-
         as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5)),
       subcircle =
         ifelse(
-          .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4,
+          .data$alive_dead == 11 & .data$dbh_mm >= .data$dbh_min_a4_alive,
           "A4",
           ifelse(
             .data$alive_dead == 12 & .data$dbh_mm >= .data$dbh_min_a4_dead,

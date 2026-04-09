@@ -110,7 +110,7 @@ describe("compose_stem_data()", {
         "crown_volume_reduction", "branch_length_reduction",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead", "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
         "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
@@ -130,7 +130,7 @@ describe("compose_stem_data()", {
         "remark", "common_remark",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead", "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
         "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
