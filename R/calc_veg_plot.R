@@ -48,7 +48,7 @@ calc_veg_plot <- function(data_vegetation, data_herblayer) {
       data_vegetation %>%
         select(
           "plottype", "plot_id", "subplot_id", "period",
-          "year_main_survey", "date_vegetation",
+          "year", "date_vegetation",
           "moss_cover_min", "moss_cover_max", "moss_cover_mid",
           "herb_cover_min", "herb_cover_max", "herb_cover_mid",
           "shrub_cover_min", "shrub_cover_max", "shrub_cover_mid",
@@ -82,7 +82,7 @@ calc_veg_plot <- function(data_vegetation, data_herblayer) {
         )
     ) %>%
     relocate(
-      c("year_main_survey", "date_vegetation"), .before = "number_of_species"
+      c("year", "date_vegetation"), .before = "number_of_species"
     )
 
   attr(by_plot, "database") <- attributes[["attr_database"]]

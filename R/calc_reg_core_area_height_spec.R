@@ -59,8 +59,8 @@ calc_reg_core_area_height_spec <- function(data_regeneration) {
       approx_rubbing_damage_perc = pmin(
         sum(.data$rubbing_damage_number, na.rm = TRUE) * 100 /
         sum(.data$nr_tmp, na.rm = TRUE), 100),
-      rubbing_damage_number = sum(.data$rubbing_damage_number, na.rm = TRUE),
       not_na_rubbing = sum(!is.na(.data$rubbing_damage_number)),
+      rubbing_damage_number = sum(.data$rubbing_damage_number, na.rm = TRUE),
       interval =
         sum_intervals(
           var_min = .data$min_number_of_regeneration,
@@ -79,6 +79,12 @@ calc_reg_core_area_height_spec <- function(data_regeneration) {
         ifelse(
           .data$not_na_rubbing > 0,
           .data$approx_rubbing_damage_perc,
+          NA
+        ),
+      rubbing_damage_number_ha =
+        ifelse(
+          .data$not_na_rubbing > 0,
+          .data$rubbing_damage_number_ha,
           NA
         )
     ) %>%

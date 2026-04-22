@@ -55,7 +55,7 @@ describe("load_data_dendrometry()", {
         "crown_volume_reduction", "branch_length_reduction",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead", "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
         "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
@@ -74,7 +74,7 @@ describe("load_data_dendrometry()", {
         "remark", "common_remark",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead", "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
         "length_core_area_m", "width_core_area_m", "core_area_ha")
     )
@@ -142,7 +142,7 @@ describe("load_data_vegetation()", {
     expect_equal(
       colnames(data_vegetation),
       c("forest_reserve", "plot_id", "plottype", "subplot_id",
-        "period", "year_main_survey", "date_vegetation",
+        "period", "year", "date_vegetation",
         "totalplotarea_ha", "plotarea_ha",
         "total_moss_cover_id", "total_herb_cover_id", "total_shrub_cover_id",
         "total_tree_cover_id", "total_waterlayer_cover_id",
@@ -169,10 +169,15 @@ describe("load_plotinfo()", {
     expect_equal(
       colnames(plotinfo),
       c("forest_reserve", "plot_id", "plottype",
-        "period", "survey_number", "year_dendro",
+        "period", "survey_number", "year_dendro", "date_dendro",
         "survey_trees", "survey_deadw", "survey_lis",
         "survey_veg", "survey_reg",
-        "game_impact_veg", "game_impact_reg", "data_processed"
+        "game_impact_veg", "game_impact_reg", "data_processed",
+        "r_A1", "r_A2", "r_A3", "r_A4", "dbh_min_a3_alive", "dbh_min_a3_dead",
+        "dbh_min_a4_alive", "dbh_min_a4_dead", "dbh_min_core_area",
+        "dbh_min_core_area_dead", "diam_min_a4_logs", "diam_min_core_area_logs",
+        "diam_min_lis", "length_transect_lis", "length_core_area_m",
+        "width_core_area_m", "core_area_ha"
         )
     )
   })
