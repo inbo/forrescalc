@@ -9,7 +9,8 @@
 #'
 #' @inheritParams calculate_regeneration
 #'
-#' @return dataframe with columns `plot`, `subplot`, `year`, `period`,
+#' @return dataframe with columns `plot`, `subplot`,
+#' `year`, `date_regeneration`, `period`,
 #' `number_of_tree_species`, `nr_of_tree_species_established`,
 #' `mean_number_established_ha`, `lci_number_established_ha`,
 #' `uci_number_established_ha`,
@@ -104,7 +105,8 @@ calc_reg_plot <- function(data_regeneration) {
                .data$rubbing_damage_number, NA)
     ) %>%
     group_by(
-      .data$plottype, .data$plot_id, .data$subplot_id, .data$period, .data$year
+      .data$plottype, .data$plot_id, .data$subplot_id, .data$period,
+      .data$year, .data$date_regeneration
     ) %>%
     summarise(
       number_of_tree_species = n_distinct(.data$species, na.rm = TRUE),
@@ -279,7 +281,8 @@ calc_reg_plot <- function(data_regeneration) {
         .data$lci_number_seedlings,
     ) %>%
     select(
-      "plottype", "plot_id", "subplot_id", "period", "year",
+      "plottype", "plot_id", "subplot_id", "period",
+      "year", "date_regeneration",
       "number_of_tree_species", "nr_of_tree_species_established",
       "approx_nr_established_ha", "approx_nr_seedlings_ha",
       "approx_rubbing_damage_perc_established",
