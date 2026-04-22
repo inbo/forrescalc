@@ -11,7 +11,8 @@
 #' `period`, `year` of dendrometric survey and information on
 #' (1) whether there has been a dendro, deadwood (whether or not using line
 #' intersect sampling), regeneration and/or
-#' vegetation survey and (2) whether the data have been processed or not.
+#' vegetation survey, (2) whether the data have been processed or not and (3)
+#' tresholds.
 #' If no information on survey or data processing is recorded in the Fieldmap
 #' database, it is regarded as not carried out.
 #'
