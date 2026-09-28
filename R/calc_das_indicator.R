@@ -38,7 +38,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n
-#' select summarise ungroup
+#'   select summarise ungroup
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider

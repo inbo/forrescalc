@@ -26,7 +26,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% group_by left_join mutate n_distinct relocate select
-#' summarise ungroup
+#'   summarise ungroup
 #' @importFrom rlang .data
 #'
 calc_veg_plot <- function(data_vegetation, data_herblayer) {

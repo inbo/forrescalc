@@ -89,7 +89,7 @@
 #' @importFrom plyr .
 #' @importFrom assertthat assert_that has_name
 #' @importFrom dplyr %>% distinct inner_join mutate mutate_at right_join select
-#' vars
+#'   vars
 #' @importFrom tidyselect all_of matches
 #' @importFrom rlang .data ensyms
 #' @importFrom stats na.omit
