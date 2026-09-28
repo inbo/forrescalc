@@ -49,7 +49,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.IntactSnag AS intact_snag,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
-      Trees.CoppiceID AS coppice_id,
       Trees.IUFROHght AS iufro_hght,
       Trees.IUFROVital AS iufro_vital,
       Trees.IUFROSocia AS iufro_socia,
@@ -90,7 +89,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.IntactSnag AS intact_snag,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
-      Trees.CoppiceID AS coppice_id,
       Trees.IUFROHght AS iufro_hght,
       Trees.IUFROVital AS iufro_vital,
       Trees.IUFROSocia AS iufro_socia,
@@ -386,70 +384,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "too low",
           .data$field_nr_of_stems
         ),
-      field_coppice_id =
-        ifelse(
-          !is.na(.data$coppice_id) & .data$ind_sht_cop %in% c(10, 11),
-          "unexpected (not missing)",
-          NA
-        ),
-      field_coppice_id =
-        ifelse(
-          is.na(.data$coppice_id) & .data$ind_sht_cop == 12 &
-            !is.na(.data$ind_sht_cop),
-          "missing",
-          .data$field_coppice_id
-        ),
       tree_measure_id = as.character(.data$tree_measure_id),
       species = as.character(.data$species)
-    ) %>%
-    bind_rows(
-      data_trees %>%
-        filter(!is.na(.data$coppice_id)) %>%
-        group_by(
-          .data$plot_id, .data$period, .data$coppice_id, .data$alive_dead
-        ) %>%
-        mutate(
-          n_records = n(),
-          tree_measure_id_diff = paste(.data$tree_measure_id, collapse = "_")
-        ) %>%
-        ungroup() %>%
-        filter(.data$n_records > 1) %>%
-        transmute(
-          .data$plot_id, .data$period, .data$coppice_id, .data$alive_dead,
-          tree_measure_id = .data$tree_measure_id_diff,
-          field_coppice_id =
-            paste0(.data$n_records, " times the same coppice_id")
-        ) %>%
-        distinct()
-    ) %>%
-    bind_rows(
-      data_trees %>%
-        filter(!is.na(.data$coppice_id)) %>%
-        group_by(.data$plot_id, .data$period, .data$coppice_id) %>%
-        mutate(
-          n_records = n(),
-          species_diff = max(.data$species) - min(.data$species),
-          x_m_diff = max(.data$X_m) - min(.data$X_m),
-          y_m_diff = max(.data$Y_m) - min(.data$Y_m),
-          location_shift = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
-          tree_measure_id_diff = paste(.data$tree_measure_id, collapse = "_"),
-          species = paste(.data$species, collapse = "_")
-        ) %>%
-        ungroup() %>%
-        filter(.data$n_records > 1) %>%
-        transmute(
-          .data$plot_id, .data$period, .data$coppice_id, .data$species,
-          location_shift = round(.data$location_shift, 2),
-          tree_measure_id = .data$tree_measure_id_diff,
-          field_species =
-            ifelse(.data$species_diff == 0, NA, "shifter in coppice tree"),
-          field_location_shift =
-            ifelse(.data$location_shift > 1, "walker in coppice tree", NA)
-        ) %>%
-        filter(
-          !(is.na(.data$field_species) & is.na(.data$field_location_shift))
-        ) %>%
-        distinct()
     ) %>%
     mutate(
       across(
