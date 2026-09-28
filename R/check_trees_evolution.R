@@ -51,7 +51,6 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       Trees.IntactSnag AS intact_snag,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
-      Trees.CoppiceID AS coppice_id,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
@@ -76,7 +75,6 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       Trees.IntactSnag AS intact_snag,
       Trees.AliveDead AS alive_dead,
       Trees.IndShtCop AS ind_sht_cop,
-      Trees.CoppiceID AS coppice_id,
       Trees.IUFROHght, Trees.IUFROVital, Trees.IUFROSocia,
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
@@ -230,60 +228,14 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
         ungroup(),
       by = "tree_id"
     )
-  coppice_diff <- data_trees %>%
-    filter(!is.na(.data$coppice_id)) %>%
-    left_join(
-      data_trees %>%
-        transmute(
-          .data$plot_id, .data$x_m, .data$y_m, .data$species, .data$coppice_id,
-          .data$tree_id, period = .data$period + 1, .data$tree_measure_id
-        ),
-      by = c("plot_id", "coppice_id", "period" = "period"),
-      suffix = c("_later", "_earlier")
-    ) %>%
-    filter(
-      !is.na(.data$tree_id_earlier),
-      .data$tree_id_earlier != .data$tree_id_later
-    ) %>%
-    mutate(
-      period_end = .data$period,
-      period = paste(.data$period - 1, .data$period, sep = "_"),
-      tree_id = paste(.data$tree_id_earlier, .data$tree_id_later, sep = "-"),
-      tree_measure_id =
-        paste(.data$tree_measure_id_earlier, .data$tree_measure_id_later,
-              sep = "-"),
-      species = paste(.data$species_earlier, .data$species_later, sep = "-"),
-      species_diff = .data$species_later - .data$species_earlier,
-      x_m_diff = .data$x_m_later - .data$x_m_earlier,
-      y_m_diff = .data$y_m_later - .data$y_m_earlier,
-      location_shift = sqrt(.data$x_m_diff ^ 2 + .data$y_m_diff ^ 2),
-      field_species = ifelse(.data$species_diff != 0, "shifter coppice_id", NA),
-      field_location_shift =
-        ifelse(
-          (.data$location_shift > 2 & .data$period_end >= 3) |
-                 (.data$location_shift > 3 & .data$period_end < 3),
-          "walker coppice_id", NA)
-    ) %>%
-    filter(!is.na(.data$field_species) | !is.na(.data$field_location_shift)) %>%
-    select(
-      "plot_id", "tree_id", "period", "field_species", "field_location_shift",
-      "species", "tree_measure_id", "location_shift"
-    ) %>%
-    pivot_longer(
-      cols = starts_with("field_"),
-      names_to = "aberrant_field",
-      values_to = "anomaly",
-      values_drop_na = TRUE
-    ) %>%
-    mutate(
-      aberrant_field = gsub("^field_", "", .data$aberrant_field)
-    )
+
   incorrect_tree_diff <- trees_diff %>%
     mutate(
       period_end = as.numeric(str_split_i(.data$period_diff, "_", 2)),
       field_species = ifelse(.data$species_diff != 0, "shifter", NA),
       field_alive_dead = ifelse(.data$alive_dead_diff == -1 &
-                                  # coppice can change from dead to alive
+                                  # coppice can be both: dead & alive
+                                  # (noted on shoot level)
                                   .data$ind_sht_cop == 10 &
                                   .data$ind_sht_cop_diff == 0,
                                 "zombie", NA),
@@ -454,10 +406,7 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       !(.data$aberrant_field == "decay_stage" & .data$anomaly == "wrong shift" &
           .data$decay_stage == "17_16")
     )
-  if (nrow(coppice_diff) > 0) {
-    incorrect_tree_diff <- incorrect_tree_diff %>%
-      bind_rows(coppice_diff)
-  }
+
   incorrect_tree_diff <- incorrect_tree_diff %>%
     mutate(
       location_shift = as.character(round(.data$location_shift, 2))
