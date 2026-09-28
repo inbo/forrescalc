@@ -30,11 +30,7 @@
 lying deadwood volumes, to avoid ambiguity about the included components.
 (functions `calc_dendro_plot_species()`)
 
-- Replaced `vol_deadw_m3_ha` by `vol_log_m3_ha` in test-function 
-`test6_create_statistics.R`.
-
 - Extended `load_plotinfo()` to include thresholds and LIS survey status.
-Test-function `test1_load_functions_basics.R` adapted to address these changes. 
 
 - `dbh_min_a3` replaced with `dbh_min_a3_alive` in the functions
 `load_data_dendrometry()` and `load_plotinfo()`, to be more in line with 
@@ -50,4 +46,11 @@ and `load_data_regeneration()` to avoid confusion.
 in line with the function `load_data_regeneration()`.
 
 - Date of survey `date_regeneration` added to the function `calc_reg_plot()`.
+
+- Test-functions `test1_load_functions_basics.R`, 
+`test2_calculate_dendrometry_basics.R`, `test3_calculate_regeneration_basics.R`, 
+`test4_calculate_vegetation_basics.R` and `test6_create_statistics.R` adapted 
+to address the changes mentioned above.
+
+
 
