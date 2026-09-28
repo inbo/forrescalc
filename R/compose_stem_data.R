@@ -101,6 +101,9 @@ compose_stem_data <-
   ) {
     stem_data <- stem_data %>%
       mutate(
+        alive_dead =
+          ifelse(is.na(.data$alive_dead_shoots),
+                 .data$alive_dead, .data$alive_dead_shoots),
         iufro_hght =
           ifelse(is.na(.data$iufro_hght_shoots),
                  .data$iufro_hght, .data$iufro_hght_shoots),
