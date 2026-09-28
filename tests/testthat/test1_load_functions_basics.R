@@ -124,12 +124,12 @@ describe("load_data_shoots()", {
     expect_equal(
       colnames(data_shoots),
       c("plot_id", "period", "tree_measure_id", "shoot_measure_id",
-        "dbh_mm", "height_m", "intact_snag", "decaystage")
+        "dbh_mm", "height_m", "alive_dead_shoots", "intact_snag", "decaystage")
     )
     expect_equal(
       colnames(data_shoots_extra),
       c("plot_id", "period", "tree_measure_id", "shoot_measure_id",
-        "dbh_mm", "height_m", "intact_snag", "decaystage",
+        "dbh_mm", "height_m", "alive_dead_shoots", "intact_snag", "decaystage",
         "iufro_hght_shoots", "iufro_vital_shoots", "iufro_socia_shoots",
         "remark_shoots", "common_remark_shoots")
     )
