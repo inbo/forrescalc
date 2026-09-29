@@ -55,7 +55,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
-      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
@@ -95,7 +94,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
-      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
@@ -185,22 +183,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ),
       by = c("plot_id", "X_m", "Y_m", "tree_measure_id", "period")
     ) %>%
-    #nr_of_stems (TreeNumber) not correct
-    left_join(
-      data_trees %>%
-        select("plot_id", "tree_measure_id", "nr_of_stems", "period") %>%
-        inner_join(
-          data_shoots %>%
-            count(.data$plot_id, .data$id_trees, .data$period),
-          by = c("plot_id", "tree_measure_id" = "id_trees", "period")
-        ) %>%
-        filter(.data$nr_of_stems != .data$n) %>%
-        transmute(
-          .data$plot_id, .data$tree_measure_id, .data$period,
-          field_nr_of_stems = "incorrect"
-        ),
-      by = c("plot_id", "tree_measure_id", "period")
-    ) %>%
     mutate(
       # ratio D/H - geen snags
       ratio_dbh_height = round(.data$dbh_mm * pi / (.data$height_m * 10), 1),
@@ -249,12 +231,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ifelse(
           !.data$ind_sht_cop %in% c(10, 11, 12) & !is.na(.data$ind_sht_cop),
           "not in lookuplist", .data$field_ind_sht_cop
-        ),
-      field_ind_sht_cop =
-        ifelse(
-          .data$ind_sht_cop %in% c(10, 11) & .data$nr_of_stems > 1 &
-            is.na(.data$field_ind_sht_cop) & !is.na(.data$nr_of_stems),
-          "incorrect", .data$field_ind_sht_cop
         ),
       field_decay_stage =
         ifelse(
@@ -377,13 +353,6 @@ check_data_trees <- function(database, forest_reserve = "all") {
             !is.na(.data$iufro_socia),
           "tree no coppice",
           .data$field_iufro_socia),
-      field_nr_of_stems =
-        ifelse(
-          !is.na(.data$nr_of_stems) & .data$nr_of_stems <= 0 &
-            is.na(.data$field_nr_of_stems),
-          "too low",
-          .data$field_nr_of_stems
-        ),
       tree_measure_id = as.character(.data$tree_measure_id),
       species = as.character(.data$species)
     ) %>%

@@ -530,20 +530,6 @@ describe("check_data_trees", {
       )
     )
   })
-  it("check number of stems", {
-    expect_equal(
-      check_trees1[check_trees1$tree_measure_id == 11557 &
-                    check_trees1$aberrant_field == "nr_of_stems", ],
-      tibble(
-        plot_id = 101,
-        tree_measure_id = "11557",
-        period = 1,
-        aberrant_field = "nr_of_stems",
-        anomaly = "incorrect",
-        aberrant_value = "2"
-      )
-    )
-  })
   it("check missing data", {
     expect_equal(
       check_trees1[check_trees1$tree_measure_id == 11603 &
@@ -602,15 +588,15 @@ describe("check_data_trees", {
                     grepl("too ", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
-        tree_measure_id = c(rep("11600", 4), rep("11601", 2)),
+        tree_measure_id = c(rep("11600", 3), rep("11601", 2)),
         period = 1,
         aberrant_field =
-          c("nr_of_stems", "ratio_dbh_height", "dbh_mm", "height_m",
+          c("ratio_dbh_height", "dbh_mm", "height_m",
             "ratio_dbh_height", "height_m"),
         anomaly =
-          c("too low", "tree too thick and low", "too high", "too low",
+          c("tree too thick and low", "too high", "too low",
             "tree too thin and high", "too high"),
-        aberrant_value = c("0", "628.6", "2001", "1", "0", "55")
+        aberrant_value = c("628.6", "2001", "1", "0", "55")
       )
     )
   })

@@ -55,7 +55,6 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
-      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID as old_id
@@ -79,7 +78,6 @@ check_trees_evolution <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
-      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID AS old_id
