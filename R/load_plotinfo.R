@@ -11,7 +11,10 @@
 #' `period`, `year` of dendrometric survey and information on
 #' (1) whether there has been a dendro, deadwood (whether or not using line
 #' intersect sampling), regeneration and/or
-#' vegetation survey and (2) whether the data have been processed or not.
+#' vegetation survey, (2) whether the data have been processed or not and (3)
+#' tresholds.
+#' If no information on survey or data processing is recorded in the Fieldmap
+#' database, it is regarded as not carried out.
 #'
 #' @examples
 #' library(forrescalc)
@@ -55,7 +58,21 @@ load_plotinfo <-
       pd.Survey_Regeneration_YN AS survey_reg,
       pd.GameImpactVegObserved AS game_impact_veg,
       pd.GameImpactRegObserved AS game_impact_reg,
-      pd.DataProcessed_YN AS data_processed
+      pd.DataProcessed_YN AS data_processed,
+      pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
+      pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3_alive,
+      pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
+      pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4_alive,
+      pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
+      pd.TresHoldDBH_Trees_CoreArea_alive AS dbh_min_core_area,
+      pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
+      pd.TresHoldDiam_Deadwood_A4 AS diam_min_a4_logs,
+      pd.TresHoldDiam_Deadwood_CoreArea AS diam_min_core_area_logs,
+      pd.TresHoldDBH_LineIntersect AS diam_min_lis,
+      pd.Length_LineIntersect AS length_transect_lis,
+      pd.LengthCoreArea_m AS length_core_area_m,
+      pd.WidthCoreArea_m AS width_core_area_m,
+      pd.Area_ha AS core_area_ha
     FROM (Plots
       INNER JOIN PlotDetails_%1$deSet pd ON Plots.ID = pd.IDPlots)
       INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID %3$s;"
@@ -76,7 +93,21 @@ load_plotinfo <-
         pd.Survey_Regeneration_YN AS survey_reg,
         pd.GameImpactVegObserved AS game_impact_veg,
         pd.GameImpactRegObserved AS game_impact_reg,
-        pd.DataProcessed_YN AS data_processed
+        pd.DataProcessed_YN AS data_processed,
+        pd.rA1 AS r_A1, pd.rA2 AS r_A2, pd.rA3 AS r_A3, pd.rA4 AS r_A4,
+        pd.TresHoldDBH_Trees_A3_alive AS dbh_min_a3_alive,
+        pd.TresHoldDBH_Trees_A3_dead AS dbh_min_a3_dead,
+        pd.TresHoldDBH_Trees_A4_alive AS dbh_min_a4_alive,
+        pd.TresHoldDBH_Trees_A4_dead AS dbh_min_a4_dead,
+        pd.TresHoldDBH_Trees_CoreArea_alive AS dbh_min_core_area,
+        pd.TresHoldDBH_Trees_CoreArea_dead AS dbh_min_core_area_dead,
+        pd.TresHoldDiam_Deadwood_A4 AS diam_min_a4_logs,
+        pd.TresHoldDiam_Deadwood_CoreArea AS diam_min_core_area_logs,
+        pd.TresHoldDBH_LineIntersect AS diam_min_lis,
+        pd.Length_LineIntersect AS length_transect_lis,
+        pd.LengthCoreArea_m AS length_core_area_m,
+        pd.WidthCoreArea_m AS width_core_area_m,
+        pd.Area_ha AS core_area_ha
       FROM (Plots
         INNER JOIN PlotDetails_1986 pd ON Plots.ID = pd.IDPlots)
         INNER JOIN qPlotType ON Plots.Plottype = qPlotType.ID  %1$s;",
@@ -132,7 +163,7 @@ load_plotinfo <-
       year_dendro =
         as.integer(year(.data$date_dendro) - (month(.data$date_dendro) < 5))
     ) %>%
-    select(-"min_period", -"date_dendro")
+    select(-"min_period")
 
   attr(plotinfo, "database") <- sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)
   attr(plotinfo, "forrescalc") <-

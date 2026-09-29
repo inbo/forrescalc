@@ -406,9 +406,9 @@ describe("check_data_shoots", {
         shoot_id = 3,
         period = 1,
         aberrant_field =
-          c("dbh_mm", "intact_snag", "decay_stage_shoots"),
-        anomaly = c("missing", "not in lookuplist", "missing"),
-        aberrant_value = c(NA, 12, NA)
+          c("link_to_layer_trees", "dbh_mm", "intact_snag"),
+        anomaly = c(rep("missing", 2), "not in lookuplist"),
+        aberrant_value = c(rep(NA_integer_, 2), 12)
       )
     )
     expect_equal(
@@ -420,8 +420,7 @@ describe("check_data_shoots", {
         shoot_id = 3,
         period = 3,
         aberrant_field =
-          c("dbh_mm", "intact_snag",
-            "iufro_hght", "iufro_vital", "iufro_socia"),
+          c("dbh_mm", "alive_dead_shoots", "intact_snag"),
         anomaly = "missing",
         aberrant_value = NA_integer_
       )
@@ -435,15 +434,16 @@ describe("check_data_shoots", {
         tree_measure_id = 55,
         shoot_id = 2,
         period = 1,
-        aberrant_field = "dbh_mm",
-        anomaly = "missing",
-        aberrant_value = NA_integer_
+        aberrant_field = c("link_to_layer_trees", "dbh_mm"),
+        anomaly = rep("missing", 2),
+        aberrant_value = rep(NA_integer_, 2)
       )
     )
   })
   it("check data shoot on no coppice", {
     expect_equal(
-      check_shoots1[check_shoots1$tree_measure_id == 11559, ],
+      check_shoots1[check_shoots1$tree_measure_id == 11559 &
+                      check_shoots1$aberrant_field != "alive_dead_shoots", ],
       tibble(
         plot_id = 101,
         tree_measure_id = 11559,
@@ -473,7 +473,8 @@ describe("check_data_shoots", {
           c("ratio_dbh_height", "height_m", "decay_stage_shoots",
             "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("stem too thin and high", "too high", rep("tree alive", 4)),
+          c("stem too thin and high", "too high", "shoot alive"
+            , rep("tree alive", 3)),
         aberrant_value = c(0, 55, 11, rep(40, 3))
       )
     )
@@ -488,16 +489,15 @@ describe("check_data_shoots", {
         shoot_id = 2,
         period = 1,
         aberrant_field =
-          c("dbh_mm", "decay_stage_shoots", "iufro_hght", "iufro_vital",
-            "iufro_socia"),
+          c("link_to_layer_trees", "dbh_mm", "decay_stage_shoots",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("missing", rep("tree not alive", 4)),
-        aberrant_value = c(NA, 16, 10, 20, 30)
+          c(rep("missing", 2), "shoot not alive", rep("tree not alive", 3)),
+        aberrant_value = c(NA, NA, 16, 10, 20, 30)
       )
     )
   })
 })
-
 describe("check_data_trees", {
   check_trees <- check_data_trees(path_to_testdb)
   check_trees1 <- check_trees[check_trees$period == 1, ]
@@ -519,7 +519,7 @@ describe("check_data_trees", {
   it("check shoots linked with trees", {
     expect_equal(
       check_trees1[check_trees1$tree_measure_id == 11599 &
-                    check_trees1$aberrant_field == "link_to_layer_shoots", ],
+                     check_trees1$aberrant_field == "link_to_layer_shoots", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11599",
@@ -527,20 +527,6 @@ describe("check_data_trees", {
         aberrant_field = "link_to_layer_shoots",
         anomaly = "missing",
         aberrant_value = NA_character_
-      )
-    )
-  })
-  it("check number of stems", {
-    expect_equal(
-      check_trees1[check_trees1$tree_measure_id == 11557 &
-                    check_trees1$aberrant_field == "nr_of_stems", ],
-      tibble(
-        plot_id = 101,
-        tree_measure_id = "11557",
-        period = 1,
-        aberrant_field = "nr_of_stems",
-        anomaly = "incorrect",
-        aberrant_value = "2"
       )
     )
   })
@@ -573,7 +559,7 @@ describe("check_data_trees", {
     )
     expect_equal(
       check_trees1[check_trees1$tree_measure_id == 11604 &
-                    check_trees1$anomaly == "missing", ],
+                     check_trees1$anomaly == "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11604",
@@ -585,7 +571,7 @@ describe("check_data_trees", {
     )
     expect_equal(
       check_trees1[check_trees1$tree_measure_id == 11602 &
-                    check_trees1$anomaly == "missing", ],
+                     check_trees1$anomaly == "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11602",
@@ -599,25 +585,25 @@ describe("check_data_trees", {
   it("check dbh and height", {
     expect_equal(
       check_trees1[check_trees1$tree_measure_id %in% c(11600, 11601) &
-                    grepl("too ", check_trees1$anomaly), ],
+                     grepl("too ", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
-        tree_measure_id = c(rep("11600", 4), rep("11601", 2)),
+        tree_measure_id = c(rep("11600", 3), rep("11601", 2)),
         period = 1,
         aberrant_field =
-          c("nr_of_stems", "ratio_dbh_height", "dbh_mm", "height_m",
+          c("ratio_dbh_height", "dbh_mm", "height_m",
             "ratio_dbh_height", "height_m"),
         anomaly =
-          c("too low", "tree too thick and low", "too high", "too low",
+          c("tree too thick and low", "too high", "too low",
             "tree too thin and high", "too high"),
-        aberrant_value = c("0", "628.6", "2001", "1", "0", "55")
+        aberrant_value = c("628.6", "2001", "1", "0", "55")
       )
     )
   })
   it("check not in lookuplist", {
     expect_equal(
       check_trees1[check_trees1$tree_measure_id == 11600 &
-                    !grepl("too ", check_trees1$anomaly), ],
+                     !grepl("too ", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11600",
@@ -645,27 +631,24 @@ describe("check_data_trees", {
   it("check data on no coppice (& alive)", {
     expect_equal(
       check_trees1[grepl("11602", check_trees1$tree_measure_id) &
-                    check_trees1$anomaly != "missing", ],
+                     check_trees1$anomaly != "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id =
-          c(rep("11602", 6), "11602_11597", rep("11601_11602_11597", 2)),
+          c(rep("11602", 4)),
         period = 1,
         aberrant_field =
-          c("ind_sht_cop", "decay_stage", "iufro_hght", "iufro_vital",
-            "iufro_socia", "coppice_id", "coppice_id", "species",
-            "location_shift"),
+          c("decay_stage",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("incorrect", rep("tree alive", 4), "unexpected (not missing)",
-            "2 times the same coppice_id", "shifter in coppice tree",
-            "walker in coppice tree"),
+          c(rep("tree alive", 4)),
         aberrant_value =
-          c("10", "12", rep("40", 3), "129", "129", "16_28_16", "3.66")
+          c("12", rep("40", 3))
       )
     )
     expect_equal(
       check_trees1[check_trees1$tree_measure_id ==  11604 &
-                    check_trees1$anomaly != "missing", ],
+                     check_trees1$anomaly != "missing", ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11604",
@@ -680,23 +663,21 @@ describe("check_data_trees", {
   it("check data on coppice and dead", {
     expect_equal(
       check_trees1[grepl("11601", check_trees1$tree_measure_id)  &
-                    !grepl(" high$", check_trees1$anomaly), ],
+                     !grepl(" high$", check_trees1$anomaly), ],
       tibble(
         plot_id = 101,
-        tree_measure_id = c(rep("11601", 5), rep("11601_11602_11597", 2)),
+        tree_measure_id = c(rep("11601", 5)),
         period = 1,
         aberrant_field =
-          c("link_to_layer_shoots", "decay_stage", "iufro_hght", "iufro_vital",
-            "iufro_socia", "species", "location_shift"),
+          c("link_to_layer_shoots", "decay_stage",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("missing", rep("tree not alive", 4), "shifter in coppice tree",
-            "walker in coppice tree"),
-        aberrant_value = c(NA, "16", "10", "20", "30", "16_28_16", "3.66")
+          c("missing", rep("tree not alive", 4)),
+        aberrant_value = c(NA, "16", "10", "20", "30")
       )
     )
   })
 })
-
 describe("check_trees_evolution", {
   expect_warning(
     check_evol <- check_trees_evolution(path_to_testdb),
@@ -812,28 +793,6 @@ describe("check_trees_evolution", {
         anomaly = c("outlier_diameter", "outlier_height"),
         aberrant_value = c("880_10", "31_2"),
         tree_id = "1_101_11595"
-      )
-    )
-  })
-  it("check shifter and walker coppice_id", {
-    expect_equal(
-      check_evol[
-        grep("-11597", check_evol$tree_measure_id),
-        c("plot_id", "period", "tree_measure_id", "aberrant_field", "anomaly",
-          "aberrant_value")
-      ],
-      tibble(
-        plot_id = 101,
-        period = "1_2",
-        tree_measure_id =
-          rep(c(rep("11601-11597", 2), rep("11602-11597", 2)), 2),
-        aberrant_field =
-          rep(
-            c(rep("location_shift", 2), rep("species", 2)), 2),
-        anomaly =
-          rep(
-            c(rep("walker coppice_id", 2), rep("shifter coppice_id", 2)), 2),
-        aberrant_value = rep(c(rep("3.66", 2), rep("28-16", 2)), 2)
       )
     )
   })

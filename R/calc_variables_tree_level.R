@@ -52,7 +52,7 @@
 #' @importFrom readr read_csv2
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% bind_rows filter group_by left_join mutate n select
-#' summarise ungroup
+#'   summarise ungroup
 #'
 calc_variables_tree_level <-
   function(data_dendro, data_stems_calc) {
@@ -63,12 +63,13 @@ calc_variables_tree_level <-
     )
   data_dendro1 <- data_dendro %>%
     select(
-      -"dbh_mm", -"nr_of_stems", -"calc_height_fm",
-      -"intact_snag", -"decaystage"
+      -"dbh_mm", -"calc_height_fm",
+      -"intact_snag", -"decaystage", -"alive_dead"
     ) %>%
     left_join(
       data_stems_calc %>%
-        group_by(.data$plot_id, .data$tree_measure_id, .data$period) %>%
+        group_by(.data$plot_id, .data$tree_measure_id, .data$period
+                 , .data$alive_dead) %>%
         summarise(
           nr_of_stems = n(),
           decaystage =

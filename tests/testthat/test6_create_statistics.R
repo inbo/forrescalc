@@ -93,16 +93,16 @@ describe("create_statistics", {
       create_statistics(
         dataset = dataset,
         level = c("period", "forest_reserve"),
-        variables = c("number_of_trees_ha", "vol_deadw_m3_ha"),
+        variables = c("number_of_trees_ha", "vol_log_m3_ha"),
         include_year_range = TRUE
       ),
       dataset |>
         select(
           "period", "forest_reserve", "year", "number_of_trees_ha",
-          "vol_deadw_m3_ha"
+          "vol_log_m3_ha"
         ) |>
         pivot_longer(
-          cols = c("number_of_trees_ha", "vol_deadw_m3_ha"),
+          cols = c("number_of_trees_ha", "vol_log_m3_ha"),
           names_to = "variable",
           values_to = "mean"
         ) |>
@@ -124,17 +124,17 @@ describe("create_statistics", {
       create_statistics(
         dataset = dataset,
         level = c("period", "forest_reserve"),
-        variables = c("number_of_trees_ha", "vol_deadw_m3_ha"),
+        variables = c("number_of_trees_ha", "vol_log_m3_ha"),
         include_year_range = TRUE,
         na_rm = TRUE
       ),
       dataset |>
         select(
           "period", "forest_reserve", "year", "number_of_trees_ha",
-          "vol_deadw_m3_ha"
+          "vol_log_m3_ha"
         ) |>
         pivot_longer(
-          cols = c("number_of_trees_ha", "vol_deadw_m3_ha"),
+          cols = c("number_of_trees_ha", "vol_log_m3_ha"),
           names_to = "variable",
           values_to = "mean"
         ) |>
