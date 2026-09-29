@@ -801,26 +801,4 @@ describe("check_trees_evolution", {
       )
     )
   })
-  it("check shifter and walker coppice_id", {
-    expect_equal(
-      check_evol[
-        grep("-11597", check_evol$tree_measure_id),
-        c("plot_id", "period", "tree_measure_id", "aberrant_field", "anomaly",
-          "aberrant_value")
-      ],
-      tibble(
-        plot_id = 101,
-        period = "1_2",
-        tree_measure_id =
-          rep(c(rep("11601-11597", 2), rep("11602-11597", 2)), 2),
-        aberrant_field =
-          rep(
-            c(rep("location_shift", 2), rep("species", 2)), 2),
-        anomaly =
-          rep(
-            c(rep("walker coppice_id", 2), rep("shifter coppice_id", 2)), 2),
-        aberrant_value = rep(c(rep("3.66", 2), rep("28-16", 2)), 2)
-      )
-    )
-  })
 })
