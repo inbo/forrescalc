@@ -241,7 +241,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       field_alive_dead = ifelse(is.na(.data$alive_dead), "missing", NA),
       field_alive_dead =
         ifelse(
-          !.data$alive_dead %in% c(11, 12) & !is.na(.data$alive_dead),
+          !.data$alive_dead %in% c(11, 12, 15) & !is.na(.data$alive_dead),
           "not in lookuplist", .data$field_alive_dead
         ),
       field_ind_sht_cop = ifelse(is.na(.data$ind_sht_cop), "missing", NA),
