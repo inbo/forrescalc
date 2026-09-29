@@ -73,8 +73,7 @@ create_unique_tree_id <- function(data_dendro) {
     }
     return(dataset)
   }
-  status_tree <- lookup_tree_id(status_tree) %>%
-    select(-"suffix")
+  status_tree <- lookup_tree_id(status_tree)
 
   if (any(is.na(status_tree$tree_id))) {
     warning(
