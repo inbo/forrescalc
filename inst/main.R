@@ -16,6 +16,7 @@
 
 library(tidyverse)
 library(forrescalc)
+library(testthat)
 
 path_to_fieldmap <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
