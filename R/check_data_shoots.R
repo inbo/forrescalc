@@ -180,7 +180,7 @@ check_data_shoots <- function(database, forest_reserve = "all") {
           !is.na(.data$alive_dead_shoots) &
             !.data$alive_dead_shoots %in% c(11, 12),
           "not in lookuplist",
-          .data$fiel_alive_dead_shoots
+          .data$field_alive_dead_shoots
         ),
       field_intact_snag = ifelse(is.na(.data$intact_snag), "missing", NA),
       field_intact_snag =
