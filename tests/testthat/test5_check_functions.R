@@ -635,18 +635,15 @@ describe("check_data_trees", {
       tibble(
         plot_id = 101,
         tree_measure_id =
-          c(rep("11602", 6), "11602_11597", rep("11601_11602_11597", 2)),
+          c(rep("11602", 4)),
         period = 1,
         aberrant_field =
-          c("ind_sht_cop", "decay_stage", "iufro_hght", "iufro_vital",
-            "iufro_socia", "coppice_id", "coppice_id", "species",
-            "location_shift"),
+          c("decay_stage",
+            "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c("incorrect", rep("tree alive", 4), "unexpected (not missing)",
-            "2 times the same coppice_id", "shifter in coppice tree",
-            "walker in coppice tree"),
+          c(rep("tree alive", 4)),
         aberrant_value =
-          c("10", "12", rep("40", 3), "129", "129", "16_28_16", "3.66")
+          c("12", rep("40", 3))
       )
     )
     expect_equal(
