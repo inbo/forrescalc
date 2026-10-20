@@ -18,7 +18,7 @@
 * Corrections: 
 
 - Fixed incorrect zero values for records where game impact was not recorded. 
-(functions `calc_reg_plot_height(_species)` en 
+(functions `calc_reg_plot_height(_species)` and 
 `calc_reg_core_area_height_species`)
 
 
