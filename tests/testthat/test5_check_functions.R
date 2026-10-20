@@ -442,8 +442,10 @@ describe("check_data_shoots", {
   })
   it("check data shoot on no coppice", {
     expect_equal(
-      check_shoots1[check_shoots1$tree_measure_id == 11559 &
-                      check_shoots1$aberrant_field != "alive_dead_shoots", ],
+      check_shoots1[
+        check_shoots1$tree_measure_id == 11559 &
+          check_shoots1$aberrant_field != "alive_dead_shoots",
+      ],
       tibble(
         plot_id = 101,
         tree_measure_id = 11559,
@@ -519,8 +521,10 @@ describe("check_data_trees", {
   })
   it("check shoots linked with trees", {
     expect_equal(
-      check_trees1[check_trees1$tree_measure_id == 11599 &
-                     check_trees1$aberrant_field == "link_to_layer_shoots", ],
+      check_trees1[
+        check_trees1$tree_measure_id == 11599 &
+          check_trees1$aberrant_field == "link_to_layer_shoots",
+      ],
       tibble(
         plot_id = 101,
         tree_measure_id = "11599",
