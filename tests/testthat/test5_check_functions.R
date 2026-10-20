@@ -498,6 +498,7 @@ describe("check_data_shoots", {
     )
   })
 })
+
 describe("check_data_trees", {
   check_trees <- check_data_trees(path_to_testdb)
   check_trees1 <- check_trees[check_trees$period == 1, ]
@@ -678,6 +679,7 @@ describe("check_data_trees", {
     )
   })
 })
+
 describe("check_trees_evolution", {
   expect_warning(
     check_evol <- check_trees_evolution(path_to_testdb),
