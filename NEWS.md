@@ -47,10 +47,5 @@ in line with the function `load_data_regeneration()`.
 
 - Date of survey `date_regeneration` added to the function `calc_reg_plot()`.
 
-- Test-functions `test1_load_functions_basics.R`, 
-`test2_calculate_dendrometry_basics.R`, `test3_calculate_regeneration_basics.R`, 
-`test4_calculate_vegetation_basics.R` and `test6_create_statistics.R` adapted 
-to address the changes mentioned above.
-
 
 
