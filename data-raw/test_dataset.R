@@ -127,6 +127,7 @@ shoots <-
     DBH_mm = c(2001, 1, NA, NA), Height_m = c(1, 55, NA, NA),
     IntactSnag = c(11, 11, 10, 12),
     DecayStage_Shoots = c(17, 11, 16, NA),
+    AliveDeadShoots = c(12, 11, 12, 11),
     IUFROHght = c(50, 40, 10, NA),
     IUFROVital = c(50, 40, 20, NA),
     IUFROSocia = c(50, 40, 30, NA)
