@@ -425,6 +425,7 @@ describe("check_data_shoots", {
         anomaly = "missing",
         aberrant_value = NA_integer_
       )
+    )
     expect_equal(
       check_shoots3[
         check_shoots3$tree_measure_id == 12 & check_shoots3$shoot_id == 4, ],
