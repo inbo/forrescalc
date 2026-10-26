@@ -138,7 +138,7 @@ shoots_3eset <-
   data.frame(
     IDPlots = 101,
     IDTrees_3eSET = 12,
-    ID = 3,
+    ID = c(3, 4),
     XTrees_3eSET = -4.767,
     YTrees_3eSET = 3.229
   )
