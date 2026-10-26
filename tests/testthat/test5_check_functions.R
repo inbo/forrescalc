@@ -406,9 +406,9 @@ describe("check_data_shoots", {
         shoot_id = 3,
         period = 1,
         aberrant_field =
-          c("link_to_layer_trees", "dbh_mm", "intact_snag"),
-        anomaly = c(rep("missing", 2), "not in lookuplist"),
-        aberrant_value = c(rep(NA_integer_, 2), 12)
+          c("link_to_layer_trees", "dbh_mm", "intact_snag", "decay_stage_shoots"),
+        anomaly = c(rep("missing", 2), "not in lookuplist", "missing"),
+        aberrant_value = c(rep(NA_integer_, 2), 12, NA)
       )
     )
     expect_equal(
