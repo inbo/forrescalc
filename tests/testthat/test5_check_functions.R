@@ -425,6 +425,19 @@ describe("check_data_shoots", {
         anomaly = "missing",
         aberrant_value = NA_integer_
       )
+    expect_equal(
+      check_shoots3[
+        check_shoots3$tree_measure_id == 12 & check_shoots3$shoot_id == 4, ],
+      tibble(
+        plot_id = 101,
+        tree_measure_id = 12,
+        shoot_id = 4,
+        period = 3,
+        aberrant_field =
+          c("dbh_mm", "alive_dead_shoots", "intact_snag"),
+        anomaly = "missing",
+        aberrant_value = NA_integer_
+      )
     )
     expect_equal(
       check_shoots1[
