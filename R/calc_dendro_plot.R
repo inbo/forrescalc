@@ -96,7 +96,6 @@ calc_dendro_plot <- function(data_dendro_calc, data_deadwood, plotinfo) {
         ),
       survey_trees = NULL,
       survey_deadw = NULL,
-      vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 

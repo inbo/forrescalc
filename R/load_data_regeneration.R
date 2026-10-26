@@ -43,7 +43,7 @@ load_data_regeneration <-
           99 AS period,
           1234 AS year,
           Reg.Date AS date_regeneration,
-          Reg.Year AS year_main_survey,
+          Reg.Year AS year_recorded,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
             AS totalplotarea_ha,
           0.0 AS plotarea_ha,
@@ -100,7 +100,7 @@ load_data_regeneration <-
                    selection = selection, conjunction = conjunction) %>%
     mutate(
       year = as.integer(year(.data$date_regeneration)),
-      year = ifelse(is.na(.data$year), .data$year_main_survey, .data$year),
+      year = ifelse(is.na(.data$year), .data$year_recorded, .data$year),
       subcircle =
         ifelse(
           .data$height_class %in% c(3000, 4000, 6000, 7000, 8000),
@@ -207,7 +207,7 @@ load_data_regeneration <-
           .data$rubbing_damage_perc
         )
     ) %>%
-    select(-"year_main_survey") %>%
+    select(-"year_recorded") %>%
     relocate("approx_nr_regeneration", .after = "nr_of_regeneration") %>%
     relocate(
       ends_with("_number_of_regeneration"), .after = "approx_nr_regeneration"

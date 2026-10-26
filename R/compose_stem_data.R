@@ -72,9 +72,7 @@ compose_stem_data <-
     )
   #omit data that could be misinterpreted if data on shoot level are added
   data_dendro_relevant <- data_dendro %>%
-    select(
-      -"nr_of_stems", -"dbh_class_5cm"
-    )
+    select(-"dbh_class_5cm")
   stem_data <- data_dendro_relevant %>%
     filter(.data$ind_sht_cop != 12) %>%
     bind_rows(
@@ -101,6 +99,9 @@ compose_stem_data <-
   ) {
     stem_data <- stem_data %>%
       mutate(
+        alive_dead =
+          ifelse(is.na(.data$alive_dead_shoots),
+                 .data$alive_dead, .data$alive_dead_shoots),
         iufro_hght =
           ifelse(is.na(.data$iufro_hght_shoots),
                  .data$iufro_hght, .data$iufro_hght_shoots),
