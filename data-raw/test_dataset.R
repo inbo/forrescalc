@@ -140,7 +140,8 @@ shoots_3eset <-
     IDTrees_3eSET = 12,
     ID = c(3, 4),
     XTrees_3eSET = -4.767,
-    YTrees_3eSET = 3.229
+    YTrees_3eSET = 3.229,
+    AliveDeadShoots = c(11, NA_integer_)
   )
 dbWriteTable(con_testdb, "Shoots_3eSET", shoots_3eset, append = TRUE)
 
