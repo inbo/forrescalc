@@ -10,7 +10,8 @@ describe("reg_by_plot", {
   it("output columns are correct", {
     expect_equal(
       colnames(results_regeneration[["reg_by_plot"]]),
-      c("plottype", "plot_id", "subplot_id", "period", "year",
+      c("plottype", "plot_id", "subplot_id", "period",
+        "year", "date_regeneration",
         "number_of_tree_species", "nr_of_tree_species_established",
         "approx_nr_established_ha", "approx_nr_seedlings_ha",
         "approx_rubbing_damage_perc_established",

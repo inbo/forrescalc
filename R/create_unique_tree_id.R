@@ -29,77 +29,14 @@
 #' @importFrom tidyselect ends_with
 #'
 create_unique_tree_id <- function(data_dendro) {
-  if (has_name(data_dendro, "coppice_id")) {
-    data_dendro <- data_dendro %>%
-      left_join(
-        data_dendro %>%
-          group_by(.data$plot_id, .data$coppice_id, .data$period) %>%
-          mutate(n_records = n()) %>%
-          ungroup() %>%
-          filter(
-            !is.na(.data$coppice_id),
-            .data$n_records > 1
-          ) %>%
-          group_by(.data$plot_id, .data$coppice_id) %>%
-          mutate(min_period = min(.data$period)) %>%
-          ungroup() %>%
-          filter(.data$period == .data$min_period) %>%
-          select(
-            "plot_id", "coppice_id", "tree_measure_id", "alive_dead", "period",
-            "old_id"
-          ),
-        by = c("plot_id", "coppice_id", "period"),
-        suffix = c("", "_coupled"),
-        relationship = "many-to-many"
-      ) %>%
-      filter(
-        is.na(.data$tree_measure_id_coupled) |
-          .data$tree_measure_id_coupled != .data$tree_measure_id
-      ) %>%
-      mutate(
-        suffix =
-          ifelse(
-            .data$alive_dead == 11 & .data$alive_dead_coupled == 12 &
-              !is.na(.data$alive_dead_coupled),
-            "a", ""
-          ),
-        suffix =
-          ifelse(
-            .data$alive_dead == 12 & .data$alive_dead_coupled == 11 &
-              !is.na(.data$alive_dead_coupled),
-            "b", .data$suffix
-          ),
-        old_id_updated =
-          ifelse(
-            .data$suffix == "b" & is.na(.data$old_id),
-            .data$old_id_coupled,
-            .data$old_id
-          ),
-        tree_measure_id_updated =
-          ifelse(
-            .data$suffix == "b" & is.na(.data$old_id) &
-              !is.na(.data$tree_measure_id_coupled),
-            .data$tree_measure_id_coupled,
-            .data$tree_measure_id
-          )
-      ) %>%
-      select(-ends_with("_coupled"))
-  } else {
-    warning("As no coppice_id is given, alive and dead shoots of one tree are considered as different trees.  Use extra_variables = TRUE in load_data_dendrometry() to load data with coppice_id included")  #nolint: line_length_linter
-    data_dendro <- data_dendro %>%
-      mutate(
-        suffix = "",
-        old_id_updated = .data$old_id,
-        tree_measure_id_updated = .data$tree_measure_id
-      )
-  }
+
   status_tree <- data_dendro %>%
     mutate(
       tree_id =
         ifelse(
-          is.na(.data$old_id_updated),
-          paste(.data$period, .data$plot_id, .data$tree_measure_id_updated,
-                .data$suffix, sep = "_"),
+          is.na(.data$old_id),
+          paste(.data$period, .data$plot_id, .data$tree_measure_id,
+                sep = "_"),
           NA
         ),
       tree_id = gsub("^(.*)_$", "\\1", .data$tree_id)
@@ -111,13 +48,13 @@ create_unique_tree_id <- function(data_dendro) {
         left_join(
           dataset %>%
             transmute(
-              .data$plot_id, tree_measure_id_updated = .data$tree_measure_id,
-              .data$tree_id, old_id_updated = .data$old_id,
+              .data$plot_id, .data$tree_measure_id,
+              .data$tree_id, .data$old_id,
               period = .data$period + 1
             ) %>%
             filter(!is.na(.data$tree_id)) %>%
             distinct(),
-          by = c("plot_id", "old_id_updated" = "tree_measure_id_updated",
+          by = c("plot_id", "old_id" = "tree_measure_id",
                  "period"),
           suffix = c("", "_oldid")
         ) %>%
@@ -125,22 +62,18 @@ create_unique_tree_id <- function(data_dendro) {
           tree_id =
             ifelse(
               is.na(.data$tree_id) & !is.na(.data$tree_id_oldid),
-              ifelse(
-                .data$suffix == "", .data$tree_id_oldid,
-                paste(.data$tree_id_oldid, .data$suffix, sep = "_")
-              ),
+              .data$tree_id_oldid,
               .data$tree_id
             )
         ) %>%
-        select(-"tree_id_oldid", -"old_id_updated_oldid")
+        select(-"tree_id_oldid", -"old_id_oldid")
       if (sum(is.na(dataset$tree_id)) < n_na_dataset) {
         dataset <- lookup_tree_id(dataset)
       }
     }
     return(dataset)
   }
-  status_tree <- lookup_tree_id(status_tree) %>%
-    select(-"suffix", -"old_id_updated", -"tree_measure_id_updated")
+  status_tree <- lookup_tree_id(status_tree)
 
   if (any(is.na(status_tree$tree_id))) {
     warning(

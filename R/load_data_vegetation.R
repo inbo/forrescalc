@@ -9,7 +9,7 @@
 #' `total_herb_cover`, `total_shrub_cover`, `total_tree_cover`,
 #' `total_soildisturbance_game`,
 #' `date_vegetation` (= date of vegetation survey),
-#' `year_main_survey` (= year of vegetation survey), ....
+#' `year` (= year of vegetation survey), ....
 #'
 #'
 #' @examples
@@ -44,7 +44,7 @@ load_data_vegetation <-
           qPlotType.Value3 AS plottype,
           Veg.ID AS subplot_id,
           99 AS period,
-          Veg.Year AS year_main_survey,
+          Veg.Year AS year_recorded,
           Veg.Date AS date_vegetation,
           IIf(Plots.Area_ha IS NULL, Plots.Area_m2 / 10000, Plots.Area_ha)
             AS totalplotarea_ha,
@@ -98,9 +98,9 @@ load_data_vegetation <-
     ) %>%
     ungroup() %>%
     mutate(
-      year_main_survey = ifelse(!is.na(.data$date_vegetation)
+      year = ifelse(!is.na(.data$date_vegetation)
                                 , as.integer(year(.data$date_vegetation))
-                                , .data$year_main_survey),
+                                , .data$year_recorded),
       plotarea_ha =
         ifelse(
           .data$plottype == "CP",
@@ -185,7 +185,9 @@ load_data_vegetation <-
            .data$soildisturbance_game_cover_max) / 2
     ) %>%
     relocate(contains("core_area_"), .after = last_col()) %>%
-    select(-"not_na_soildisturbance_game", -"not_na_waterlayer_cover")
+    relocate("year", .before = "date_vegetation") %>%
+    select(-"not_na_soildisturbance_game", -"not_na_waterlayer_cover"
+           , -"year_recorded")
 
   attr(data_vegetation, "database") <-
     sub("^.*\\/(.*)\\/.*\\.\\w*$", "\\1", database)

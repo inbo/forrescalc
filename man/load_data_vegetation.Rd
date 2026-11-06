@@ -31,7 +31,7 @@ Dataframe with vegetation data, containing columns as
 \code{total_herb_cover}, \code{total_shrub_cover}, \code{total_tree_cover},
 \code{total_soildisturbance_game},
 \code{date_vegetation} (= date of vegetation survey),
-\code{year_main_survey} (= year of vegetation survey), ....
+\code{year} (= year of vegetation survey), ....
 }
 \description{
 This function queries the given database to retrieve data on vegetation
