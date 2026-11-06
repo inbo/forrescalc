@@ -75,7 +75,6 @@ load_data_dendrometry <-
         Trees.IntactSnag AS intact_snag,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.DecayStage AS decaystage,
-        0 AS dbh_class_5cm,
         cvr.Value3 AS crown_volume_reduction,
         blr.Value3 AS branch_length_reduction %4$s,
         0 AS subcircle,
@@ -118,7 +117,6 @@ load_data_dendrometry <-
         Trees.IntactSnag AS intact_snag,
         Trees.IndShtCop AS ind_sht_cop,
         Trees.DecayStage AS decaystage,
-        0 AS dbh_class_5cm,
         cvr.Value3 AS crown_volume_reduction,
         blr.Value3 AS branch_length_reduction %2$s,
         0 AS subcircle,
@@ -205,8 +203,7 @@ load_data_dendrometry <-
           is.na(.data$plotarea_ha),
           .data$totalplotarea_ha,
           .data$plotarea_ha
-        ),
-      dbh_class_5cm = give_diamclass_5cm(.data$dbh_mm)
+        )
     )
 
   attr(data_dendro, "database") <-

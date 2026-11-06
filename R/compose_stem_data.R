@@ -70,13 +70,10 @@ compose_stem_data <-
     compare_attributes(
       data_dendro, data_shoots, "data_dendro", "data_shoots"
     )
-  #omit data that could be misinterpreted if data on shoot level are added
-  data_dendro_relevant <- data_dendro %>%
-    select(-"dbh_class_5cm")
-  stem_data <- data_dendro_relevant %>%
+  stem_data <- data_dendro %>%
     filter(.data$ind_sht_cop != 12) %>%
     bind_rows(
-      data_dendro_relevant %>%
+      data_dendro %>%
         select(-"dbh_mm", -"height_m",
                -"intact_snag", -"decaystage") %>%
         filter(.data$ind_sht_cop == 12) %>%
