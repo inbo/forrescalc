@@ -258,18 +258,13 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_decay_stage),
       field_decay_stage =
         ifelse(
-          is.na(.data$decay_stage) & .data$ind_sht_cop %in% c(10, 11) &
-            .data$alive_dead == 12 & is.na(.data$field_decay_stage),
-          "missing",
-          .data$field_decay_stage),
-      field_decay_stage =
-        ifelse(
           .data$decay_stage == 17 & !is.na(.data$decay_stage) &
             .data$ind_sht_cop %in% c(10, 11),
           "tree no coppice",
           .data$field_decay_stage),
       field_iufro_hght =
-        ifelse(is.na(.data$iufro_hght) & !.data$period %in% c(0, 1),
+        ifelse(is.na(.data$iufro_hght) & !.data$period %in% c(0, 1) &
+                 .data$ind_sht_cop %in% c(10, 11),
                  "missing", NA),
       field_iufro_hght =
         ifelse(
@@ -296,7 +291,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
           "tree no coppice", .data$field_iufro_hght
         ),
       field_iufro_vital =
-        ifelse(is.na(.data$iufro_vital) & !.data$period %in% c(0, 1),
+        ifelse(is.na(.data$iufro_vital) & !.data$period %in% c(0, 1) &
+                 .data$ind_sht_cop %in% c(10, 11),
                  "missing", NA),
       field_iufro_vital =
         ifelse(
@@ -326,7 +322,8 @@ check_data_trees <- function(database, forest_reserve = "all") {
           .data$field_iufro_vital
         ),
       field_iufro_socia =
-        ifelse(is.na(.data$iufro_socia) & !.data$period %in% c(0, 1),
+        ifelse(is.na(.data$iufro_socia) & !.data$period %in% c(0, 1) &
+                 .data$ind_sht_cop %in% c(10, 11),
                  "missing", NA),
       field_iufro_socia =
         ifelse(

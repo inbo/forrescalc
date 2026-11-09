@@ -568,8 +568,7 @@ describe("check_data_trees", {
         tree_measure_id = "11603",
         period = 3,
         aberrant_field =
-          c("dbh_mm", "species", "intact_snag", "ind_sht_cop", "decay_stage",
-            "iufro_hght", "iufro_vital", "iufro_socia"),
+          c("dbh_mm", "species", "intact_snag", "ind_sht_cop", "decay_stage"),
         anomaly = "missing",
         aberrant_value = NA_character_
       )
