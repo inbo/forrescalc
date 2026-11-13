@@ -21,7 +21,7 @@ describe("dendro_by_plot", {
         "number_of_tree_species", "number_of_trees_ha", "stem_number_ha",
         "basal_area_alive_m2_ha", "basal_area_dead_m2_ha",
         "vol_alive_m3_ha", "vol_dead_standing_m3_ha", "vol_bole_alive_m3_ha",
-        "vol_bole_dead_m3_ha", "vol_log_m3_ha", "vol_deadw_m3_ha",
+        "vol_bole_dead_m3_ha", "vol_log_m3_ha",
         "stems_per_tree")
     )
   })
@@ -35,7 +35,7 @@ describe("dendro_by_plot_species", {
         "number_of_trees_ha", "stem_number_ha",
         "basal_area_alive_m2_ha", "basal_area_dead_m2_ha",
         "vol_alive_m3_ha", "vol_dead_standing_m3_ha", "vol_bole_alive_m3_ha",
-        "vol_bole_dead_m3_ha", "vol_log_m3_ha", "vol_deadw_m3_ha",
+        "vol_bole_dead_m3_ha", "vol_log_m3_ha",
         "stems_per_tree")
     )
   })
@@ -110,9 +110,11 @@ describe("compose_stem_data()", {
         "crown_volume_reduction", "branch_length_reduction",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead",
+        "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
-        "length_core_area_m", "width_core_area_m", "core_area_ha")
+        "length_core_area_m", "width_core_area_m", "core_area_ha",
+        "alive_dead_shoots")
     )
 
     expect_equal(
@@ -130,9 +132,11 @@ describe("compose_stem_data()", {
         "remark", "common_remark",
         "subcircle", "subcirclearea_ha",
         "r_A1", "r_A2", "r_A3", "r_A4",
-        "dbh_min_a3", "dbh_min_a3_dead", "dbh_min_a4", "dbh_min_a4_dead",
+        "dbh_min_a3_alive", "dbh_min_a3_dead",
+        "dbh_min_a4_alive", "dbh_min_a4_dead",
         "dbh_min_core_area", "dbh_min_core_area_dead",
-        "length_core_area_m", "width_core_area_m", "core_area_ha")
+        "length_core_area_m", "width_core_area_m", "core_area_ha",
+        "alive_dead_shoots")
     )
   })
 })
