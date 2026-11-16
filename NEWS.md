@@ -33,7 +33,6 @@ __Enhancements__
 * minor bug fixes and documentation corrections
 * check functions made a bit less stringent (a.o. higher distance for walkers)
 * Extra information added to the documentation of `load_plotinfo()`.
-* Extended `load_plotinfo()` to include thresholds and LIS survey status.
 * function `calc_reg_plot()`: add `date_regeneration`: date of survey.
 
 # forrescalc 0.0.1
