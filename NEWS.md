@@ -6,14 +6,14 @@ __Breaking changes__
   which previously combined standing and lying deadwood volumes,
   to avoid ambiguity about the included components.
 * functions `load_data_dendrometry()` and `load_plotinfo()`:
-  rename `dbh_min_a3` as `dbh_min_a3_alive` and `dbh_min_a4` as
-  `dbh_min_a4_alive`, to be more in line with `dbh_min_a3_dead` and avoid
+  rename `dbh_min_a3` to `dbh_min_a3_alive` and `dbh_min_a4` to
+  `dbh_min_a4_alive`, to be more in line with `dbh_min_a3_dead` and to avoid
   confusion.
 * functions `load_data_vegetation()` and `load_data_regeneration()`:
   rename Variable `year_main_survey` - imported through a sql-query from
-  fieldmap - by `year_recorded` to avoid confusion.
+  fieldmap - to `year_recorded` to avoid confusion.
 * functions `load_data_vegetation()` and `calc_veg_plot()`:
-  rename variable `year_main_survey` - calculated - as `year` to avoid confusion
+  rename variable `year_main_survey` - calculated - to `year` to avoid confusion
   and be more in line with the function `load_data_regeneration()`.
 
 __Bug fixes__
