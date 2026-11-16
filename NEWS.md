@@ -23,6 +23,7 @@ __Bug fixes__
   where game impact was not recorded. 
 * minor corrections of check functions (a.o. if no survey, no need to test 
   missing values)
+* minor bug fixes and documentation corrections
 
 __Enhancements__
 
@@ -30,7 +31,6 @@ __Enhancements__
   `from_forresdat_to_access()`: extra arguments `git_ref_type` and
   `git_reference` that allow to read branches and commits from `forresdat`
   (not only releases)
-* minor bug fixes and documentation corrections
 * check functions made a bit less stringent (a.o. higher distance for walkers)
 * Extra information added to the documentation of `load_plotinfo()`.
 * function `calc_reg_plot()`: add `date_regeneration`: date of survey.
