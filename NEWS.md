@@ -10,11 +10,11 @@ __Breaking changes__
   `dbh_min_a4_alive`, to be more in line with `dbh_min_a3_dead` and to avoid
   confusion.
 * functions `load_data_vegetation()` and `load_data_regeneration()`:
-  rename Variable `year_main_survey` - imported through a sql-query from
-  fieldmap - to `year_recorded` to avoid confusion.
+  rename variable `year_main_survey` (loaded from `Fieldmap`) to `year_recorded`
+  to avoid confusion.
 * functions `load_data_vegetation()` and `calc_veg_plot()`:
-  rename variable `year_main_survey` - calculated - to `year` to avoid confusion
-  and be more in line with the function `load_data_regeneration()`.
+  rename (calculated) variable `year_main_survey` to `year` to avoid confusion
+  and to be more in line with the function `load_data_regeneration()`.
 
 __Bug fixes__
 
@@ -34,7 +34,7 @@ __Enhancements__
 * check functions made a bit less stringent (a.o. higher distance for walkers)
 * Extra information added to the documentation of `load_plotinfo()`.
 * Extended `load_plotinfo()` to include thresholds and LIS survey status.
-* function `calc_reg_plot()`: add date of survey `date_regeneration`.
+* function `calc_reg_plot()`: add `date_regeneration`: date of survey.
 
 # forrescalc 0.0.1
 
