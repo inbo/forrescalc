@@ -1,6 +1,6 @@
 # forrescalc 0.0.2
 
-__Breaking changes__
+## Breaking changes
 
 * function `calc_dendro_plot_species()`: removed variable `vol_deadw_m3_ha`,
   which previously combined standing and lying deadwood volumes,
@@ -16,7 +16,7 @@ __Breaking changes__
   rename (calculated) variable `year_main_survey` to `year` to avoid confusion
   and to be more in line with the function `load_data_regeneration()`.
 
-__Bug fixes__
+## Bug fixes
 
 * functions `calc_reg_plot_height(_species)()` and 
   `calc_reg_core_area_height_species()`: fixed incorrect zero values for records
@@ -25,7 +25,7 @@ __Bug fixes__
   missing values)
 * minor bug fixes and documentation corrections
 
-__Enhancements__
+## Enhancements
 
 * functions `read_forresdat()`, `read_forresdat_table()` and
   `from_forresdat_to_access()`: extra arguments `git_ref_type` and
