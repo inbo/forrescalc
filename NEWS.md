@@ -2,25 +2,25 @@
 
 __Breaking changes__
 
-* Removed variable `vol_deadw_m3_ha`, which previously combined standing and 
-lying deadwood volumes, to avoid ambiguity about the included components.
-(functions `calc_dendro_plot_species()`)
-* `dbh_min_a3` renamed as `dbh_min_a3_alive` in the functions
-`load_data_dendrometry()` and `load_plotinfo()`, to be more in line with 
-`dbh_min_a3_dead` and avoid confusion. 
-Idem for `dbh_min_a4`.
-* Variable `year_main_survey` - imported through a sql-query from fieldmap - 
-renamed by `year_recorded` in the functions `load_data_vegetation()` 
-and `load_data_regeneration()` to avoid confusion.
-* Variable `year_main_survey` - calculated - renamed as `year` in the functions 
-`load_data_vegetation()` and `calc_veg_plot()` to avoid confusion and be more 
-in line with the function `load_data_regeneration()`.
+* function `calc_dendro_plot_species()`: removed variable `vol_deadw_m3_ha`,
+  which previously combined standing and lying deadwood volumes,
+  to avoid ambiguity about the included components.
+* functions `load_data_dendrometry()` and `load_plotinfo()`:
+  rename `dbh_min_a3` as `dbh_min_a3_alive` and `dbh_min_a4` as
+  `dbh_min_a4_alive`, to be more in line with `dbh_min_a3_dead` and avoid
+  confusion.
+* functions `load_data_vegetation()` and `load_data_regeneration()`:
+  rename Variable `year_main_survey` - imported through a sql-query from
+  fieldmap - by `year_recorded` to avoid confusion.
+* functions `load_data_vegetation()` and `calc_veg_plot()`:
+  rename variable `year_main_survey` - calculated - as `year` to avoid confusion
+  and be more in line with the function `load_data_regeneration()`.
 
 __Bug fixes__
 
-* Fixed incorrect zero values for records where game impact was not recorded. 
-(functions `calc_reg_plot_height(_species)` and 
-`calc_reg_core_area_height_species`)
+* functions `calc_reg_plot_height(_species)()` and 
+  `calc_reg_core_area_height_species()`: fixed incorrect zero values for records
+  where game impact was not recorded. 
 * minor corrections of check functions (a.o. if no survey, no need to test 
   missing values)
 
@@ -34,7 +34,7 @@ __Enhancements__
 * check functions made a bit less stringent (a.o. higher distance for walkers)
 * Extra information added to the documentation of `load_plotinfo()`.
 * Extended `load_plotinfo()` to include thresholds and LIS survey status.
-* Date of survey `date_regeneration` added to the function `calc_reg_plot()`.
+* function `calc_reg_plot()`: add date of survey `date_regeneration`.
 
 # forrescalc 0.0.1
 
