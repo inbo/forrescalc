@@ -55,6 +55,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
+      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
@@ -94,6 +95,7 @@ check_data_trees <- function(database, forest_reserve = "all") {
       Trees.DecayStage AS decay_stage,
       Trees.Remark AS remark,
       Trees.CommonRemark AS commonremark,
+      Trees.TreeNumber AS nr_of_stems,
       Trees.Vol_tot_m3 AS vol_tot_m3,
       Trees.BasalArea_m2 AS basal_area_m2,
       Trees.OldID
@@ -231,6 +233,12 @@ check_data_trees <- function(database, forest_reserve = "all") {
         ifelse(
           !.data$ind_sht_cop %in% c(10, 11, 12) & !is.na(.data$ind_sht_cop),
           "not in lookuplist", .data$field_ind_sht_cop
+        ),
+      field_ind_sht_cop =
+        ifelse(
+          .data$ind_sht_cop %in% c(10, 11) & .data$nr_of_stems > 1 &
+            is.na(.data$field_ind_sht_cop) & !is.na(.data$nr_of_stems),
+          "incorrect", .data$field_ind_sht_cop
         ),
       field_decay_stage =
         ifelse(

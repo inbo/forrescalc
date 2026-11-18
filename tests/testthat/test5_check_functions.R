@@ -652,15 +652,15 @@ describe("check_data_trees", {
       tibble(
         plot_id = 101,
         tree_measure_id =
-          c(rep("11602", 4)),
+          c(rep("11602", 5)),
         period = 1,
         aberrant_field =
-          c("decay_stage",
+          c("ind_sht_cop", "decay_stage",
             "iufro_hght", "iufro_vital", "iufro_socia"),
         anomaly =
-          c(rep("tree alive", 4)),
+          c("incorrect", rep("tree alive", 4)),
         aberrant_value =
-          c("12", rep("40", 3))
+          c("10", "12", rep("40", 3))
       )
     )
     expect_equal(
