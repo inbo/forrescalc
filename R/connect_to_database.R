@@ -1,4 +1,4 @@
-#' @title connect to fieldmap database
+#' @title connect to `Fieldmap` database
 #'
 #' @description
 #' This helper function returns a connection to the given database (path).

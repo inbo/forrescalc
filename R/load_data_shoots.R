@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' library(forrescalc)
-#' # (add path to your own fieldmap database here)
+#' # (add path to your own `Fieldmap` database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #' load_data_shoots(path_to_fieldmapdb)
@@ -44,6 +44,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
+      Shoots.AliveDeadShoots AS alive_dead_shoots,
       Shoots.IntactSnag AS intact_snag,
       Shoots.DecayStage_Shoots AS decaystage %4$s
     FROM Shoots%2$s Shoots;"
@@ -55,6 +56,7 @@ load_data_shoots <- function(database, extra_variables = FALSE) {
       Shoots.ID AS shoot_measure_id,
       Shoots.DBH_mm AS dbh_mm,
       Shoots.Height_m AS height_m,
+      Shoots.AliveDeadShoots AS alive_dead_shoots,
       Shoots.IntactSnag AS intact_snag,
       Shoots.DecayStage_Shoots AS decaystage
     FROM Shoots_1986 Shoots;"

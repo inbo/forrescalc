@@ -20,7 +20,7 @@
 #' @examples
 #' \dontrun{
 #' library(forrescalc)
-#' # (add path to your own fieldmap database here)
+#' # (add path to your own `Fieldmap` database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #'
@@ -38,7 +38,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr %>% distinct filter group_by inner_join left_join mutate n
-#' select summarise ungroup
+#' @importFrom dplyr select summarise ungroup
 #' @importFrom readr read_delim
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider

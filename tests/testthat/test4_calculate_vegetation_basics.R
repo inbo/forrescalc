@@ -12,7 +12,7 @@ describe("veg_by_plot", {
     expect_equal(
       colnames(results_vegetation[["veg_by_plot"]]),
       c("plottype", "plot_id", "subplot_id",
-        "period", "year_main_survey", "date_vegetation",
+        "period", "year", "date_vegetation",
         "number_of_species", "cumm_herb_coverage_class_average_perc",
         "moss_cover_min", "moss_cover_max", "moss_cover_mid",
         "herb_cover_min", "herb_cover_max", "herb_cover_mid",

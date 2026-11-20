@@ -26,7 +26,10 @@ Dataframe with columns \code{plot_id}, \code{plottype}, \code{forest_reserve},
 \code{period}, \code{year} of dendrometric survey and information on
 (1) whether there has been a dendro, deadwood (whether or not using line
 intersect sampling), regeneration and/or
-vegetation survey and (2) whether the data have been processed or not.
+vegetation survey, (2) whether the data have been processed or not and (3)
+tresholds.
+If no information on survey or data processing is recorded in the Fieldmap
+database, it is regarded as not carried out.
 }
 \description{
 This function queries the given database to retrieve additional data on plots
@@ -34,7 +37,7 @@ to save in \code{forresdat} and link with the datasets that are saved there.
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 load_plotinfo(path_to_fieldmapdb)

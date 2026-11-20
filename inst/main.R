@@ -1,6 +1,6 @@
-# This script shows how data can be loaded from the Fieldmap database,
+# This script shows how data can be loaded from the `Fieldmap` database,
 # aggregated to the plot level and saved to a local version of forresdat.
-# The path to Fieldmap given here is to the example database in forresdat
+# The path to `Fieldmap` given here is to the example database in forresdat
 # (replace by path to own local database to use all data)
 # and the path to a local version is taken from an environmental variable.
 # This variable can be generated on the level of your RStudio project by
@@ -21,7 +21,7 @@ path_to_fieldmap <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 path_to_git_forresdat <- Sys.getenv("path_to_git_forresdat")
 
-# only when q-tables in Fieldmap have changed
+# only when q-tables in `Fieldmap` have changed
 # (and only mention the changed table)
 temp <- tempfile(fileext = ".xlsx")
 dl <- googledrive::drive_download(
