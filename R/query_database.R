@@ -1,4 +1,4 @@
-#' @title query all periods from fieldmap database
+#' @title query all periods from `Fieldmap` database
 #'
 #' @description
 #' This helper function retrieves data of all periods from the given database
