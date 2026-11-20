@@ -28,7 +28,7 @@ and will in some cases differ from the year of the spring flora survey.
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_vegetation <- load_data_vegetation(path_to_fieldmapdb)

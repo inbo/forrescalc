@@ -40,7 +40,7 @@ This function queries the given database to retrieve data on deadwood (logs)
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 load_data_deadwood(path_to_fieldmapdb)
