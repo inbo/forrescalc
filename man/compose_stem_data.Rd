@@ -38,7 +38,7 @@ data (result from function \code{load_data_shoots()}).
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_dendro <- load_data_dendrometry(path_to_fieldmapdb)

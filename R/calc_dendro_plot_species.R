@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' library(forrescalc)
-#' # (add path to your own fieldmap database here)
+#' # (add path to your own `Fieldmap` database here)
 #' path_to_fieldmapdb <-
 #'   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 #'
@@ -88,7 +88,6 @@ calc_dendro_plot_species <-
         ),
       survey_trees = NULL,
       survey_deadw = NULL,
-      vol_deadw_m3_ha = .data$vol_dead_standing_m3_ha + .data$vol_log_m3_ha,
       stems_per_tree = .data$stem_number_ha / .data$number_of_trees_ha
     )
 

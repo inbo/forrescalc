@@ -51,7 +51,7 @@ library(forrescalc)
 path_to_forresdat <- "xxx/forresdat"
 # if you don't have a local clone yet, make it:
 git2r::clone("https://github.com/inbo/forresdat.git", path_to_forresdat)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 # add path to metadata here

@@ -24,7 +24,7 @@ periods) from the given database and checks for missing data or wrong input.
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 check_data_trees(path_to_fieldmapdb)

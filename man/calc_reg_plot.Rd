@@ -13,7 +13,8 @@ calc_reg_plot(data_regeneration)
 \code{plotarea_ha}, \code{min_number_of_regeneration} and \code{max_number_of_regeneration}.}
 }
 \value{
-dataframe with columns \code{plot}, \code{subplot}, \code{year}, \code{period},
+dataframe with columns \code{plot}, \code{subplot},
+\code{year}, \code{date_regeneration}, \code{period},
 \code{number_of_tree_species}, \code{nr_of_tree_species_established},
 \code{mean_number_established_ha}, \code{lci_number_established_ha},
 \code{uci_number_established_ha},
@@ -38,7 +39,7 @@ For core area plots, these variables are calculated for each subplot.
 }
 \examples{
 library(forrescalc)
-# (add path to your own fieldmap database here)
+# (add path to your own `Fieldmap` database here)
 path_to_fieldmapdb <-
   system.file("example/database/mdb_bosres.sqlite", package = "forrescalc")
 data_regeneration <- load_data_regeneration(path_to_fieldmapdb)

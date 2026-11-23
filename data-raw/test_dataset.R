@@ -127,6 +127,7 @@ shoots <-
     DBH_mm = c(2001, 1, NA, NA), Height_m = c(1, 55, NA, NA),
     IntactSnag = c(11, 11, 10, 12),
     DecayStage_Shoots = c(17, 11, 16, NA),
+    AliveDeadShoots = c(12, 11, 12, 12),
     IUFROHght = c(50, 40, 10, NA),
     IUFROVital = c(50, 40, 20, NA),
     IUFROSocia = c(50, 40, 30, NA)
@@ -137,9 +138,10 @@ shoots_3eset <-
   data.frame(
     IDPlots = 101,
     IDTrees_3eSET = 12,
-    ID = 3,
+    ID = c(3, 4),
     XTrees_3eSET = -4.767,
-    YTrees_3eSET = 3.229
+    YTrees_3eSET = 3.229,
+    AliveDeadShoots = c(11, NA_integer_)
   )
 dbWriteTable(con_testdb, "Shoots_3eSET", shoots_3eset, append = TRUE)
 

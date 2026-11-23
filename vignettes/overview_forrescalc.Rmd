@@ -21,7 +21,7 @@ library(forrescalc)
 
 # Introduction
 
-The package `forrescalc` is developed to analyse tree measure data from Vandekerkhove et al. (2021) that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the [git repository `forresdat`](https://github.com/inbo/forresdat), which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
+The package `forrescalc` is developed to analyse tree measure data from Vandekerkhove et al. (2024) that are saved in a `Fieldmap` database. The package contains functions to aggregate the data to different levels. As the dataset is rather large and these calculations take a lot of time, the package also contains functions to save results in a git repository and retrieve them afterwards for further analysis or visualisation of results. Primary results of the aggregations are saved in the [git repository `forresdat`](https://github.com/inbo/forresdat), which is meant to be data source for aggregated data on forests. Calculations are done by using ID codes, and lookup tables for these codes are saved as separate tables in `forresdat`.
 
 # Installation
 
@@ -83,7 +83,7 @@ Each of these functions bundles different subfunctions for the same dataset(s), 
 
 ### Subfunctions
 
-Subfunctions that aggregate data, have a name starting with the abbreviation of the above mentioned high level functions (`calc_dendro_`, `calc_regeneration_` or `calc_vegetation_`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calc_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calc_dendro_plot`).
+Subfunctions that aggregate data, have a name starting with the abbreviation of the above mentioned high level functions (`calc_dendro_`, `calc_reg_` or `calc_veg_`) and ending with their grouping variable(s). For instance a function that aggregates dendrometry data on the level of plot and year is named `calc_dendro_plot()`. Each of these functions makes this aggregation for different variables, for instance number of species, basal area and volume. These details are described in the help of the specific functions (e.g. `?calc_dendro_plot`).
 
 Subfunctions that not typically aggregate data, can have other names:
 
@@ -120,4 +120,4 @@ When removing a table from `forresdat`, this should only be done using function 
 
 # References
 
-Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Lommelen E., Esprit M. and Goessens S., 2021. Monitoring programme on strict forest reserves in Flanders (Belgium): Methods and operational protocols: With an overview of the intensive monitoring sites. Reports of the Research Institute for Nature and Forest 2021(28). Research Institute for Nature and Forest, Brussels. https://doi.org/10.21436/inbor.38677490
+Vandekerkhove K., Van de Kerckhove P., Leyman A., De Keersmaeker L., Thomaes A., Vanhellemont M., Lommelen E., Esprit M. and Goessens S., 2024. Monitoring programme on strict forest reserves in Flanders (Belgium): methods and operational protocols - update 2024 with revised protocol for lying deadwood. With an overview of the intensive monitoring sites. Reports of the Research Institute for Nature and Forest 2024(51). Research Institute for Nature and Forest, Brussels. DOI: https://doi.org/10.21436/inbor.114075052
