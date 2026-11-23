@@ -28,7 +28,7 @@ Dataframe with columns \code{plot_id}, \code{plottype}, \code{forest_reserve},
 intersect sampling), regeneration and/or
 vegetation survey, (2) whether the data have been processed or not and (3)
 thresholds.
-If no information on survey or data processing is recorded in the Fieldmap
+If no information on survey or data processing is recorded in the \code{Fieldmap}
 database, it is regarded as not carried out.
 }
 \description{
